@@ -20,7 +20,7 @@ public class FragmentTuijian extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_my, null);
+        View view = inflater.inflate(R.layout.fragment_crowd_recommend, null);
 
         ButterKnife.bind(this, view);
 
