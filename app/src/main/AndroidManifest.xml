@@ -99,7 +99,8 @@
         <activity android:name=".page.ForgotPwd1Activity" />
         <activity android:name=".page.ForgotPwd2Activity" />
         <activity android:name=".page.ForgotPwd3Activity" />
-        <activity android:name=".page.PersonInformationActivity"></activity>
+        <activity android:name=".page.PersonInformationActivity" />
+        <activity android:name=".page.MyOrderActivity"></activity>
     </application>
 
 </manifest>

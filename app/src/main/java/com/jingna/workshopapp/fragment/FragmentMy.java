@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.base.BaseFragment;
+import com.jingna.workshopapp.page.MyOrderActivity;
 import com.jingna.workshopapp.page.PersonInformationActivity;
 import com.jingna.workshopapp.page.SMSLoginActivity;
 import com.jingna.workshopapp.util.Logger;
@@ -126,14 +127,14 @@ public class FragmentMy extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.ll_my_order:
-                if(userId.equals("0")){
-                    intent.setClass(getContext(), SMSLoginActivity.class);
-                    startActivity(intent);
-                }else {
-//                    intent.setClass(getContext(), MyOrderActivity.class);
-//                    intent.putExtra("index", 0);
+//                if(userId.equals("0")){
+//                    intent.setClass(getContext(), SMSLoginActivity.class);
 //                    startActivity(intent);
-                }
+//                }else {
+                    intent.setClass(getContext(), MyOrderActivity.class);
+                    intent.putExtra("index", 0);
+                    startActivity(intent);
+//                }
                 break;
         }
     }
