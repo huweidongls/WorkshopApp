@@ -56,9 +56,9 @@ public class FragmentRaise extends BaseFragment {
     private void initData() {
        fragmentList = new ArrayList<>();
         fragmentList.add(new FragmentTuijian());
+        fragmentList.add(new FragmentXiangmu());
         fragmentList.add(new FragmentTuijian());
-        fragmentList.add(new FragmentTuijian());
-        fragmentList.add(new FragmentTuijian());
+        fragmentList.add(new FragmentXiangmu());
         GoodsDetailsViewpagerAdapter mViewPagerFragmentAdapter = new GoodsDetailsViewpagerAdapter(mFragmentManager, fragmentList);
         mViewPager.setAdapter(mViewPagerFragmentAdapter);
         mTitleDataList = new ArrayList<>();
