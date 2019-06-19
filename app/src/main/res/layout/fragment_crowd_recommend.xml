@@ -33,7 +33,7 @@
                         android:layout_marginLeft="33dp"
                         android:layout_marginTop="202dp"
                         android:scaleType="fitXY"
-                        android:src="@mipmap/Group" />
+                        android:src="@mipmap/group" />
 
                     <TextView
                         android:layout_width="match_parent"

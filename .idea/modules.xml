@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/WorkshopApp.iml" filepath="$PROJECT_DIR$/WorkshopApp.iml" />
-      <module fileurl="file://D:\gitproject\WorkshopApp\WorkshopApp.iml" filepath="D:\gitproject\WorkshopApp\WorkshopApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://D:\gitproject\WorkshopApp\app\app.iml" filepath="D:\gitproject\WorkshopApp\app\app.iml" />
     </modules>
   </component>
 </project>
