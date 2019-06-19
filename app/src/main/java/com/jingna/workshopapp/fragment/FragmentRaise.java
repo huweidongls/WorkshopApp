@@ -16,6 +16,8 @@ import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.adapter.GoodsDetailsViewpagerAdapter;
 import com.jingna.workshopapp.base.BaseFragment;
 import com.jingna.workshopapp.customview.ScaleTransitionPagerTitleView;
+import com.jingna.workshopapp.util.StatusBarUtils;
+
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
@@ -53,6 +55,15 @@ public class FragmentRaise extends BaseFragment {
         initData();
         return view;
     }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden){
+            StatusBarUtils.setStatusBar(getActivity(), getResources().getColor(R.color.statusbar_color));
+        }
+    }
+
     private void initData() {
        fragmentList = new ArrayList<>();
         fragmentList.add(new FragmentTuijian());

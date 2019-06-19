@@ -51,7 +51,12 @@ public class FragmentTuijian extends BaseFragment {
         mList.add("");
         mList.add("");
         adapter = new FragmentCrowdTuijianAdapter(mList);
-        GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
+        GridLayoutManager manager = new GridLayoutManager(getContext(), 2){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
     }
