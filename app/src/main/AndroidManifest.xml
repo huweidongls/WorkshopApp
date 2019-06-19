@@ -100,7 +100,14 @@
         <activity android:name=".page.ForgotPwd2Activity" />
         <activity android:name=".page.ForgotPwd3Activity" />
         <activity android:name=".page.PersonInformationActivity" />
-        <activity android:name=".page.MyOrderActivity"></activity>
+        <activity android:name=".page.MyOrderActivity" />
+        <activity android:name=".page.AddressActivity" />
+        <activity android:name=".page.EditReceiveActivity" />
+        <activity android:name=".page.InsertReceiveActivity" />
+        <activity android:name=".page.MyBankCardActivity" />
+        <activity android:name=".page.InsertBankCardActivity" />
+        <activity android:name=".page.InsertBankCardSuccessActivity" />
+        <activity android:name=".page.CommissionIncomeActivity"></activity>
     </application>
 
 </manifest>

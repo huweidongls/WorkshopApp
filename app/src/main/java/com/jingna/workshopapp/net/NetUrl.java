@@ -5,5 +5,5 @@ package com.jingna.workshopapp.net;
  */
 
 public class NetUrl {
-    public static final String BASE_URL = "";
+    public static final String BASE_URL = "http://192.168.2.37:8888/";
 }

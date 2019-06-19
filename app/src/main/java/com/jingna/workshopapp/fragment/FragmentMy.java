@@ -15,6 +15,10 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.base.BaseFragment;
+import com.jingna.workshopapp.page.AddressActivity;
+import com.jingna.workshopapp.page.CommissionIncomeActivity;
+import com.jingna.workshopapp.page.ForgotPwd1Activity;
+import com.jingna.workshopapp.page.MyBankCardActivity;
 import com.jingna.workshopapp.page.MyOrderActivity;
 import com.jingna.workshopapp.page.PersonInformationActivity;
 import com.jingna.workshopapp.page.SMSLoginActivity;
@@ -109,7 +113,8 @@ public class FragmentMy extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.iv_avatar, R.id.ll_login, R.id.ll_my_order})
+    @OnClick({R.id.iv_avatar, R.id.ll_login, R.id.ll_my_order, R.id.rl1, R.id.rl2, R.id.rl3, R.id.rl4, R.id.rl5, R.id.rl6
+            , R.id.rl7})
     public void onClick(View view){
         Intent intent = new Intent();
         switch (view.getId()){
@@ -134,6 +139,70 @@ public class FragmentMy extends BaseFragment {
                     intent.setClass(getContext(), MyOrderActivity.class);
                     intent.putExtra("index", 0);
                     startActivity(intent);
+//                }
+                break;
+            case R.id.rl1:
+//                if(userId.equals("0")){
+//                    intent.setClass(getContext(), SMSLoginActivity.class);
+//                    startActivity(intent);
+//                }else {
+                intent.setClass(getContext(), AddressActivity.class);
+                intent.putExtra("type", "wode");
+                startActivity(intent);
+//                }
+                break;
+            case R.id.rl2:
+//                if(userId.equals("0")){
+//                    intent.setClass(getContext(), SMSLoginActivity.class);
+//                    startActivity(intent);
+//                }else {
+                intent.setClass(getContext(), MyBankCardActivity.class);
+                startActivity(intent);
+//                }
+                break;
+            case R.id.rl3:
+//                if(userId.equals("0")){
+//                    intent.setClass(getContext(), SMSLoginActivity.class);
+//                    startActivity(intent);
+//                }else {
+                intent.setClass(getContext(), ForgotPwd1Activity.class);
+                startActivity(intent);
+//                }
+                break;
+            case R.id.rl4:
+//                if(userId.equals("0")){
+//                    intent.setClass(getContext(), SMSLoginActivity.class);
+//                    startActivity(intent);
+//                }else {
+                intent.setClass(getContext(), CommissionIncomeActivity.class);
+                startActivity(intent);
+//                }
+                break;
+            case R.id.rl5:
+//                if(userId.equals("0")){
+//                    intent.setClass(getContext(), SMSLoginActivity.class);
+//                    startActivity(intent);
+//                }else {
+                intent.setClass(getContext(), AddressActivity.class);
+                startActivity(intent);
+//                }
+                break;
+            case R.id.rl6:
+//                if(userId.equals("0")){
+//                    intent.setClass(getContext(), SMSLoginActivity.class);
+//                    startActivity(intent);
+//                }else {
+                intent.setClass(getContext(), AddressActivity.class);
+                startActivity(intent);
+//                }
+                break;
+            case R.id.rl7:
+//                if(userId.equals("0")){
+//                    intent.setClass(getContext(), SMSLoginActivity.class);
+//                    startActivity(intent);
+//                }else {
+                intent.setClass(getContext(), AddressActivity.class);
+                startActivity(intent);
 //                }
                 break;
         }
