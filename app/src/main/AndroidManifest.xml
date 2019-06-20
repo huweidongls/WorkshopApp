@@ -109,7 +109,9 @@
         <activity android:name=".page.InsertBankCardSuccessActivity" />
         <activity android:name=".page.CommissionIncomeActivity" />
         <activity android:name=".page.StoryDetailsActivity" />
-        <activity android:name=".page.CrowdDetailsActivity"></activity>
+        <activity android:name=".page.CrowdDetailsActivity" />
+        <activity android:name=".page.ShareListActivity" />
+        <activity android:name=".page.ShareDetailsActivity"></activity>
     </application>
 
 </manifest>
