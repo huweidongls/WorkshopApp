@@ -1,6 +1,436 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white_ffffff">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="250dp">
+
+                <ImageView
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/chang"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <LinearLayout
+                    android:layout_marginTop="30dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp">
+
+                    <ImageView
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="15dp"
+                        android:src="@mipmap/saoyisao"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginLeft="9dp"
+                        android:background="@color/white_ffffff"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="13dp"
+                            android:src="@mipmap/sousuo"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp" />
+
+                        <TextView
+                            android:layout_marginLeft="18dp"
+                            android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+                            android:textColor="@color/black_333333"
+                            android:background="@null"
+                            android:textSize="14sp"
+                            android:hint="输入搜索"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content" />
+
+                        <LinearLayout
+                            android:layout_marginRight="25dp"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_gravity="center_vertical"
+                                android:textColor="@color/black_333333"
+                                android:textSize="14sp"
+                                android:text="全部"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <ImageView
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="6dp"
+                                android:src="@mipmap/bottom_b"
+                                android:layout_width="14dp"
+                                android:layout_height="8dp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_gravity="center_vertical"
+                        android:src="@mipmap/index_sign"
+                        android:layout_width="9dp"
+                        android:layout_height="15dp" />
+
+                    <TextView
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/black_333333"
+                        android:textSize="24sp"
+                        android:text="智慧共享"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_centerInParent="true"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:src="@mipmap/gongxiang1"
+                                android:layout_width="88dp"
+                                android:layout_height="88dp" />
+
+                            <TextView
+                                android:layout_gravity="center_horizontal"
+                                android:textColor="@color/black_333333"
+                                android:textSize="14sp"
+                                android:layout_marginTop="12dp"
+                                android:text="共享车间"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_centerInParent="true"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:src="@mipmap/gongxiang2"
+                                android:layout_width="88dp"
+                                android:layout_height="88dp" />
+
+                            <TextView
+                                android:layout_gravity="center_horizontal"
+                                android:textColor="@color/black_333333"
+                                android:textSize="14sp"
+                                android:layout_marginTop="12dp"
+                                android:text="共享设备"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_centerInParent="true"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:src="@mipmap/gongxiang3"
+                                android:layout_width="88dp"
+                                android:layout_height="88dp" />
+
+                            <TextView
+                                android:layout_gravity="center_horizontal"
+                                android:textColor="@color/black_333333"
+                                android:textSize="14sp"
+                                android:layout_marginTop="12dp"
+                                android:text="共享办公室"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_centerInParent="true"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:src="@mipmap/gongxiang4"
+                                android:layout_width="88dp"
+                                android:layout_height="88dp" />
+
+                            <TextView
+                                android:layout_gravity="center_horizontal"
+                                android:textColor="@color/black_333333"
+                                android:textSize="14sp"
+                                android:layout_marginTop="12dp"
+                                android:text="委托加工"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_centerInParent="true"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:src="@mipmap/gongxiang5"
+                                android:layout_width="88dp"
+                                android:layout_height="88dp" />
+
+                            <TextView
+                                android:layout_gravity="center_horizontal"
+                                android:textColor="@color/black_333333"
+                                android:textSize="14sp"
+                                android:layout_marginTop="12dp"
+                                android:text="共享厂房"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content">
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="30dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_marginLeft="20dp"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_gravity="center_vertical"
+                            android:src="@mipmap/index_sign"
+                            android:layout_width="9dp"
+                            android:layout_height="15dp" />
+
+                        <TextView
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/black_333333"
+                            android:textSize="24sp"
+                            android:text="智慧共享"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_alignParentRight="true"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_gravity="center_vertical"
+                            android:textColor="@color/black_333333"
+                            android:textSize="14sp"
+                            android:text="更多"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <ImageView
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
+                            android:src="@mipmap/index_more"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@mipmap/tou"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="106dp" />
+
+                    <ImageView
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="17dp"
+                        android:src="@mipmap/tou"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="106dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_marginLeft="20dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_gravity="center_vertical"
+                        android:src="@mipmap/index_sign"
+                        android:layout_width="9dp"
+                        android:layout_height="15dp" />
+
+                    <TextView
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/black_333333"
+                        android:textSize="24sp"
+                        android:text="热门众筹"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:descendantFocusability="blocksDescendants"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </RelativeLayout>
+
+                <TextView
+                    android:background="@drawable/bg_8f8f8f_bord"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:textColor="@color/black_333333"
+                    android:textSize="13sp"
+                    android:text="查看更多"
+                    android:layout_width="91dp"
+                    android:layout_height="31dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>
