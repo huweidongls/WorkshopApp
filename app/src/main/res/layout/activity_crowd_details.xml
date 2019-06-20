@@ -3,197 +3,342 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context="com.jingna.workshopapp.page.CrowdDetailsActivity">
-    <RelativeLayout
-        android:id="@+id/rl_top"
-        style="@style/rl_top_bar">
-        <RelativeLayout
-            android:id="@+id/rl_back"
-            android:layout_width="50dp"
-            android:layout_height="match_parent" >
-            <ImageView
-                style="@style/iv_top_back" />
-        </RelativeLayout>
-        <TextView
-            android:text="众筹"
-            style="@style/tv_top_title" />
-    </RelativeLayout>
-    <RelativeLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
+        android:layout_height="match_parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-            android:src="@mipmap/groupceshi"
-            />
-        <RelativeLayout
-            android:layout_width="330dp"
-            android:layout_height="176dp"
-            android:background="@drawable/textview_jb"
-            android:layout_marginLeft="28dp"
-            android:layout_marginTop="200dp"
-            android:alpha="0.7"
-            >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="NB联网自发电智能门锁"
-                android:textColor="#FFFFFF"
-                android:textSize="19sp"
-                android:layout_marginLeft="33dp"
-                android:layout_marginTop="25dp"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="自发电持久续航活体指纹识别实时安全全警告"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                android:layout_marginLeft="33dp"
-                android:layout_marginTop="57dp"
-                />
-            <TextView
-                android:layout_width="6dp"
-                android:layout_height="72dp"
-                android:layout_marginTop="24dp"
-                android:background="#DBC4B0"/>
-            <TextView
-                android:layout_width="265dp"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="110dp"
-                android:layout_marginLeft="33dp"
-                android:background="#FFFFFF"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="128dp"
-                android:layout_marginLeft="33dp"
-                android:textSize="17sp"
-                android:textColor="#FFFFFFFF"
-                android:text="714"
-                />
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:src="@mipmap/group"
-                android:layout_marginTop="154dp"
-                android:layout_marginLeft="20dp"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="150dp"
-                android:layout_marginLeft="33dp"
-                android:textSize="12sp"
-                android:textColor="#FF999999"
-                android:text="支持人次"
-                />
-            <TextView
-                android:layout_width="2dp"
-                android:layout_height="25dp"
-                android:layout_marginTop="140dp"
-                android:layout_marginLeft="108dp"
-                android:background="#FF999999"/>
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="128dp"
-                android:layout_marginLeft="143dp"
-                android:textSize="17sp"
-                android:textColor="#FFFFFFFF"
-                android:text="419,412"
-                />
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:src="@mipmap/renminbigerenzhongxin"
-                android:layout_marginTop="154dp"
-                android:layout_marginLeft="133dp"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="150dp"
-                android:layout_marginLeft="150dp"
-                android:textSize="12sp"
-                android:textColor="#FF999999"
-                android:text="已筹金额"
-                />
-            <TextView
-                android:layout_width="2dp"
-                android:layout_height="25dp"
-                android:layout_marginTop="140dp"
-                android:layout_marginLeft="217dp"
-                android:background="#FF999999"/>
+            <RelativeLayout
+                android:id="@+id/rl_top"
+                style="@style/rl_top_bar">
 
-            <TextView
+                <RelativeLayout
+                    android:id="@+id/rl_back"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent">
+
+                    <ImageView style="@style/iv_top_back" />
+                </RelativeLayout>
+
+                <TextView
+                    style="@style/tv_top_title"
+                    android:text="众筹" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="128dp"
-                android:layout_marginLeft="251dp"
-                android:textSize="17sp"
-                android:textColor="#FFFFFFFF"
-                android:text="419%"
-                />
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:src="@mipmap/renminbigerenzhongxin"
-                android:layout_marginTop="154dp"
-                android:layout_marginLeft="247dp"
-                />
-            <TextView
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/groupceshi" />
+
+                <RelativeLayout
+                    android:layout_width="330dp"
+                    android:layout_height="176dp"
+                    android:layout_marginLeft="28dp"
+                    android:layout_marginRight="28dp"
+                    android:layout_marginTop="200dp"
+                    android:alpha="0.7"
+                    android:background="@drawable/textview_jb">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="33dp"
+                        android:layout_marginTop="25dp"
+                        android:text="NB联网自发电智能门锁"
+                        android:textColor="#FFFFFF"
+                        android:textSize="19sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="33dp"
+                        android:layout_marginTop="57dp"
+                        android:text="自发电持久续航活体指纹识别实时安全全警告"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="6dp"
+                        android:layout_height="72dp"
+                        android:layout_marginTop="24dp"
+                        android:background="#DBC4B0" />
+
+                    <TextView
+                        android:layout_width="265dp"
+                        android:layout_height="0.5dp"
+                        android:layout_marginLeft="33dp"
+                        android:layout_marginRight="33dp"
+                        android:layout_marginTop="110dp"
+                        android:background="#FFFFFF" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="33dp"
+                        android:layout_marginTop="128dp"
+                        android:text="714"
+                        android:textColor="#FFFFFFFF"
+                        android:textSize="17sp" />
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="154dp"
+                        android:src="@mipmap/group" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="33dp"
+                        android:layout_marginTop="150dp"
+                        android:text="支持人次"
+                        android:textColor="#FF999999"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="2dp"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="108dp"
+                        android:layout_marginTop="140dp"
+                        android:background="#FF999999" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="143dp"
+                        android:layout_marginTop="128dp"
+                        android:text="419,412"
+                        android:textColor="#FFFFFFFF"
+                        android:textSize="17sp" />
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginLeft="133dp"
+                        android:layout_marginTop="154dp"
+                        android:src="@mipmap/renminbigerenzhongxin" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="150dp"
+                        android:layout_marginTop="150dp"
+                        android:text="已筹金额"
+                        android:textColor="#FF999999"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="2dp"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="217dp"
+                        android:layout_marginTop="140dp"
+                        android:background="#FF999999" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="251dp"
+                        android:layout_marginTop="128dp"
+                        android:text="419%"
+                        android:textColor="#FFFFFFFF"
+                        android:textSize="17sp" />
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginLeft="247dp"
+                        android:layout_marginTop="154dp"
+                        android:src="@mipmap/renminbigerenzhongxin" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="264dp"
+                        android:layout_marginTop="150dp"
+                        android:text="达成率"
+                        android:textColor="#FF999999"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginLeft="47dp"
+                    android:layout_marginTop="401dp"
+                    android:background="#999999" />
+
+                <TextView
+                    android:layout_width="79dp"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="54dp"
+                    android:layout_marginTop="402dp"
+                    android:background="#FFFFFF" />
+
+                <TextView
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginLeft="138dp"
+                    android:layout_marginTop="401dp"
+                    android:background="#999999" />
+
+                <TextView
+                    android:layout_width="79dp"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="148dp"
+                    android:layout_marginTop="402dp"
+                    android:background="#FFFFFF" />
+
+                <TextView
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginLeft="233dp"
+                    android:layout_marginTop="401dp"
+                    android:background="#999999" />
+
+                <TextView
+                    android:layout_width="79dp"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="242dp"
+                    android:layout_marginTop="402dp"
+                    android:background="#FFFFFF" />
+
+                <TextView
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginLeft="325dp"
+                    android:layout_marginTop="400dp"
+                    android:background="#999999" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="36dp"
+                    android:layout_marginTop="410dp"
+                    android:text="创意"
+                    android:textColor="#999999"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="128dp"
+                    android:layout_marginTop="410dp"
+                    android:text="评审"
+                    android:textColor="#999999"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="145dp"
+                    android:layout_height="21dp"
+                    android:layout_marginLeft="165dp"
+                    android:layout_marginTop="410dp"
+                    android:background="@drawable/textview_radio"
+                    android:text="众筹中(41天后结束)"
+                    android:textColor="#333333"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="314dp"
+                    android:layout_marginTop="410dp"
+                    android:text="发货"
+                    android:textColor="#999999"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="150dp"
-                android:layout_marginLeft="264dp"
-                android:textSize="12sp"
-                android:textColor="#FF999999"
-                android:text="达成率"
-                />
-        </RelativeLayout>
-        <TextView
-            android:layout_width="5dp"
-            android:layout_height="5dp"
-            android:background="#999999"
-            android:layout_marginTop="401dp"
-            android:layout_marginLeft="47dp"
-            />
-        <TextView
-            android:layout_width="79dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="402dp"
-            android:layout_marginLeft="54dp"
-            android:background="#FFFFFF"/>
-        <TextView
-            android:layout_width="5dp"
-            android:layout_height="5dp"
-            android:background="#999999"
-            android:layout_marginTop="401dp"
-            android:layout_marginLeft="138dp"
-            />
-        <TextView
-            android:layout_width="79dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="402dp"
-            android:layout_marginLeft="148dp"
-            android:background="#FFFFFF"/>
-        <TextView
-            android:layout_width="5dp"
-            android:layout_height="5dp"
-            android:background="#999999"
-            android:layout_marginTop="401dp"
-            android:layout_marginLeft="233dp"
-            />
-        <TextView
-            android:layout_width="79dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="402dp"
-            android:layout_marginLeft="242dp"
-            android:background="#FFFFFF"/>
-    </RelativeLayout>
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="56dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginTop="29dp"
+                    android:text="档位回报"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="56dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="79dp"
+                    android:layout_marginTop="29dp"
+                    android:text="￥"
+                    android:textColor="#C99974"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="27dp"
+                    android:layout_marginLeft="91dp"
+                    android:layout_marginTop="24dp"
+                    android:gravity=""
+                    android:text="599.00起"
+                    android:textColor="#C99974"
+                    android:textSize="19sp" />
+
+                <ImageView
+                    android:layout_width="7dp"
+                    android:layout_height="13dp"
+                    android:layout_marginLeft="348dp"
+                    android:layout_marginTop="32dp"
+                    android:src="@mipmap/fanhui" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="297dp"
+                    android:layout_marginTop="30dp"
+                    android:text="去支持"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="9dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="48dp"
+                    android:src="@mipmap/zcgs" />
+                <ImageView
+                    android:layout_width="9dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="48dp"
+                    android:src="@mipmap/zcgs" />
+                <ImageView
+                    android:layout_width="9dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="48dp"
+                    android:src="@mipmap/zcgs" />
+                <ImageView
+                    android:layout_width="9dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="48dp"
+                    android:src="@mipmap/zcgs" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
