@@ -111,7 +111,8 @@
         <activity android:name=".page.StoryDetailsActivity" />
         <activity android:name=".page.CrowdDetailsActivity" />
         <activity android:name=".page.ShareListActivity" />
-        <activity android:name=".page.ShareDetailsActivity"></activity>
+        <activity android:name=".page.ShareDetailsActivity" />
+        <activity android:name=".page.TeamManagerActivity"></activity>
     </application>
 
 </manifest>

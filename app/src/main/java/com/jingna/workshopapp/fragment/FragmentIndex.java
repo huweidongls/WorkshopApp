@@ -1,5 +1,6 @@
 package com.jingna.workshopapp.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.adapter.IndexAdapter;
 import com.jingna.workshopapp.base.BaseFragment;
+import com.jingna.workshopapp.page.ShareListActivity;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
 
@@ -19,6 +21,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2019/6/18.
@@ -62,6 +65,38 @@ public class FragmentIndex extends BaseFragment {
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
 
+    }
+
+    @OnClick({R.id.rl1, R.id.rl2, R.id.rl3, R.id.rl4, R.id.rl5})
+    public void onClick(View view){
+        Intent intent = new Intent();
+        switch (view.getId()){
+            case R.id.rl1:
+                intent.setClass(getContext(), ShareListActivity.class);
+                intent.putExtra("name", "共享车间");
+                startActivity(intent);
+                break;
+            case R.id.rl2:
+                intent.setClass(getContext(), ShareListActivity.class);
+                intent.putExtra("name", "共享设备");
+                startActivity(intent);
+                break;
+            case R.id.rl3:
+                intent.setClass(getContext(), ShareListActivity.class);
+                intent.putExtra("name", "共享办公室");
+                startActivity(intent);
+                break;
+            case R.id.rl4:
+                intent.setClass(getContext(), ShareListActivity.class);
+                intent.putExtra("name", "委托加工");
+                startActivity(intent);
+                break;
+            case R.id.rl5:
+                intent.setClass(getContext(), ShareListActivity.class);
+                intent.putExtra("name", "共享厂房");
+                startActivity(intent);
+                break;
+        }
     }
 
     @Override

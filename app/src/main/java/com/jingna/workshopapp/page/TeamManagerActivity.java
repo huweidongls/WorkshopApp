@@ -5,10 +5,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 
 import com.jingna.workshopapp.R;
-import com.jingna.workshopapp.adapter.ShareListAdapter;
+import com.jingna.workshopapp.adapter.TeamManagerAdapter;
 import com.jingna.workshopapp.base.BaseActivity;
 import com.jingna.workshopapp.util.StatusBarUtils;
 
@@ -19,39 +18,34 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ShareListActivity extends BaseActivity {
+public class TeamManagerActivity extends BaseActivity {
 
-    private Context context = ShareListActivity.this;
+    private Context context = TeamManagerActivity.this;
 
     @BindView(R.id.rv)
     RecyclerView recyclerView;
-    @BindView(R.id.tv_title)
-    TextView tvTitle;
 
-    private ShareListAdapter adapter;
+    private TeamManagerAdapter adapter;
     private List<String> mList;
-
-    private String name = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_share_list);
+        setContentView(R.layout.activity_team_manager);
 
-        name = getIntent().getStringExtra("name");
-        StatusBarUtils.setStatusBar(ShareListActivity.this, getResources().getColor(R.color.statusbar_color));
-        ButterKnife.bind(ShareListActivity.this);
+        StatusBarUtils.setStatusBar(TeamManagerActivity.this, getResources().getColor(R.color.statusbar_color));
+        ButterKnife.bind(TeamManagerActivity.this);
         initData();
 
     }
 
     private void initData() {
 
-        tvTitle.setText(name);
         mList = new ArrayList<>();
         mList.add("");
         mList.add("");
-        adapter = new ShareListAdapter(mList);
+        mList.add("");
+        adapter = new TeamManagerAdapter(mList);
         LinearLayoutManager manager = new LinearLayoutManager(context);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);

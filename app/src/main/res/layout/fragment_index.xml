@@ -127,6 +127,7 @@
                     android:layout_height="wrap_content">
 
                     <RelativeLayout
+                        android:id="@+id/rl1"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content">
@@ -156,6 +157,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/rl2"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content">
@@ -185,6 +187,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/rl3"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content">
@@ -222,6 +225,7 @@
                     android:layout_height="wrap_content">
 
                     <RelativeLayout
+                        android:id="@+id/rl4"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content">
@@ -251,6 +255,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/rl5"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content">
