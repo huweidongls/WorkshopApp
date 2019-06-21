@@ -20,6 +20,7 @@ import com.jingna.workshopapp.page.CommissionIncomeActivity;
 import com.jingna.workshopapp.page.ForgotPwd1Activity;
 import com.jingna.workshopapp.page.MyBankCardActivity;
 import com.jingna.workshopapp.page.MyOrderActivity;
+import com.jingna.workshopapp.page.MySetActivity;
 import com.jingna.workshopapp.page.PersonInformationActivity;
 import com.jingna.workshopapp.page.SMSLoginActivity;
 import com.jingna.workshopapp.page.TeamManagerActivity;
@@ -207,7 +208,13 @@ public class FragmentMy extends BaseFragment {
 //                }
                 break;
             case R.id.iv_my_set:
-
+//                if(userId.equals("0")){
+//                    intent.setClass(getContext(), SMSLoginActivity.class);
+//                    startActivity(intent);
+//                }else {
+                intent.setClass(getContext(), MySetActivity.class);
+                startActivity(intent);
+//                }
                 break;
             case R.id.iv_my_msg:
 
