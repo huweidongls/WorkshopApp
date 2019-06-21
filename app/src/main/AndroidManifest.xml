@@ -113,7 +113,8 @@
         <activity android:name=".page.ShareListActivity" />
         <activity android:name=".page.ShareDetailsActivity" />
         <activity android:name=".page.TeamManagerActivity" />
-        <activity android:name=".page.MySetActivity"></activity>
+        <activity android:name=".page.MySetActivity" />
+        <activity android:name=".page.CommissionActivity"></activity>
     </application>
 
 </manifest>

@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.base.BaseFragment;
 import com.jingna.workshopapp.page.AddressActivity;
+import com.jingna.workshopapp.page.CommissionActivity;
 import com.jingna.workshopapp.page.CommissionIncomeActivity;
 import com.jingna.workshopapp.page.ForgotPwd1Activity;
 import com.jingna.workshopapp.page.MyBankCardActivity;
@@ -194,7 +195,7 @@ public class FragmentMy extends BaseFragment {
 //                    intent.setClass(getContext(), SMSLoginActivity.class);
 //                    startActivity(intent);
 //                }else {
-                intent.setClass(getContext(), AddressActivity.class);
+                intent.setClass(getContext(), CommissionActivity.class);
                 startActivity(intent);
 //                }
                 break;
