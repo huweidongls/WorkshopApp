@@ -95,6 +95,13 @@
             android:layout_marginTop="33dp"
             />
     </RelativeLayout>
+    <TextView
+        android:layout_width="375dp"
+        android:layout_height="1dp"
+        android:background="#EBEBEB"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -116,6 +123,13 @@
             android:layout_marginTop="33dp"
             />
     </RelativeLayout>
+    <TextView
+        android:layout_width="375dp"
+        android:layout_height="1dp"
+        android:background="#EBEBEB"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -137,6 +151,13 @@
             android:layout_marginTop="33dp"
             />
     </RelativeLayout>
+    <TextView
+        android:layout_width="375dp"
+        android:layout_height="1dp"
+        android:background="#EBEBEB"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -158,6 +179,13 @@
             android:layout_marginTop="33dp"
             />
     </RelativeLayout>
+    <TextView
+        android:layout_width="375dp"
+        android:layout_height="1dp"
+        android:background="#EBEBEB"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -179,6 +207,13 @@
             android:layout_marginTop="27dp"
             />
     </RelativeLayout>
+    <TextView
+        android:layout_width="375dp"
+        android:layout_height="1dp"
+        android:background="#EBEBEB"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -200,6 +235,13 @@
             android:layout_marginTop="33dp"
             />
     </RelativeLayout>
+    <TextView
+        android:layout_width="375dp"
+        android:layout_height="1dp"
+        android:background="#EBEBEB"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -221,6 +263,13 @@
             android:layout_marginTop="33dp"
             />
     </RelativeLayout>
+    <TextView
+        android:layout_width="375dp"
+        android:layout_height="1dp"
+        android:background="#EBEBEB"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -242,4 +291,11 @@
             android:layout_marginTop="33dp"
             />
     </RelativeLayout>
+    <TextView
+        android:layout_width="375dp"
+        android:layout_height="1dp"
+        android:background="#EBEBEB"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        />
 </LinearLayout>
