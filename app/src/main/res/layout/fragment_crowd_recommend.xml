@@ -7,15 +7,17 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="219dp">
+
                 <ImageView
                     android:id="@+id/iv"
                     android:layout_width="340dp"
@@ -24,18 +26,20 @@
                     android:layout_marginRight="18dp"
                     android:scaleType="fitXY"
                     android:src="@mipmap/chang" />
+
                 <RelativeLayout
-                    android:layout_alignParentBottom="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="23dp"
-                    >
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="23dp">
+
                     <ImageView
                         android:layout_width="10dp"
                         android:layout_height="10dp"
                         android:layout_marginLeft="33dp"
 
                         android:src="@mipmap/group" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -45,12 +49,13 @@
 
                         android:textSize="10sp" />
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="23dp"
-                    >
+                    android:layout_marginBottom="23dp">
+
                     <ImageView
                         android:layout_width="10dp"
                         android:layout_height="10dp"
@@ -58,6 +63,7 @@
                         android:layout_marginLeft="133dp"
                         android:scaleType="fitXY"
                         android:src="@mipmap/renminbigerenzhongxin" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -66,12 +72,13 @@
                         android:textColor="#FFFFFF"
                         android:textSize="10sp" />
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="23dp"
-                    >
+                    android:layout_marginBottom="23dp">
+
                     <ImageView
                         android:layout_width="10dp"
                         android:layout_height="10dp"
@@ -79,6 +86,7 @@
                         android:layout_marginLeft="256dp"
                         android:scaleType="fitXY"
                         android:src="@mipmap/xiaoshuai" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -87,12 +95,13 @@
                         android:textColor="#FFFFFF"
                         android:textSize="10sp" />
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="9dp"
-                    >
+                    android:layout_marginBottom="9dp">
+
                     <ProgressBar
                         android:id="@+id/progress_bar_h"
                         style="?android:attr/progressBarStyleHorizontal"
@@ -104,35 +113,32 @@
                         android:progress="62" />
                 </RelativeLayout>
             </RelativeLayout>
-            <RelativeLayout
+
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="27dp"
-                    android:text="果蔬脆 蔬菜可以当零食吃"
-                    android:textColor="#333333"
-                    android:layout_marginTop="13dp"
-                    android:textSize="18sp" />
-            </RelativeLayout>
-            <RelativeLayout
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="27dp"
+                android:layout_marginTop="13dp"
+                android:text="果蔬脆 蔬菜可以当零食吃"
+                android:textColor="#333333"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_marginRight="26dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="26dp"
-                    android:layout_marginTop="6dp"
-                    android:text="保留果蔬95%营养成分! 随地轻松补充1"
-                    android:textColor="#999999"
-                    android:textSize="13sp" />
-            </RelativeLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="26dp"
+                android:layout_marginTop="6dp"
+                android:text="保留果蔬95%营养成分! 随地轻松补充1"
+                android:textColor="#999999"
+                android:textSize="13sp" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="35dp"
                 android:descendantFocusability="blocksDescendants">
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_evaluation"
                     android:layout_width="match_parent"
