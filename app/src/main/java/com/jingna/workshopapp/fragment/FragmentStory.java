@@ -16,6 +16,7 @@ import com.jingna.workshopapp.adapter.FragmentStoryListAdapter;
 import com.jingna.workshopapp.adapter.FragmentStoryListStheAdapter;
 import com.jingna.workshopapp.adapter.FragmentStoryListTwoAdapter;
 import com.jingna.workshopapp.base.BaseFragment;
+import com.jingna.workshopapp.util.StatusBarUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,15 @@ public class FragmentStory extends BaseFragment {
         initData();
         return view;
     }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden){
+            StatusBarUtils.setStatusBar(getActivity(), getResources().getColor(R.color.white_ffffff));
+        }
+    }
+
     private void initData() {
         mList = new ArrayList<>();
         mList.add("");
@@ -55,7 +65,12 @@ public class FragmentStory extends BaseFragment {
         mList.add("");
         mList.add("");
         adapter = new FragmentStoryListAdapter(mList);
-        GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
+        GridLayoutManager manager = new GridLayoutManager(getContext(), 2){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
         rv_a.setLayoutManager(manager);
         rv_a.setAdapter(adapter);
 
@@ -65,7 +80,12 @@ public class FragmentStory extends BaseFragment {
         mList2.add("");
         mList2.add("");
         adapter2 = new FragmentStoryListTwoAdapter(mList2);
-        LinearLayoutManager managers = new LinearLayoutManager(getContext());
+        LinearLayoutManager managers = new LinearLayoutManager(getContext()){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
         managers.setOrientation(LinearLayoutManager.HORIZONTAL);
         rv_b.setLayoutManager(managers);
         rv_b.setAdapter(adapter2);
@@ -76,7 +96,12 @@ public class FragmentStory extends BaseFragment {
         mList3.add("");
         mList3.add("");
         adapter3 = new FragmentStoryListStheAdapter(mList3);
-        GridLayoutManager managerse = new GridLayoutManager(getContext(), 2);
+        GridLayoutManager managerse = new GridLayoutManager(getContext(), 2){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
         rv_c.setLayoutManager(managerse);
         rv_c.setAdapter(adapter3);
     }
