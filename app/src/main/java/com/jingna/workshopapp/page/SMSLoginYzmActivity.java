@@ -3,14 +3,18 @@ package com.jingna.workshopapp.page;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.app.MyApplication;
 import com.jingna.workshopapp.base.BaseActivity;
+import com.jingna.workshopapp.bean.LoginBean;
+import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.util.Logger;
+import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
 import com.vise.xsnow.http.ViseHttp;
@@ -82,35 +86,36 @@ public class SMSLoginYzmActivity extends BaseActivity {
         if(TextUtils.isEmpty(code)){
             ToastUtil.showShort(context, "验证码不能为空");
         }else {
-            String url = "/MemUser/loginAPP?phoneNum="+phoneNum+"&code="+code;
-//            ViseHttp.GET(url)
-//                    .request(new ACallback<String>() {
-//                        @Override
-//                        public void onSuccess(String data) {
-//                            Log.e("123123", data);
-//                            try {
-//                                JSONObject jsonObject = new JSONObject(data);
-//                                if(jsonObject.optString("status").equals("200")){
-//                                    ToastUtil.showShort(context, "登录成功");
-//                                    Gson gson = new Gson();
-//                                    LoginBean loginBean = gson.fromJson(data, LoginBean.class);
-//                                    SpUtils.setUserId(context, loginBean.getData().getUserId()+"");
-//                                    SpUtils.setToken(context, loginBean.getData().getToken());
-//                                    SpUtils.setPhoneNum(context, phoneNum);
-//                                    finish();
-//                                }else {
-//                                    ToastUtil.showShort(context, "验证码不正确");
-//                                }
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onFail(int errCode, String errMsg) {
-//
-//                        }
-//                    });
+            ViseHttp.GET(NetUrl.MemUserloginAPP)
+                    .addParam("phoneNum", phoneNum)
+                    .addParam("code", code)
+                    .request(new ACallback<String>() {
+                        @Override
+                        public void onSuccess(String data) {
+                            Logger.e("123123", data);
+                            try {
+                                JSONObject jsonObject = new JSONObject(data);
+                                if(jsonObject.optString("status").equals("200")){
+                                    ToastUtil.showShort(context, "登录成功");
+                                    Gson gson = new Gson();
+                                    LoginBean loginBean = gson.fromJson(data, LoginBean.class);
+                                    SpUtils.setUserId(context, loginBean.getData().getUserId()+"");
+                                    SpUtils.setToken(context, loginBean.getData().getToken());
+                                    SpUtils.setPhoneNum(context, phoneNum);
+                                    finish();
+                                }else {
+                                    ToastUtil.showShort(context, "验证码不正确");
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFail(int errCode, String errMsg) {
+
+                        }
+                    });
         }
 
     }
@@ -120,14 +125,14 @@ public class SMSLoginYzmActivity extends BaseActivity {
      */
     private void getCode() {
 
-        String url = "/MemUser/sendMessage?phone="+phoneNum;
-        Log.e("123123", phoneNum);
-        ViseHttp.GET(url)
+        Logger.e("123123", phoneNum);
+        ViseHttp.GET(NetUrl.MemUsersendMessage)
+                .addParam("phone", phoneNum)
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {
                         try {
-                            Log.e("123123", data);
+                            Logger.e("123123", data);
                             JSONObject jsonObject = new JSONObject(data);
                             if(jsonObject.optString("status").equals("200")){
                                 ToastUtil.showShort(context, "短信验证码发送成功");
@@ -141,7 +146,7 @@ public class SMSLoginYzmActivity extends BaseActivity {
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
-                        Log.e("123123", errMsg);
+                        Logger.e("123123", errMsg);
                     }
                 });
 

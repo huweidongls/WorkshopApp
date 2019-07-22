@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white_ffffff"
+    android:background="@color/bg"
     tools:context="com.jingna.workshopapp.page.ForgotPwd3Activity">
 
     <RelativeLayout
@@ -30,7 +30,7 @@
     <TextView
         android:layout_marginLeft="25dp"
         android:layout_marginTop="25dp"
-        android:textColor="@color/black_333333"
+        android:textColor="@color/white_ffffff"
         android:textSize="16sp"
         android:text="请设置新的登录密码"
         android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
             android:id="@+id/et_pwd"
             android:layout_centerVertical="true"
             android:layout_marginLeft="7dp"
-            android:textColor="@color/black_333333"
+            android:textColor="@color/white_ffffff"
             android:textColorHint="#999999"
             android:textSize="16sp"
             android:hint="请设置6-20位密码"
@@ -97,7 +97,7 @@
         android:textColor="@color/white_ffffff"
         android:layout_marginRight="25dp"
         android:layout_marginLeft="25dp"
-        android:background="@drawable/bg_ff4d16_25dp"
+        android:background="@drawable/bg_02c160_25dp"
         android:text="完成"
         android:layout_marginTop="32dp"
         android:layout_width="match_parent"

@@ -10,10 +10,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.base.BaseActivity;
+import com.jingna.workshopapp.bean.LoginBean;
+import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.util.Logger;
+import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,33 +88,34 @@ public class RegisterSetPwdActivity extends BaseActivity {
         }else if(pwd.length()<6||pwd.length()>20){
             ToastUtil.showShort(context, "密码长度为6-20位，请重新设置密码");
         }else {
-            String url = "/MemUser/addMember?phone="+phoneNumber+"&password="+pwd;
-//            ViseHttp.GET(url)
-//                    .request(new ACallback<String>() {
-//                        @Override
-//                        public void onSuccess(String data) {
-//                            try {
-//                                Log.e("123123", data);
-//                                JSONObject jsonObject = new JSONObject(data);
-//                                if(jsonObject.optString("status").equals("200")){
-//                                    ToastUtil.showShort(context, "注册成功");
-//                                    Gson gson = new Gson();
-//                                    LoginBean loginBean = gson.fromJson(data, LoginBean.class);
-//                                    SpUtils.setUserId(context, loginBean.getData().getUserId()+"");
-//                                    SpUtils.setToken(context, loginBean.getData().getToken());
-//                                    SpUtils.setPhoneNum(context, phoneNumber);
-//                                    finish();
-//                                }
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onFail(int errCode, String errMsg) {
-//                            Log.e("123123", errMsg);
-//                        }
-//                    });
+            ViseHttp.GET(NetUrl.MemUseraddMember)
+                    .addParam("phone", phoneNumber)
+                    .addParam("password", pwd)
+                    .request(new ACallback<String>() {
+                        @Override
+                        public void onSuccess(String data) {
+                            try {
+                                Logger.e("123123", data);
+                                JSONObject jsonObject = new JSONObject(data);
+                                if(jsonObject.optString("status").equals("200")){
+                                    ToastUtil.showShort(context, "注册成功");
+                                    Gson gson = new Gson();
+                                    LoginBean loginBean = gson.fromJson(data, LoginBean.class);
+                                    SpUtils.setUserId(context, loginBean.getData().getUserId()+"");
+                                    SpUtils.setToken(context, loginBean.getData().getToken());
+                                    SpUtils.setPhoneNum(context, phoneNumber);
+                                    finish();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFail(int errCode, String errMsg) {
+                            Logger.e("123123", errMsg);
+                        }
+                    });
         }
 
     }

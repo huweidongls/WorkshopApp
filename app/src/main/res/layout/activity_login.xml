@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white_ffffff"
+    android:background="@color/bg"
     tools:context="com.jingna.workshopapp.page.LoginActivity">
 
     <LinearLayout
@@ -43,7 +43,7 @@
                 android:inputType="number"
                 android:id="@+id/et_name"
                 android:textColorHint="#999999"
-                android:textColor="@color/black_333333"
+                android:textColor="@color/white_ffffff"
                 android:hint="手机号"
                 android:textSize="16sp"
                 android:background="@null"
@@ -75,7 +75,7 @@
                     android:id="@+id/et_pwd"
                     android:layout_marginRight="16dp"
                     android:layout_toLeftOf="@+id/v_h"
-                    android:textColor="@color/black_333333"
+                    android:textColor="@color/white_ffffff"
                     android:textColorHint="#999999"
                     android:textSize="16sp"
                     android:background="@null"
@@ -114,7 +114,7 @@
 
         <Button
             android:id="@+id/btn_login"
-            android:background="@drawable/bg_ff4d16_25dp"
+            android:background="@drawable/bg_02c160_25dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:layout_marginTop="50dp"

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white_ffffff"
+    android:background="@color/bg"
     tools:context="com.jingna.workshopapp.page.AddressActivity">
 
     <RelativeLayout
@@ -48,7 +48,7 @@
     </LinearLayout>
 
     <Button
-        android:background="@drawable/bg_ff4d16_20dp"
+        android:background="#02C160"
         android:id="@+id/btn_insert_address"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"

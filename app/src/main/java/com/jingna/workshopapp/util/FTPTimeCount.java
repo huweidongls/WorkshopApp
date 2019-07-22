@@ -49,7 +49,7 @@ public class FTPTimeCount extends CountDownTimer {
         // 创建一个 SpannableString对象
         msp = new SpannableString("重新发送" + timeInt + "秒");
 
-        activity.getCode_btn().setTextColor(Color.parseColor("#CCCCCC"));
+        activity.getCode_btn().setTextColor(Color.parseColor("#ffffff"));
         activity.getCode_btn().setText(msp);
     }
 
@@ -67,7 +67,7 @@ public class FTPTimeCount extends CountDownTimer {
 //                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 设置前景色为
 
         activity.getCode_btn().setText(msp);
-        activity.getCode_btn().setTextColor(Color.parseColor("#FF0004"));
+        activity.getCode_btn().setTextColor(Color.parseColor("#ffffff"));
         activity.getCode_btn().setEnabled(true);
         setTimeNum(60);
     }

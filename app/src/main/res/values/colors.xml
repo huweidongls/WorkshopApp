@@ -33,5 +33,7 @@
     <color name="gray_909090">#909090</color>
     <color name="line">#f6f6f6</color>
 
-    <color name="statusbar_color">#ffffff</color>
+    <color name="statusbar_color">#333C4F</color>
+
+    <color name="bg">#333C4F</color>
 </resources>

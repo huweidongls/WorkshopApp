@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.app.MyApplication;
 import com.jingna.workshopapp.base.BaseActivity;
+import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
@@ -81,9 +82,9 @@ public class RegisterYzmActivity extends BaseActivity {
      */
     private void getCode() {
 
-        String url = "/MemUser/sendMessage?phone="+phoneNumber;
         Log.e("123123", phoneNumber);
-        ViseHttp.GET(url)
+        ViseHttp.GET(NetUrl.MemUsersendMessage)
+                .addParam("phone", phoneNumber)
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {
@@ -117,8 +118,9 @@ public class RegisterYzmActivity extends BaseActivity {
         if(TextUtils.isEmpty(code)){
             ToastUtil.showShort(context, "验证码不能为空");
         }else {
-            String url = "/MemUser/matchCode?phone="+phoneNumber+"&code="+code;
-            ViseHttp.GET(url)
+            ViseHttp.GET(NetUrl.MemUsermatchCode)
+                    .addParam("phone", phoneNumber)
+                    .addParam("code", code)
                     .request(new ACallback<String>() {
                         @Override
                         public void onSuccess(String data) {

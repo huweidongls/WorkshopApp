@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.base.BaseActivity;
+import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.StringUtils;
 import com.jingna.workshopapp.util.ToastUtil;
@@ -75,8 +76,8 @@ public class SMSLoginActivity extends BaseActivity {
         }else if(!StringUtils.isPhoneNumberValid(phoneNum)){
             ToastUtil.showShort(context, "请输入正确格式的手机号码");
         }else {
-            String url = "/MemUser/sendMessage?phone="+phoneNum;
-            ViseHttp.GET(url)
+            ViseHttp.GET(NetUrl.MemUsersendMessage)
+                    .addParam("phone", phoneNum)
                     .request(new ACallback<String>() {
                         @Override
                         public void onSuccess(String data) {

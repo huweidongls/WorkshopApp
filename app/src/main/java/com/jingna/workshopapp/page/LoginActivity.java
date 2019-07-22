@@ -8,10 +8,20 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.base.BaseActivity;
+import com.jingna.workshopapp.bean.LoginBean;
+import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.util.Logger;
+import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,36 +81,37 @@ public class LoginActivity extends BaseActivity {
         if(TextUtils.isEmpty(name)||TextUtils.isEmpty(pwd)){
             ToastUtil.showShort(context, "手机号或密码不能为空");
         }else {
-            String url = "/MemUser/loginAPP?phoneNum="+name+"&password="+pwd;
-//            ViseHttp.GET(url)
-//                    .request(new ACallback<String>() {
-//                        @Override
-//                        public void onSuccess(String data) {
-//                            Logger.e("123123", data);
-//                            try {
-//                                JSONObject jsonObject = new JSONObject(data);
-//                                if(jsonObject.optString("status").equals("200")){
-//                                    ToastUtil.showShort(context, "登录成功");
-//                                    Gson gson = new Gson();
-//                                    LoginBean loginBean = gson.fromJson(data, LoginBean.class);
-//                                    Log.e("123123", loginBean.getData().getUserId()+"");
-//                                    SpUtils.setUserId(context, loginBean.getData().getUserId()+"");
-//                                    SpUtils.setToken(context, loginBean.getData().getToken());
-//                                    SpUtils.setPhoneNum(context, name);
-//                                    finish();
-//                                }else {
-//                                    ToastUtil.showShort(context, jsonObject.optString("errorMsg"));
-//                                }
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onFail(int errCode, String errMsg) {
-//
-//                        }
-//                    });
+            ViseHttp.GET(NetUrl.MemUserloginAPP)
+                    .addParam("phoneNum", name)
+                    .addParam("password", pwd)
+                    .request(new ACallback<String>() {
+                        @Override
+                        public void onSuccess(String data) {
+                            Logger.e("123123", data);
+                            try {
+                                JSONObject jsonObject = new JSONObject(data);
+                                if(jsonObject.optString("status").equals("200")){
+                                    ToastUtil.showShort(context, "登录成功");
+                                    Gson gson = new Gson();
+                                    LoginBean loginBean = gson.fromJson(data, LoginBean.class);
+                                    Logger.e("123123", loginBean.getData().getUserId()+"");
+                                    SpUtils.setUserId(context, loginBean.getData().getUserId()+"");
+                                    SpUtils.setToken(context, loginBean.getData().getToken());
+                                    SpUtils.setPhoneNum(context, name);
+                                    finish();
+                                }else {
+                                    ToastUtil.showShort(context, jsonObject.optString("errorMsg"));
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFail(int errCode, String errMsg) {
+
+                        }
+                    });
         }
 
     }

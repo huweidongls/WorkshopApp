@@ -12,6 +12,7 @@ import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.base.BaseActivity;
 import com.jingna.workshopapp.dialog.RegisterDialog;
 import com.jingna.workshopapp.dialog.SendYzmDialog;
+import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.StringUtils;
 import com.jingna.workshopapp.util.ToastUtil;
@@ -85,9 +86,9 @@ public class RegisterActivity extends BaseActivity {
             SendYzmDialog dialog = new SendYzmDialog(context, phoneNum, new SendYzmDialog.ClickListener() {
                 @Override
                 public void onSure() {
-                    String url = "/MemUser/sendMessage?phone="+phoneNum;
                     Log.e("123123", phoneNum);
-                    ViseHttp.GET(url)
+                    ViseHttp.GET(NetUrl.MemUsersendMessage)
+                            .addParam("phone", phoneNum)
                             .request(new ACallback<String>() {
                                 @Override
                                 public void onSuccess(String data) {
