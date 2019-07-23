@@ -9,12 +9,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.adapter.IndexAdapter;
 import com.jingna.workshopapp.base.BaseFragment;
+import com.jingna.workshopapp.bean.BannerBean;
+import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.page.ShareListActivity;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
+import com.youth.banner.Banner;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +38,8 @@ import butterknife.OnClick;
 
 public class FragmentIndex extends BaseFragment {
 
+    @BindView(R.id.banner)
+    Banner banner;
     @BindView(R.id.rv)
     RecyclerView recyclerView;
 
@@ -42,9 +53,40 @@ public class FragmentIndex extends BaseFragment {
 
         StatusBarUtils.setStatusBarTransparent(getActivity());
         ButterKnife.bind(this, view);
+        initBanner();
         initData();
 
         return view;
+    }
+
+    private void initBanner() {
+
+        ViseHttp.GET(NetUrl.IndexPageApifindBanner)
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if(jsonObject.optString("status").equals("200")){
+                                Gson gson = new Gson();
+                                BannerBean bannerBean = gson.fromJson(data, BannerBean.class);
+                                List<String> bannerList = new ArrayList<>();
+                                for (BannerBean.DataBean bean : bannerBean.getData()){
+                                    bannerList.add(NetUrl.BASE_URL+bean.getAppPic());
+                                }
+                                init(banner, bannerList);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
+                    }
+                });
+
     }
 
     private void initData() {
@@ -67,33 +109,38 @@ public class FragmentIndex extends BaseFragment {
 
     }
 
-    @OnClick({R.id.rl1, R.id.rl2, R.id.rl3, R.id.rl4, R.id.rl5})
+    @OnClick({R.id.iv1, R.id.iv2, R.id.iv3, R.id.iv4, R.id.iv5, R.id.iv6})
     public void onClick(View view){
         Intent intent = new Intent();
         switch (view.getId()){
-            case R.id.rl1:
+            case R.id.iv1:
                 intent.setClass(getContext(), ShareListActivity.class);
                 intent.putExtra("name", "共享车间");
                 startActivity(intent);
                 break;
-            case R.id.rl2:
+            case R.id.iv2:
                 intent.setClass(getContext(), ShareListActivity.class);
                 intent.putExtra("name", "共享设备");
                 startActivity(intent);
                 break;
-            case R.id.rl3:
+            case R.id.iv3:
                 intent.setClass(getContext(), ShareListActivity.class);
                 intent.putExtra("name", "共享办公室");
                 startActivity(intent);
                 break;
-            case R.id.rl4:
+            case R.id.iv4:
                 intent.setClass(getContext(), ShareListActivity.class);
                 intent.putExtra("name", "委托加工");
                 startActivity(intent);
                 break;
-            case R.id.rl5:
+            case R.id.iv5:
                 intent.setClass(getContext(), ShareListActivity.class);
                 intent.putExtra("name", "共享厂房");
+                startActivity(intent);
+                break;
+            case R.id.iv6:
+                intent.setClass(getContext(), ShareListActivity.class);
+                intent.putExtra("name", "共享零件");
                 startActivity(intent);
                 break;
         }

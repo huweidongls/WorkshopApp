@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white_ffffff"
+    android:background="@color/bg"
     tools:context="com.jingna.workshopapp.page.EditReceiveActivity">
 
     <LinearLayout
@@ -45,15 +45,16 @@
             <TextView
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="15dp"
-                android:textColor="#545454"
+                android:textColor="#B2B2B2"
                 android:textSize="14sp"
                 android:text="收货人"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <com.jingna.workshopapp.widget.EditTextWithDel
+                android:textColorHint="#B2B2B2"
                 android:id="@+id/et_name"
-                android:textColor="@color/black_333333"
+                android:textColor="@color/white_ffffff"
                 android:layout_marginRight="15dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="27dp"
@@ -79,16 +80,17 @@
             <TextView
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="15dp"
-                android:textColor="#545454"
+                android:textColor="#B2B2B2"
                 android:textSize="14sp"
                 android:text="手机号码"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <com.jingna.workshopapp.widget.EditTextWithDel
+                android:textColorHint="#B2B2B2"
                 android:id="@+id/et_phonenum"
                 android:inputType="number"
-                android:textColor="@color/black_333333"
+                android:textColor="@color/white_ffffff"
                 android:layout_marginRight="15dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="13dp"
@@ -115,7 +117,7 @@
             <TextView
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="15dp"
-                android:textColor="#545454"
+                android:textColor="#B2B2B2"
                 android:textSize="14sp"
                 android:text="所在地区"
                 android:layout_width="wrap_content"
@@ -123,7 +125,7 @@
 
             <TextView
                 android:id="@+id/tv_city"
-                android:textColor="@color/black_333333"
+                android:textColor="@color/white_ffffff"
                 android:layout_marginRight="15dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="13dp"
@@ -148,16 +150,17 @@
             <TextView
                 android:layout_marginTop="15dp"
                 android:layout_marginLeft="15dp"
-                android:textColor="#545454"
+                android:textColor="#B2B2B2"
                 android:textSize="14sp"
                 android:text="详细地址"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <com.jingna.workshopapp.widget.EditTextWithDel
+                android:textColorHint="#B2B2B2"
                 android:id="@+id/et_address"
                 android:layout_marginTop="15dp"
-                android:textColor="@color/black_333333"
+                android:textColor="@color/white_ffffff"
                 android:layout_marginRight="15dp"
                 android:layout_marginLeft="13dp"
                 android:textSize="14sp"
@@ -182,16 +185,17 @@
             <TextView
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="15dp"
-                android:textColor="#545454"
+                android:textColor="#B2B2B2"
                 android:textSize="14sp"
-                android:text="手机号码"
+                android:text="邮编"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <com.jingna.workshopapp.widget.EditTextWithDel
+                android:textColorHint="#B2B2B2"
                 android:id="@+id/et_zip_code"
                 android:inputType="number"
-                android:textColor="@color/black_333333"
+                android:textColor="@color/white_ffffff"
                 android:layout_marginRight="15dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="13dp"
@@ -223,7 +227,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:textColor="#4A4A4A"
+                    android:textColor="#B2B2B2"
                     android:textSize="14sp"
                     android:text="设置默认地址"
                     android:layout_width="wrap_content"
@@ -231,7 +235,7 @@
 
                 <TextView
                     android:layout_marginTop="8dp"
-                    android:textColor="#4A4A4A"
+                    android:textColor="#B2B2B2"
                     android:textSize="11sp"
                     android:text="提醒：每次下单时会使用该地址，实际下单地址会根据您购物切换的地区进行智能智能判断，请在下单时确认哦！"
                     android:layout_width="wrap_content"

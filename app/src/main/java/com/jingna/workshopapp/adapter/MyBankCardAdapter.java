@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jingna.workshopapp.R;
+import com.jingna.workshopapp.bean.BankCardListBean;
 import com.jingna.workshopapp.page.InsertBankCardActivity;
 
 import java.util.List;
@@ -21,10 +22,10 @@ import java.util.List;
 public class MyBankCardAdapter extends RecyclerView.Adapter<MyBankCardAdapter.ViewHolder> {
 
     private Context context;
-    private List<String> data;
+    private List<BankCardListBean.DataBean> data;
     private ClickListener listener;
 
-    public MyBankCardAdapter(List<String> data, ClickListener listener) {
+    public MyBankCardAdapter(List<BankCardListBean.DataBean> data, ClickListener listener) {
         this.data = data;
         this.listener = listener;
     }
@@ -39,17 +40,27 @@ public class MyBankCardAdapter extends RecyclerView.Adapter<MyBankCardAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
+        String phone = "";
+        String card = "";
         if(getItemViewType(position) == 1){
             holder.rlBank.setVisibility(View.GONE);
             holder.tvAdd.setVisibility(View.VISIBLE);
         }else {
             holder.rlBank.setVisibility(View.VISIBLE);
             holder.tvAdd.setVisibility(View.GONE);
+            holder.tvBankName.setText(data.get(position).getCardType());
+            phone = data.get(position).getPhone();
+            phone = phone.substring(phone.length()-4, phone.length());
+            holder.tvPhoneNum.setText("手机尾号"+phone);
+            card = data.get(position).getBankCardNum();
+            card = card.substring(card.length()-4, card.length());
+            holder.tvBankCard.setText(card);
         }
+        final String finalCard = card;
         holder.rlBank.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(position);
+                listener.onItemClick(position, data.get(position).getCardType(), finalCard);
             }
         });
         holder.tvAdd.setOnClickListener(new View.OnClickListener() {
@@ -80,16 +91,22 @@ public class MyBankCardAdapter extends RecyclerView.Adapter<MyBankCardAdapter.Vi
 
         private RelativeLayout rlBank;
         private TextView tvAdd;
+        private TextView tvBankName;
+        private TextView tvPhoneNum;
+        private TextView tvBankCard;
 
         public ViewHolder(View itemView) {
             super(itemView);
             rlBank = itemView.findViewById(R.id.rl_bank);
             tvAdd = itemView.findViewById(R.id.tv_add);
+            tvBankName = itemView.findViewById(R.id.tv_bank_name);
+            tvPhoneNum = itemView.findViewById(R.id.tv_phonenum);
+            tvBankCard = itemView.findViewById(R.id.tv_bank_card);
         }
     }
 
     public interface ClickListener{
-        void onItemClick(int pos);
+        void onItemClick(int pos, String bankName, String card);
     }
 
 }

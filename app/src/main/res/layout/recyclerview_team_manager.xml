@@ -9,6 +9,7 @@
         android:layout_height="71dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_avatar"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="16dp"
             android:src="#979797"
@@ -21,16 +22,18 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/tv_name"
                 android:layout_marginTop="12dp"
-                android:textColor="@color/black_333333"
+                android:textColor="@color/white_ffffff"
                 android:textSize="17sp"
                 android:text="于"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
+                android:id="@+id/tv_time"
                 android:layout_marginTop="38dp"
-                android:textColor="@color/black_333333"
+                android:textColor="#B2B2B2"
                 android:textSize="14sp"
                 android:text="某某直销团队"
                 android:layout_width="wrap_content"
@@ -38,7 +41,7 @@
 
             <View
                 android:layout_alignParentBottom="true"
-                android:background="@color/line"
+                android:background="#AEAEAE"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
 

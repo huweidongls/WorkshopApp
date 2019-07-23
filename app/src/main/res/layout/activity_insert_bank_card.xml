@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/line"
+    android:background="@color/bg"
     android:orientation="vertical"
     tools:context="com.jingna.workshopapp.page.InsertBankCardActivity">
 
@@ -28,7 +28,7 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:background="@color/white_ffffff"
+        android:background="#33C4CDE1"
         android:orientation="vertical"
         android:layout_marginTop="1dp"
         android:layout_width="match_parent"
@@ -42,15 +42,16 @@
             <TextView
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
-                android:textColor="#888888"
+                android:textColor="#B2B2B2"
                 android:textSize="13sp"
                 android:text="银行卡号"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <EditText
+                android:id="@+id/et_bank_card"
                 android:textSize="18sp"
-                android:textColor="@color/black_333333"
+                android:textColor="@color/white_ffffff"
                 android:inputType="number"
                 android:background="@null"
                 android:layout_margin="15dp"
@@ -61,7 +62,7 @@
         
         <View
             android:layout_marginLeft="15dp"
-            android:background="@color/line"
+            android:background="#AEAEAE"
             android:layout_width="match_parent"
             android:layout_height="1dp"/>
 
@@ -73,15 +74,47 @@
             <TextView
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
-                android:textColor="#888888"
+                android:textColor="#B2B2B2"
+                android:textSize="13sp"
+                android:text="开户行"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/et_bank_name"
+                android:textSize="18sp"
+                android:textColor="@color/white_ffffff"
+                android:background="@null"
+                android:layout_margin="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_marginLeft="15dp"
+            android:background="#AEAEAE"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:textColor="#B2B2B2"
                 android:textSize="13sp"
                 android:text="银行卡预留手机号"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <EditText
+                android:id="@+id/et_phonenum"
                 android:textSize="18sp"
-                android:textColor="@color/black_333333"
+                android:textColor="@color/white_ffffff"
                 android:inputType="number"
                 android:background="@null"
                 android:layout_margin="15dp"
@@ -117,7 +150,7 @@
 
         <TextView
             android:layout_gravity="center_vertical"
-            android:textColor="#FF0004"
+            android:textColor="#428CF7"
             android:textSize="12sp"
             android:text="《支付服务协议》"
             android:layout_width="wrap_content"

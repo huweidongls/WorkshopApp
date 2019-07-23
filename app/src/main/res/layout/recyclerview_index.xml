@@ -27,7 +27,7 @@
                 android:ellipsize="end"
                 android:lines="3"
                 android:textSize="15sp"
-                android:textColor="@color/black_333333"
+                android:textColor="@color/white_ffffff"
                 android:text="立体光远第三代护眼 台灯立体光远第三代 护眼台灯"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -38,20 +38,20 @@
 
                 <TextView
                     android:gravity="center"
-                    android:textColor="#C99974"
+                    android:textColor="#DAAA86"
                     android:textSize="17sp"
                     android:text="¥549"
                     android:layout_width="wrap_content"
                     android:layout_height="26dp" />
 
                 <TextView
-                    android:background="#E5E5E5"
+                    android:background="#4dffffff"
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
                     android:paddingRight="5dp"
                     android:paddingLeft="5dp"
                     android:gravity="center"
-                    android:textColor="@color/black_333333"
+                    android:textColor="@color/white_ffffff"
                     android:textSize="10sp"
                     android:text="50%"
                     android:layout_width="wrap_content"
@@ -82,7 +82,7 @@
                     android:layout_marginLeft="7dp"
                     android:layout_gravity="center_vertical"
                     android:textSize="11sp"
-                    android:textColor="@color/black_333333"
+                    android:textColor="@color/white_ffffff"
                     android:text="121"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -98,7 +98,7 @@
                     android:layout_marginLeft="7dp"
                     android:layout_gravity="center_vertical"
                     android:textSize="11sp"
-                    android:textColor="@color/black_333333"
+                    android:textColor="@color/white_ffffff"
                     android:text="74,664"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

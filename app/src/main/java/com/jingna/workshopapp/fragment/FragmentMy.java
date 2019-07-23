@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.base.BaseFragment;
+import com.jingna.workshopapp.bean.GetOneBean;
+import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.page.AddressActivity;
 import com.jingna.workshopapp.page.CommissionActivity;
 import com.jingna.workshopapp.page.CommissionIncomeActivity;
@@ -52,6 +54,8 @@ public class FragmentMy extends BaseFragment {
     TextView tvName;
     @BindView(R.id.ll_login)
     LinearLayout llLogin;
+    @BindView(R.id.ll_name)
+    LinearLayout llName;
 
     private String userId = "";
 
@@ -73,12 +77,36 @@ public class FragmentMy extends BaseFragment {
         Logger.e("123123", userId);
         userId = SpUtils.getUserId(getContext());
         if (userId.equals("0")) {
-            tvName.setVisibility(View.GONE);
+            llName.setVisibility(View.GONE);
             llLogin.setVisibility(View.VISIBLE);
             Glide.with(getContext()).load(R.mipmap.weidenglu_avatar).into(ivAvatar);
         } else {
-            tvName.setVisibility(View.VISIBLE);
+            llName.setVisibility(View.VISIBLE);
             llLogin.setVisibility(View.GONE);
+            String url = "/MemUser/getOne?id="+userId;
+            ViseHttp.GET(url)
+                    .request(new ACallback<String>() {
+                        @Override
+                        public void onSuccess(String data) {
+                            try {
+                                Logger.e("123123", data);
+                                JSONObject jsonObject = new JSONObject(data);
+                                if(jsonObject.optString("status").equals("200")){
+                                    Gson gson = new Gson();
+                                    GetOneBean bean = gson.fromJson(data, GetOneBean.class);
+                                    Glide.with(getContext()).load(NetUrl.BASE_URL+bean.getData().getMemberUserInfo().getHeadPhoto()).into(ivAvatar);
+                                    tvName.setText(bean.getData().getMemberUserInfo().getMemName());
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFail(int errCode, String errMsg) {
+
+                        }
+                    });
         }
     }
 
@@ -97,7 +125,7 @@ public class FragmentMy extends BaseFragment {
     }
 
     @OnClick({R.id.iv_avatar, R.id.ll_login, R.id.ll_my_order, R.id.rl1, R.id.rl2, R.id.rl3, R.id.rl4, R.id.rl5, R.id.rl6
-            , R.id.rl7, R.id.iv_my_set, R.id.iv_my_msg})
+            , R.id.rl7, R.id.iv_my_set, R.id.iv_my_msg, R.id.tv_edit})
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -199,6 +227,15 @@ public class FragmentMy extends BaseFragment {
                 break;
             case R.id.iv_my_msg:
 
+                break;
+            case R.id.tv_edit:
+                if (userId.equals("0")) {
+                    intent.setClass(getContext(), SMSLoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    intent.setClass(getContext(), PersonInformationActivity.class);
+                    startActivity(intent);
+                }
                 break;
         }
     }

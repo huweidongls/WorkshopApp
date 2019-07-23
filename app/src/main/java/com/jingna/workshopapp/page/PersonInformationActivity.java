@@ -16,8 +16,10 @@ import com.donkingliang.imageselector.utils.ImageSelectorUtils;
 import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.base.BaseActivity;
+import com.jingna.workshopapp.bean.GetOneBean;
 import com.jingna.workshopapp.dialog.InformationNicknameDialog;
 import com.jingna.workshopapp.dialog.InformationSexDialog;
+import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
@@ -82,15 +84,15 @@ public class PersonInformationActivity extends BaseActivity {
                             JSONObject jsonObject = new JSONObject(data);
                             if(jsonObject.optString("status").equals("200")){
                                 Gson gson = new Gson();
-//                                GetOneBean bean = gson.fromJson(data, GetOneBean.class);
-//                                Glide.with(context).load(Const.BASE_URL+bean.getData().getMemberUserInfo().getHeadPhoto()).into(ivAvatar);
-//                                tvNickname.setText(bean.getData().getMemberUserInfo().getMemName());
-//                                if(bean.getData().getMemberUserInfo().getGender().equals("0")){
-//                                    tvSex.setText("男");
-//                                }else {
-//                                    tvSex.setText("女");
-//                                }
-//                                tvBirthday.setText(bean.getData().getMemberUserInfo().getMemBirthday());
+                                GetOneBean bean = gson.fromJson(data, GetOneBean.class);
+                                Glide.with(context).load(NetUrl.BASE_URL+bean.getData().getMemberUserInfo().getHeadPhoto()).into(ivAvatar);
+                                tvNickname.setText(bean.getData().getMemberUserInfo().getMemName());
+                                if(bean.getData().getMemberUserInfo().getGender().equals("0")){
+                                    tvSex.setText("男");
+                                }else {
+                                    tvSex.setText("女");
+                                }
+                                tvBirthday.setText(bean.getData().getMemberUserInfo().getMemBirthday());
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

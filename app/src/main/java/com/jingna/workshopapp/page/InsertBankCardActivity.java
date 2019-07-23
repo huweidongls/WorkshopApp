@@ -6,14 +6,23 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.base.BaseActivity;
 import com.jingna.workshopapp.dialog.BankCodeDialog;
+import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.StringUtils;
+import com.jingna.workshopapp.util.ToastUtil;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,6 +36,12 @@ public class InsertBankCardActivity extends BaseActivity {
     ImageView ivAgree;
     @BindView(R.id.btn_agree)
     Button btnAgree;
+    @BindView(R.id.et_bank_card)
+    EditText etBankCard;
+    @BindView(R.id.et_phonenum)
+    EditText etPhonenum;
+    @BindView(R.id.et_bank_name)
+    EditText etBankName;
 
     private String userId = "";
 
@@ -62,16 +77,49 @@ public class InsertBankCardActivity extends BaseActivity {
                 break;
             case R.id.btn_agree:
                 if(isAgree){
-                    BankCodeDialog dialog = new BankCodeDialog(context, new BankCodeDialog.ClickListener() {
-                        @Override
-                        public void onSure() {
-                            Intent intent = new Intent();
-                            intent.setClass(context, InsertBankCardSuccessActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                    });
-                    dialog.show();
+                    final String bankCard = etBankCard.getText().toString();
+                    final String phoneNum = etPhonenum.getText().toString();
+                    final String bankName = etBankName.getText().toString();
+                    if(StringUtils.isEmpty(bankCard)||StringUtils.isEmpty(phoneNum)||StringUtils.isEmpty(bankName)){
+                        ToastUtil.showShort(context, "请完善信息后提交");
+                    }else if(!StringUtils.isPhoneNumberValid(phoneNum)){
+                        ToastUtil.showShort(context, "请输入正确格式的手机号码");
+                    }else {
+                        BankCodeDialog dialog = new BankCodeDialog(context, phoneNum, new BankCodeDialog.ClickListener() {
+                            @Override
+                            public void onSure() {
+                                ViseHttp.POST(NetUrl.MemBankCardinsertBankCard)
+                                        .addParam("userId", SpUtils.getUserId(context))
+                                        .addParam("bankCardNum", bankCard)
+                                        .addParam("cardType", bankName)
+                                        .addParam("phone", phoneNum)
+                                        .request(new ACallback<String>() {
+                                            @Override
+                                            public void onSuccess(String data) {
+                                                try {
+                                                    JSONObject jsonObject = new JSONObject(data);
+                                                    if(jsonObject.optString("status").equals("200")){
+                                                        Intent intent = new Intent();
+                                                        intent.setClass(context, InsertBankCardSuccessActivity.class);
+                                                        startActivity(intent);
+                                                        finish();
+                                                    }else {
+                                                        ToastUtil.showShort(context, jsonObject.optString("errorMsg"));
+                                                    }
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFail(int errCode, String errMsg) {
+
+                                            }
+                                        });
+                            }
+                        });
+                        dialog.show();
+                    }
                 }
                 break;
         }

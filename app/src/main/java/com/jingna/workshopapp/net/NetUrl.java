@@ -20,4 +20,14 @@ public class NetUrl {
     public static final String MemUsertoUpdate = "MemUser/toUpdate";
     //通过ID查询会员
     public static final String MemUsergetOne = "MemUser/getOne";
+    //查询该用户绑定的银行卡
+    public static final String MemBankCardqueryList = "MemBankCard/queryList";
+    //新增银行卡
+    public static final String MemBankCardinsertBankCard = "MemBankCard/insertBankCard";
+    //移除银行卡
+    public static final String MemBankCardtoDelete = "MemBankCard/toDelete";
+    //团队管理
+    public static final String MemUserteamManagement = "MemUser/teamManagement";
+    //显示所有轮播图和分类图标接口
+    public static final String IndexPageApifindBanner = "IndexPageApi/findBanner";
 }

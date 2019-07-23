@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/line"
+    android:background="@color/bg"
     tools:context="com.jingna.workshopapp.page.InsertBankCardSuccessActivity">
 
     <RelativeLayout
@@ -36,14 +36,14 @@
 
         <ImageView
             android:layout_gravity="center_horizontal"
-            android:src="@mipmap/apply_true"
+            android:src="@mipmap/bank_success"
             android:layout_width="52dp"
             android:layout_height="52dp" />
 
         <TextView
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="17dp"
-            android:textColor="#FF0004"
+            android:textColor="#ffffff"
             android:textSize="15sp"
             android:text="卡设置成功"
             android:layout_width="wrap_content"

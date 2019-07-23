@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/line"
+    android:background="@color/bg"
     tools:context="com.jingna.workshopapp.page.PersonInformationActivity">
 
     <RelativeLayout
@@ -27,18 +27,11 @@
 
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/rl_top"
-        android:background="#EBEBEB" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_top"
         android:layout_marginTop="1dp"
-        android:background="@color/white_ffffff"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -52,7 +45,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:text="头像"
-                android:textColor="#232325"
+                android:textColor="#ffffff"
                 android:textSize="15sp" />
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -69,7 +62,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
-                android:src="@mipmap/right_b" />
+                android:src="@mipmap/right_gray" />
 
         </RelativeLayout>
 
@@ -81,7 +74,7 @@
             <TextView
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:textColor="#232325"
+                android:textColor="#ffffff"
                 android:textSize="15sp"
                 android:text="昵称"
                 android:layout_width="wrap_content"
@@ -93,14 +86,14 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
-                android:src="@mipmap/right_b" />
+                android:src="@mipmap/right_gray" />
 
             <TextView
                 android:id="@+id/tv_nickname"
                 android:layout_marginRight="28dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:textColor="#CCCCCC"
+                android:textColor="#B2B2B2"
                 android:textSize="13sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -115,7 +108,7 @@
             <TextView
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:textColor="#232325"
+                android:textColor="#ffffff"
                 android:textSize="15sp"
                 android:text="性别"
                 android:layout_width="wrap_content"
@@ -127,14 +120,14 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
-                android:src="@mipmap/right_b" />
+                android:src="@mipmap/right_gray" />
 
             <TextView
                 android:id="@+id/tv_sex"
                 android:layout_marginRight="28dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:textColor="#CCCCCC"
+                android:textColor="#B2B2B2"
                 android:textSize="13sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -149,7 +142,7 @@
             <TextView
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:textColor="#232325"
+                android:textColor="#ffffff"
                 android:textSize="15sp"
                 android:text="出生日期"
                 android:layout_width="wrap_content"
@@ -161,14 +154,14 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
-                android:src="@mipmap/right_b" />
+                android:src="@mipmap/right_gray" />
 
             <TextView
                 android:id="@+id/tv_birthday"
                 android:layout_marginRight="28dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:textColor="#CCCCCC"
+                android:textColor="#B2B2B2"
                 android:textSize="13sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -178,17 +171,13 @@
     </LinearLayout>
 
     <Button
-        android:background="@drawable/bg_ff4d16_20dp"
+        android:background="@color/white_ffffff"
         android:id="@+id/btn_out"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:textColor="@color/white_ffffff"
-        android:textSize="16sp"
+        android:textColor="#232325"
+        android:textSize="20sp"
         android:text="退出登录"
-        android:layout_marginLeft="47dp"
-        android:layout_marginRight="47dp"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="40dp" />
+        android:layout_height="57dp" />
 
 </RelativeLayout>

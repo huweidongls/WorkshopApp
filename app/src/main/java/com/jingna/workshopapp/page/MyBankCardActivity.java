@@ -11,12 +11,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.adapter.MyBankCardAdapter;
 import com.jingna.workshopapp.base.BaseActivity;
+import com.jingna.workshopapp.bean.BankCardListBean;
+import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.ToastUtil;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +43,7 @@ public class MyBankCardActivity extends BaseActivity {
     RecyclerView recyclerView;
 
     private MyBankCardAdapter adapter;
-    private List<String> mList;
+    private List<BankCardListBean.DataBean> mList;
 
     private String userId = "";
 
@@ -47,30 +57,99 @@ public class MyBankCardActivity extends BaseActivity {
         userId = SpUtils.getUserId(context);
         StatusBarUtils.setStatusBar(MyBankCardActivity.this, getResources().getColor(R.color.statusbar_color));
         ButterKnife.bind(MyBankCardActivity.this);
-        initData();
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initData();
     }
 
     private void initData() {
 
-        mList = new ArrayList<>();
-        mList.add("");
-        adapter = new MyBankCardAdapter(mList, new MyBankCardAdapter.ClickListener() {
-            @Override
-            public void onItemClick(int pos) {
-                showDelPop();
-            }
-        });
-        LinearLayoutManager manager = new LinearLayoutManager(context);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(adapter);
+        ViseHttp.GET(NetUrl.MemBankCardqueryList)
+                .addParam("memberId", SpUtils.getUserId(context))
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if(jsonObject.optString("status").equals("200")){
+                                Gson gson = new Gson();
+                                BankCardListBean bean = gson.fromJson(data, BankCardListBean.class);
+                                mList = bean.getData();
+                                adapter = new MyBankCardAdapter(mList, new MyBankCardAdapter.ClickListener() {
+                                    @Override
+                                    public void onItemClick(int pos, String bankName, String card) {
+                                        showDelPop(pos, bankName, card);
+                                    }
+                                });
+                                LinearLayoutManager manager = new LinearLayoutManager(context);
+                                manager.setOrientation(LinearLayoutManager.VERTICAL);
+                                recyclerView.setLayoutManager(manager);
+                                recyclerView.setAdapter(adapter);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
+                    }
+                });
 
     }
 
-    private void showDelPop(){
+    private void showDelPop(final int pos, String bankName, String card){
 
         View view = LayoutInflater.from(context).inflate(R.layout.popupwindow_bank_delete, null);
+
+        TextView tvTitle = view.findViewById(R.id.tv_title);
+        TextView tvDel = view.findViewById(R.id.tv_del);
+        TextView tvCancel = view.findViewById(R.id.tv_cancel);
+
+        tvTitle.setText("您可对"+bankName+"尾号"+card+"的储蓄卡进行操作");
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+
+        tvDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViseHttp.GET(NetUrl.MemBankCardtoDelete)
+                        .addParam("cardId", mList.get(pos).getId()+"")
+                        .request(new ACallback<String>() {
+                            @Override
+                            public void onSuccess(String data) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(data);
+                                    if(jsonObject.optString("status").equals("200")){
+                                        popupWindow.dismiss();
+                                        ToastUtil.showShort(context, "删除成功");
+                                        mList.remove(pos);
+                                        adapter.notifyDataSetChanged();
+                                    }else{
+                                        ToastUtil.showShort(context, jsonObject.optString("errorMsg"));
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFail(int errCode, String errMsg) {
+
+                            }
+                        });
+            }
+        });
 
         popupWindow = new PopupWindow(view, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setTouchable(true);
