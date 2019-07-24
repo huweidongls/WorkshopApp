@@ -60,7 +60,7 @@ public class FragmentRaise extends BaseFragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if(!hidden){
-            StatusBarUtils.setStatusBar(getActivity(), getResources().getColor(R.color.statusbar_color));
+            StatusBarUtils.setStatusBarTransparent(getActivity());
         }
     }
 

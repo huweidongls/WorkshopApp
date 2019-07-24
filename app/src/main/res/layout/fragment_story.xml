@@ -1,71 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    >
-    <ScrollView
+    android:background="@color/bg">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-        <RelativeLayout
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="26dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:background="@drawable/textview_serche"
-            >
-            <EditText
+            android:layout_height="match_parent">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="14dp"
-                android:hint="输入搜索"
-                android:textColor="#86807B"
-                android:textSize="14sp"
-                />
-            <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:src="@mipmap/sousuo"
-                android:layout_marginTop="17dp"
-                android:layout_marginLeft="20dp"
-                />
-        </RelativeLayout>
-        <RelativeLayout
-            android:descendantFocusability="blocksDescendants"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_a"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:descendantFocusability="blocksDescendants"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_b"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:descendantFocusability="blocksDescendants"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_c"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </RelativeLayout>
-    </LinearLayout>
-    </ScrollView>
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginTop="26dp"
+                    android:background="@drawable/textview_serche">
+
+                    <EditText
+                        android:singleLine="true"
+                        android:imeOptions="actionSearch"
+                        android:id="@+id/et_search"
+                        android:layout_centerVertical="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@null"
+                        android:hint="输入搜索"
+                        android:textColor="#333333"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:layout_centerVertical="true"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_marginLeft="20dp"
+                        android:src="@mipmap/sousuo" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="blocksDescendants">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_a"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="blocksDescendants">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_b"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="blocksDescendants">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_c"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
 </LinearLayout>

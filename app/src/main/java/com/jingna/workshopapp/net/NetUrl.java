@@ -30,4 +30,12 @@ public class NetUrl {
     public static final String MemUserteamManagement = "MemUser/teamManagement";
     //显示所有轮播图和分类图标接口
     public static final String IndexPageApifindBanner = "IndexPageApi/findBanner";
+    //根据车间ID查询车间数据
+    public static final String AppShopCategoryqueryChildList = "AppShopCategory/queryChildList";
+    //查询显示所有故事
+    public static final String AppShopStorysqueryList = "AppShopStorys/queryList";
+    //查询委托加工所有类型
+    public static final String AppShopWtjgfindAllWtjgType = "AppShopWtjg/findAllWtjgType";
+    //查询委托加工设备(可根据设备类型ID查询)
+    public static final String AppShopWtjgfindAllWtjgEquipment = "AppShopWtjg/findAllWtjgEquipment";
 }
