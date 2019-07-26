@@ -12,11 +12,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.adapter.GoodsDetailsViewpagerAdapter;
 import com.jingna.workshopapp.base.BaseFragment;
+import com.jingna.workshopapp.bean.RaiseGetTypeBean;
 import com.jingna.workshopapp.customview.ScaleTransitionPagerTitleView;
+import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -26,6 +31,9 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerInd
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,50 +73,69 @@ public class FragmentRaise extends BaseFragment {
     }
 
     private void initData() {
-       fragmentList = new ArrayList<>();
-        fragmentList.add(new FragmentTuijian());
-        fragmentList.add(new FragmentXiangmu());
-        fragmentList.add(new FragmentTuijian());
-        fragmentList.add(new FragmentXiangmu());
-        GoodsDetailsViewpagerAdapter mViewPagerFragmentAdapter = new GoodsDetailsViewpagerAdapter(mFragmentManager, fragmentList);
-        mViewPager.setAdapter(mViewPagerFragmentAdapter);
+
+        fragmentList = new ArrayList<>();
         mTitleDataList = new ArrayList<>();
-        mTitleDataList.add("平台推荐");
-        mTitleDataList.add("项目");
-        mTitleDataList.add("厂房");
-        mTitleDataList.add("车间");
-        CommonNavigator commonNavigator = new CommonNavigator(getContext());
-        commonNavigator.setAdapter(new CommonNavigatorAdapter() {
-            @Override
-            public int getCount() {
-                return mTitleDataList == null ? 0 : mTitleDataList.size();
-            }
-            @Override
-            public IPagerTitleView getTitleView(Context context, final int index) {
-                SimplePagerTitleView simplePagerTitleView = new ScaleTransitionPagerTitleView(context);
-                simplePagerTitleView.setText(mTitleDataList.get(index));
-                //设置字体
-                simplePagerTitleView.setPadding(70,0,70,0);
-                simplePagerTitleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
-                simplePagerTitleView.setNormalColor(Color.parseColor("#999999"));
-                simplePagerTitleView.setSelectedColor(Color.parseColor("#333333"));
-                simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
+        ViseHttp.GET(NetUrl.AppCrowdFundinggetType)
+                .request(new ACallback<String>() {
                     @Override
-                    public void onClick(View v) {
-                        mViewPager.setCurrentItem(index);
+                    public void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if(jsonObject.optString("status").equals("200")){
+                                Gson gson = new Gson();
+                                RaiseGetTypeBean bean = gson.fromJson(data, RaiseGetTypeBean.class);
+                                List<RaiseGetTypeBean.DataBean> list = bean.getData();
+                                for (RaiseGetTypeBean.DataBean bean1 : list){
+                                    mTitleDataList.add(bean1.getName());
+                                    fragmentList.add(FragmentTuijian.newInstance(bean1.getId()+""));
+                                }
+                                GoodsDetailsViewpagerAdapter mViewPagerFragmentAdapter = new GoodsDetailsViewpagerAdapter(mFragmentManager, fragmentList);
+                                mViewPager.setAdapter(mViewPagerFragmentAdapter);
+                                CommonNavigator commonNavigator = new CommonNavigator(getContext());
+                                commonNavigator.setAdapter(new CommonNavigatorAdapter() {
+                                    @Override
+                                    public int getCount() {
+                                        return mTitleDataList == null ? 0 : mTitleDataList.size();
+                                    }
+                                    @Override
+                                    public IPagerTitleView getTitleView(Context context, final int index) {
+                                        SimplePagerTitleView simplePagerTitleView = new ScaleTransitionPagerTitleView(context);
+                                        simplePagerTitleView.setText(mTitleDataList.get(index));
+                                        //设置字体
+                                        simplePagerTitleView.setPadding(70,0,70,0);
+                                        simplePagerTitleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+                                        simplePagerTitleView.setNormalColor(Color.parseColor("#B2B2B2"));
+                                        simplePagerTitleView.setSelectedColor(Color.parseColor("#ffffff"));
+                                        simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                mViewPager.setCurrentItem(index);
+                                            }
+                                        });
+                                        return simplePagerTitleView;
+                                    }
+                                    @Override
+                                    public IPagerIndicator getIndicator(Context context) {
+                                        LinePagerIndicator indicator = new LinePagerIndicator(context);
+                                        indicator.setColors(Color.parseColor("#ffffff"));
+                                        return indicator;
+                                    }
+                                });
+                                magicIndicator.setNavigator(commonNavigator);
+                                ViewPagerHelper.bind(magicIndicator, mViewPager);
+                                mViewPager.setCurrentItem(index);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
                     }
                 });
-                return simplePagerTitleView;
-            }
-            @Override
-            public IPagerIndicator getIndicator(Context context) {
-                LinePagerIndicator indicator = new LinePagerIndicator(context);
-                indicator.setColors(Color.parseColor("#000000"));
-                return indicator;
-            }
-        });
-        magicIndicator.setNavigator(commonNavigator);
-        ViewPagerHelper.bind(magicIndicator, mViewPager);
-        mViewPager.setCurrentItem(index);
+
     }
 }

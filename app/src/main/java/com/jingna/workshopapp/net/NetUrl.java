@@ -38,4 +38,8 @@ public class NetUrl {
     public static final String AppShopWtjgfindAllWtjgType = "AppShopWtjg/findAllWtjgType";
     //查询委托加工设备(可根据设备类型ID查询)
     public static final String AppShopWtjgfindAllWtjgEquipment = "AppShopWtjg/findAllWtjgEquipment";
+    //查询众筹类型
+    public static final String AppCrowdFundinggetType = "AppCrowdFunding/getType";
+    //根据类型ID查询众筹列表
+    public static final String AppCrowdFundingfindAllByType = "AppCrowdFunding/findAllByType";
 }
