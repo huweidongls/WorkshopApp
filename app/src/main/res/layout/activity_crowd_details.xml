@@ -7,6 +7,23 @@
     android:orientation="vertical"
     tools:context="com.jingna.workshopapp.page.CrowdDetailsActivity">
 
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        style="@style/rl_top_bar">
+
+        <RelativeLayout
+            android:id="@+id/rl_back"
+            android:layout_width="50dp"
+            android:layout_height="match_parent">
+
+            <ImageView style="@style/iv_top_back" />
+        </RelativeLayout>
+
+        <TextView
+            style="@style/tv_top_title"
+            android:text="众筹" />
+    </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -15,23 +32,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <RelativeLayout
-                android:id="@+id/rl_top"
-                style="@style/rl_top_bar">
-
-                <RelativeLayout
-                    android:id="@+id/rl_back"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent">
-
-                    <ImageView style="@style/iv_top_back" />
-                </RelativeLayout>
-
-                <TextView
-                    style="@style/tv_top_title"
-                    android:text="众筹" />
-            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -320,25 +320,11 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="48dp"
                     android:src="@mipmap/zcgs" />
-                <ImageView
-                    android:layout_width="9dp"
-                    android:layout_height="15dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="48dp"
-                    android:src="@mipmap/zcgs" />
-                <ImageView
-                    android:layout_width="9dp"
-                    android:layout_height="15dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="48dp"
-                    android:src="@mipmap/zcgs" />
-                <ImageView
-                    android:layout_width="9dp"
-                    android:layout_height="15dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="48dp"
-                    android:src="@mipmap/zcgs" />
+
             </RelativeLayout>
+
+
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
