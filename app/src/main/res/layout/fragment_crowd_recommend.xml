@@ -38,7 +38,6 @@
                         android:layout_width="10dp"
                         android:layout_height="10dp"
                         android:layout_marginLeft="33dp"
-
                         android:src="@mipmap/group" />
 
                     <TextView
@@ -139,7 +138,6 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
                 android:descendantFocusability="blocksDescendants">
 
                 <android.support.v7.widget.RecyclerView

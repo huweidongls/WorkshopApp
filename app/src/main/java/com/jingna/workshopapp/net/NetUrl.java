@@ -42,4 +42,8 @@ public class NetUrl {
     public static final String AppCrowdFundinggetType = "AppCrowdFunding/getType";
     //根据类型ID查询众筹列表
     public static final String AppCrowdFundingfindAllByType = "AppCrowdFunding/findAllByType";
+    //根据众筹ID查询众筹详情
+    public static final String AppCrowdFundinggetById = "AppCrowdFunding/getById";
+    //众筹的为你推荐(已上架和推荐的)
+    public static final String AppCrowdFundingfindAllRecommend = "AppCrowdFunding/findAllRecommend";
 }

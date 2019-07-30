@@ -4,6 +4,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:layout_width="166dp"
         android:layout_height="wrap_content"
@@ -110,70 +111,48 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:layout_marginBottom="9dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
             android:orientation="horizontal">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="23dp"
-                android:layout_marginRight="10dp">
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_width="11dp"
+                android:layout_height="11dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/index_person_num" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:id="@+id/tv_all_people"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="914"
+                android:textColor="#999999"
+                android:textSize="9sp" />
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_width="11dp"
+                android:layout_height="11dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/index_price" />
 
-                        <ImageView
-                            android:layout_centerVertical="true"
-                            android:layout_width="11dp"
-                            android:layout_height="11dp"
-                            android:layout_marginLeft="13dp"
-                            android:layout_marginRight="5dp"
-                            android:scaleType="fitXY"
-                            android:src="@mipmap/index_person_num" />
-
-                        <TextView
-                            android:layout_centerVertical="true"
-                            android:id="@+id/tv_all_people"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="28dp"
-                            android:text="914"
-                            android:textColor="#999999"
-                            android:textSize="9sp" />
-                    </RelativeLayout>
-                </LinearLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_centerVertical="true"
-                        android:layout_width="11dp"
-                        android:layout_height="11dp"
-                        android:layout_marginLeft="58dp"
-                        android:layout_marginRight="5dp"
-                        android:scaleType="fitXY"
-                        android:src="@mipmap/index_price" />
-
-                    <TextView
-                        android:layout_centerVertical="true"
-                        android:id="@+id/tv_all_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="70dp"
-                        android:gravity="center"
-                        android:text="1314"
-                        android:textColor="#999999"
-                        android:textSize="9sp" />
-                </RelativeLayout>
-            </RelativeLayout>
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:id="@+id/tv_all_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="1314"
+                android:textColor="#999999"
+                android:textSize="9sp" />
 
         </LinearLayout>
     </LinearLayout>

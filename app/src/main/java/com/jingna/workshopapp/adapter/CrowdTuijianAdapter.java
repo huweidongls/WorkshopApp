@@ -1,7 +1,6 @@
 package com.jingna.workshopapp.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,21 +11,21 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jingna.workshopapp.R;
-import com.jingna.workshopapp.bean.RaiseListBean;
+import com.jingna.workshopapp.bean.CrowdTuijianBean;
 import com.jingna.workshopapp.net.NetUrl;
-import com.jingna.workshopapp.page.CrowdDetailsActivity;
 
 import java.util.List;
 
 /**
- * Created by Administrator on 2019/6/19.
+ * Created by Administrator on 2019/7/30.
  */
 
-public class FragmentCrowdTuijianAdapter extends RecyclerView.Adapter<FragmentCrowdTuijianAdapter.ViewHolder>{
-    private Context context;
-    private List<RaiseListBean.DataBean> data;
+public class CrowdTuijianAdapter extends RecyclerView.Adapter<CrowdTuijianAdapter.ViewHolder> {
 
-    public FragmentCrowdTuijianAdapter(List<RaiseListBean.DataBean> data) {
+    private Context context;
+    private List<CrowdTuijianBean.DataBean> data;
+
+    public CrowdTuijianAdapter(List<CrowdTuijianBean.DataBean> data) {
         this.data = data;
     }
 
@@ -39,7 +38,7 @@ public class FragmentCrowdTuijianAdapter extends RecyclerView.Adapter<FragmentCr
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
 
         Glide.with(context).load(NetUrl.BASE_URL+data.get(position).getGearPictureApp()).into(holder.iv);
         holder.tvTitle.setText(data.get(position).getGearTitle());
@@ -51,16 +50,6 @@ public class FragmentCrowdTuijianAdapter extends RecyclerView.Adapter<FragmentCr
         String percent = data.get(position).getPercentage();
         percent = percent.substring(0, percent.length()-1);
         holder.progressBar.setProgress(Integer.valueOf(percent));
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(context,CrowdDetailsActivity.class);
-                intent.putExtra("id", data.get(position).getId()+"");
-                context.startActivity(intent);
-            }
-        });
 
     }
 
@@ -92,4 +81,5 @@ public class FragmentCrowdTuijianAdapter extends RecyclerView.Adapter<FragmentCr
             progressBar = itemView.findViewById(R.id.progress);
         }
     }
+
 }
