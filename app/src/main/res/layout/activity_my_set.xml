@@ -6,296 +6,302 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context="com.jingna.workshopapp.page.MySetActivity">
+
     <RelativeLayout
         android:id="@+id/rl_top"
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:background="#EC3928"
-        >
+        style="@style/rl_top_bar">
+
         <RelativeLayout
             android:id="@+id/rl_back"
             android:layout_width="50dp"
             android:layout_height="match_parent">
+
             <ImageView
                 android:layout_width="9dp"
                 android:layout_height="16dp"
-                android:src="@mipmap/whiteback"
                 android:layout_centerInParent="true"
-                />
+                android:src="@mipmap/whiteback" />
         </RelativeLayout>
+
         <TextView
             style="@style/tv_top_title"
-            android:text="设置中心"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            />
+            android:text="设置中心" />
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <ImageView
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@mipmap/gongxianglingjian"
             android:layout_marginLeft="11dp"
             android:layout_marginTop="17dp"
-            />
+            android:src="@mipmap/gongxianglingjian" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="jd12345566778886"
-            android:textColor="#333333"
-            android:textSize="15sp"
             android:layout_marginLeft="95dp"
             android:layout_marginTop="28dp"
-            />
+            android:text="jd12345566778886"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
         <ImageView
             android:layout_width="8dp"
             android:layout_height="8dp"
-            android:src="@mipmap/nan"
             android:layout_marginLeft="230dp"
             android:layout_marginTop="35dp"
-            />
+            android:src="@mipmap/nan" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="用户名：jd12345566778886"
-            android:textColor="#848688"
-            android:textSize="12sp"
             android:layout_marginLeft="95dp"
             android:layout_marginTop="52dp"
-            />
+            android:text="用户名：jd12345566778886"
+            android:textColor="#848688"
+            android:textSize="12sp" />
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@mipmap/fanhui"
-            android:scaleType="fitEnd"
             android:layout_marginRight="12dp"
             android:layout_marginTop="44dp"
-            />
+            android:scaleType="fitEnd"
+            android:src="@mipmap/fanhui" />
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="推送消息设置"
-            android:textSize="15sp"
-            android:textColor="#2E2E2E"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="28dp"
-            />
+            android:text="推送消息设置"
+            android:textColor="#2E2E2E"
+            android:textSize="15sp" />
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@mipmap/fanhui"
-            android:scaleType="fitEnd"
             android:layout_marginRight="12dp"
             android:layout_marginTop="33dp"
-            />
+            android:scaleType="fitEnd"
+            android:src="@mipmap/fanhui" />
     </RelativeLayout>
+
     <TextView
         android:layout_width="375dp"
         android:layout_height="1dp"
-        android:background="#EBEBEB"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
-        />
+        android:background="#EBEBEB" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="25dp"
             android:text="隐私设置"
-            android:textSize="15sp"
             android:textColor="#2E2E2E"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="25dp"
-            />
+            android:textSize="15sp" />
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@mipmap/fanhui"
-            android:scaleType="fitEnd"
             android:layout_marginRight="12dp"
             android:layout_marginTop="33dp"
-            />
+            android:scaleType="fitEnd"
+            android:src="@mipmap/fanhui" />
     </RelativeLayout>
+
     <TextView
         android:layout_width="375dp"
         android:layout_height="1dp"
-        android:background="#EBEBEB"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
-        />
+        android:background="#EBEBEB" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="25dp"
             android:text="WiFi环境下自动播放视频"
-            android:textSize="15sp"
             android:textColor="#2E2E2E"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="25dp"
-            />
+            android:textSize="15sp" />
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@mipmap/fanhui"
-            android:scaleType="fitEnd"
             android:layout_marginRight="12dp"
             android:layout_marginTop="33dp"
-            />
+            android:scaleType="fitEnd"
+            android:src="@mipmap/fanhui" />
     </RelativeLayout>
+
     <TextView
         android:layout_width="375dp"
         android:layout_height="1dp"
-        android:background="#EBEBEB"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
-        />
+        android:background="#EBEBEB" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="25dp"
             android:text="功能反馈"
-            android:textSize="15sp"
             android:textColor="#2E2E2E"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="25dp"
-            />
+            android:textSize="15sp" />
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@mipmap/fanhui"
-            android:scaleType="fitEnd"
             android:layout_marginRight="12dp"
             android:layout_marginTop="33dp"
-            />
+            android:scaleType="fitEnd"
+            android:src="@mipmap/fanhui" />
     </RelativeLayout>
+
     <TextView
         android:layout_width="375dp"
         android:layout_height="1dp"
-        android:background="#EBEBEB"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
-        />
+        android:background="#EBEBEB" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="25dp"
             android:text="清除本地缓存"
-            android:textSize="15sp"
             android:textColor="#2E2E2E"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="25dp"
-            />
+            android:textSize="15sp" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right"
             android:layout_marginRight="12dp"
-            android:text="45.09M"
             android:layout_marginTop="27dp"
-            />
+            android:gravity="right"
+            android:text="45.09M" />
     </RelativeLayout>
+
     <TextView
         android:layout_width="375dp"
         android:layout_height="1dp"
-        android:background="#EBEBEB"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
-        />
+        android:background="#EBEBEB" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="25dp"
             android:text="特别声明"
-            android:textSize="15sp"
             android:textColor="#2E2E2E"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="25dp"
-            />
+            android:textSize="15sp" />
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@mipmap/fanhui"
-            android:scaleType="fitEnd"
             android:layout_marginRight="12dp"
             android:layout_marginTop="33dp"
-            />
+            android:scaleType="fitEnd"
+            android:src="@mipmap/fanhui" />
     </RelativeLayout>
+
     <TextView
         android:layout_width="375dp"
         android:layout_height="1dp"
-        android:background="#EBEBEB"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
-        />
+        android:background="#EBEBEB" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="25dp"
             android:text="给我评分"
-            android:textSize="15sp"
             android:textColor="#2E2E2E"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="25dp"
-            />
+            android:textSize="15sp" />
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@mipmap/fanhui"
-            android:scaleType="fitEnd"
             android:layout_marginRight="12dp"
             android:layout_marginTop="33dp"
-            />
+            android:scaleType="fitEnd"
+            android:src="@mipmap/fanhui" />
     </RelativeLayout>
+
     <TextView
         android:layout_width="375dp"
         android:layout_height="1dp"
-        android:background="#EBEBEB"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
-        />
+        android:background="#EBEBEB" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="隐私政策"
-            android:textSize="15sp"
-            android:textColor="#2E2E2E"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="25dp"
-            />
+            android:text="隐私政策"
+            android:textColor="#2E2E2E"
+            android:textSize="15sp" />
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@mipmap/fanhui"
-            android:scaleType="fitEnd"
             android:layout_marginRight="12dp"
             android:layout_marginTop="33dp"
-            />
+            android:scaleType="fitEnd"
+            android:src="@mipmap/fanhui" />
     </RelativeLayout>
+
     <TextView
         android:layout_width="375dp"
         android:layout_height="1dp"
-        android:background="#EBEBEB"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
-        />
+        android:background="#EBEBEB" />
 </LinearLayout>
