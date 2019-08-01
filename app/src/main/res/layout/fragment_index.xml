@@ -302,6 +302,7 @@
                 </RelativeLayout>
 
                 <TextView
+                    android:id="@+id/tv_more"
                     android:background="@drawable/bg_8f8f8f_bord"
                     android:layout_marginBottom="15dp"
                     android:layout_marginTop="15dp"

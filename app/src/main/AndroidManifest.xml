@@ -114,7 +114,9 @@
         <activity android:name=".page.ShareDetailsActivity" />
         <activity android:name=".page.TeamManagerActivity" />
         <activity android:name=".page.MySetActivity" />
-        <activity android:name=".page.CommissionActivity"></activity>
+        <activity android:name=".page.CommissionActivity" />
+        <activity android:name=".page.SpecialStatementActivity" />
+        <activity android:name=".page.PrivacyPolicyActivity"></activity>
     </application>
 
 </manifest>

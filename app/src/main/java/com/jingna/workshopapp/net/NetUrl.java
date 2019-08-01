@@ -46,4 +46,10 @@ public class NetUrl {
     public static final String AppCrowdFundinggetById = "AppCrowdFunding/getById";
     //众筹的为你推荐(已上架和推荐的)
     public static final String AppCrowdFundingfindAllRecommend = "AppCrowdFunding/findAllRecommend";
+    //查询隐私政策
+    public static final String PrivacyPolicyqueryList = "PrivacyPolicy/queryList";
+    //查询所有声明接口
+    public static final String ImportantStatementsqueryList = "ImportantStatements/queryList";
+    //查询热门众筹
+    public static final String AppCrowdFundingfindByPopular = "AppCrowdFunding/findByPopular";
 }

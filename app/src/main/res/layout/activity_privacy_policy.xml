@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:orientation="vertical"
+    tools:context="com.jingna.workshopapp.page.PrivacyPolicyActivity">
+
+    <RelativeLayout
+        style="@style/rl_top_bar">
+
+        <RelativeLayout
+            android:id="@+id/rl_back"
+            android:layout_width="50dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                style="@style/iv_top_back" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:text="隐私政策"
+            style="@style/tv_top_title" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:textSize="13sp"
+        android:textColor="@color/white_ffffff"
+        android:layout_margin="10dp"
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

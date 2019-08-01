@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -17,6 +18,7 @@ import com.jingna.workshopapp.adapter.IndexAdapter;
 import com.jingna.workshopapp.base.BaseFragment;
 import com.jingna.workshopapp.bean.BannerBean;
 import com.jingna.workshopapp.bean.CategoryQueryChildListBean;
+import com.jingna.workshopapp.bean.CrowdPopularBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.page.ShareListActivity;
 import com.jingna.workshopapp.util.StatusBarUtils;
@@ -49,9 +51,13 @@ public class FragmentIndex extends BaseFragment {
     ImageView ivShow1;
     @BindView(R.id.iv_show2)
     ImageView ivShow2;
+    @BindView(R.id.tv_more)
+    TextView tvMore;
 
     private IndexAdapter adapter;
-    private List<String> mList;
+    private List<CrowdPopularBean.DataBean> mList;
+
+    private int page = 1;
 
     @Nullable
     @Override
@@ -136,25 +142,44 @@ public class FragmentIndex extends BaseFragment {
 
     private void initData() {
 
-        mList = new ArrayList<>();
-        mList.add("");
-        mList.add("");
-        mList.add("");
-        mList.add("");
-        adapter = new IndexAdapter(mList);
-        LinearLayoutManager manager = new LinearLayoutManager(getContext()){
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        };
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(adapter);
+        ViseHttp.GET(NetUrl.AppCrowdFundingfindByPopular)
+                .addParam("pageSize", page + "")
+                .addParam("pageNum", "2")
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if(jsonObject.optString("status").equals("200")){
+                                Gson gson = new Gson();
+                                CrowdPopularBean popularBean = gson.fromJson(data, CrowdPopularBean.class);
+                                mList = popularBean.getData();
+                                adapter = new IndexAdapter(mList);
+                                LinearLayoutManager manager = new LinearLayoutManager(getContext()){
+                                    @Override
+                                    public boolean canScrollVertically() {
+                                        return false;
+                                    }
+                                };
+                                manager.setOrientation(LinearLayoutManager.VERTICAL);
+                                recyclerView.setLayoutManager(manager);
+                                recyclerView.setAdapter(adapter);
+                                page = page + 1;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
+                    }
+                });
 
     }
 
-    @OnClick({R.id.iv1, R.id.iv2, R.id.iv3, R.id.iv4, R.id.iv5, R.id.iv6})
+    @OnClick({R.id.iv1, R.id.iv2, R.id.iv3, R.id.iv4, R.id.iv5, R.id.iv6, R.id.tv_more})
     public void onClick(View view){
         Intent intent = new Intent();
         switch (view.getId()){
@@ -194,7 +219,42 @@ public class FragmentIndex extends BaseFragment {
                 intent.putExtra("type", "6");
                 startActivity(intent);
                 break;
+            case R.id.tv_more:
+                more();
+                break;
         }
+    }
+
+    private void more() {
+
+        tvMore.setVisibility(View.GONE);
+        ViseHttp.GET(NetUrl.AppCrowdFundingfindByPopular)
+                .addParam("pageSize", page + "")
+                .addParam("pageNum", "2")
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if(jsonObject.optString("status").equals("200")){
+                                Gson gson = new Gson();
+                                CrowdPopularBean popularBean = gson.fromJson(data, CrowdPopularBean.class);
+                                mList.addAll(popularBean.getData());
+                                adapter.notifyDataSetChanged();
+                                page = page + 1;
+                                tvMore.setVisibility(View.VISIBLE);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
+                    }
+                });
+
     }
 
     @Override
