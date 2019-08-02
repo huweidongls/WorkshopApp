@@ -26,7 +26,7 @@ public class MySetActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.rl_back, R.id.rl_special_statement, R.id.rl_privacy_policy})
+    @OnClick({R.id.rl_back, R.id.rl_special_statement, R.id.rl_privacy_policy, R.id.rl_feedback})
     public void onClick(View view){
         Intent intent = new Intent();
         switch (view.getId()){
@@ -39,6 +39,10 @@ public class MySetActivity extends BaseActivity {
                 break;
             case R.id.rl_privacy_policy:
                 intent.setClass(context, PrivacyPolicyActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.rl_feedback:
+                intent.setClass(context, FeedbackActivity.class);
                 startActivity(intent);
                 break;
         }

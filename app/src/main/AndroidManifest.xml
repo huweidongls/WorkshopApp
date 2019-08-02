@@ -116,7 +116,8 @@
         <activity android:name=".page.MySetActivity" />
         <activity android:name=".page.CommissionActivity" />
         <activity android:name=".page.SpecialStatementActivity" />
-        <activity android:name=".page.PrivacyPolicyActivity"></activity>
+        <activity android:name=".page.PrivacyPolicyActivity" />
+        <activity android:name=".page.FeedbackActivity"></activity>
     </application>
 
 </manifest>

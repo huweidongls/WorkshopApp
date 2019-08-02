@@ -52,4 +52,6 @@ public class NetUrl {
     public static final String ImportantStatementsqueryList = "ImportantStatements/queryList";
     //查询热门众筹
     public static final String AppCrowdFundingfindByPopular = "AppCrowdFunding/findByPopular";
+    //查询热门众筹
+    public static final String FunctionalFeedbacktoAdd = "FunctionalFeedback/toAdd";
 }
