@@ -46,8 +46,8 @@ public class CrowdDetailsActivity extends BaseActivity {
     TextView tv_title;
     @BindView(R.id.ftitle)
     TextView tv_ftitle;
-    @BindView(R.id.allpeople)
-    TextView tv_allpeople;
+    @BindView(R.id.tvAllPeople)
+    TextView tvAllPeople;
     @BindView(R.id.allmoney)
     TextView tv_allmoney;
     @BindView(R.id.percentage)
@@ -132,8 +132,8 @@ public class CrowdDetailsActivity extends BaseActivity {
                                 CrowdDetailsBean detailsBean = gson.fromJson(data, CrowdDetailsBean.class);
                                 tv_title.setText(detailsBean.getData().getTitle());//众筹标题
                                 tv_ftitle.setText(detailsBean.getData().getSubtitle());//副标题
-                                tv_allpeople.setText(detailsBean.getData().getAllPeople());//总人数
-                                tv_allmoney.setText(detailsBean.getData().getAllMoney());//总金额
+                                tvAllPeople.setText(detailsBean.getData().getAllPeople()+"");//总人数
+                                tv_allmoney.setText(detailsBean.getData().getAllMoney()+"");//总金额
                                 tv_percentage.setText(detailsBean.getData().getPercentage());//达成率
                                 Glide.with(context).load(NetUrl.BASE_URL+detailsBean.getData().getBackgroundPictureApp()).into(iv_backgroundPictureApp);//背景图片
                                 tv_endTime.setText("众筹中("+detailsBean.getData().getEndTime()+"天结束)");//还有多少天结束

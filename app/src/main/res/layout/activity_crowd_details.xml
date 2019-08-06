@@ -38,6 +38,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:adjustViewBounds="true"
                     android:id="@+id/backgroundPictureApp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -88,7 +89,7 @@
                         android:background="#FFFFFF" />
 
                     <TextView
-                        android:id="@+id/allpeople"
+                        android:id="@+id/tvAllPeople"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="33dp"
@@ -527,7 +528,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -550,8 +551,8 @@
                         android:textColor="@color/black_333333"
                         android:textSize="18sp"
                         android:textStyle="bold" />
-                </LinearLayout>
-                <LinearLayout
+                </LinearLayout>-->
+               <!-- <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -570,8 +571,8 @@
                         android:text="我也写一篇"
                         android:textColor="#999999"
                         android:textSize="14sp" />
-                </LinearLayout>
-                <RelativeLayout
+                </LinearLayout>-->
+              <!--  <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:descendantFocusability="blocksDescendants">
@@ -579,8 +580,8 @@
                         android:id="@+id/rv_xmbg"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
-                </RelativeLayout>
-            </LinearLayout>
+                </RelativeLayout></LinearLayout>-->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
