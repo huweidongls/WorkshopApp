@@ -41,7 +41,7 @@ public class ShareListAdapter extends RecyclerView.Adapter<ShareListAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.llXing.removeAllViews();
         int commentLevel = 4;
         int a = DensityTool.dp2px(context, 12);
@@ -71,6 +71,7 @@ public class ShareListAdapter extends RecyclerView.Adapter<ShareListAdapter.View
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(context, ShareDetailsActivity.class);
+                intent.putExtra("id", data.get(position).getId()+"");
                 context.startActivity(intent);
             }
         });

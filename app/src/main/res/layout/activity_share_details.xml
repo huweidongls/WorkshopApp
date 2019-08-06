@@ -17,21 +17,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:scaleType="centerCrop"
-                android:src="@mipmap/chang"
+            <com.youth.banner.Banner
+                android:id="@+id/banner"
                 android:layout_width="match_parent"
                 android:layout_height="250dp" />
 
             <TextView
+                android:id="@+id/tv_title"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="15dp"
                 android:textColor="@color/black_333333"
                 android:textSize="29sp"
-                android:text="车间车间车间车间车间车 间车间车间"
-                android:ellipsize="end"
-                android:lines="2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -71,6 +68,236 @@
                     android:layout_height="1dp"/>
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/ll_xinxi_show"
+                android:orientation="vertical"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_marginBottom="30dp"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_gravity="center_vertical"
+                        android:src="#0527AF"
+                        android:layout_width="3dp"
+                        android:layout_height="15dp" />
+
+                    <TextView
+                        android:layout_marginLeft="7dp"
+                        android:textSize="18sp"
+                        android:textColor="@color/black_333333"
+                        android:text="信息展示"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginLeft="24dp"
+                android:background="@color/line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <LinearLayout
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/ll_chejian_describe"
+                android:orientation="vertical"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_marginBottom="30dp"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_gravity="center_vertical"
+                        android:src="#0527AF"
+                        android:layout_width="3dp"
+                        android:layout_height="15dp" />
+
+                    <TextView
+                        android:layout_marginLeft="7dp"
+                        android:textSize="18sp"
+                        android:textColor="@color/black_333333"
+                        android:text="车间描述"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginLeft="24dp"
+                android:background="@color/line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <LinearLayout
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/ll_peitaofuwu"
+                android:orientation="vertical"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_marginBottom="30dp"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_gravity="center_vertical"
+                        android:src="#0527AF"
+                        android:layout_width="3dp"
+                        android:layout_height="15dp" />
+
+                    <TextView
+                        android:layout_marginLeft="7dp"
+                        android:textSize="18sp"
+                        android:textColor="@color/black_333333"
+                        android:text="配套服务"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginLeft="24dp"
+                android:background="@color/line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <LinearLayout
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/ll_peitaoshebei"
+                android:orientation="vertical"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_marginBottom="30dp"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_gravity="center_vertical"
+                        android:src="#0527AF"
+                        android:layout_width="3dp"
+                        android:layout_height="15dp" />
+
+                    <TextView
+                        android:layout_marginLeft="7dp"
+                        android:textSize="18sp"
+                        android:textColor="@color/black_333333"
+                        android:text="配套设备"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_marginTop="30dp"
+                    android:descendantFocusability="blocksDescendants"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_peitaoshebei"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginLeft="24dp"
+                android:background="@color/line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <LinearLayout
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/ll_comment"
+                android:orientation="vertical"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_marginBottom="30dp"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_gravity="center_vertical"
+                        android:src="#0527AF"
+                        android:layout_width="3dp"
+                        android:layout_height="15dp" />
+
+                    <TextView
+                        android:layout_marginLeft="7dp"
+                        android:textSize="18sp"
+                        android:textColor="@color/black_333333"
+                        android:text="配套设备"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:descendantFocusability="blocksDescendants"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginLeft="24dp"
+                android:background="@color/line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
 
         </LinearLayout>
 

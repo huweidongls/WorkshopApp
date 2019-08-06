@@ -1,6 +1,7 @@
 package com.jingna.workshopapp.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jingna.workshopapp.R;
+import com.jingna.workshopapp.util.Logger;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -19,9 +22,20 @@ public class ShareDetailsCalendarItemAdapter extends RecyclerView.Adapter<ShareD
 
     private Context context;
     private List<String> data;
+    private String month;
+    private boolean is366 = false;
 
-    public ShareDetailsCalendarItemAdapter(List<String> data) {
+    public ShareDetailsCalendarItemAdapter(String month, List<String> data) {
         this.data = data;
+        this.month = month;
+        Calendar ca = Calendar.getInstance();
+        int year = ca.get(Calendar.YEAR);
+        ca.set(year, Calendar.DECEMBER, 31);
+        if (ca.get(Calendar.DAY_OF_YEAR) == 366) {
+            is366 = true;
+        } else {
+            is366 = false;
+        }
     }
 
     @Override
@@ -34,11 +48,53 @@ public class ShareDetailsCalendarItemAdapter extends RecyclerView.Adapter<ShareD
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        boolean isSelect = false;
+        for (int i = 0; i<data.size(); i++){
+            if (data.get(i).equals(position+1+"")){
+                isSelect = true;
+            }
+        }
+        if(isSelect){
+            holder.tv.setTextColor(Color.parseColor("#33A190"));
+            holder.tv.setBackgroundResource(R.drawable.bg_33a190_11dp_bord);
+        }else {
+            holder.tv.setTextColor(Color.parseColor("#454545"));
+            holder.tv.setBackgroundColor(Color.parseColor("#00000000"));
+        }
         holder.tv.setText(position+1+"");
     }
 
     @Override
     public int getItemCount() {
+        if(month.equals("一月")){
+            return 31;
+        }else if(month.equals("二月")){
+            if(is366){
+                return 29;
+            }else {
+                return 28;
+            }
+        }else if(month.equals("三月")){
+            return 31;
+        }else if(month.equals("四月")){
+            return 30;
+        }else if(month.equals("五月")){
+            return 31;
+        }else if(month.equals("六月")){
+            return 30;
+        }else if(month.equals("七月")){
+            return 31;
+        }else if(month.equals("八月")){
+            return 31;
+        }else if(month.equals("九月")){
+            return 30;
+        }else if(month.equals("十月")){
+            return 31;
+        }else if(month.equals("十一月")){
+            return 30;
+        }else if(month.equals("十二月")){
+            return 31;
+        }
         return 31;
     }
 

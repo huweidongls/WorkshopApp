@@ -6,8 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.jingna.workshopapp.R;
+import com.jingna.workshopapp.bean.ShareDetailsBean;
 
 import java.util.List;
 
@@ -18,9 +20,9 @@ import java.util.List;
 public class ShareDetailsCalendarAdapter extends RecyclerView.Adapter<ShareDetailsCalendarAdapter.ViewHolder> {
 
     private Context context;
-    private List<String> data;
+    private List<ShareDetailsBean.DataBean.TimesBean> data;
 
-    public ShareDetailsCalendarAdapter(List<String> data) {
+    public ShareDetailsCalendarAdapter(List<ShareDetailsBean.DataBean.TimesBean> data) {
         this.data = data;
     }
 
@@ -34,10 +36,14 @@ public class ShareDetailsCalendarAdapter extends RecyclerView.Adapter<ShareDetai
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ShareDetailsCalendarItemAdapter itemAdapter = new ShareDetailsCalendarItemAdapter(data);
+
+        holder.tvMonth.setText(data.get(position).getMonth());
+        List<String> list = data.get(position).getTime();
+        ShareDetailsCalendarItemAdapter itemAdapter = new ShareDetailsCalendarItemAdapter(data.get(position).getMonth(), list);
         GridLayoutManager manager = new GridLayoutManager(context, 7);
         holder.rvCalendar.setLayoutManager(manager);
         holder.rvCalendar.setAdapter(itemAdapter);
+
     }
 
     @Override
@@ -48,10 +54,12 @@ public class ShareDetailsCalendarAdapter extends RecyclerView.Adapter<ShareDetai
     class ViewHolder extends RecyclerView.ViewHolder{
 
         private RecyclerView rvCalendar;
+        private TextView tvMonth;
 
         public ViewHolder(View itemView) {
             super(itemView);
             rvCalendar = itemView.findViewById(R.id.rv_calendar);
+            tvMonth = itemView.findViewById(R.id.tv_month);
         }
     }
 

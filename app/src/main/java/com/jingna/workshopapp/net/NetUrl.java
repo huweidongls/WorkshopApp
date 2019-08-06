@@ -54,4 +54,6 @@ public class NetUrl {
     public static final String AppCrowdFundingfindByPopular = "AppCrowdFunding/findByPopular";
     //查询热门众筹
     public static final String FunctionalFeedbacktoAdd = "FunctionalFeedback/toAdd";
+    //车间详情
+    public static final String AppShopCategorygetByCategoryId = "AppShopCategory/getByCategoryId";
 }

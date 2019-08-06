@@ -20,6 +20,7 @@ import com.jingna.workshopapp.bean.BannerBean;
 import com.jingna.workshopapp.bean.CategoryQueryChildListBean;
 import com.jingna.workshopapp.bean.CrowdPopularBean;
 import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.page.ShareDetailsActivity;
 import com.jingna.workshopapp.page.ShareListActivity;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
@@ -59,6 +60,9 @@ public class FragmentIndex extends BaseFragment {
 
     private int page = 1;
 
+    private String id1 = "";
+    private String id2 = "";
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -94,6 +98,8 @@ public class FragmentIndex extends BaseFragment {
                                 if(list.size()>1){
                                     Glide.with(getContext()).load(NetUrl.BASE_URL+list.get(0).getAppCategoryPic()).into(ivShow1);
                                     Glide.with(getContext()).load(NetUrl.BASE_URL+list.get(1).getAppCategoryPic()).into(ivShow2);
+                                    id1 = list.get(0).getId()+"";
+                                    id2 = list.get(1).getId()+"";
                                 }
                             }
                         } catch (JSONException e) {
@@ -179,7 +185,7 @@ public class FragmentIndex extends BaseFragment {
 
     }
 
-    @OnClick({R.id.iv1, R.id.iv2, R.id.iv3, R.id.iv4, R.id.iv5, R.id.iv6, R.id.tv_more})
+    @OnClick({R.id.iv1, R.id.iv2, R.id.iv3, R.id.iv4, R.id.iv5, R.id.iv6, R.id.tv_more, R.id.iv_show1, R.id.iv_show2})
     public void onClick(View view){
         Intent intent = new Intent();
         switch (view.getId()){
@@ -221,6 +227,16 @@ public class FragmentIndex extends BaseFragment {
                 break;
             case R.id.tv_more:
                 more();
+                break;
+            case R.id.iv_show1:
+                intent.setClass(getContext(), ShareDetailsActivity.class);
+                intent.putExtra("id", id1);
+                startActivity(intent);
+                break;
+            case R.id.iv_show2:
+                intent.setClass(getContext(), ShareDetailsActivity.class);
+                intent.putExtra("id", id2);
+                startActivity(intent);
                 break;
         }
     }
