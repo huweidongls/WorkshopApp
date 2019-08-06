@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,6 +19,7 @@ import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.adapter.ShareDetailsCalendarAdapter;
 import com.jingna.workshopapp.adapter.ShareDetailsCommentAdapter;
 import com.jingna.workshopapp.adapter.ShareDetailsPeitaoshebeiAdapter;
+import com.jingna.workshopapp.adapter.ShareDetailsZerenAdapter;
 import com.jingna.workshopapp.base.BaseActivity;
 import com.jingna.workshopapp.bean.ShareDetailsBean;
 import com.jingna.workshopapp.net.NetUrl;
@@ -76,6 +78,18 @@ public class ShareDetailsActivity extends BaseActivity {
     LinearLayout llComment;
     @BindView(R.id.rv_comment)
     RecyclerView rvComment;
+    @BindView(R.id.ll_shiyongxuzhi)
+    LinearLayout llShiyongxuzhi;
+    @BindView(R.id.ll_anquanxuzhi)
+    LinearLayout llAnquanxuzhi;
+    @BindView(R.id.ll_zeren)
+    LinearLayout llZeren;
+    @BindView(R.id.rv_zeren)
+    RecyclerView rvZeren;
+    @BindView(R.id.ll_ewai)
+    LinearLayout llEwai;
+    @BindView(R.id.tv_money)
+    TextView tvMoney;
 
     private ShareDetailsCalendarAdapter calendarAdapter;
     private List<ShareDetailsBean.DataBean.TimesBean> mCalendarList;
@@ -83,11 +97,14 @@ public class ShareDetailsActivity extends BaseActivity {
     private String id = "";
 
     private ImageView imageView;
+    private TextView textView;
 
     private ShareDetailsPeitaoshebeiAdapter peitaoshebeiAdapter;
     private List<ShareDetailsBean.DataBean.SupportingEquipmentsBean> peitaoshebeiList;
     private ShareDetailsCommentAdapter commentAdapter;
     private List<ShareDetailsBean.DataBean.ShopGoodsEvaluatesBean> commentList;
+    private ShareDetailsZerenAdapter zerenAdapter;
+    private List<ShareDetailsBean.DataBean.SysUserInfosBean> zerenList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,6 +219,64 @@ public class ShareDetailsActivity extends BaseActivity {
                                 }else {
                                     llComment.setVisibility(View.GONE);
                                 }
+                                //使用须知
+                                String shiyong = shareDetailsBean.getData().getInstructionsUseApp();
+                                String[] shiyongList = shiyong.split(",");
+                                if(shiyongList.length>0){
+                                    for (int i = 0; i<shiyongList.length; i++){
+                                        imageView = new ImageView(context);
+                                        Glide.with(context).load(NetUrl.BASE_URL+shiyongList[i]).into(imageView);
+                                        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                                        imageView.setAdjustViewBounds(true);
+                                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                        llShiyongxuzhi.addView(imageView, layoutParams);
+                                    }
+                                }else {
+                                    llShiyongxuzhi.setVisibility(View.GONE);
+                                }
+                                //安全须知
+                                String anquan = shareDetailsBean.getData().getSafetyInstructionsApp();
+                                String[] anquanList = anquan.split(",");
+                                if(anquanList.length>0){
+                                    for (int i = 0; i<anquanList.length; i++){
+                                        imageView = new ImageView(context);
+                                        Glide.with(context).load(NetUrl.BASE_URL+anquanList[i]).into(imageView);
+                                        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                                        imageView.setAdjustViewBounds(true);
+                                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                        llAnquanxuzhi.addView(imageView, layoutParams);
+                                    }
+                                }else {
+                                    llAnquanxuzhi.setVisibility(View.GONE);
+                                }
+                                //责任人
+                                zerenList = shareDetailsBean.getData().getSysUserInfos();
+                                if(zerenList.size()>0){
+                                    zerenAdapter = new ShareDetailsZerenAdapter(zerenList);
+                                    LinearLayoutManager zerenManager = new LinearLayoutManager(context);
+                                    zerenManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                                    rvZeren.setLayoutManager(zerenManager);
+                                    rvZeren.setAdapter(zerenAdapter);
+                                }else {
+                                    llZeren.setVisibility(View.GONE);
+                                }
+                                //额外费用
+                                List<ShareDetailsBean.DataBean.AdditionalCostsBean> ewaiList = shareDetailsBean.getData().getAdditionalCosts();
+                                if(ewaiList.size()>0){
+                                    for (int i = 0; i<ewaiList.size(); i++){
+                                        textView = new TextView(context);
+                                        textView.setText(ewaiList.get(i).getAdditionalCostName()+": "+ewaiList.get(i).getAdditionalCostMoney()+"元");
+                                        textView.setTextColor(Color.parseColor("#333333"));
+                                        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+                                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                        layoutParams.topMargin = 15;
+                                        llEwai.addView(textView);
+                                    }
+                                }else {
+                                    llEwai.setVisibility(View.GONE);
+                                }
+                                //价格
+                                tvMoney.setText("¥"+shareDetailsBean.getData().getMoney());
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

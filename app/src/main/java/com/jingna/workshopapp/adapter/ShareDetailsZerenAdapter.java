@@ -19,28 +19,27 @@ import java.util.List;
  * Created by Administrator on 2019/8/6.
  */
 
-public class ShareDetailsCommentAdapter extends RecyclerView.Adapter<ShareDetailsCommentAdapter.ViewHolder> {
+public class ShareDetailsZerenAdapter extends RecyclerView.Adapter<ShareDetailsZerenAdapter.ViewHolder> {
 
     private Context context;
-    private List<ShareDetailsBean.DataBean.ShopGoodsEvaluatesBean> data;
+    private List<ShareDetailsBean.DataBean.SysUserInfosBean> data;
 
-    public ShareDetailsCommentAdapter(List<ShareDetailsBean.DataBean.ShopGoodsEvaluatesBean> data) {
+    public ShareDetailsZerenAdapter(List<ShareDetailsBean.DataBean.SysUserInfosBean> data) {
         this.data = data;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         this.context = parent.getContext();
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_sharedetails_comment, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_sharedetails_zeren, parent, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Glide.with(context).load(NetUrl.BASE_URL+data.get(position).getHeadPhoto()).into(holder.ivAvatar);
-        holder.tvName.setText(data.get(position).getMemName());
-        holder.tvContent.setText(data.get(position).getGoodsEvaluate());
+        Glide.with(context).load(NetUrl.BASE_URL+data.get(position).getUserPicApp()).into(holder.ivAvatar);
+        holder.tvName.setText(data.get(position).getNick());
     }
 
     @Override
@@ -52,15 +51,11 @@ public class ShareDetailsCommentAdapter extends RecyclerView.Adapter<ShareDetail
 
         private ImageView ivAvatar;
         private TextView tvName;
-        private TextView tvTime;
-        private TextView tvContent;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ivAvatar = itemView.findViewById(R.id.iv_avatar);
             tvName = itemView.findViewById(R.id.tv_name);
-            tvTime = itemView.findViewById(R.id.tv_time);
-            tvContent = itemView.findViewById(R.id.tv_content);
         }
     }
 

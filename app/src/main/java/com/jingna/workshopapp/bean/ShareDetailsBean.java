@@ -10,7 +10,7 @@ public class ShareDetailsBean {
 
     /**
      * status : 200
-     * data : {"id":9,"categoryName":"车间1","pid":1,"categoryTextApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","appCategoryPic":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","bannerApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","money":5000,"workshopAddress":"属性名称1","workshopInformationApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","supportingServicesApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","nearbyFacilities":"滑滑梯，蹦蹦床，哼哼哼","positionalCoordinates":"17.369,896.123","instructionsUseApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","safetyInstructionsApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","expectedDay":31,"productAttributeList":[],"times":[{"month":"七月","time":["1","2","3","4","5","6","7"]},{"month":"八月","time":["1","2","3","4","5"]}],"sysUserInfos":[],"shopGoodsEvaluates":[{"id":3,"goodsEvaluate":"这个众筹商品意外的好","likesNum":1,"headPhoto":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","memName":"精纳科技头子"}],"additionalCosts":[],"supportingEquipments":[{"equipmentName":"测试?","equipmentIconApp":"upload/equipmentIcon/2019-08-05/d6760e835b41414a94405b410aac1971.jpg"},{"equipmentName":"测试","equipmentIconApp":"upload/equipmentIcon/2019-08-05/d88bb8c3960f47d9bc28809d311b2b7a.jpg"}]}
+     * data : {"id":9,"categoryName":"车间1","pid":1,"categoryTextApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","appCategoryPic":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","bannerApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","money":5000,"workshopAddress":"属性名称1","workshopInformationApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","supportingServicesApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","nearbyFacilities":"滑滑梯，蹦蹦床，哼哼哼","positionalCoordinates":"17.369,896.123","instructionsUseApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","safetyInstructionsApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","expectedDay":31,"productAttributeList":[],"times":[{"month":"七月","time":["1","2","3","4","5","6","7"]},{"month":"八月","time":["1","2","3","4","5"]}],"sysUserInfos":[{"uid":1,"nick":"管理员","userPicApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg"},{"uid":28,"nick":"rexyu1","userPicApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg"},{"uid":41,"nick":"车间老大","userPicApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg"}],"shopGoodsEvaluates":[{"id":3,"goodsEvaluate":"这个众筹商品意外的好","likesNum":1,"headPhoto":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","memName":"精纳科技头子"}],"additionalCosts":[{"id":1,"workshopId":9,"additionalCostName":"电费","additionalCostMoney":1000,"updateTime":"2019-08-06T08:15:04.000+0000","isDelete":0},{"id":2,"workshopId":9,"additionalCostName":"水费","additionalCostMoney":500,"updateTime":"2019-08-06T08:15:06.000+0000","isDelete":0}],"supportingEquipments":[{"equipmentName":"测试?","equipmentIconApp":"upload/equipmentIcon/2019-08-05/d6760e835b41414a94405b410aac1971.jpg"},{"equipmentName":"测试","equipmentIconApp":"upload/equipmentIcon/2019-08-05/d88bb8c3960f47d9bc28809d311b2b7a.jpg"}]}
      */
 
     private String status;
@@ -51,9 +51,9 @@ public class ShareDetailsBean {
          * expectedDay : 31
          * productAttributeList : []
          * times : [{"month":"七月","time":["1","2","3","4","5","6","7"]},{"month":"八月","time":["1","2","3","4","5"]}]
-         * sysUserInfos : []
+         * sysUserInfos : [{"uid":1,"nick":"管理员","userPicApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg"},{"uid":28,"nick":"rexyu1","userPicApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg"},{"uid":41,"nick":"车间老大","userPicApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg"}]
          * shopGoodsEvaluates : [{"id":3,"goodsEvaluate":"这个众筹商品意外的好","likesNum":1,"headPhoto":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","memName":"精纳科技头子"}]
-         * additionalCosts : []
+         * additionalCosts : [{"id":1,"workshopId":9,"additionalCostName":"电费","additionalCostMoney":1000,"updateTime":"2019-08-06T08:15:04.000+0000","isDelete":0},{"id":2,"workshopId":9,"additionalCostName":"水费","additionalCostMoney":500,"updateTime":"2019-08-06T08:15:06.000+0000","isDelete":0}]
          * supportingEquipments : [{"equipmentName":"测试?","equipmentIconApp":"upload/equipmentIcon/2019-08-05/d6760e835b41414a94405b410aac1971.jpg"},{"equipmentName":"测试","equipmentIconApp":"upload/equipmentIcon/2019-08-05/d88bb8c3960f47d9bc28809d311b2b7a.jpg"}]
          */
 
@@ -74,9 +74,9 @@ public class ShareDetailsBean {
         private int expectedDay;
         private List<?> productAttributeList;
         private List<TimesBean> times;
-        private List<?> sysUserInfos;
+        private List<SysUserInfosBean> sysUserInfos;
         private List<ShopGoodsEvaluatesBean> shopGoodsEvaluates;
-        private List<?> additionalCosts;
+        private List<AdditionalCostsBean> additionalCosts;
         private List<SupportingEquipmentsBean> supportingEquipments;
 
         public int getId() {
@@ -215,11 +215,11 @@ public class ShareDetailsBean {
             this.times = times;
         }
 
-        public List<?> getSysUserInfos() {
+        public List<SysUserInfosBean> getSysUserInfos() {
             return sysUserInfos;
         }
 
-        public void setSysUserInfos(List<?> sysUserInfos) {
+        public void setSysUserInfos(List<SysUserInfosBean> sysUserInfos) {
             this.sysUserInfos = sysUserInfos;
         }
 
@@ -231,11 +231,11 @@ public class ShareDetailsBean {
             this.shopGoodsEvaluates = shopGoodsEvaluates;
         }
 
-        public List<?> getAdditionalCosts() {
+        public List<AdditionalCostsBean> getAdditionalCosts() {
             return additionalCosts;
         }
 
-        public void setAdditionalCosts(List<?> additionalCosts) {
+        public void setAdditionalCosts(List<AdditionalCostsBean> additionalCosts) {
             this.additionalCosts = additionalCosts;
         }
 
@@ -270,6 +270,42 @@ public class ShareDetailsBean {
 
             public void setTime(List<String> time) {
                 this.time = time;
+            }
+        }
+
+        public static class SysUserInfosBean {
+            /**
+             * uid : 1
+             * nick : 管理员
+             * userPicApp : upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg
+             */
+
+            private int uid;
+            private String nick;
+            private String userPicApp;
+
+            public int getUid() {
+                return uid;
+            }
+
+            public void setUid(int uid) {
+                this.uid = uid;
+            }
+
+            public String getNick() {
+                return nick;
+            }
+
+            public void setNick(String nick) {
+                this.nick = nick;
+            }
+
+            public String getUserPicApp() {
+                return userPicApp;
+            }
+
+            public void setUserPicApp(String userPicApp) {
+                this.userPicApp = userPicApp;
             }
         }
 
@@ -326,6 +362,72 @@ public class ShareDetailsBean {
 
             public void setMemName(String memName) {
                 this.memName = memName;
+            }
+        }
+
+        public static class AdditionalCostsBean {
+            /**
+             * id : 1
+             * workshopId : 9
+             * additionalCostName : 电费
+             * additionalCostMoney : 1000
+             * updateTime : 2019-08-06T08:15:04.000+0000
+             * isDelete : 0
+             */
+
+            private int id;
+            private int workshopId;
+            private String additionalCostName;
+            private int additionalCostMoney;
+            private String updateTime;
+            private int isDelete;
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public int getWorkshopId() {
+                return workshopId;
+            }
+
+            public void setWorkshopId(int workshopId) {
+                this.workshopId = workshopId;
+            }
+
+            public String getAdditionalCostName() {
+                return additionalCostName;
+            }
+
+            public void setAdditionalCostName(String additionalCostName) {
+                this.additionalCostName = additionalCostName;
+            }
+
+            public int getAdditionalCostMoney() {
+                return additionalCostMoney;
+            }
+
+            public void setAdditionalCostMoney(int additionalCostMoney) {
+                this.additionalCostMoney = additionalCostMoney;
+            }
+
+            public String getUpdateTime() {
+                return updateTime;
+            }
+
+            public void setUpdateTime(String updateTime) {
+                this.updateTime = updateTime;
+            }
+
+            public int getIsDelete() {
+                return isDelete;
+            }
+
+            public void setIsDelete(int isDelete) {
+                this.isDelete = isDelete;
             }
         }
 
