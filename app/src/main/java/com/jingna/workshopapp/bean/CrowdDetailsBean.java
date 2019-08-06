@@ -10,7 +10,7 @@ public class CrowdDetailsBean {
 
     /**
      * status : 200
-     * data : {"id":1,"title":"众筹车间01","subtitle":"特别好的车间,地方贼大!","story":"测试小故事","presetAmount":10000,"endTime":"2019-07-28T09:59:41.000+0000","backgroundPictureApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","list":[{"id":1,"crowdFundingId":1,"goodsPictureApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","goodsTitle":"档位标题","goodsNum":0,"goodsMoney":1000},{"id":2,"crowdFundingId":1,"goodsPictureApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","goodsTitle":"档位标题","goodsNum":0,"goodsMoney":2000},{"id":3,"crowdFundingId":1,"goodsPictureApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","goodsTitle":"档位标题","goodsNum":0,"goodsMoney":3000}],"floorPrice":1000,"shopGoodsEvaluates":[{"id":1,"goodsEvaluate":"不好差评","headPhoto":"1","memName":"1"},{"id":2,"goodsEvaluate":"很好 好棒","headPhoto":"1","memName":"1"},{"id":3,"goodsEvaluate":"这个众筹商品意外的好","headPhoto":"1","memName":"1"}]}
+     * data : {"id":1,"title":"众筹车间01","subtitle":"特别好的车间,地方贼大!","story":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg,upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","storyApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg,upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","endTime":"19","backgroundPictureApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","allMoney":0,"allPeople":0,"list":[],"gearPictureApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","gearTitle":"档位标题","gearSubtitle":"档位标题","gearMoney":500,"percentage":"0%","shopGoodsEvaluates":[{"id":1,"goodsEvaluate":"不好差评","likesNum":3,"createTime":"2019-07-25T07:02:30.000+0000","headPhoto":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","memName":"精纳科技头子"},{"id":2,"goodsEvaluate":"很好 好棒","likesNum":1,"createTime":"2019-07-25T07:05:54.000+0000","headPhoto":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","memName":"精纳科技头子"}]}
      */
 
     private String status;
@@ -37,24 +37,36 @@ public class CrowdDetailsBean {
          * id : 1
          * title : 众筹车间01
          * subtitle : 特别好的车间,地方贼大!
-         * story : 测试小故事
-         * presetAmount : 10000
-         * endTime : 2019-07-28T09:59:41.000+0000
+         * story : upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg,upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg
+         * storyApp : upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg,upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg
+         * endTime : 19
          * backgroundPictureApp : upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg
-         * list : [{"id":1,"crowdFundingId":1,"goodsPictureApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","goodsTitle":"档位标题","goodsNum":0,"goodsMoney":1000},{"id":2,"crowdFundingId":1,"goodsPictureApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","goodsTitle":"档位标题","goodsNum":0,"goodsMoney":2000},{"id":3,"crowdFundingId":1,"goodsPictureApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","goodsTitle":"档位标题","goodsNum":0,"goodsMoney":3000}]
-         * floorPrice : 1000
-         * shopGoodsEvaluates : [{"id":1,"goodsEvaluate":"不好差评","headPhoto":"1","memName":"1"},{"id":2,"goodsEvaluate":"很好 好棒","headPhoto":"1","memName":"1"},{"id":3,"goodsEvaluate":"这个众筹商品意外的好","headPhoto":"1","memName":"1"}]
+         * allMoney : 0
+         * allPeople : 0
+         * list : []
+         * gearPictureApp : upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg
+         * gearTitle : 档位标题
+         * gearSubtitle : 档位标题
+         * gearMoney : 500
+         * percentage : 0%
+         * shopGoodsEvaluates : [{"id":1,"goodsEvaluate":"不好差评","likesNum":3,"createTime":"2019-07-25T07:02:30.000+0000","headPhoto":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","memName":"精纳科技头子"},{"id":2,"goodsEvaluate":"很好 好棒","likesNum":1,"createTime":"2019-07-25T07:05:54.000+0000","headPhoto":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","memName":"精纳科技头子"}]
          */
 
         private int id;
         private String title;
         private String subtitle;
         private String story;
-        private int presetAmount;
+        private String storyApp;
         private String endTime;
         private String backgroundPictureApp;
-        private int floorPrice;
-        private List<ListBean> list;
+        private int allMoney;
+        private int allPeople;
+        private String gearPictureApp;
+        private String gearTitle;
+        private String gearSubtitle;
+        private int gearMoney;
+        private String percentage;
+        private List<?> list;
         private List<ShopGoodsEvaluatesBean> shopGoodsEvaluates;
 
         public int getId() {
@@ -89,12 +101,12 @@ public class CrowdDetailsBean {
             this.story = story;
         }
 
-        public int getPresetAmount() {
-            return presetAmount;
+        public String getStoryApp() {
+            return storyApp;
         }
 
-        public void setPresetAmount(int presetAmount) {
-            this.presetAmount = presetAmount;
+        public void setStoryApp(String storyApp) {
+            this.storyApp = storyApp;
         }
 
         public String getEndTime() {
@@ -113,19 +125,67 @@ public class CrowdDetailsBean {
             this.backgroundPictureApp = backgroundPictureApp;
         }
 
-        public int getFloorPrice() {
-            return floorPrice;
+        public int getAllMoney() {
+            return allMoney;
         }
 
-        public void setFloorPrice(int floorPrice) {
-            this.floorPrice = floorPrice;
+        public void setAllMoney(int allMoney) {
+            this.allMoney = allMoney;
         }
 
-        public List<ListBean> getList() {
+        public int getAllPeople() {
+            return allPeople;
+        }
+
+        public void setAllPeople(int allPeople) {
+            this.allPeople = allPeople;
+        }
+
+        public String getGearPictureApp() {
+            return gearPictureApp;
+        }
+
+        public void setGearPictureApp(String gearPictureApp) {
+            this.gearPictureApp = gearPictureApp;
+        }
+
+        public String getGearTitle() {
+            return gearTitle;
+        }
+
+        public void setGearTitle(String gearTitle) {
+            this.gearTitle = gearTitle;
+        }
+
+        public String getGearSubtitle() {
+            return gearSubtitle;
+        }
+
+        public void setGearSubtitle(String gearSubtitle) {
+            this.gearSubtitle = gearSubtitle;
+        }
+
+        public int getGearMoney() {
+            return gearMoney;
+        }
+
+        public void setGearMoney(int gearMoney) {
+            this.gearMoney = gearMoney;
+        }
+
+        public String getPercentage() {
+            return percentage;
+        }
+
+        public void setPercentage(String percentage) {
+            this.percentage = percentage;
+        }
+
+        public List<?> getList() {
             return list;
         }
 
-        public void setList(List<ListBean> list) {
+        public void setList(List<?> list) {
             this.list = list;
         }
 
@@ -137,82 +197,20 @@ public class CrowdDetailsBean {
             this.shopGoodsEvaluates = shopGoodsEvaluates;
         }
 
-        public static class ListBean {
-            /**
-             * id : 1
-             * crowdFundingId : 1
-             * goodsPictureApp : upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg
-             * goodsTitle : 档位标题
-             * goodsNum : 0
-             * goodsMoney : 1000
-             */
-
-            private int id;
-            private int crowdFundingId;
-            private String goodsPictureApp;
-            private String goodsTitle;
-            private int goodsNum;
-            private int goodsMoney;
-
-            public int getId() {
-                return id;
-            }
-
-            public void setId(int id) {
-                this.id = id;
-            }
-
-            public int getCrowdFundingId() {
-                return crowdFundingId;
-            }
-
-            public void setCrowdFundingId(int crowdFundingId) {
-                this.crowdFundingId = crowdFundingId;
-            }
-
-            public String getGoodsPictureApp() {
-                return goodsPictureApp;
-            }
-
-            public void setGoodsPictureApp(String goodsPictureApp) {
-                this.goodsPictureApp = goodsPictureApp;
-            }
-
-            public String getGoodsTitle() {
-                return goodsTitle;
-            }
-
-            public void setGoodsTitle(String goodsTitle) {
-                this.goodsTitle = goodsTitle;
-            }
-
-            public int getGoodsNum() {
-                return goodsNum;
-            }
-
-            public void setGoodsNum(int goodsNum) {
-                this.goodsNum = goodsNum;
-            }
-
-            public int getGoodsMoney() {
-                return goodsMoney;
-            }
-
-            public void setGoodsMoney(int goodsMoney) {
-                this.goodsMoney = goodsMoney;
-            }
-        }
-
         public static class ShopGoodsEvaluatesBean {
             /**
              * id : 1
              * goodsEvaluate : 不好差评
-             * headPhoto : 1
-             * memName : 1
+             * likesNum : 3
+             * createTime : 2019-07-25T07:02:30.000+0000
+             * headPhoto : upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg
+             * memName : 精纳科技头子
              */
 
             private int id;
             private String goodsEvaluate;
+            private int likesNum;
+            private String createTime;
             private String headPhoto;
             private String memName;
 
@@ -230,6 +228,22 @@ public class CrowdDetailsBean {
 
             public void setGoodsEvaluate(String goodsEvaluate) {
                 this.goodsEvaluate = goodsEvaluate;
+            }
+
+            public int getLikesNum() {
+                return likesNum;
+            }
+
+            public void setLikesNum(int likesNum) {
+                this.likesNum = likesNum;
+            }
+
+            public String getCreateTime() {
+                return createTime;
+            }
+
+            public void setCreateTime(String createTime) {
+                this.createTime = createTime;
             }
 
             public String getHeadPhoto() {
