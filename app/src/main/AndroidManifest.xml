@@ -120,6 +120,7 @@
         <activity android:name=".page.FeedbackActivity" />
         <activity android:name=".page.OrderShebeiActivity" />
         <activity android:name=".page.PeitaoshebeiActivity"></activity>
+        <activity android:name=".page.CrowdDetailsSupportActivity"></activity>
     </application>
 
 </manifest>
