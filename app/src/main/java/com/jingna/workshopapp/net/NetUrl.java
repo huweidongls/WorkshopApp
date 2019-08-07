@@ -56,4 +56,6 @@ public class NetUrl {
     public static final String FunctionalFeedbacktoAdd = "FunctionalFeedback/toAdd";
     //车间详情
     public static final String AppShopCategorygetByCategoryId = "AppShopCategory/getByCategoryId";
+    //车间订单下单配置详情
+    public static final String AppOrderworkshopEquipment = "AppOrder/workshopEquipment";
 }
