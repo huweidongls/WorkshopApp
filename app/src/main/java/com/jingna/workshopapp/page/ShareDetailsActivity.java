@@ -1,6 +1,7 @@
 package com.jingna.workshopapp.page;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -352,11 +353,17 @@ public class ShareDetailsActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.rl_back})
+    @OnClick({R.id.rl_back, R.id.tv_submit})
     public void onClick(View view){
+        Intent intent = new Intent();
         switch (view.getId()){
             case R.id.rl_back:
                 finish();
+                break;
+            case R.id.tv_submit:
+                intent.setClass(context, OrderShebeiActivity.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
                 break;
         }
     }

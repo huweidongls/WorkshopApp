@@ -117,7 +117,9 @@
         <activity android:name=".page.CommissionActivity" />
         <activity android:name=".page.SpecialStatementActivity" />
         <activity android:name=".page.PrivacyPolicyActivity" />
-        <activity android:name=".page.FeedbackActivity"></activity>
+        <activity android:name=".page.FeedbackActivity" />
+        <activity android:name=".page.OrderShebeiActivity" />
+        <activity android:name=".page.PeitaoshebeiActivity"></activity>
     </application>
 
 </manifest>
