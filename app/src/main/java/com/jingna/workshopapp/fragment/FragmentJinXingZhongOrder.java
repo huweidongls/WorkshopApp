@@ -4,13 +4,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 
 import com.jingna.workshopapp.R;
-import com.jingna.workshopapp.adapter.FragmentAllOrderAdapter;
+import com.jingna.workshopapp.adapter.FragmentDaiFuKuanOrderAdapter;
+import com.jingna.workshopapp.adapter.FragmentJinXingZhongOrderAdapter;
 import com.jingna.workshopapp.base.OrderBaseFragment;
-import com.jingna.workshopapp.page.MyOrderActivity;
-import com.jingna.workshopapp.util.StatusBarUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.ArrayList;
@@ -20,57 +18,34 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Administrator on 2019/6/18.
+ * Created by Administrator on 2019/8/8.
  */
 
-public class FragmentAllOrder extends OrderBaseFragment {
-
+public class FragmentJinXingZhongOrder extends OrderBaseFragment {
     @BindView(R.id.rv)
     RecyclerView recyclerView;
     @BindView(R.id.refresh)
     SmartRefreshLayout smartRefreshLayout;
-
-    private FragmentAllOrderAdapter adapter;
+    private FragmentJinXingZhongOrderAdapter adapter;
     private List<String> mList;
-
-    private int page = 1;
-
-    private static final int SDK_PAY_FLAG = 1;
-    private int position;
-
     @Override
     public View initView() {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_all_order, null);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_daifukuan_order, null);
         ButterKnife.bind(this, view);
-//        initData();
-
         return view;
     }
 
     @Override
     public void initData() {
-
         mList = new ArrayList<>();
         mList.add("");
         mList.add("");
-        adapter = new FragmentAllOrderAdapter(mList, new FragmentAllOrderAdapter.ClickListener() {
-            @Override
-            public void onPay(int pos) {
-
-            }
-
-            @Override
-            public void onReturnPrice(int pos) {
-
-            }
-        });
+        adapter = new FragmentJinXingZhongOrderAdapter(mList);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
-
     }
-
     @Override
     public void hide() {
 

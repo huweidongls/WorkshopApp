@@ -14,6 +14,10 @@ import com.jingna.workshopapp.adapter.GoodsDetailsViewpagerAdapter;
 import com.jingna.workshopapp.base.BaseActivity;
 import com.jingna.workshopapp.customview.ScaleTransitionPagerTitleView;
 import com.jingna.workshopapp.fragment.FragmentAllOrder;
+import com.jingna.workshopapp.fragment.FragmentDaiFuKuanOrder;
+import com.jingna.workshopapp.fragment.FragmentDaiShouHuoOrder;
+import com.jingna.workshopapp.fragment.FragmentJinXingZhongOrder;
+import com.jingna.workshopapp.fragment.FragmentYiQuXiaoOrder;
 import com.jingna.workshopapp.util.StatusBarUtils;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -66,18 +70,18 @@ public class MyOrderActivity extends BaseActivity {
 
         fragmentList = new ArrayList<>();
         fragmentList.add(new FragmentAllOrder());
-        fragmentList.add(new FragmentAllOrder());
-        fragmentList.add(new FragmentAllOrder());
-        fragmentList.add(new FragmentAllOrder());
-        fragmentList.add(new FragmentAllOrder());
+        fragmentList.add(new FragmentDaiFuKuanOrder());
+        fragmentList.add(new FragmentJinXingZhongOrder());
+        fragmentList.add(new FragmentDaiShouHuoOrder());
+        fragmentList.add(new FragmentYiQuXiaoOrder());
         mViewPagerFragmentAdapter = new GoodsDetailsViewpagerAdapter(mFragmentManager, fragmentList);
         mViewPager.setAdapter(mViewPagerFragmentAdapter);
 
         mTitleDataList = new ArrayList<>();
         mTitleDataList.add("全部");
         mTitleDataList.add("待付款");
+        mTitleDataList.add("进行中");
         mTitleDataList.add("待收货");
-        mTitleDataList.add("已完成");
         mTitleDataList.add("已取消");
 
         CommonNavigator commonNavigator = new CommonNavigator(this);
@@ -94,8 +98,9 @@ public class MyOrderActivity extends BaseActivity {
                 //设置字体
                 simplePagerTitleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
 //                simplePagerTitleView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                simplePagerTitleView.setNormalColor(Color.parseColor("#232325"));
-                simplePagerTitleView.setSelectedColor(Color.parseColor("#232325"));
+                simplePagerTitleView.setNormalColor(Color.parseColor("#FFFFFF"));
+                simplePagerTitleView.setSelectedColor(Color.parseColor("#FFFFFF"));
+                simplePagerTitleView.setPadding(49,0,49,0);
                 simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -108,7 +113,7 @@ public class MyOrderActivity extends BaseActivity {
             @Override
             public IPagerIndicator getIndicator(Context context) {
                 LinePagerIndicator indicator = new LinePagerIndicator(context);
-                indicator.setColors(Color.parseColor("#EF250F"));
+                indicator.setColors(Color.parseColor("#FFFFFF"));
                 return indicator;
             }
         });

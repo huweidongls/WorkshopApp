@@ -43,7 +43,7 @@
                 android:layout_marginRight="15dp"
                 android:textColor="#FFFFFF"
                 android:textSize="13sp"
-                android:text="等待付款"
+                android:text="进行中"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -77,31 +77,31 @@
                 android:textColor="#B2B2B2"
                 android:textSize="13sp" />
             <LinearLayout
-            android:orientation="horizontal"
+                android:orientation="horizontal"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="20dp"
                 android:layout_marginLeft="100dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/tv_goods_num"
-                android:layout_gravity="center_vertical"
-                android:textColor="#B2B2B2"
-                android:textSize="13sp"
-                android:text="共1件商品 应付款："
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/tv_price"
-                android:layout_gravity="center_vertical"
-                android:textStyle="bold"
-                android:textColor="#FF4D16"
-                android:textSize="16sp"
-                android:text="¥228.00"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_goods_num"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="#B2B2B2"
+                    android:textSize="13sp"
+                    android:text="共1件商品 应付款："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_price"
+                    android:layout_gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:textColor="#FF4D16"
+                    android:textSize="16sp"
+                    android:text="¥228.00"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-        </LinearLayout>
+            </LinearLayout>
         </RelativeLayout>
         <LinearLayout
             android:gravity="right"
@@ -120,11 +120,11 @@
                 android:layout_width="80dp"
                 android:layout_height="30dp" />
         </LinearLayout>
-      <!--  <TextView
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:background="#C4CDE1"
-            />-->
+        <!--  <TextView
+              android:layout_width="match_parent"
+              android:layout_height="10dp"
+              android:background="#C4CDE1"
+              />-->
     </LinearLayout>
 
 </LinearLayout>
