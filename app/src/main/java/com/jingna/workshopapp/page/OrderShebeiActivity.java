@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jingna.workshopapp.R;
@@ -16,6 +17,7 @@ import com.jingna.workshopapp.base.BaseActivity;
 import com.jingna.workshopapp.bean.PeitaoshebeiBean;
 import com.jingna.workshopapp.util.StatusBarUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -34,6 +36,10 @@ public class OrderShebeiActivity extends BaseActivity {
     TextView tvStart;
     @BindView(R.id.tv_end)
     TextView tvEnd;
+    @BindView(R.id.tv_zanwu)
+    TextView tvZanwu;
+    @BindView(R.id.ll_zanwu)
+    LinearLayout llZanwu;
 
     private OrderShebeiAdapter adapter;
     private List<PeitaoshebeiBean.DataBean> mList;
@@ -43,6 +49,9 @@ public class OrderShebeiActivity extends BaseActivity {
     private int mYear;
     private int mMonth;
     private int mDay;
+
+    private List<PeitaoshebeiBean.DataBean> beanList;
+    private String type = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +71,7 @@ public class OrderShebeiActivity extends BaseActivity {
 
     private void initData() {
 
+        beanList = new ArrayList<>();
         mList = new ArrayList<>();
         adapter = new OrderShebeiAdapter(mList);
         LinearLayoutManager manager = new LinearLayoutManager(context){
@@ -76,7 +86,7 @@ public class OrderShebeiActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.rl_back, R.id.btn_insert, R.id.tv_reset, R.id.tv_start, R.id.tv_end})
+    @OnClick({R.id.rl_back, R.id.btn_insert, R.id.tv_reset, R.id.tv_start, R.id.tv_end, R.id.tv_commit})
     public void onClick(View view){
         Intent intent = new Intent();
         switch (view.getId()){
@@ -86,17 +96,26 @@ public class OrderShebeiActivity extends BaseActivity {
             case R.id.btn_insert:
                 intent.setClass(context, PeitaoshebeiActivity.class);
                 intent.putExtra("id", id);
+                intent.putExtra("type", type);
+                intent.putExtra("beanList", (Serializable) beanList);
                 startActivityForResult(intent, 100);
                 break;
             case R.id.tv_reset:
                 mList.clear();
                 adapter.notifyDataSetChanged();
+                type = "0";
+                tvZanwu.setVisibility(View.VISIBLE);
+                llZanwu.setVisibility(View.GONE);
                 break;
             case R.id.tv_start:
                 new DatePickerDialog(context, onDateSetListener, mYear, mMonth, mDay).show();
                 break;
             case R.id.tv_end:
                 new DatePickerDialog(context, onDateSetListener1, mYear, mMonth, mDay).show();
+                break;
+            case R.id.tv_commit:
+                intent.setClass(context, CommitOrderActivity.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -106,6 +125,9 @@ public class OrderShebeiActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 100&&resultCode == 100&&data != null){
             List<PeitaoshebeiBean.DataBean> list = (List<PeitaoshebeiBean.DataBean>) data.getSerializableExtra("bean");
+            beanList.clear();
+            beanList.addAll(list);
+            type = "1";
             mList.clear();
             for (PeitaoshebeiBean.DataBean bean : list){
                 if(bean.getIsSelect() == 1){
@@ -113,6 +135,8 @@ public class OrderShebeiActivity extends BaseActivity {
                 }
             }
             adapter.notifyDataSetChanged();
+            tvZanwu.setVisibility(View.GONE);
+            llZanwu.setVisibility(View.VISIBLE);
         }
     }
 

@@ -37,11 +37,18 @@ public class PeitaoshebeiActivity extends BaseActivity {
     private PeitaoshebeiAdapter adapter;
     private List<PeitaoshebeiBean.DataBean> mList;
 
+    private String id = "";
+    private String type = "";
+    private List<PeitaoshebeiBean.DataBean> beanList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_peitaoshebei);
 
+        id = getIntent().getStringExtra("id");
+        type = getIntent().getStringExtra("type");
+        beanList = (List<PeitaoshebeiBean.DataBean>) getIntent().getSerializableExtra("beanList");
         StatusBarUtils.setStatusBar(PeitaoshebeiActivity.this, getResources().getColor(R.color.white_ffffff));
         ButterKnife.bind(PeitaoshebeiActivity.this);
         initData();
@@ -50,38 +57,52 @@ public class PeitaoshebeiActivity extends BaseActivity {
 
     private void initData() {
 
-        ViseHttp.GET(NetUrl.AppOrderworkshopEquipment)
-                .addParam("workshopId", "9")
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                PeitaoshebeiBean bean = gson.fromJson(data, PeitaoshebeiBean.class);
-                                mList = bean.getData();
-                                adapter = new PeitaoshebeiAdapter(mList);
-                                LinearLayoutManager manager = new LinearLayoutManager(context){
-                                    @Override
-                                    public boolean canScrollVertically() {
-                                        return false;
-                                    }
-                                };
-                                manager.setOrientation(LinearLayoutManager.VERTICAL);
-                                recyclerView.setLayoutManager(manager);
-                                recyclerView.setAdapter(adapter);
+        if(type.equals("0")){
+            ViseHttp.GET(NetUrl.AppOrderworkshopEquipment)
+                    .addParam("workshopId", "9")
+                    .request(new ACallback<String>() {
+                        @Override
+                        public void onSuccess(String data) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(data);
+                                if(jsonObject.optString("status").equals("200")){
+                                    Gson gson = new Gson();
+                                    PeitaoshebeiBean bean = gson.fromJson(data, PeitaoshebeiBean.class);
+                                    mList = bean.getData();
+                                    adapter = new PeitaoshebeiAdapter(mList);
+                                    LinearLayoutManager manager = new LinearLayoutManager(context){
+                                        @Override
+                                        public boolean canScrollVertically() {
+                                            return false;
+                                        }
+                                    };
+                                    manager.setOrientation(LinearLayoutManager.VERTICAL);
+                                    recyclerView.setLayoutManager(manager);
+                                    recyclerView.setAdapter(adapter);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-                    }
 
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
+                        @Override
+                        public void onFail(int errCode, String errMsg) {
 
-                    }
-                });
+                        }
+                    });
+        }else {
+            mList = beanList;
+            adapter = new PeitaoshebeiAdapter(mList);
+            LinearLayoutManager manager = new LinearLayoutManager(context){
+                @Override
+                public boolean canScrollVertically() {
+                    return false;
+                }
+            };
+            manager.setOrientation(LinearLayoutManager.VERTICAL);
+            recyclerView.setLayoutManager(manager);
+            recyclerView.setAdapter(adapter);
+        }
 
     }
 
