@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jingna.workshopapp.R;
+import com.jingna.workshopapp.page.CrowdDetailsActivity;
+import com.jingna.workshopapp.page.OrderDetailsActivity;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
@@ -50,6 +52,15 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context,OrderDetailsActivity.class);
+                intent.putExtra("id", "1");
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
