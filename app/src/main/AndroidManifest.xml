@@ -122,7 +122,8 @@
         <activity android:name=".page.PeitaoshebeiActivity" />
         <activity android:name=".page.CrowdDetailsSupportActivity" />
         <activity android:name=".page.CommitOrderActivity" />
-        <activity android:name=".page.SubmissionEvaluateActivity"></activity>
+        <activity android:name=".page.SubmissionEvaluateActivity" />
+        <activity android:name=".page.OrderDetailsActivity"></activity>
     </application>
 
 </manifest>
