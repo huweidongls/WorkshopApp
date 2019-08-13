@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/rl1"
+            android:layout_width="match_parent"
+            android:layout_height="89dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/bg">
+            <ImageView
+                android:id="@+id/iv_title"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/gongxiangbangongshi" />
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="17dp"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/iv_title"
+                android:layout_toRightOf="@+id/iv_title"
+                android:ellipsize="end"
+                android:lines="2"
+                android:text="NB联网自发电智能门锁NB联网自发电智…"
+                android:textColor="#B2B2B2"
+                android:textSize="13sp" />
+            <TextView
+                android:id="@+id/tv_title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="17dp"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="30dp"
+                android:layout_toEndOf="@+id/iv_title"
+                android:layout_toRightOf="@+id/iv_title"
+                android:text="评分"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp" />
+            <LinearLayout
+                android:layout_alignTop="@+id/tv_title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/tv_title2"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@mipmap/xing" />
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@mipmap/xing" />
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@mipmap/xing" />
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@mipmap/xing" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_title3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="17dp"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="50dp"
+                android:layout_toEndOf="@+id/iv_title"
+                android:layout_toRightOf="@+id/iv_title"
+                android:text="不错不错，味道好极了.包装也很用心…"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="感谢您的用心评价！"
+                android:textColor="#B2B2B2"
+                android:textSize="12sp"
+                />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#33c4cde1"
+            android:layout_marginTop="20dp"
+            >
+        </View>
+    </LinearLayout>
+</LinearLayout>

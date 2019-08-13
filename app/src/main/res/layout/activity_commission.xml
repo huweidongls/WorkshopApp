@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#EDEDED"
+    android:background="@color/bg"
     tools:context="com.jingna.workshopapp.page.CommissionActivity">
     <RelativeLayout
         android:id="@+id/rl_top"
@@ -20,7 +20,7 @@
         <TextView
             style="@style/tv_top_title"
             android:text="提佣金"
-            android:textColor="#232325"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"
             />
     </RelativeLayout>

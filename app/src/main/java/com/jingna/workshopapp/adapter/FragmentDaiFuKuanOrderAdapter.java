@@ -1,12 +1,15 @@
 package com.jingna.workshopapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.jingna.workshopapp.R;
+import com.jingna.workshopapp.page.AfterServiceActivity;
+import com.jingna.workshopapp.page.OrderDetailsActivity;
 
 import java.util.List;
 
@@ -31,7 +34,15 @@ public class FragmentDaiFuKuanOrderAdapter extends RecyclerView.Adapter<Fragment
 
     @Override
     public void onBindViewHolder(FragmentDaiFuKuanOrderAdapter.ViewHolder holder, int position) {
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context,AfterServiceActivity.class);
+                intent.putExtra("id", "1");
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
