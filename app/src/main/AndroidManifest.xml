@@ -123,7 +123,8 @@
         <activity android:name=".page.CrowdDetailsSupportActivity" />
         <activity android:name=".page.CommitOrderActivity" />
         <activity android:name=".page.SubmissionEvaluateActivity" />
-        <activity android:name=".page.OrderDetailsActivity"></activity>
+        <activity android:name=".page.OrderDetailsActivity" />
+        <activity android:name=".page.AfterServiceActivity"></activity>
     </application>
 
 </manifest>
