@@ -223,6 +223,8 @@
             </LinearLayout>
 
             <LinearLayout
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
@@ -410,7 +412,7 @@
                         android:textColor="#999999"
                         android:textSize="12sp" />
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/iv_pay_wx"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
@@ -419,7 +421,7 @@
                         android:layout_marginLeft="12dp"
                         android:layout_marginRight="12dp"
                         android:layout_marginTop="17dp"
-                        android:src="@drawable/img_radios" />
+                        android:src="@mipmap/duihao" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -453,7 +455,7 @@
                         android:textColor="#999999"
                         android:textSize="12sp" />
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/iv_pay_zfb"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
@@ -462,7 +464,7 @@
                         android:layout_marginLeft="12dp"
                         android:layout_marginRight="12dp"
                         android:layout_marginTop="17dp"
-                        android:background="@drawable/img_radios" />
+                        android:src="#ffabd9ff"/>
                 </RelativeLayout>
             </LinearLayout>
 

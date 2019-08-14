@@ -33,7 +33,7 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
     TextView tvPhonenum;
     @BindView(R.id.tv_address)
     TextView tvAddress;
-    private int pay=0;
+    private int pay=1;
     private int paycheck=0;
     private int addressid=0;
     @Override
@@ -53,12 +53,12 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
             case R.id.iv_zfb:
                 pay=2;
                 Glide.with(context).load(R.mipmap.duihao).into(iv_pay_zfb);
-                Glide.with(context).load(R.drawable.img_radios).into(iv_pay_wx);
+                Glide.with(context).load("#ffabd9ff").into(iv_pay_wx);
                 break;
             case R.id.iv_wx:
                 pay=1;
                 Glide.with(context).load(R.mipmap.duihao).into(iv_pay_wx);
-                Glide.with(context).load(R.drawable.img_radios).into(iv_pay_zfb);
+                Glide.with(context).load("#ffabd9ff").into(iv_pay_zfb);
                 break;
             case R.id.iv_check:
                 if (paycheck==0){
