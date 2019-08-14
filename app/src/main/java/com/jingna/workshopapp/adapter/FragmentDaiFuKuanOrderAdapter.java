@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.page.AfterServiceActivity;
+import com.jingna.workshopapp.page.CrowdDetailsSupportActivity;
 import com.jingna.workshopapp.page.OrderDetailsActivity;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class FragmentDaiFuKuanOrderAdapter extends RecyclerView.Adapter<Fragment
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(context,AfterServiceActivity.class);
+                intent.setClass(context,CrowdDetailsSupportActivity.class);
                 intent.putExtra("id", "1");
                 context.startActivity(intent);
             }
