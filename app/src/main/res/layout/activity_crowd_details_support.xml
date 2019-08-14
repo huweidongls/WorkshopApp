@@ -257,6 +257,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_invoice"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginLeft="16dp"
@@ -275,13 +276,22 @@
                     android:textColor="#333333"
                     android:textSize="15sp" />
 
+                <TextView
+                    android:id="@+id/tv_invoice"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="9dp"
+                    android:textColor="@color/black_333333"
+                    android:textSize="14sp"
+                    android:text="不开发票"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
                 <ImageView
-                    android:id="@+id/iv_fp"
-                    android:layout_width="46dp"
-                    android:layout_height="22dp"
+                    android:layout_width="7dp"
+                    android:layout_height="14dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="12dp"
-                    android:src="@mipmap/order_kaiguan" />
+                    android:src="@mipmap/right_b" />
             </LinearLayout>
 
             <LinearLayout
@@ -412,7 +422,7 @@
                         android:textColor="#999999"
                         android:textSize="12sp" />
 
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <ImageView
                         android:id="@+id/iv_pay_wx"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
@@ -455,7 +465,7 @@
                         android:textColor="#999999"
                         android:textSize="12sp" />
 
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <ImageView
                         android:id="@+id/iv_pay_zfb"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
@@ -464,7 +474,7 @@
                         android:layout_marginLeft="12dp"
                         android:layout_marginRight="12dp"
                         android:layout_marginTop="17dp"
-                        android:src="#ffabd9ff"/>
+                        android:background="@drawable/img_radios" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -481,7 +491,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="17dp"
                     android:layout_marginTop="12dp"
-                    android:src="@drawable/img_radios" />
+                    android:background="@drawable/img_radios" />
 
                 <TextView
                     android:layout_width="wrap_content"
