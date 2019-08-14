@@ -124,7 +124,8 @@
         <activity android:name=".page.CommitOrderActivity" />
         <activity android:name=".page.SubmissionEvaluateActivity" />
         <activity android:name=".page.OrderDetailsActivity" />
-        <activity android:name=".page.AfterServiceActivity"></activity>
+        <activity android:name=".page.AfterServiceActivity" />
+        <activity android:name=".page.InvoiceActivity"></activity>
     </application>
 
 </manifest>

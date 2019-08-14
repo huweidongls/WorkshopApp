@@ -253,6 +253,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_invoice"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginLeft="16dp"
@@ -267,16 +268,27 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="16dp"
                     android:layout_weight="1"
-                    android:text="是否需要开发票"
+                    android:text="发票"
                     android:textColor="#333333"
                     android:textSize="15sp" />
 
+                <TextView
+                    android:id="@+id/tv_invoice"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="9dp"
+                    android:textColor="@color/black_333333"
+                    android:textSize="14sp"
+                    android:text="不开发票"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
                 <ImageView
-                    android:layout_width="46dp"
-                    android:layout_height="22dp"
+                    android:layout_width="7dp"
+                    android:layout_height="14dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="12dp"
-                    android:src="@mipmap/order_kaiguan" />
+                    android:src="@mipmap/right_b" />
             </LinearLayout>
 
             <LinearLayout
@@ -378,6 +390,7 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
+                    android:id="@+id/rl_wx"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -407,7 +420,8 @@
                         android:textColor="#999999"
                         android:textSize="12sp" />
 
-                    <TextView
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/iv_wx"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:layout_alignParentRight="true"
@@ -415,10 +429,11 @@
                         android:layout_marginLeft="12dp"
                         android:layout_marginRight="12dp"
                         android:layout_marginTop="17dp"
-                        android:background="@drawable/img_radios" />
+                        android:src="@mipmap/duihao" />
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/rl_zfb"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -448,7 +463,8 @@
                         android:textColor="#999999"
                         android:textSize="12sp" />
 
-                    <TextView
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/iv_zfb"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:layout_alignParentRight="true"
