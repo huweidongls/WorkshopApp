@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jingna.workshopapp.R;
@@ -34,10 +35,33 @@ public class OrderShebeiAdapter extends RecyclerView.Adapter<OrderShebeiAdapter.
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         holder.tvName.setText(data.get(position).getName());
         holder.tv.setText(data.get(position).getDayMoney()+"元/"+data.get(position).getCompany());
+        holder.tvNum.setText(data.get(position).getNum()+"");
+
+        holder.rlJian.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int num = data.get(position).getNum();
+                if(num > 1){
+                    num = num - 1;
+                    data.get(position).setNum(num);
+                    holder.tvNum.setText(num+"");
+                }
+            }
+        });
+
+        holder.rlJia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int num = data.get(position).getNum();
+                num = num + 1;
+                data.get(position).setNum(num);
+                holder.tvNum.setText(num+"");
+            }
+        });
 
     }
 
@@ -50,11 +74,17 @@ public class OrderShebeiAdapter extends RecyclerView.Adapter<OrderShebeiAdapter.
 
         private TextView tvName;
         private TextView tv;
+        private RelativeLayout rlJian;
+        private RelativeLayout rlJia;
+        private TextView tvNum;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tv_name);
             tv = itemView.findViewById(R.id.tv);
+            rlJian = itemView.findViewById(R.id.rl_jian);
+            rlJia = itemView.findViewById(R.id.rl_jia);
+            tvNum = itemView.findViewById(R.id.tv_num);
         }
     }
 

@@ -46,6 +46,15 @@ public class PeitaoshebeiBean implements Serializable {
         private int dayMoney;
         private String company;
         private int isSelect = 0;
+        private int num = 1;
+
+        public int getNum() {
+            return num;
+        }
+
+        public void setNum(int num) {
+            this.num = num;
+        }
 
         public int getIsSelect() {
             return isSelect;

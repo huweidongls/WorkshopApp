@@ -11,11 +11,21 @@ import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.adapter.OrderShebeiAdapter;
 import com.jingna.workshopapp.base.BaseActivity;
+import com.jingna.workshopapp.bean.OrderShebeiBean;
 import com.jingna.workshopapp.bean.PeitaoshebeiBean;
+import com.jingna.workshopapp.util.Logger;
+import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.ToastUtil;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -114,8 +124,37 @@ public class OrderShebeiActivity extends BaseActivity {
                 new DatePickerDialog(context, onDateSetListener1, mYear, mMonth, mDay).show();
                 break;
             case R.id.tv_commit:
-                intent.setClass(context, CommitOrderActivity.class);
-                startActivity(intent);
+                final Gson gson = new Gson();
+                String json = gson.toJson(mList);
+                ViseHttp.POST("AppOrder/orderConfiguration")
+                        .addParam("userId", SpUtils.getUserId(context))
+                        .addParam("workshopId", "9")
+                        .addParam("startTime", tvStart.getText().toString())
+                        .addParam("endTime", tvEnd.getText().toString())
+                        .addParam("appGoodsOrders", json)
+                        .request(new ACallback<String>() {
+                            @Override
+                            public void onSuccess(String data) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(data);
+                                    if(jsonObject.optString("status").equals("200")){
+                                        String s = jsonObject.optString("data");
+                                        OrderShebeiBean bean = gson.fromJson(s, OrderShebeiBean.class);
+                                        Intent intent1 = new Intent();
+                                        intent1.setClass(context, CommitOrderActivity.class);
+                                        intent1.putExtra("bean", s);
+                                        startActivity(intent1);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFail(int errCode, String errMsg) {
+
+                            }
+                        });
                 break;
         }
     }
