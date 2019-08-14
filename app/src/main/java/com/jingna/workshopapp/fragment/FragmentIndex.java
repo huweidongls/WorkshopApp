@@ -20,6 +20,7 @@ import com.jingna.workshopapp.bean.BannerBean;
 import com.jingna.workshopapp.bean.CategoryQueryChildListBean;
 import com.jingna.workshopapp.bean.CrowdPopularBean;
 import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.page.SearchActivity;
 import com.jingna.workshopapp.page.ShareDetailsActivity;
 import com.jingna.workshopapp.page.ShareListActivity;
 import com.jingna.workshopapp.util.StatusBarUtils;
@@ -185,7 +186,8 @@ public class FragmentIndex extends BaseFragment {
 
     }
 
-    @OnClick({R.id.iv1, R.id.iv2, R.id.iv3, R.id.iv4, R.id.iv5, R.id.iv6, R.id.tv_more, R.id.iv_show1, R.id.iv_show2})
+    @OnClick({R.id.iv1, R.id.iv2, R.id.iv3, R.id.iv4, R.id.iv5, R.id.iv6, R.id.tv_more, R.id.iv_show1, R.id.iv_show2,
+    R.id.ll_search})
     public void onClick(View view){
         Intent intent = new Intent();
         switch (view.getId()){
@@ -236,6 +238,10 @@ public class FragmentIndex extends BaseFragment {
             case R.id.iv_show2:
                 intent.setClass(getContext(), ShareDetailsActivity.class);
                 intent.putExtra("id", id2);
+                startActivity(intent);
+                break;
+            case R.id.ll_search:
+                intent.setClass(getContext(), SearchActivity.class);
                 startActivity(intent);
                 break;
         }

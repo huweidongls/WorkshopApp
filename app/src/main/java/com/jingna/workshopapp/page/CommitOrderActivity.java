@@ -121,13 +121,13 @@ public class CommitOrderActivity extends BaseActivity {
                 break;
             case R.id.rl_wx:
                 payType = "0";
-                Glide.with(context).load(R.mipmap.duihao).into(ivWx);
-                Glide.with(context).load(R.drawable.img_radios).into(ivZfb);
+                Glide.with(context).load(R.mipmap.dh).into(ivWx);
+                Glide.with(context).load(R.mipmap.dh_null).into(ivZfb);
                 break;
             case R.id.rl_zfb:
                 payType = "1";
-                Glide.with(context).load(R.drawable.img_radios).into(ivWx);
-                Glide.with(context).load(R.mipmap.duihao).into(ivZfb);
+                Glide.with(context).load(R.mipmap.dh_null).into(ivWx);
+                Glide.with(context).load(R.mipmap.dh).into(ivZfb);
                 break;
         }
     }

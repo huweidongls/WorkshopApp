@@ -420,7 +420,7 @@
                         android:textColor="#999999"
                         android:textSize="12sp" />
 
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <ImageView
                         android:id="@+id/iv_wx"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
@@ -429,7 +429,7 @@
                         android:layout_marginLeft="12dp"
                         android:layout_marginRight="12dp"
                         android:layout_marginTop="17dp"
-                        android:src="@mipmap/duihao" />
+                        android:src="@mipmap/dh" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -463,7 +463,7 @@
                         android:textColor="#999999"
                         android:textSize="12sp" />
 
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <ImageView
                         android:id="@+id/iv_zfb"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
@@ -472,7 +472,7 @@
                         android:layout_marginLeft="12dp"
                         android:layout_marginRight="12dp"
                         android:layout_marginTop="17dp"
-                        android:background="@drawable/img_radios" />
+                        android:background="@mipmap/dh_null" />
                 </RelativeLayout>
             </LinearLayout>
 
