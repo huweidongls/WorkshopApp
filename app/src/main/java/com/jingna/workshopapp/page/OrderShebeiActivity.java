@@ -128,7 +128,7 @@ public class OrderShebeiActivity extends BaseActivity {
                 String json = gson.toJson(mList);
                 ViseHttp.POST("AppOrder/orderConfiguration")
                         .addParam("userId", SpUtils.getUserId(context))
-                        .addParam("workshopId", "9")
+                        .addParam("workshopId", id)
                         .addParam("startTime", tvStart.getText().toString())
                         .addParam("endTime", tvEnd.getText().toString())
                         .addParam("appGoodsOrders", json)

@@ -1,6 +1,7 @@
 package com.jingna.workshopapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.bean.EntrustListBean;
 import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.page.ShareDetailsActivity;
 import com.jingna.workshopapp.util.DensityTool;
 
 import java.util.List;
@@ -39,7 +41,7 @@ public class EntrustListAdapter extends RecyclerView.Adapter<EntrustListAdapter.
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
 
         holder.llXing.removeAllViews();
         int commentLevel = 4;
@@ -65,6 +67,16 @@ public class EntrustListAdapter extends RecyclerView.Adapter<EntrustListAdapter.
         Glide.with(context).load(NetUrl.BASE_URL+data.get(position).getAppCategoryPic()).into(holder.iv);
         holder.tvTitle.setText(data.get(position).getCategoryName());
         holder.tvPrice.setText("¥ "+data.get(position).getProcessingMoney());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra("id", data.get(position).getId()+"");
+                intent.setClass(context, ShareDetailsActivity.class);
+                context.startActivity(intent);
+            }
+        });
 
     }
 

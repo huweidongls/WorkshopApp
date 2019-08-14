@@ -59,7 +59,7 @@ public class PeitaoshebeiActivity extends BaseActivity {
 
         if(type.equals("0")){
             ViseHttp.GET(NetUrl.AppOrderworkshopEquipment)
-                    .addParam("workshopId", "9")
+                    .addParam("workshopId", id)
                     .request(new ACallback<String>() {
                         @Override
                         public void onSuccess(String data) {

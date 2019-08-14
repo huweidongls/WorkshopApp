@@ -124,7 +124,7 @@ public class ShareDetailsActivity extends BaseActivity {
     private void initData() {
 
         ViseHttp.GET(NetUrl.AppShopCategorygetByCategoryId)
-                .addParam("id", "9")
+                .addParam("id", id)
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {
