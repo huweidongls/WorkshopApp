@@ -32,16 +32,18 @@
                     android:layout_height="wrap_content"
                     android:text="设备设备设备设备设备设 备设备设备设备设"
                     android:textColor="#FFFFFF"
-                    android:layout_marginLeft="12dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginRight="12dp"
                     android:textSize="14sp"
                     android:layout_marginTop="14dp"
                     />
                 <LinearLayout
+                    android:id="@+id/for_img"
                     android:layout_alignLeft="@+id/tv_title2"
                     android:layout_below="@id/tv_title2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:orientation="horizontal"
                     >
                     <ImageView
@@ -70,6 +72,7 @@
                         android:src="@mipmap/lvxing"
                         />
                     <TextView
+                        android:id="@+id/pingfen"
                         android:layout_gravity="center_vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

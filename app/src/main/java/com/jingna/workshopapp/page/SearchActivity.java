@@ -66,10 +66,10 @@ public class SearchActivity extends AppCompatActivity {
                         mList = newStr.split(",");
                         adapter = new SearchHistoryAdapter(mList);
                         recyclerView.setAdapter(adapter);
-//                        Intent intent = new Intent();
-//                        intent.setClass(context, SearchGoodsListActivity.class);
-//                        intent.putExtra("goodsName", search);
-//                        startActivity(intent);
+                        Intent intent = new Intent();
+                        intent.setClass(context, SearchGoodsListActivity.class);
+                        intent.putExtra("goodsName", search);
+                        startActivity(intent);
                     }
                 }
                 //记得返回false
