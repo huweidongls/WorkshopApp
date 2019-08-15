@@ -5,7 +5,7 @@ package com.jingna.workshopapp.net;
  */
 
 public class NetUrl {
-    public static final String BASE_URL = "http://192.168.2.103:8080/";
+    public static final String BASE_URL = "http://192.168.2.103:80/";
     //APP会员登录接口
     public static final String MemUserloginAPP = "MemUser/loginAPP";
     //发送短信请求
