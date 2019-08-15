@@ -25,7 +25,9 @@ import com.jingna.workshopapp.base.BaseActivity;
 import com.jingna.workshopapp.bean.ShareDetailsBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.DensityTool;
+import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.ToastUtil;
 import com.jingna.workshopapp.widget.ObservableScrollView;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
@@ -107,6 +109,8 @@ public class ShareDetailsActivity extends BaseActivity {
     private ShareDetailsZerenAdapter zerenAdapter;
     private List<ShareDetailsBean.DataBean.SysUserInfosBean> zerenList;
 
+    private int isCollect;//0未收藏
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +129,7 @@ public class ShareDetailsActivity extends BaseActivity {
 
         ViseHttp.GET(NetUrl.AppShopCategorygetByCategoryId)
                 .addParam("id", id)
+                .addParam("memberId", SpUtils.getUserId(context))
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {
@@ -278,6 +283,13 @@ public class ShareDetailsActivity extends BaseActivity {
                                 }
                                 //价格
                                 tvMoney.setText("¥"+shareDetailsBean.getData().getMoney());
+                                //是否收藏
+                                isCollect = shareDetailsBean.getData().getIsCollect();
+                                if(isCollect == 0){
+                                    Glide.with(context).load(R.mipmap.star_null_w).into(ivStar);
+                                }else {
+                                    Glide.with(context).load(R.mipmap.star_w).into(ivStar);
+                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -353,7 +365,7 @@ public class ShareDetailsActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.rl_back, R.id.tv_submit})
+    @OnClick({R.id.rl_back, R.id.tv_submit, R.id.rl_star})
     public void onClick(View view){
         Intent intent = new Intent();
         switch (view.getId()){
@@ -361,11 +373,80 @@ public class ShareDetailsActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_submit:
-                intent.setClass(context, OrderShebeiActivity.class);
-                intent.putExtra("id", id);
-                startActivity(intent);
+                if(SpUtils.getUserId(context).equals("0")){
+                    intent.setClass(context, SMSLoginActivity.class);
+                    startActivity(intent);
+                }else {
+                    intent.setClass(context, OrderShebeiActivity.class);
+                    intent.putExtra("id", id);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.rl_star:
+                if(SpUtils.getUserId(context).equals("0")){
+                    intent.setClass(context, SMSLoginActivity.class);
+                    startActivity(intent);
+                }else {
+                    onCollect();
+                }
                 break;
         }
+    }
+
+    private void onCollect() {
+
+        if(isCollect == 0){
+            ViseHttp.POST(NetUrl.AppGoodsShopisFollow)
+                    .addParam("goodsId", id)
+                    .addParam("memberId", SpUtils.getUserId(context))
+                    .addParam("type", "1")
+                    .request(new ACallback<String>() {
+                        @Override
+                        public void onSuccess(String data) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(data);
+                                if(jsonObject.optString("status").equals("200")){
+                                    isCollect = 1;
+                                    Glide.with(context).load(R.mipmap.star_w).into(ivStar);
+                                    ToastUtil.showShort(context, "收藏成功");
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFail(int errCode, String errMsg) {
+
+                        }
+                    });
+        }else {
+            ViseHttp.POST(NetUrl.AppGoodsShopisFollow)
+                    .addParam("goodsId", id)
+                    .addParam("memberId", SpUtils.getUserId(context))
+                    .addParam("type", "0")
+                    .request(new ACallback<String>() {
+                        @Override
+                        public void onSuccess(String data) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(data);
+                                if(jsonObject.optString("status").equals("200")){
+                                    isCollect = 0;
+                                    Glide.with(context).load(R.mipmap.star_null_w).into(ivStar);
+                                    ToastUtil.showShort(context, "取消收藏成功");
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFail(int errCode, String errMsg) {
+
+                        }
+                    });
+        }
+
     }
 
 }

@@ -493,6 +493,7 @@
                     android:textSize="25sp" />
 
                 <TextView
+                    android:id="@+id/tv_commit"
                     android:gravity="center"
                     android:background="#02C160"
                     android:textSize="15sp"

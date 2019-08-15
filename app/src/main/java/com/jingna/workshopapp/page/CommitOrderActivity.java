@@ -14,6 +14,7 @@ import com.jingna.workshopapp.base.BaseActivity;
 import com.jingna.workshopapp.bean.AddressBean;
 import com.jingna.workshopapp.bean.OrderShebeiBean;
 import com.jingna.workshopapp.bean.WxPayBean;
+import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.wxapi.WXShare;
@@ -111,7 +112,7 @@ public class CommitOrderActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.rl_back, R.id.rl_address, R.id.ll_invoice, R.id.rl_wx, R.id.rl_zfb})
+    @OnClick({R.id.rl_back, R.id.rl_address, R.id.ll_invoice, R.id.rl_wx, R.id.rl_zfb, R.id.tv_commit})
     public void onClick(View view){
         Intent intent = new Intent();
         switch (view.getId()){
@@ -138,7 +139,38 @@ public class CommitOrderActivity extends BaseActivity {
                 Glide.with(context).load(R.mipmap.dh_null).into(ivWx);
                 Glide.with(context).load(R.mipmap.dh).into(ivZfb);
                 break;
+            case R.id.tv_commit:
+                commit();
+                break;
         }
+    }
+
+    private void commit() {
+
+        ViseHttp.POST(NetUrl.AppOrderorderSubmission)
+                .addParam("orderId", "2019081411200218")
+                .addParam("invoiceId", "0")
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if(jsonObject.optString("status").equals("200")){
+                                Gson gson = new Gson();
+                                WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
+                                wxPay(wxPayBean);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
+                    }
+                });
+
     }
 
     @Override
@@ -160,13 +192,13 @@ public class CommitOrderActivity extends BaseActivity {
     public void wxPay(WxPayBean model) {
         api.registerApp(WXShare.APP_ID);
         PayReq req = new PayReq();
-        req.appId = model.getAppId();
-        req.partnerId = model.getMchId();
-        req.prepayId = model.getPrepayId();
-        req.nonceStr = model.getNonceStr();
-        req.timeStamp = model.getTimeStamp() + "";
+        req.appId = model.getData().getAppid();
+        req.partnerId = model.getData().getPartnerid();
+        req.prepayId = model.getData().getPrepayid();
+        req.nonceStr = model.getData().getNoncestr();
+        req.timeStamp = model.getData().getTimestamp() + "";
         req.packageValue = "Sign=WXPay";
-        req.sign = model.getPaySign();
+        req.sign = model.getData().getPaySign();
         req.extData = "app data";
         api.sendReq(req);
     }

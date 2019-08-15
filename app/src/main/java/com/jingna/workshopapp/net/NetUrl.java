@@ -58,4 +58,12 @@ public class NetUrl {
     public static final String AppShopCategorygetByCategoryId = "AppShopCategory/getByCategoryId";
     //车间订单下单配置详情
     public static final String AppOrderworkshopEquipment = "AppOrder/workshopEquipment";
+    //车间提交订单
+    public static final String AppOrderorderSubmission = "AppOrder/orderSubmission";
+    //根据type修改用户是否收藏商品
+    public static final String AppGoodsShopisFollow = "AppGoodsShop/isFollow";
+    //根据用户ID查询用户所有收藏接口
+    public static final String AppMemberCollectqueryList = "AppMemberCollect/queryList";
+    //根据用户id和商品id删除收藏接口
+    public static final String AppMemberCollecttoDelete = "AppMemberCollect/toDelete";
 }

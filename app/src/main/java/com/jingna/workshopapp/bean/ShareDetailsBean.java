@@ -78,6 +78,15 @@ public class ShareDetailsBean {
         private List<ShopGoodsEvaluatesBean> shopGoodsEvaluates;
         private List<AdditionalCostsBean> additionalCosts;
         private List<SupportingEquipmentsBean> supportingEquipments;
+        private int isCollect;
+
+        public int getIsCollect() {
+            return isCollect;
+        }
+
+        public void setIsCollect(int isCollect) {
+            this.isCollect = isCollect;
+        }
 
         public int getId() {
             return id;

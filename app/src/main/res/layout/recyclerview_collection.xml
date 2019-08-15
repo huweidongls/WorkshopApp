@@ -8,6 +8,7 @@
         android:layout_height="110dp">
 
         <ImageView
+            android:scaleType="centerCrop"
             android:layout_centerVertical="true"
             android:id="@+id/iv"
             android:layout_marginLeft="22dp"
@@ -16,6 +17,7 @@
             android:layout_height="70dp" />
 
         <TextView
+            android:id="@+id/tv"
             android:ellipsize="end"
             android:lines="4"
             android:layout_marginRight="22dp"
