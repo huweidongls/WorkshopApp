@@ -144,7 +144,8 @@
                 <data android:scheme="wxc67fb969dcedd5a0" />
             </intent-filter>
         </activity>
-        <activity android:name=".page.CollectionActivity"></activity>
+        <activity android:name=".page.CollectionActivity" />
+        <activity android:name=".page.SearchGoodsListActivity"></activity>
     </application>
 
 </manifest>
