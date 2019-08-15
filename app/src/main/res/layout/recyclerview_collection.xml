@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp">
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/iv"
+            android:layout_marginLeft="22dp"
+            android:src="@color/white_ffffff"
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
+
+        <TextView
+            android:ellipsize="end"
+            android:lines="4"
+            android:layout_marginRight="22dp"
+            android:layout_marginLeft="12dp"
+            android:layout_alignTop="@+id/iv"
+            android:layout_toRightOf="@+id/iv"
+            android:textColor="@color/white_ffffff"
+            android:textSize="13sp"
+            android:text="NB联网自发电智能门锁NB联网自发电智能门锁NB联网自发电智能门锁"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</LinearLayout>

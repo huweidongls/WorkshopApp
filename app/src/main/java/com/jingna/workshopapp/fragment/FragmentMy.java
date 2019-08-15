@@ -18,6 +18,7 @@ import com.jingna.workshopapp.base.BaseFragment;
 import com.jingna.workshopapp.bean.GetOneBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.page.AddressActivity;
+import com.jingna.workshopapp.page.CollectionActivity;
 import com.jingna.workshopapp.page.CommissionActivity;
 import com.jingna.workshopapp.page.CommissionIncomeActivity;
 import com.jingna.workshopapp.page.ForgotPwd1Activity;
@@ -212,7 +213,7 @@ public class FragmentMy extends BaseFragment {
                     intent.setClass(getContext(), SMSLoginActivity.class);
                     startActivity(intent);
                 } else {
-                    intent.setClass(getContext(), AddressActivity.class);
+                    intent.setClass(getContext(), CollectionActivity.class);
                     startActivity(intent);
                 }
                 break;
