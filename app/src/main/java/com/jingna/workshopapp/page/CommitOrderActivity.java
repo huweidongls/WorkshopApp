@@ -13,8 +13,13 @@ import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.base.BaseActivity;
 import com.jingna.workshopapp.bean.AddressBean;
 import com.jingna.workshopapp.bean.OrderShebeiBean;
+import com.jingna.workshopapp.bean.WxPayBean;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.wxapi.WXShare;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
@@ -53,11 +58,15 @@ public class CommitOrderActivity extends BaseActivity {
     private int invoiceId = 0;//是否开发票，0不开，1开
     private String payType = "0";//0微信  1支付宝
 
+    private WXShare wxShare;
+    private IWXAPI api;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commit_order);
 
+        api = WXAPIFactory.createWXAPI(context, null);
         s = getIntent().getStringExtra("bean");
         StatusBarUtils.setStatusBar(CommitOrderActivity.this, getResources().getColor(R.color.statusbar_color));
         ButterKnife.bind(CommitOrderActivity.this);
@@ -147,4 +156,19 @@ public class CommitOrderActivity extends BaseActivity {
             map = (Map<String, String>) data.getSerializableExtra("map");
         }
     }
+
+    public void wxPay(WxPayBean model) {
+        api.registerApp(WXShare.APP_ID);
+        PayReq req = new PayReq();
+        req.appId = model.getAppId();
+        req.partnerId = model.getMchId();
+        req.prepayId = model.getPrepayId();
+        req.nonceStr = model.getNonceStr();
+        req.timeStamp = model.getTimeStamp() + "";
+        req.packageValue = "Sign=WXPay";
+        req.sign = model.getPaySign();
+        req.extData = "app data";
+        api.sendReq(req);
+    }
+
 }
