@@ -9,12 +9,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.base.BaseActivity;
 import com.jingna.workshopapp.bean.AddressBean;
+import com.jingna.workshopapp.bean.CrowOrderBean;
+import com.jingna.workshopapp.bean.LikeGoodsBean;
 import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.ToastUtil;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -37,10 +48,30 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
     TextView tvAddress;
     @BindView(R.id.tv_invoice)
     TextView tv_invoice;
+    @BindView(R.id.iv_img)
+    ImageView iv_img;
+    @BindView(R.id.tv_title_goods)
+    TextView tv_title_goods;
+    @BindView(R.id.goods_price)
+    TextView goods_price;
+    @BindView(R.id.goods_desc)
+    TextView goods_desc;
+    @BindView(R.id.time_fahuo)
+    TextView time_fahuo;
+    @BindView(R.id.goods_all_price)
+    TextView goods_all_price;
+    @BindView(R.id.goods_yunfei)
+    TextView goods_yunfei;
+    @BindView(R.id.pay_price)
+    TextView pay_price;
+    @BindView(R.id.conmit_all_price)
+    TextView conmit_all_price;
     private int pay=1;
     private int paycheck=0;
     private int addressid=0;
     private int invoiceId=0;
+    private int payAll=0;
+    private String gid="";
     private Map<String, String> map;//发票map
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +79,81 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
         setContentView(R.layout.activity_crowd_details_support);
         StatusBarUtils.setStatusBar(CrowdDetailsSupportActivity.this, getResources().getColor(R.color.statusbar_color));
         ButterKnife.bind(CrowdDetailsSupportActivity.this);
+        LoadAddredd();
+        initdata();
     }
-    @OnClick({R.id.rl_back, R.id.iv_wx,R.id.iv_zfb,R.id.iv_check,R.id.rl_address,R.id.ll_invoice})
+    private void initdata(){
+        ViseHttp.POST("/AppOrder/crowdFundingOrderConfiguration")
+                .addForm("goodsNum","1")
+                .addForm("gearPositionId","1")
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if (jsonObject.optString("status").equals("200")){
+                                Gson gson = new Gson();
+                                CrowOrderBean bean = gson.fromJson(data, CrowOrderBean.class);
+                                Glide.with(context).load(NetUrl.BASE_URL+bean.getData().getGearPositionPicture()).into(iv_img);
+                                gid=bean.getData().getSellerId();
+                                tv_title_goods.setText(bean.getData().getGearPositionTitle());
+                                goods_price.setText("¥"+bean.getData().getGearPositionMoney());
+                                goods_desc.setText(bean.getData().getGearPositionSubTitle());
+                                time_fahuo.setText("预计"+bean.getData().getDeliveryTime()+"天后发货");
+                                goods_all_price.setText("¥"+bean.getData().getGearPositionMoney());
+                                if (bean.getData().getFreight()<=0){
+                                    goods_yunfei.setText("免运费");
+                                }else{
+                                    goods_yunfei.setText(bean.getData().getFreight()+"元");
+                                }
+                                pay_price.setText("¥"+bean.getData().getGearPositionMoney());
+                                payAll =bean.getData().getFreight()+bean.getData().getGearPositionMoney();
+                                conmit_all_price.setText("¥"+payAll+"");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
+                    }
+                });
+    }
+    private void LoadAddredd(){
+        ViseHttp.GET("/MemAdress/queryList")
+                .addParam("memberId", SpUtils.getUserId(context))
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if(jsonObject.optString("status").equals("200")){
+                                Gson gson = new Gson();
+                                AddressBean bean = gson.fromJson(data, AddressBean.class);
+                                List<AddressBean.DataBean> list = bean.getData();
+                                for (AddressBean.DataBean bean1 : list){
+                                    if(bean1.getAcquiescentAdress().equals("1")){
+                                        addressid = bean1.getId();
+                                        tvName.setText(bean1.getConsignee());
+                                        tvPhonenum.setText(bean1.getConsigneeTel());
+                                        tvAddress.setText(bean1.getLocation()+bean1.getAdress());
+                                    }
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
+                    }
+                });
+    }
+    @OnClick({R.id.rl_back, R.id.iv_wx,R.id.iv_zfb,R.id.iv_check,R.id.rl_address,R.id.ll_invoice,R.id.submit_order})
     public void onClick(View view){
         Intent intent = new Intent();
         switch (view.getId()){
@@ -85,7 +189,17 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
                 intent.putExtra("price", 0.00);
                 startActivityForResult(intent, 100);
                 break;
+            case R.id.submit_order:
+               if (paycheck==1){
+                   onFromOrder();
+               }else{
+                   ToastUtil.showShort(CrowdDetailsSupportActivity.this, "请先勾选支持者协议!");
+               }
+                break;
         }
+    }
+    private void onFromOrder(){//提交订单信息
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
