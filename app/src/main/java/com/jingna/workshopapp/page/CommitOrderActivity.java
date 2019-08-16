@@ -20,6 +20,7 @@ import com.jingna.workshopapp.bean.OrderShebeiBean;
 import com.jingna.workshopapp.bean.WxPayBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.Base64Utils;
+import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.wxapi.WXShare;
@@ -275,6 +276,7 @@ public class CommitOrderActivity extends BaseActivity {
                             public void onSuccess(String data) {
                                 try {
                                     JSONObject jsonObject = new JSONObject(data);
+                                    Logger.e("JSON:",data);
                                     if(jsonObject.optString("status").equals("200")){
                                         Gson gson = new Gson();
                                         WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);

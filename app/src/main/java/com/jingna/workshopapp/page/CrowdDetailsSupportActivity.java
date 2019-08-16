@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,10 +16,15 @@ import com.jingna.workshopapp.base.BaseActivity;
 import com.jingna.workshopapp.bean.AddressBean;
 import com.jingna.workshopapp.bean.CrowOrderBean;
 import com.jingna.workshopapp.bean.LikeGoodsBean;
+import com.jingna.workshopapp.bean.WxPayBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.wxapi.WXShare;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
@@ -66,6 +72,8 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
     TextView pay_price;
     @BindView(R.id.conmit_all_price)
     TextView conmit_all_price;
+    @BindView(R.id.blackOutNumber)
+    EditText remarks;
     private int pay=1;
     private int paycheck=0;
     private int addressid=0;
@@ -73,10 +81,13 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
     private int payAll=0;
     private String gid="";
     private Map<String, String> map;//发票map
+    private WXShare wxShare;
+    private IWXAPI api;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crowd_details_support);
+        api = WXAPIFactory.createWXAPI(context, null);
         StatusBarUtils.setStatusBar(CrowdDetailsSupportActivity.this, getResources().getColor(R.color.statusbar_color));
         ButterKnife.bind(CrowdDetailsSupportActivity.this);
         LoadAddredd();
@@ -199,7 +210,64 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
         }
     }
     private void onFromOrder(){//提交订单信息
+        String search = remarks.getText().toString();
+        if (invoiceId==0){//0是不开发票
+            ViseHttp.POST("/AppOrder/crowdFundingOrderSubmission")
+                    .addForm("userId",SpUtils.getUserId(context))
+                    .addForm("sellerId",gid)
+                    .addForm("goodsNum","1")
+                    .addForm("invoiceId","0")
+                    .addForm("addressId",addressid+"")
+                    .addForm("remarks",search)
+                    .request(new ACallback<String>() {
+                        @Override
+                        public void onSuccess(String data) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(data);
+                                if(jsonObject.optString("status").equals("200")){
+                                    ToastUtil.showShort(CrowdDetailsSupportActivity.this, "请先勾选支持者协议!");
+                                    Gson gson = new Gson();
+                                    WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
+                                    wxPay(wxPayBean);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
 
+                        @Override
+                        public void onFail(int errCode, String errMsg) {
+
+                        }
+                    });
+        }else{//1是开发票
+            ViseHttp.POST("/AppOrder/crowdFundingOrderSubmission")
+                    .addForm("userId",SpUtils.getUserId(context))
+                    .addForm("sellerId",gid)
+                    .addForm("goodsNum","1")
+                    .addForm("invoiceId","1")
+                    .addForm("addressId",addressid+"")
+                    .addForm("remarks",search)
+                    .addParams(map)
+                    .request(new ACallback<String>() {
+                        @Override
+                        public void onSuccess(String data) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(data);
+                                if(jsonObject.optString("status").equals("200")){
+                                    Gson gson = new Gson();
+                                    WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
+                                    wxPay(wxPayBean);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        @Override
+                        public void onFail(int errCode, String errMsg) {
+                        }
+                    });
+        }
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -215,5 +283,18 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
             tv_invoice.setText("开发票");
             map = (Map<String, String>) data.getSerializableExtra("map");
         }
+    }
+    public void wxPay(WxPayBean model) {
+        api.registerApp(WXShare.APP_ID);
+        PayReq req = new PayReq();
+        req.appId = model.getData().getAppid();
+        req.partnerId = model.getData().getPartnerid();
+        req.prepayId = model.getData().getPrepayid();
+        req.nonceStr = model.getData().getNoncestr();
+        req.timeStamp = model.getData().getTimestamp() + "";
+        req.packageValue = "Sign=WXPay";
+        req.sign = model.getData().getPaySign();
+        req.extData = "app data";
+        api.sendReq(req);
     }
 }
