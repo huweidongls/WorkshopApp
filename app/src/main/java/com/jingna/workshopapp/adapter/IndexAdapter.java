@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.bean.CrowdPopularBean;
 import com.jingna.workshopapp.net.NetUrl;
-import com.jingna.workshopapp.page.CrowdDetailsActivity;
+import com.jingna.workshopapp.page.ZhongchouDetailsActivity;
 
 import java.util.List;
 
@@ -56,7 +56,7 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.ViewHolder> 
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(context,CrowdDetailsActivity.class);
+                intent.setClass(context,ZhongchouDetailsActivity.class);
                 intent.putExtra("id", data.get(position).getId()+"");
                 context.startActivity(intent);
             }

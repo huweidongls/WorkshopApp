@@ -145,7 +145,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".page.CollectionActivity" />
-        <activity android:name=".page.SearchGoodsListActivity"></activity>
+        <activity android:name=".page.SearchGoodsListActivity" />
+        <activity android:name=".page.ZhongchouDetailsActivity"></activity>
     </application>
 
 </manifest>

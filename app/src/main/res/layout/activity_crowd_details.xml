@@ -9,18 +9,28 @@
 
     <RelativeLayout
         android:id="@+id/rl_top"
-        style="@style/rl_top_bar">
+        android:background="@color/white_ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="42dp">
 
         <RelativeLayout
             android:id="@+id/rl_back"
             android:layout_width="50dp"
             android:layout_height="match_parent">
 
-            <ImageView style="@style/iv_top_back" />
+            <ImageView
+                android:layout_centerInParent="true"
+                android:layout_width="9dp"
+                android:layout_height="16dp"
+                android:src="@mipmap/back_b"/>
         </RelativeLayout>
 
         <TextView
-            style="@style/tv_top_title"
+            android:layout_centerInParent="true"
+            android:textSize="18sp"
+            android:textColor="@color/black_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="众筹" />
     </RelativeLayout>
 
