@@ -232,11 +232,13 @@ public class FragmentIndex extends BaseFragment {
                 break;
             case R.id.iv_show1:
                 intent.setClass(getContext(), ShareDetailsActivity.class);
+                intent.putExtra("type", "1");
                 intent.putExtra("id", id1);
                 startActivity(intent);
                 break;
             case R.id.iv_show2:
                 intent.setClass(getContext(), ShareDetailsActivity.class);
+                intent.putExtra("type", "1");
                 intent.putExtra("id", id2);
                 startActivity(intent);
                 break;

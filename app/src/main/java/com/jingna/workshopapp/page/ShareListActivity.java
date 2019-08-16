@@ -150,7 +150,7 @@ public class ShareListActivity extends BaseActivity {
                                 Gson gson = new Gson();
                                 CategoryQueryChildListBean childListBean = gson.fromJson(data, CategoryQueryChildListBean.class);
                                 mList = childListBean.getData();
-                                adapter = new ShareListAdapter(mList);
+                                adapter = new ShareListAdapter(mList, type);
                                 LinearLayoutManager manager = new LinearLayoutManager(context);
                                 manager.setOrientation(LinearLayoutManager.VERTICAL);
                                 recyclerView.setLayoutManager(manager);

@@ -66,4 +66,10 @@ public class NetUrl {
     public static final String AppMemberCollectqueryList = "AppMemberCollect/queryList";
     //根据用户id和商品id删除收藏接口
     public static final String AppMemberCollecttoDelete = "AppMemberCollect/toDelete";
+    //根据车间ID查询车间订单配置
+    public static final String AppOrderorderConfiguration = "AppOrder/orderConfiguration";
+    //根据委托订单ID数据回显
+    public static final String AppOrderentrustedProcessingOrder = "AppOrder/entrustedProcessingOrder";
+    //委托加工订单提交
+    public static final String AppOrderwtjgOrderConfiguration = "AppOrder/wtjgOrderConfiguration";
 }

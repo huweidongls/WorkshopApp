@@ -20,6 +20,7 @@ import com.jingna.workshopapp.bean.PeitaoshebeiBean;
 import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.StringUtils;
 import com.jingna.workshopapp.util.ToastUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
@@ -124,37 +125,21 @@ public class OrderShebeiActivity extends BaseActivity {
                 new DatePickerDialog(context, onDateSetListener1, mYear, mMonth, mDay).show();
                 break;
             case R.id.tv_commit:
-                final Gson gson = new Gson();
-                String json = gson.toJson(mList);
-                ViseHttp.POST("AppOrder/orderConfiguration")
-                        .addParam("userId", SpUtils.getUserId(context))
-                        .addParam("workshopId", id)
-                        .addParam("startTime", tvStart.getText().toString())
-                        .addParam("endTime", tvEnd.getText().toString())
-                        .addParam("appGoodsOrders", json)
-                        .request(new ACallback<String>() {
-                            @Override
-                            public void onSuccess(String data) {
-                                try {
-                                    JSONObject jsonObject = new JSONObject(data);
-                                    if(jsonObject.optString("status").equals("200")){
-                                        String s = jsonObject.optString("data");
-                                        OrderShebeiBean bean = gson.fromJson(s, OrderShebeiBean.class);
-                                        Intent intent1 = new Intent();
-                                        intent1.setClass(context, CommitOrderActivity.class);
-                                        intent1.putExtra("bean", s);
-                                        startActivity(intent1);
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onFail(int errCode, String errMsg) {
-
-                            }
-                        });
+                String start = tvStart.getText().toString();
+                String end = tvEnd.getText().toString();
+                if(!StringUtils.isEmpty(start)&&!StringUtils.isEmpty(end)&&mList.size()>0){
+                    Gson gson = new Gson();
+                    String json = gson.toJson(mList);
+                    intent.setClass(context, CommitOrderActivity.class);
+                    intent.putExtra("type", "1");
+                    intent.putExtra("id", id);
+                    intent.putExtra("start", start);
+                    intent.putExtra("end", end);
+                    intent.putExtra("json", json);
+                    startActivity(intent);
+                }else {
+                    ToastUtil.showShort(context, "请完善信息后提交");
+                }
                 break;
         }
     }

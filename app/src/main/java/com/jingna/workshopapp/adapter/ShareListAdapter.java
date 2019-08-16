@@ -27,9 +27,11 @@ public class ShareListAdapter extends RecyclerView.Adapter<ShareListAdapter.View
 
     private Context context;
     private List<CategoryQueryChildListBean.DataBean> data;
+    private String type;
 
-    public ShareListAdapter(List<CategoryQueryChildListBean.DataBean> data) {
+    public ShareListAdapter(List<CategoryQueryChildListBean.DataBean> data, String type) {
         this.data = data;
+        this.type = type;
     }
 
     @Override
@@ -70,6 +72,11 @@ public class ShareListAdapter extends RecyclerView.Adapter<ShareListAdapter.View
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
+                if(type.equals("4")){
+                    intent.putExtra("type", "2");
+                }else {
+                    intent.putExtra("type", "1");
+                }
                 intent.setClass(context, ShareDetailsActivity.class);
                 intent.putExtra("id", data.get(position).getId()+"");
                 context.startActivity(intent);

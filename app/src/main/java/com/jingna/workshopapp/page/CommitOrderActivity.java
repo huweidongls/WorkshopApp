@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -12,9 +14,12 @@ import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.base.BaseActivity;
 import com.jingna.workshopapp.bean.AddressBean;
+import com.jingna.workshopapp.bean.CommitOrderChejianBean;
+import com.jingna.workshopapp.bean.CommitOrderWeituoBean;
 import com.jingna.workshopapp.bean.OrderShebeiBean;
 import com.jingna.workshopapp.bean.WxPayBean;
 import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.util.Base64Utils;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.wxapi.WXShare;
@@ -50,9 +55,27 @@ public class CommitOrderActivity extends BaseActivity {
     ImageView ivWx;
     @BindView(R.id.iv_zfb)
     ImageView ivZfb;
+    @BindView(R.id.rl_address)
+    RelativeLayout rlAddress;
+    @BindView(R.id.iv_img)
+    ImageView ivImg;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
+    @BindView(R.id.tv_price)
+    TextView tvPrice;
+    @BindView(R.id.tv_all_price)
+    TextView tvAllPrice;
+    @BindView(R.id.ll_weituo)
+    LinearLayout llWeituo;
+    @BindView(R.id.tv_num)
+    TextView tvNum;
+    @BindView(R.id.tv_bottom_price)
+    TextView tvBottomPrice;
+    @BindView(R.id.tv_start_time)
+    TextView tvStartTime;
+    @BindView(R.id.tv_end_time)
+    TextView tvEndTime;
 
-    private String s = "";
-    private OrderShebeiBean bean;
     private String addressId = "";
 
     private Map<String, String> map;//发票map
@@ -62,13 +85,27 @@ public class CommitOrderActivity extends BaseActivity {
     private WXShare wxShare;
     private IWXAPI api;
 
+    private String type = "";
+    private String id = "";
+
+    private String start = "";
+    private String end = "";
+    private String json = "";
+
+    private int num = 1;//委托商品数量
+    private int price;//商品价格
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commit_order);
 
+        start = getIntent().getStringExtra("start");
+        end = getIntent().getStringExtra("end");
+        json = getIntent().getStringExtra("json");
+        type = getIntent().getStringExtra("type");
+        id = getIntent().getStringExtra("id");
         api = WXAPIFactory.createWXAPI(context, null);
-        s = getIntent().getStringExtra("bean");
         StatusBarUtils.setStatusBar(CommitOrderActivity.this, getResources().getColor(R.color.statusbar_color));
         ButterKnife.bind(CommitOrderActivity.this);
         initData();
@@ -77,42 +114,105 @@ public class CommitOrderActivity extends BaseActivity {
 
     private void initData() {
 
-        Gson gson = new Gson();
-        bean = gson.fromJson(s, OrderShebeiBean.class);
-        ViseHttp.GET("/MemAdress/queryList")
-                .addParam("memberId", SpUtils.getUserId(context))
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                AddressBean bean = gson.fromJson(data, AddressBean.class);
-                                List<AddressBean.DataBean> list = bean.getData();
-                                for (AddressBean.DataBean bean1 : list){
-                                    if(bean1.getAcquiescentAdress().equals("1")){
-                                        addressId = bean1.getId()+"";
-                                        tvName.setText(bean1.getConsignee());
-                                        tvPhonenum.setText(bean1.getConsigneeTel());
-                                        tvAddress.setText(bean1.getLocation()+bean1.getAdress());
+        if(type.equals("1")){
+            rlAddress.setVisibility(View.GONE);
+            llWeituo.setVisibility(View.GONE);
+            ViseHttp.GET(NetUrl.AppOrderorderConfiguration)
+                    .addParam("workshopId", id)
+                    .addParam("appGoodsOrders", Base64Utils.setEncryption(json))
+                    .addParam("startTime", start)
+                    .addParam("endTime", end)
+                    .request(new ACallback<String>() {
+                        @Override
+                        public void onSuccess(String data) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(data);
+                                if(jsonObject.optString("status").equals("200")){
+                                    Gson gson = new Gson();
+                                    CommitOrderChejianBean orderChejianBean = gson.fromJson(data, CommitOrderChejianBean.class);
+                                    Glide.with(context).load(NetUrl.BASE_URL+orderChejianBean.getData().getWorkshopPicture()).into(ivImg);
+                                    tvTitle.setText(orderChejianBean.getData().getWorkshopName());
+                                    tvPrice.setText("¥"+orderChejianBean.getData().getOrderPrice());
+                                    tvAllPrice.setText("¥"+(orderChejianBean.getData().getOrderPrice()+orderChejianBean.getData().getEquipmentMoney()));
+                                    tvBottomPrice.setText("¥"+(orderChejianBean.getData().getOrderPrice()+orderChejianBean.getData().getEquipmentMoney()));
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFail(int errCode, String errMsg) {
+
+                        }
+                    });
+        }else {
+            rlAddress.setVisibility(View.VISIBLE);
+            llWeituo.setVisibility(View.VISIBLE);
+            ViseHttp.GET("/MemAdress/queryList")
+                    .addParam("memberId", SpUtils.getUserId(context))
+                    .request(new ACallback<String>() {
+                        @Override
+                        public void onSuccess(String data) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(data);
+                                if(jsonObject.optString("status").equals("200")){
+                                    Gson gson = new Gson();
+                                    AddressBean bean = gson.fromJson(data, AddressBean.class);
+                                    List<AddressBean.DataBean> list = bean.getData();
+                                    for (AddressBean.DataBean bean1 : list){
+                                        if(bean1.getAcquiescentAdress().equals("1")){
+                                            addressId = bean1.getId()+"";
+                                            tvName.setText(bean1.getConsignee());
+                                            tvPhonenum.setText(bean1.getConsigneeTel());
+                                            tvAddress.setText(bean1.getLocation()+bean1.getAdress());
+                                        }
                                     }
                                 }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-                    }
 
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
+                        @Override
+                        public void onFail(int errCode, String errMsg) {
 
-                    }
-                });
+                        }
+                    });
+            ViseHttp.GET(NetUrl.AppOrderentrustedProcessingOrder)
+                    .addParam("id", id)
+                    .request(new ACallback<String>() {
+                        @Override
+                        public void onSuccess(String data) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(data);
+                                if(jsonObject.optString("status").equals("200")){
+                                    Gson gson = new Gson();
+                                    CommitOrderWeituoBean orderWeituoBean = gson.fromJson(data, CommitOrderWeituoBean.class);
+                                    Glide.with(context).load(NetUrl.BASE_URL+orderWeituoBean.getData().getAppCategoryPic()).into(ivImg);
+                                    tvTitle.setText(orderWeituoBean.getData().getCategoryName());
+                                    price = orderWeituoBean.getData().getMoney();
+                                    tvPrice.setText("¥"+orderWeituoBean.getData().getMoney());
+                                    tvAllPrice.setText("¥"+(orderWeituoBean.getData().getMoney()*num));
+                                    tvBottomPrice.setText("¥"+(orderWeituoBean.getData().getMoney()*num));
+                                    tvStartTime.setText(orderWeituoBean.getData().getStartTime());
+                                    tvEndTime.setText(orderWeituoBean.getData().getEndTime());
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFail(int errCode, String errMsg) {
+
+                        }
+                    });
+        }
 
     }
 
-    @OnClick({R.id.rl_back, R.id.rl_address, R.id.ll_invoice, R.id.rl_wx, R.id.rl_zfb, R.id.tv_commit})
+    @OnClick({R.id.rl_back, R.id.rl_address, R.id.ll_invoice, R.id.rl_wx, R.id.rl_zfb, R.id.tv_commit, R.id.rl_jian, R.id.rl_jia})
     public void onClick(View view){
         Intent intent = new Intent();
         switch (view.getId()){
@@ -142,34 +242,142 @@ public class CommitOrderActivity extends BaseActivity {
             case R.id.tv_commit:
                 commit();
                 break;
+            case R.id.rl_jian:
+                if(num > 1){
+                    num = num - 1;
+                    tvNum.setText(num+"");
+                    tvAllPrice.setText("¥"+(price*num));
+                    tvBottomPrice.setText("¥"+(price*num));
+                }
+                break;
+            case R.id.rl_jia:
+                num = num + 1;
+                tvNum.setText(num+"");
+                tvAllPrice.setText("¥"+(price*num));
+                tvBottomPrice.setText("¥"+(price*num));
+                break;
         }
     }
 
     private void commit() {
 
-        ViseHttp.POST(NetUrl.AppOrderorderSubmission)
-                .addParam("orderId", "2019081411200218")
-                .addParam("invoiceId", "0")
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
-                                wxPay(wxPayBean);
+        if(type.equals("1")){
+            if(invoiceId == 0){
+                ViseHttp.POST(NetUrl.AppOrderorderSubmission)
+                        .addParam("userId", SpUtils.getUserId(context))
+                        .addParam("workshopId", id)
+                        .addParam("startTime", start)
+                        .addParam("endTime", end)
+                        .addParam("appGoodsOrders", json)
+                        .addParam("invoiceId", "0")
+                        .request(new ACallback<String>() {
+                            @Override
+                            public void onSuccess(String data) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(data);
+                                    if(jsonObject.optString("status").equals("200")){
+                                        Gson gson = new Gson();
+                                        WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
+                                        wxPay(wxPayBean);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
 
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
+                            @Override
+                            public void onFail(int errCode, String errMsg) {
 
-                    }
-                });
+                            }
+                        });
+            }else {
+                ViseHttp.POST(NetUrl.AppOrderorderSubmission)
+                        .addParam("userId", SpUtils.getUserId(context))
+                        .addParam("workshopId", id)
+                        .addParam("startTime", start)
+                        .addParam("endTime", end)
+                        .addParam("appGoodsOrders", json)
+                        .addParam("invoiceId", "1")
+                        .addParams(map)
+                        .request(new ACallback<String>() {
+                            @Override
+                            public void onSuccess(String data) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(data);
+                                    if(jsonObject.optString("status").equals("200")){
+                                        Gson gson = new Gson();
+                                        WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
+                                        wxPay(wxPayBean);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFail(int errCode, String errMsg) {
+
+                            }
+                        });
+            }
+        }else {
+            if(invoiceId == 0){
+                ViseHttp.POST(NetUrl.AppOrderwtjgOrderConfiguration)
+                        .addParam("userId", SpUtils.getUserId(context))
+                        .addParam("goodsNum", num+"")
+                        .addParam("addressId", addressId)
+                        .addParam("wtjgId", id)
+                        .addParam("invoiceId", "0")
+                        .request(new ACallback<String>() {
+                            @Override
+                            public void onSuccess(String data) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(data);
+                                    if(jsonObject.optString("status").equals("200")){
+                                        Gson gson = new Gson();
+                                        WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
+                                        wxPay(wxPayBean);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFail(int errCode, String errMsg) {
+
+                            }
+                        });
+            }else {
+                ViseHttp.POST(NetUrl.AppOrderwtjgOrderConfiguration)
+                        .addParam("userId", SpUtils.getUserId(context))
+                        .addParam("goodsNum", num+"")
+                        .addParam("addressId", addressId)
+                        .addParam("wtjgId", id)
+                        .addParam("invoiceId", "1")
+                        .addParams(map)
+                        .request(new ACallback<String>() {
+                            @Override
+                            public void onSuccess(String data) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(data);
+                                    if(jsonObject.optString("status").equals("200")){
+                                        Gson gson = new Gson();
+                                        WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
+                                        wxPay(wxPayBean);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFail(int errCode, String errMsg) {
+
+                            }
+                        });
+            }
+        }
 
     }
 

@@ -72,6 +72,7 @@ public class EntrustListAdapter extends RecyclerView.Adapter<EntrustListAdapter.
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
+                intent.putExtra("type", "2");
                 intent.putExtra("id", data.get(position).getId()+"");
                 intent.setClass(context, ShareDetailsActivity.class);
                 context.startActivity(intent);

@@ -111,11 +111,14 @@ public class ShareDetailsActivity extends BaseActivity {
 
     private int isCollect;//0未收藏
 
+    private String type = "";//1车间  2委托
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share_details);
 
+        type = getIntent().getStringExtra("type");
         id = getIntent().getStringExtra("id");
         StatusBarUtils.setStatusBarTransparent(ShareDetailsActivity.this);
         ButterKnife.bind(ShareDetailsActivity.this);
@@ -377,9 +380,17 @@ public class ShareDetailsActivity extends BaseActivity {
                     intent.setClass(context, SMSLoginActivity.class);
                     startActivity(intent);
                 }else {
-                    intent.setClass(context, OrderShebeiActivity.class);
-                    intent.putExtra("id", id);
-                    startActivity(intent);
+                    if(type.equals("1")){
+                        intent.setClass(context, OrderShebeiActivity.class);
+                        intent.putExtra("type", "1");
+                        intent.putExtra("id", id);
+                        startActivity(intent);
+                    }else if(type.equals("2")){
+                        intent.setClass(context, CommitOrderActivity.class);
+                        intent.putExtra("type", "2");
+                        intent.putExtra("id", id);
+                        startActivity(intent);
+                    }
                 }
                 break;
             case R.id.rl_star:
