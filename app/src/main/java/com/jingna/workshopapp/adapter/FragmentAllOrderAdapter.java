@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jingna.workshopapp.R;
+import com.jingna.workshopapp.bean.OrderListBean;
+import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.page.CrowdDetailsActivity;
 import com.jingna.workshopapp.page.OrderDetailsActivity;
 import com.vise.xsnow.http.ViseHttp;
@@ -27,6 +30,8 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import static android.view.View.VISIBLE;
+
 /**
  * Created by Administrator on 2019/4/16.
  */
@@ -34,10 +39,10 @@ import java.util.List;
 public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrderAdapter.ViewHolder> {
 
     private Context context;
-    private List<String> data;
+    private List<OrderListBean.DataBean> data;
     private ClickListener listener;
 
-    public FragmentAllOrderAdapter(List<String> data, ClickListener listener) {
+    public FragmentAllOrderAdapter(List<OrderListBean.DataBean> data, ClickListener listener) {
         this.data = data;
         this.listener = listener;
     }
@@ -52,12 +57,57 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        Glide.with(context).load(NetUrl.BASE_URL+data.get(position).getGoodsPictureApp()).into(holder.iv_title);
+        holder.tv_title.setText(data.get(position).getGoodsTitle());
+        holder.tv_price.setText("¥"+data.get(position).getOrderPrice()+"");
+        holder.tv_goods_num.setText("共"+data.get(position).getGoodsNum()+"件商品 应付款：");
+        if(data.get(position).getOrderStatus().equals("0")){
+            holder.tv_to_pay.setVisibility(View.VISIBLE);
+            holder.qx_to.setVisibility(View.GONE);
+            holder.qrsh_to.setVisibility(View.GONE);
+            holder.qpj_to.setVisibility(View.GONE);
+            holder.del_order_to.setVisibility(View.GONE);
+            holder.tv_order_status.setText("等待付款");
+        }else if(data.get(position).getOrderStatus().equals("1") || data.get(position).getOrderStatus().equals("2")){
+            holder.tv_to_pay.setVisibility(View.GONE);
+            holder.qx_to.setVisibility(View.VISIBLE);
+            holder.qrsh_to.setVisibility(View.GONE);
+            holder.qpj_to.setVisibility(View.GONE);
+            holder.del_order_to.setVisibility(View.GONE);
+            holder.tv_order_status.setText("已付款");
+        }else if(data.get(position).getOrderStatus().equals("3")){
+            holder.tv_to_pay.setVisibility(View.GONE);
+            holder.qx_to.setVisibility(View.GONE);
+            holder.qrsh_to.setVisibility(View.VISIBLE);
+            holder.qpj_to.setVisibility(View.GONE);
+            holder.del_order_to.setVisibility(View.GONE);
+            holder.tv_order_status.setText("待收货");
+        }else if(data.get(position).getOrderStatus().equals("4")){
+            holder.tv_to_pay.setVisibility(View.GONE);
+            holder.qx_to.setVisibility(View.GONE);
+            holder.qrsh_to.setVisibility(View.GONE);
+            holder.qpj_to.setVisibility(View.VISIBLE);
+            holder.del_order_to.setVisibility(View.GONE);
+            holder.tv_order_status.setText("待评价");
+        }else if(data.get(position).getOrderStatus().equals("5") || data.get(position).getOrderStatus().equals("6") || data.get(position).getOrderStatus().equals("7")){
+            holder.tv_to_pay.setVisibility(View.GONE);
+            holder.qx_to.setVisibility(View.GONE);
+            holder.qrsh_to.setVisibility(View.GONE);
+            holder.qpj_to.setVisibility(View.GONE);
+            holder.del_order_to.setVisibility(View.VISIBLE);
+        }else if(data.get(position).getOrderStatus().equals("5")){
+            holder.tv_order_status.setText("已评价");
+        }else if(data.get(position).getOrderStatus().equals("6")){
+            holder.tv_order_status.setText("已完成");
+        }else if(data.get(position).getOrderStatus().equals("7")){
+            holder.tv_order_status.setText("已取消");
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(context,OrderDetailsActivity.class);
-                intent.putExtra("id", "1");
+                intent.putExtra("id",data.get(position).getId());
                 context.startActivity(intent);
             }
         });
@@ -69,9 +119,28 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-
+        private TextView tv_order_status;
+        private ImageView iv_title;
+        private TextView tv_title;
+        private TextView tv_price;
+        private Button del_order_to;
+        private Button qpj_to;
+        private Button qrsh_to;
+        private Button qx_to;
+        private Button tv_to_pay;
+        private TextView tv_goods_num;
         public ViewHolder(View itemView) {
             super(itemView);
+            tv_order_status = itemView.findViewById(R.id.tv_order_status);
+            iv_title = itemView.findViewById(R.id.iv_title);
+            tv_title = itemView.findViewById(R.id.tv_title_gs);
+            tv_price = itemView.findViewById(R.id.tv_prices);
+            del_order_to = itemView.findViewById(R.id.del_order_to);
+            qpj_to = itemView.findViewById(R.id.qpj_to);
+            qrsh_to = itemView.findViewById(R.id.qrsh_to);
+            qx_to = itemView.findViewById(R.id.qx_to);
+            tv_to_pay = itemView.findViewById(R.id.tv_to_pay);
+            tv_goods_num = itemView.findViewById(R.id.tv_goods_nums);
         }
     }
 

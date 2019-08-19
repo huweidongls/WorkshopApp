@@ -74,4 +74,6 @@ public class NetUrl {
     public static final String AppOrderwtjgOrderConfiguration = "AppOrder/wtjgOrderConfiguration";
     //根据众筹ID查询档位下单详情接口
     public static final String AppCrowdFundinggetGearPositionById = "AppCrowdFunding/getGearPositionById";
+    //订单列表
+    public static final String AppOrderActivityList = "/AppOrder/queryList";
 }
