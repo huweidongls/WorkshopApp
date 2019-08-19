@@ -72,4 +72,6 @@ public class NetUrl {
     public static final String AppOrderentrustedProcessingOrder = "AppOrder/entrustedProcessingOrder";
     //委托加工订单提交
     public static final String AppOrderwtjgOrderConfiguration = "AppOrder/wtjgOrderConfiguration";
+    //根据众筹ID查询档位下单详情接口
+    public static final String AppCrowdFundinggetGearPositionById = "AppCrowdFunding/getGearPositionById";
 }
