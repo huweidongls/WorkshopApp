@@ -81,12 +81,7 @@ public class FragmentAllOrder extends OrderBaseFragment {
                                     public void onReturnPrice(int pos) {
                                     }
                                 });
-                                LinearLayoutManager manager = new LinearLayoutManager(getContext()){
-                                    @Override
-                                    public boolean canScrollVertically() {
-                                        return false;
-                                    }
-                                };
+                                LinearLayoutManager manager = new LinearLayoutManager(getContext());
                                 manager.setOrientation(LinearLayoutManager.VERTICAL);
                                 recyclerView.setLayoutManager(manager);
                                 recyclerView.setAdapter(adapter);

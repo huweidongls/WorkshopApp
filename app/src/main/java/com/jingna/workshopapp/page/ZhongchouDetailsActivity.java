@@ -63,6 +63,8 @@ public class ZhongchouDetailsActivity extends BaseActivity {
     private ImageView ivPop;
     private TextView tvTitle;
     private RecyclerView rvPop;
+    private TextView tvYunfei;
+    private TextView tvFahuo;
     private ZhongchouPopAdapter popAdapter;
     private List<ZhongchouPopBean.DataBean> mList;
 
@@ -88,6 +90,8 @@ public class ZhongchouDetailsActivity extends BaseActivity {
         ivPop = view.findViewById(R.id.iv_pop);
         tvTitle = view.findViewById(R.id.tv_title);
         rvPop = view.findViewById(R.id.rv_dangwei);
+        tvYunfei = view.findViewById(R.id.tv_yunfei);
+        tvFahuo = view.findViewById(R.id.tv_fahuo);
 
         ViseHttp.GET(NetUrl.AppCrowdFundinggetGearPositionById)
                 .addParam("id", id)
@@ -105,6 +109,12 @@ public class ZhongchouDetailsActivity extends BaseActivity {
                                     public void onClick(int pos) {
                                         Glide.with(context).load(NetUrl.BASE_URL + mList.get(pos).getGearPictureApp()).into(ivPop);
                                         tvTitle.setText(mList.get(pos).getGearSubtitle());
+                                        if(mList.get(pos).getFreight() == 0){
+                                            tvYunfei.setText("配送运费：免运费");
+                                        }else {
+                                            tvYunfei.setText("配送运费："+mList.get(pos).getFreight()+"元");
+                                        }
+                                        tvFahuo.setText("预计发货时间：众筹成功后"+mList.get(pos).getDeliveryTime()+"天");
                                     }
                                 });
                                 GridLayoutManager manager = new GridLayoutManager(context, 4) {
@@ -118,6 +128,12 @@ public class ZhongchouDetailsActivity extends BaseActivity {
                                 if (mList.size() > 0) {
                                     Glide.with(context).load(NetUrl.BASE_URL + mList.get(0).getGearPictureApp()).into(ivPop);
                                     tvTitle.setText(mList.get(0).getGearSubtitle());
+                                    if(mList.get(0).getFreight() == 0){
+                                        tvYunfei.setText("配送运费：免运费");
+                                    }else {
+                                        tvYunfei.setText("配送运费："+mList.get(0).getFreight()+"元");
+                                    }
+                                    tvFahuo.setText("预计发货时间：众筹成功后"+mList.get(0).getDeliveryTime()+"天");
                                 }
                             }
                         } catch (JSONException e) {
