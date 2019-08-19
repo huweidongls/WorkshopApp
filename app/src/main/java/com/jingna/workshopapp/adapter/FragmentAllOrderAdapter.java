@@ -63,14 +63,16 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
         holder.tv_goods_num.setText("共"+data.get(position).getGoodsNum()+"件商品 应付款：");
         if(data.get(position).getOrderStatus().equals("0")){
             holder.tv_to_pay.setVisibility(View.VISIBLE);
-            holder.qx_to.setVisibility(View.GONE);
+            holder.tk_to.setVisibility(View.GONE);
             holder.qrsh_to.setVisibility(View.GONE);
             holder.qpj_to.setVisibility(View.GONE);
             holder.del_order_to.setVisibility(View.GONE);
+            holder.qx_to.setVisibility(View.VISIBLE);
             holder.tv_order_status.setText("等待付款");
         }else if(data.get(position).getOrderStatus().equals("1") || data.get(position).getOrderStatus().equals("2")){
             holder.tv_to_pay.setVisibility(View.GONE);
-            holder.qx_to.setVisibility(View.VISIBLE);
+            holder.qx_to.setVisibility(View.GONE);
+            holder.tk_to.setVisibility(View.VISIBLE);
             holder.qrsh_to.setVisibility(View.GONE);
             holder.qpj_to.setVisibility(View.GONE);
             holder.del_order_to.setVisibility(View.GONE);
@@ -78,6 +80,7 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
         }else if(data.get(position).getOrderStatus().equals("3")){
             holder.tv_to_pay.setVisibility(View.GONE);
             holder.qx_to.setVisibility(View.GONE);
+            holder.tk_to.setVisibility(View.GONE);
             holder.qrsh_to.setVisibility(View.VISIBLE);
             holder.qpj_to.setVisibility(View.GONE);
             holder.del_order_to.setVisibility(View.GONE);
@@ -85,6 +88,7 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
         }else if(data.get(position).getOrderStatus().equals("4")){
             holder.tv_to_pay.setVisibility(View.GONE);
             holder.qx_to.setVisibility(View.GONE);
+            holder.tk_to.setVisibility(View.GONE);
             holder.qrsh_to.setVisibility(View.GONE);
             holder.qpj_to.setVisibility(View.VISIBLE);
             holder.del_order_to.setVisibility(View.GONE);
@@ -94,10 +98,9 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
             holder.qx_to.setVisibility(View.GONE);
             holder.qrsh_to.setVisibility(View.GONE);
             holder.qpj_to.setVisibility(View.GONE);
+            holder.tk_to.setVisibility(View.GONE);
             holder.del_order_to.setVisibility(View.VISIBLE);
-        }else if(data.get(position).getOrderStatus().equals("5")){
-            holder.tv_order_status.setText("已评价");
-        }else if(data.get(position).getOrderStatus().equals("6")){
+        }else if(data.get(position).getOrderStatus().equals("5") || data.get(position).getOrderStatus().equals("6")){
             holder.tv_order_status.setText("已完成");
         }else if(data.get(position).getOrderStatus().equals("7")){
             holder.tv_order_status.setText("已取消");
@@ -129,6 +132,7 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
         private Button qx_to;
         private Button tv_to_pay;
         private TextView tv_goods_num;
+        private Button tk_to;
         public ViewHolder(View itemView) {
             super(itemView);
             tv_order_status = itemView.findViewById(R.id.tv_order_status);
@@ -141,6 +145,7 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
             qx_to = itemView.findViewById(R.id.qx_to);
             tv_to_pay = itemView.findViewById(R.id.tv_to_pay);
             tv_goods_num = itemView.findViewById(R.id.tv_goods_nums);
+            tk_to=itemView.findViewById(R.id.tk_to);
         }
     }
 
