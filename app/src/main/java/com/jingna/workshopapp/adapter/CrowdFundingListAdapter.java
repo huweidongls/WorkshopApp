@@ -1,6 +1,7 @@
 package com.jingna.workshopapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.bean.CrowdTuijianBean;
 import com.jingna.workshopapp.bean.LikeGoodsBean;
 import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.page.ZhongchouDetailsActivity;
 
 import java.util.List;
 
@@ -40,7 +42,7 @@ public class CrowdFundingListAdapter extends RecyclerView.Adapter<CrowdFundingLi
     }
 
     @Override
-    public void onBindViewHolder(CrowdFundingListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(CrowdFundingListAdapter.ViewHolder holder, final int position) {
         Glide.with(context).load(NetUrl.BASE_URL+data.get(position).getGearPictureApp()).into(holder.iv);
         holder.tv_title.setText(data.get(position).getGearTitle()+"");
         holder.tv_price.setText("¥"+data.get(position).getGearMoney());
@@ -48,6 +50,15 @@ public class CrowdFundingListAdapter extends RecyclerView.Adapter<CrowdFundingLi
         holder.tv_people.setText(data.get(position).getAllPeople()+"");
         holder.tv_persent.setText(data.get(position).getPercentage()+"");
         holder.pro.setProgress(data.get(position).getPercentageNum());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context,ZhongchouDetailsActivity.class);
+                intent.putExtra("id", data.get(position).getId()+"");
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

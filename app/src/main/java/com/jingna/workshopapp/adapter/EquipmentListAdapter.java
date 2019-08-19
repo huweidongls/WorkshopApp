@@ -1,6 +1,7 @@
 package com.jingna.workshopapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.bean.LikeGoodsBean;
 import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.page.ShareDetailsActivity;
 import com.jingna.workshopapp.util.DensityTool;
 
 import java.util.List;
@@ -38,7 +40,7 @@ public class EquipmentListAdapter extends RecyclerView.Adapter<EquipmentListAdap
     }
 
     @Override
-    public void onBindViewHolder(EquipmentListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(EquipmentListAdapter.ViewHolder holder, final int position) {
         holder.for_img.removeAllViews();
         ImageView imageView;
         int a = DensityTool.dp2px(context, 12);
@@ -61,6 +63,16 @@ public class EquipmentListAdapter extends RecyclerView.Adapter<EquipmentListAdap
         Glide.with(context).load(NetUrl.BASE_URL+data.get(position).getAppCategoryPic()).into(holder.iv_img2);
         holder.tv_title2.setText(data.get(position).getCategoryName());
         holder.pingfen.setText(data.get(position).getEvaluate()+"");//R.mipmap.lvxing
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context, ShareDetailsActivity.class);
+                intent.putExtra("type", "2");
+                intent.putExtra("id", data.get(position).getId()+"");
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
