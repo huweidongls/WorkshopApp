@@ -118,7 +118,7 @@
 
                 <ImageView
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/star_null_b"
+                    android:src="@mipmap/pinglun_b"
                     android:layout_width="15dp"
                     android:layout_height="15dp" />
 
@@ -127,7 +127,7 @@
                     android:layout_marginTop="3dp"
                     android:textSize="12sp"
                     android:textColor="@color/black_333333"
-                    android:text="收藏 2725"
+                    android:text="评论 246"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 

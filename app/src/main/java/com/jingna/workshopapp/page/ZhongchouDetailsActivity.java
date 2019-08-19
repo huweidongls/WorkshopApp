@@ -7,6 +7,8 @@ import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,13 +19,26 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
+import com.jingna.workshopapp.adapter.ZhongchouPopAdapter;
 import com.jingna.workshopapp.base.BaseActivity;
+import com.jingna.workshopapp.bean.ZhongchouPopBean;
+import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,6 +60,11 @@ public class ZhongchouDetailsActivity extends BaseActivity {
     private TextView tvJian;
     private TextView tvNum;
     private TextView tvJia;
+    private ImageView ivPop;
+    private TextView tvTitle;
+    private RecyclerView rvPop;
+    private ZhongchouPopAdapter popAdapter;
+    private List<ZhongchouPopBean.DataBean> mList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +85,56 @@ public class ZhongchouDetailsActivity extends BaseActivity {
         tvJian = view.findViewById(R.id.tv_jian);
         tvNum = view.findViewById(R.id.tv_num);
         tvJia = view.findViewById(R.id.tv_jia);
+        ivPop = view.findViewById(R.id.iv_pop);
+        tvTitle = view.findViewById(R.id.tv_title);
+        rvPop = view.findViewById(R.id.rv_dangwei);
+
+        ViseHttp.GET(NetUrl.AppCrowdFundinggetGearPositionById)
+                .addParam("id", id)
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if (jsonObject.optString("status").equals("200")) {
+                                Gson gson = new Gson();
+                                ZhongchouPopBean popBean = gson.fromJson(data, ZhongchouPopBean.class);
+                                mList = popBean.getData();
+                                popAdapter = new ZhongchouPopAdapter(mList, new ZhongchouPopAdapter.ClickListener() {
+                                    @Override
+                                    public void onClick(int pos) {
+                                        Glide.with(context).load(NetUrl.BASE_URL + mList.get(pos).getGearPictureApp()).into(ivPop);
+                                        tvTitle.setText(mList.get(pos).getGearSubtitle());
+                                    }
+                                });
+                                GridLayoutManager manager = new GridLayoutManager(context, 4) {
+                                    @Override
+                                    public boolean canScrollVertically() {
+                                        return false;
+                                    }
+                                };
+                                rvPop.setLayoutManager(manager);
+                                rvPop.setAdapter(popAdapter);
+                                if (mList.size() > 0) {
+                                    Glide.with(context).load(NetUrl.BASE_URL + mList.get(0).getGearPictureApp()).into(ivPop);
+                                    tvTitle.setText(mList.get(0).getGearSubtitle());
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
+                    }
+                });
+
         tvJian.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(popNum > 1){
+                if (popNum > 1) {
                     popNum = popNum - 1;
                     tvNum.setText(popNum + "");
                 }
@@ -84,7 +150,7 @@ public class ZhongchouDetailsActivity extends BaseActivity {
 
     }
 
-    private void showPop(){
+    private void showPop() {
 
         popupWindow = new PopupWindow(view, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setTouchable(true);
@@ -141,7 +207,7 @@ public class ZhongchouDetailsActivity extends BaseActivity {
 
         webview.addJavascriptInterface(new JsInterface(), "android");
 
-        webview.loadUrl("http://192.168.2.121/detail.html?id="+id);
+        webview.loadUrl("http://192.168.2.121/detail.html?id=" + id);
 
     }
 
@@ -162,8 +228,8 @@ public class ZhongchouDetailsActivity extends BaseActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @OnClick({R.id.rl_back, R.id.tv_commit})
-    public void onClick(View view){
-        switch (view.getId()){
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.rl_back:
                 finish();
 //                webview.evaluateJavascript("javascript:getDetailId(123)", new ValueCallback<String>() {
