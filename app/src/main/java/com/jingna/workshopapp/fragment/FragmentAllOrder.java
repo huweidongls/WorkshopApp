@@ -1,27 +1,20 @@
 package com.jingna.workshopapp.fragment;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.adapter.FragmentAllOrderAdapter;
 import com.jingna.workshopapp.base.OrderBaseFragment;
-import com.jingna.workshopapp.bean.CollectionListBean;
-import com.jingna.workshopapp.bean.EntrustListBean;
 import com.jingna.workshopapp.bean.OrderListBean;
 import com.jingna.workshopapp.bean.WxPayBean;
 import com.jingna.workshopapp.net.NetUrl;
-import com.jingna.workshopapp.page.MyOrderActivity;
-import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.SpUtils;
-import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
 import com.jingna.workshopapp.wxapi.WXShare;
 import com.scwang.smartrefresh.header.MaterialHeader;
@@ -39,7 +32,6 @@ import com.vise.xsnow.http.callback.ACallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;

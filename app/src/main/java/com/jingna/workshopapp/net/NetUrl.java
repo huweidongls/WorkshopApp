@@ -84,4 +84,8 @@ public class NetUrl {
     public static final String AppOrdercancellationOrder = "/AppOrder/cancellationOrder";
     //删除订单
     public static final String AppOrdertoDelete ="/AppOrder/toDelete";
+    //新增商品评价接口
+    public static final String AppShopGoodsEvaluatetoUpdate ="/AppShopGoodsEvaluate/toUpdate";
+    //订单收货
+    public static final String AppOrderorderReceiving ="/AppOrder/orderReceiving";
 }
