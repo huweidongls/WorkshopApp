@@ -90,8 +90,8 @@ public class OrderListBean {
         private String orderStatus;
         private String invoiceId;
         private String createTime;
-        private int orderPrice;
-        private int orderRealPrice;
+        private double orderPrice;
+        private double orderRealPrice;
         private String isDelete;
         private String startTime;
         private String endTime;
@@ -198,19 +198,19 @@ public class OrderListBean {
             this.createTime = createTime;
         }
 
-        public int getOrderPrice() {
+        public double getOrderPrice() {
             return orderPrice;
         }
 
-        public void setOrderPrice(int orderPrice) {
+        public void setOrderPrice(double orderPrice) {
             this.orderPrice = orderPrice;
         }
 
-        public int getOrderRealPrice() {
+        public double getOrderRealPrice() {
             return orderRealPrice;
         }
 
-        public void setOrderRealPrice(int orderRealPrice) {
+        public void setOrderRealPrice(double orderRealPrice) {
             this.orderRealPrice = orderRealPrice;
         }
 

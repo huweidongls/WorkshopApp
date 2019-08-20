@@ -76,4 +76,12 @@ public class NetUrl {
     public static final String AppCrowdFundinggetGearPositionById = "AppCrowdFunding/getGearPositionById";
     //订单列表
     public static final String AppOrderActivityList = "/AppOrder/queryList";
+    //订单去支付
+    public  static final String AppOrderlistOrdersSubmitted = "/AppOrder/listOrdersSubmitted";
+    //订单退款
+    public static final String AppOrderorderRefund = "/AppOrder/orderRefund";
+    //取消订单
+    public static final String AppOrdercancellationOrder = "/AppOrder/cancellationOrder";
+    //删除订单
+    public static final String AppOrdertoDelete ="/AppOrder/toDelete";
 }

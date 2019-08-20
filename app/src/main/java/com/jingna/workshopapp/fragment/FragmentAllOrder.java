@@ -1,6 +1,7 @@
 package com.jingna.workshopapp.fragment;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,12 +13,18 @@ import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.adapter.FragmentAllOrderAdapter;
 import com.jingna.workshopapp.base.OrderBaseFragment;
 import com.jingna.workshopapp.bean.CollectionListBean;
+import com.jingna.workshopapp.bean.EntrustListBean;
 import com.jingna.workshopapp.bean.OrderListBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.page.MyOrderActivity;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
@@ -38,7 +45,7 @@ public class FragmentAllOrder extends OrderBaseFragment {
 
     @BindView(R.id.rv)
     RecyclerView recyclerView;
-    @BindView(R.id.refresh)
+    @BindView(R.id.refreshs)
     SmartRefreshLayout smartRefreshLayout;
 
     private FragmentAllOrderAdapter adapter;
@@ -60,23 +67,92 @@ public class FragmentAllOrder extends OrderBaseFragment {
 
     @Override
     public void initData() {
+        smartRefreshLayout.setRefreshHeader(new MaterialHeader(getContext()));
+        smartRefreshLayout.setRefreshFooter(new ClassicsFooter(getContext()));
+        smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
+                ViseHttp.GET(NetUrl.AppOrderActivityList)
+                        .addParam("pageNum", "1")
+                        .addParam("pageSize", "10")
+                        .addParam("userId", SpUtils.getUserId(getContext()))
+                        .request(new ACallback<String>() {
+                            @Override
+                            public void onSuccess(String data) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(data);
+                                    if (jsonObject.optString("status").equals("200")) {
+                                        Gson gson = new Gson();
+                                        OrderListBean bean = gson.fromJson(data, OrderListBean.class);
+                                        mList.clear();
+                                        mList.addAll(bean.getData());
+                                        adapter.notifyDataSetChanged();
+                                        page = 2;
+                                    }
+                                    refreshLayout.finishRefresh(500);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFail(int errCode, String errMsg) {
+                                refreshLayout.finishRefresh(500);
+                            }
+                        });
+            }
+        });
+        smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
+                ViseHttp.GET(NetUrl.AppOrderActivityList)
+                        .addParam("pageNum", page+"")
+                        .addParam("pageSize", "10")
+                        .addParam("userId", SpUtils.getUserId(getContext()))
+                        .request(new ACallback<String>() {
+                            @Override
+                            public void onSuccess(String data) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(data);
+                                    if (jsonObject.optString("status").equals("200")) {
+                                        Gson gson = new Gson();
+                                        OrderListBean bean = gson.fromJson(data, OrderListBean.class);
+                                        mList.addAll(bean.getData());
+                                        adapter.notifyDataSetChanged();
+                                        page = page+1;
+                                    }
+                                    refreshLayout.finishLoadMore(500);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFail(int errCode, String errMsg) {
+                                refreshLayout.finishLoadMore(500);
+                            }
+                        });
+            }
+        });
+
         ViseHttp.GET(NetUrl.AppOrderActivityList)
-                .addParam("pageNum","1")
-                .addParam("pageSize","10")
+                .addParam("pageNum", "1")
+                .addParam("pageSize", "10")
                 .addParam("userId", SpUtils.getUserId(getContext()))
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {
                         try {
                             JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson =new Gson();
+                            if (jsonObject.optString("status").equals("200")) {
+                                Gson gson = new Gson();
                                 OrderListBean bean = gson.fromJson(data, OrderListBean.class);
                                 mList = bean.getData();
                                 adapter = new FragmentAllOrderAdapter(mList, new FragmentAllOrderAdapter.ClickListener() {
                                     @Override
                                     public void onPay(int pos) {
                                     }
+
                                     @Override
                                     public void onReturnPrice(int pos) {
                                     }
@@ -85,6 +161,7 @@ public class FragmentAllOrder extends OrderBaseFragment {
                                 manager.setOrientation(LinearLayoutManager.VERTICAL);
                                 recyclerView.setLayoutManager(manager);
                                 recyclerView.setAdapter(adapter);
+                                page=2;
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -96,10 +173,6 @@ public class FragmentAllOrder extends OrderBaseFragment {
 
                     }
                 });
-       /* mList = new ArrayList<>();
-        mList.add("");
-        mList.add("");*/
-
 
     }
 
