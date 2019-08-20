@@ -146,7 +146,8 @@
         </activity>
         <activity android:name=".page.CollectionActivity" />
         <activity android:name=".page.SearchGoodsListActivity" />
-        <activity android:name=".page.ZhongchouDetailsActivity"></activity>
+        <activity android:name=".page.ZhongchouDetailsActivity" />
+        <activity android:name=".page.AcceptanceActivity"></activity>
     </application>
 
 </manifest>

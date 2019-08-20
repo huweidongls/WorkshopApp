@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg"
+    tools:context="com.jingna.workshopapp.page.AcceptanceActivity">
+
+    <RelativeLayout
+        style="@style/rl_top_bar">
+
+        <RelativeLayout
+            android:id="@+id/rl_back"
+            android:layout_width="50dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                style="@style/iv_top_back" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:text="收货验收单"
+            style="@style/tv_top_title" />
+
+        <RelativeLayout
+            android:id="@+id/rl_commit"
+            android:layout_alignParentRight="true"
+            android:layout_width="50dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_centerInParent="true"
+                android:text="提交"
+                android:textSize="14sp"
+                android:textColor="#FFFFFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:src="@color/white_ffffff"
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
+
+        <TextView
+            android:ellipsize="end"
+            android:lines="2"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="22dp"
+            android:layout_marginLeft="18dp"
+            android:textColor="@color/white_ffffff"
+            android:textSize="13sp"
+            android:text="NB联网自发电智能门锁NB联网自发电智能门锁NB联网自发电智能门锁"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:background="#33C4CDE1"
+        android:layout_width="match_parent"
+        android:layout_height="35dp">
+
+        <TextView
+            android:layout_marginLeft="15dp"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:layout_centerVertical="true"
+            android:text="收货验收单~"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
