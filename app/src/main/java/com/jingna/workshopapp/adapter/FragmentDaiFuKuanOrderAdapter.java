@@ -6,12 +6,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.bean.OrderListBean;
+import com.jingna.workshopapp.dialog.DialogCustom;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.page.AfterServiceActivity;
 import com.jingna.workshopapp.page.CrowdDetailsSupportActivity;
@@ -26,9 +28,11 @@ import java.util.List;
 public class FragmentDaiFuKuanOrderAdapter extends RecyclerView.Adapter<FragmentDaiFuKuanOrderAdapter.ViewHolder>{
     private Context context;
     private List<OrderListBean.DataBean> data;
+    private ClickListener listener;
 
-    public FragmentDaiFuKuanOrderAdapter(List<OrderListBean.DataBean> data) {
+    public FragmentDaiFuKuanOrderAdapter(List<OrderListBean.DataBean> data, ClickListener listener) {
         this.data = data;
+        this.listener = listener;
     }
     @Override
     public FragmentDaiFuKuanOrderAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -54,6 +58,30 @@ public class FragmentDaiFuKuanOrderAdapter extends RecyclerView.Adapter<Fragment
                 context.startActivity(intent);
             }
         });
+        holder.tv_to_pay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogCustom dialogCustom = new DialogCustom(context, "去支付?", new DialogCustom.OnYesListener() {
+                    @Override
+                    public void onYes() {
+                        listener.onPay(position);
+                    }
+                });
+                dialogCustom.show();
+            }
+        });
+        holder.tv_to_quxiao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogCustom dialogCustom = new DialogCustom(context, "取消订单?", new DialogCustom.OnYesListener() {
+                    @Override
+                    public void onYes() {
+                        listener.onReturnPrice(position);
+                    }
+                });
+                dialogCustom.show();
+            }
+        });
     }
 
     @Override
@@ -67,6 +95,8 @@ public class FragmentDaiFuKuanOrderAdapter extends RecyclerView.Adapter<Fragment
         private TextView tv_title;
         private TextView tv_goods_num;
         private TextView tv_price;
+        private Button tv_to_pay;
+        private Button tv_to_quxiao;
         public ViewHolder(View itemView) {
             super(itemView);
             tv_order_status = itemView.findViewById(R.id.tv_order_status);
@@ -74,6 +104,13 @@ public class FragmentDaiFuKuanOrderAdapter extends RecyclerView.Adapter<Fragment
             tv_title = itemView.findViewById(R.id.tv_title);
             tv_goods_num = itemView.findViewById(R.id.tv_goods_num);
             tv_price = itemView.findViewById(R.id.tv_price);
+            tv_to_pay = itemView.findViewById(R.id.tv_to_pay);
+            tv_to_quxiao = itemView.findViewById(R.id.tv_to_quxiao);
         }
+    }
+
+    public interface ClickListener {
+        void onPay(int pos);
+        void onReturnPrice(int pos);
     }
 }

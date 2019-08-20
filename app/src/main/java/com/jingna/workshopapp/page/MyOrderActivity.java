@@ -80,9 +80,9 @@ public class MyOrderActivity extends BaseActivity {
         mTitleDataList = new ArrayList<>();
         mTitleDataList.add("全部");
         mTitleDataList.add("待付款");
-        mTitleDataList.add("进行中");
         mTitleDataList.add("待收货");
-        mTitleDataList.add("已取消");
+        mTitleDataList.add("待评价");
+        mTitleDataList.add("已完成");
 
         CommonNavigator commonNavigator = new CommonNavigator(this);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {

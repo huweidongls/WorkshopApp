@@ -101,16 +101,29 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
             holder.qpj_to.setVisibility(View.VISIBLE);
             holder.del_order_to.setVisibility(View.GONE);
             holder.tv_order_status.setText("待评价");
-        }else if(data.get(position).getOrderStatus().equals("5") || data.get(position).getOrderStatus().equals("6") || data.get(position).getOrderStatus().equals("7")){
+        }else if(data.get(position).getOrderStatus().equals("5")){
             holder.tv_to_pay.setVisibility(View.GONE);
             holder.qx_to.setVisibility(View.GONE);
             holder.qrsh_to.setVisibility(View.GONE);
             holder.qpj_to.setVisibility(View.GONE);
             holder.tk_to.setVisibility(View.GONE);
             holder.del_order_to.setVisibility(View.VISIBLE);
-        }else if(data.get(position).getOrderStatus().equals("5") || data.get(position).getOrderStatus().equals("6")){
+            holder.tv_order_status.setText("已评价");
+        }else if(data.get(position).getOrderStatus().equals("6") ){
+            holder.tv_to_pay.setVisibility(View.GONE);
+            holder.qx_to.setVisibility(View.GONE);
+            holder.qrsh_to.setVisibility(View.GONE);
+            holder.qpj_to.setVisibility(View.GONE);
+            holder.tk_to.setVisibility(View.GONE);
+            holder.del_order_to.setVisibility(View.VISIBLE);
             holder.tv_order_status.setText("已完成");
         }else if(data.get(position).getOrderStatus().equals("7")){
+            holder.tv_to_pay.setVisibility(View.GONE);
+            holder.qx_to.setVisibility(View.GONE);
+            holder.qrsh_to.setVisibility(View.GONE);
+            holder.qpj_to.setVisibility(View.GONE);
+            holder.tk_to.setVisibility(View.GONE);
+            holder.del_order_to.setVisibility(View.VISIBLE);
             holder.tv_order_status.setText("已取消");
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -175,8 +188,8 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
                 DialogCustom dialogCustom = new DialogCustom(context, "确认删除订单?", new DialogCustom.OnYesListener() {
                     @Override
                     public void onYes() {
-                        ViseHttp.POST(NetUrl.AppOrdertoDelete)
-                                .addForm("goodsOrderId",data.get(position).getId())
+                        ViseHttp.GET(NetUrl.AppOrdertoDelete)
+                                .addParam("goodsOrderId",data.get(position).getId())
                                 .request(new ACallback<String>() {
                                     @Override
                                     public void onSuccess(String d) {
@@ -223,6 +236,18 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
                 intent.putExtra("title", data.get(position).getGoodsTitle());
                 context.startActivity(intent);
 
+            }
+        });
+        holder.tk_to.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogCustom dialogCustom = new DialogCustom(context, "确认申请退款?", new DialogCustom.OnYesListener() {
+                    @Override
+                    public void onYes() {
+                        listener.onReturnPrice(position);
+                    }
+                });
+                dialogCustom.show();
             }
         });
     }

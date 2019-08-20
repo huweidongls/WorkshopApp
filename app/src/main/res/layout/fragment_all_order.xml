@@ -16,5 +16,23 @@
             android:layout_height="match_parent"/>
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
+    <RelativeLayout
+        android:id="@+id/empty_order_bloacks"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/bg"
+        android:gravity="center_vertical"
+        >
+        <TextView
+            android:textSize="16dp"
+            android:textColor="#FFFFFF"
+            android:text="暂无订单，快去下单把!"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            />
+    </RelativeLayout>
 </RelativeLayout>
