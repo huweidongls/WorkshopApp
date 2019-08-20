@@ -23,9 +23,11 @@ import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.bean.OrderListBean;
 import com.jingna.workshopapp.dialog.DialogCustom;
 import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.page.AcceptanceActivity;
 import com.jingna.workshopapp.page.CrowdDetailsActivity;
 import com.jingna.workshopapp.page.CrowdDetailsSupportActivity;
 import com.jingna.workshopapp.page.OrderDetailsActivity;
+import com.jingna.workshopapp.page.SubmissionEvaluateActivity;
 import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.ToastUtil;
 import com.vise.xsnow.http.ViseHttp;
@@ -203,12 +205,23 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
         holder.qrsh_to.setOnClickListener(new View.OnClickListener() {//确认收货跳转
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent();
+                intent.setClass(context, AcceptanceActivity.class);
+                intent.putExtra("id", data.get(position).getId());
+                intent.putExtra("imgUrl", data.get(position).getGoodsPictureApp());
+                intent.putExtra("title", data.get(position).getGoodsTitle());
+                context.startActivity(intent);
             }
         });
         holder.qpj_to.setOnClickListener(new View.OnClickListener() {//去评价跳转
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context, SubmissionEvaluateActivity.class);
+                intent.putExtra("id", data.get(position).getId());
+                intent.putExtra("imgUrl", data.get(position).getGoodsPictureApp());
+                intent.putExtra("title", data.get(position).getGoodsTitle());
+                context.startActivity(intent);
 
             }
         });
