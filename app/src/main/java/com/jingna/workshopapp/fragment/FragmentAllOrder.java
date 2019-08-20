@@ -15,16 +15,22 @@ import com.jingna.workshopapp.base.OrderBaseFragment;
 import com.jingna.workshopapp.bean.CollectionListBean;
 import com.jingna.workshopapp.bean.EntrustListBean;
 import com.jingna.workshopapp.bean.OrderListBean;
+import com.jingna.workshopapp.bean.WxPayBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.page.MyOrderActivity;
+import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.wxapi.WXShare;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
@@ -54,13 +60,17 @@ public class FragmentAllOrder extends OrderBaseFragment {
     private int page = 1;
 
     private static final int SDK_PAY_FLAG = 1;
+
     private int position;
 
+    private WXShare wxShare;
+    private IWXAPI api;
     @Override
     public View initView() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_all_order, null);
+        api = WXAPIFactory.createWXAPI(getContext(), null);
         ButterKnife.bind(this, view);
-//        initData();
+        initData();
 
         return view;
     }
@@ -151,6 +161,29 @@ public class FragmentAllOrder extends OrderBaseFragment {
                                 adapter = new FragmentAllOrderAdapter(mList, new FragmentAllOrderAdapter.ClickListener() {
                                     @Override
                                     public void onPay(int pos) {
+                                        ViseHttp.GET(NetUrl.AppOrderlistOrdersSubmitted)
+                                                .addParam("id",mList.get(pos).getId())
+                                                .request(new ACallback<String>() {
+                                                    @Override
+                                                    public void onSuccess(String data) {
+                                                        try {
+                                                            JSONObject jsonObject = new JSONObject(data);
+                                                           // Logger.e("111111",data);
+                                                            if (jsonObject.optString("status").equals("200")){
+                                                                Gson gson = new Gson();
+                                                                WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
+                                                                wxPay(wxPayBean);
+                                                            }
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onFail(int errCode, String errMsg) {
+
+                                                    }
+                                                });
                                     }
 
                                     @Override
@@ -179,5 +212,18 @@ public class FragmentAllOrder extends OrderBaseFragment {
     @Override
     public void hide() {
 
+    }
+    public void wxPay(WxPayBean model) {
+        api.registerApp(WXShare.APP_ID);
+        PayReq req = new PayReq();
+        req.appId = model.getData().getAppid();
+        req.partnerId = model.getData().getPartnerid();
+        req.prepayId = model.getData().getPrepayid();
+        req.nonceStr = model.getData().getNoncestr();
+        req.timeStamp = model.getData().getTimestamp() + "";
+        req.packageValue = "Sign=WXPay";
+        req.sign = model.getData().getPaySign();
+        req.extData = "app data";
+        api.sendReq(req);
     }
 }

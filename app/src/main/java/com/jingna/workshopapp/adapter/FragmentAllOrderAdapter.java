@@ -15,13 +15,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.annotations.Until;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.bean.OrderListBean;
+import com.jingna.workshopapp.dialog.DialogCustom;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.page.CrowdDetailsActivity;
+import com.jingna.workshopapp.page.CrowdDetailsSupportActivity;
 import com.jingna.workshopapp.page.OrderDetailsActivity;
+import com.jingna.workshopapp.util.Logger;
+import com.jingna.workshopapp.util.ToastUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
@@ -112,6 +118,98 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
                 intent.setClass(context,OrderDetailsActivity.class);
                 intent.putExtra("id",data.get(position).getId());
                 context.startActivity(intent);
+            }
+        });
+        holder.tv_to_pay.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                DialogCustom dialogCustom = new DialogCustom(context, "去支付?", new DialogCustom.OnYesListener() {
+                    @Override
+                    public void onYes() {
+                        listener.onPay(position);
+                    }
+                });
+                dialogCustom.show();
+
+            }
+        });
+        holder.qx_to.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogCustom dialogCustom = new DialogCustom(context, "是否取消订单", new DialogCustom.OnYesListener() {
+                    @Override
+                    public void onYes() {
+                        ViseHttp.POST(NetUrl.AppOrdercancellationOrder)
+                                .addParam("goodsOrderId",data.get(position).getId())
+                                .request(new ACallback<String>() {
+                                    @Override
+                                    public void onSuccess(String d) {
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(d);
+                                            if (jsonObject.optString("data").equals("Success")){
+                                                ToastUtil.showShort(context, "取消订单成功!");
+                                                data.remove(position);
+                                                notifyDataSetChanged();
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFail(int errCode, String errMsg) {
+
+                                    }
+                                });
+                    }
+                });
+                dialogCustom.show();
+            }
+        });
+        holder.del_order_to.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogCustom dialogCustom = new DialogCustom(context, "确认删除订单?", new DialogCustom.OnYesListener() {
+                    @Override
+                    public void onYes() {
+                        ViseHttp.POST(NetUrl.AppOrdertoDelete)
+                                .addForm("goodsOrderId",data.get(position).getId())
+                                .request(new ACallback<String>() {
+                                    @Override
+                                    public void onSuccess(String d) {
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(d);
+                                            if (jsonObject.optString("status").equals("200")){
+                                                ToastUtil.showShort(context, "删除订单成功!");
+                                                data.remove(position);
+                                                notifyDataSetChanged();
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFail(int errCode, String errMsg) {
+
+                                    }
+                                });
+                    }
+                });
+                dialogCustom.show();
+            }
+        });
+        holder.qrsh_to.setOnClickListener(new View.OnClickListener() {//确认收货跳转
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        holder.qpj_to.setOnClickListener(new View.OnClickListener() {//去评价跳转
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
