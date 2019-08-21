@@ -83,11 +83,13 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
     private Map<String, String> map;//发票map
     private WXShare wxShare;
     private IWXAPI api;
+    private String id="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crowd_details_support);
         api = WXAPIFactory.createWXAPI(context, null);
+        id = getIntent().getStringExtra("id");
         StatusBarUtils.setStatusBar(CrowdDetailsSupportActivity.this, getResources().getColor(R.color.statusbar_color));
         ButterKnife.bind(CrowdDetailsSupportActivity.this);
         LoadAddredd();
