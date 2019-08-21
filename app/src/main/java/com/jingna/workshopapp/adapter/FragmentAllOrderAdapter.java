@@ -84,7 +84,7 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
             holder.qrsh_to.setVisibility(View.GONE);
             holder.qpj_to.setVisibility(View.GONE);
             holder.del_order_to.setVisibility(View.GONE);
-            holder.tv_order_status.setText("已付款");
+            holder.tv_order_status.setText("等待发货");
         }else if(data.get(position).getOrderStatus().equals("3")){
             holder.tv_to_pay.setVisibility(View.GONE);
             holder.qx_to.setVisibility(View.GONE);

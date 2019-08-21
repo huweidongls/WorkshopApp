@@ -23,10 +23,9 @@
                     android:layout_marginLeft="15dp"
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"
-                    android:text="智能物联锁"
+                    android:text="平台自营"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-
                 <ImageView
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="9dp"
@@ -43,7 +42,7 @@
                 android:layout_marginRight="15dp"
                 android:textColor="#FFFFFF"
                 android:textSize="13sp"
-                android:text="待收货"
+                android:text="待评价"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -109,22 +108,22 @@
             android:layout_width="match_parent"
             android:layout_height="48dp">
             <Button
-                android:id="@+id/tv_to_pay"
+                android:id="@+id/tv_to_pj"
                 android:layout_gravity="center_vertical"
-                android:background="#8F8F8F"
+                android:background="@drawable/bg_8f8f8f_1dp_bord"
                 android:layout_marginRight="14dp"
                 android:gravity="center"
                 android:textColor="#FFFFFF"
                 android:textSize="13sp"
-                android:text="去支付"
+                android:text="去评价"
                 android:layout_width="80dp"
                 android:layout_height="30dp" />
         </LinearLayout>
-        <!--  <TextView
+          <TextView
               android:layout_width="match_parent"
               android:layout_height="10dp"
-              android:background="#C4CDE1"
-              />-->
+              android:background="#33c4cde1"
+              />
     </LinearLayout>
 
 </LinearLayout>
