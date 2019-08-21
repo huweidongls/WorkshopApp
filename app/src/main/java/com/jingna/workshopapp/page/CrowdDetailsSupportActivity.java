@@ -18,6 +18,7 @@ import com.jingna.workshopapp.bean.CrowOrderBean;
 import com.jingna.workshopapp.bean.LikeGoodsBean;
 import com.jingna.workshopapp.bean.WxPayBean;
 import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
@@ -99,8 +100,8 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
     }
     private void initdata(){
         ViseHttp.POST("/AppOrder/crowdFundingOrderConfiguration")
-                .addForm("goodsNum",num)
-                .addForm("gearPositionId",id)
+                .addParam("goodsNum",num)
+                .addParam("gearPositionId",id)
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {
@@ -218,7 +219,7 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
         if (invoiceId==0){//0是不开发票
             ViseHttp.POST("/AppOrder/crowdFundingOrderSubmission")
                     .addForm("userId",SpUtils.getUserId(context))
-                    .addForm("sellerId",gid)
+                    .addForm("sellerId",id)
                     .addForm("goodsNum",num)
                     .addForm("invoiceId","0")
                     .addForm("addressId",addressid+"")
@@ -226,10 +227,10 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
                     .request(new ACallback<String>() {
                         @Override
                         public void onSuccess(String data) {
+                            Logger.e("123123", data);
                             try {
                                 JSONObject jsonObject = new JSONObject(data);
                                 if(jsonObject.optString("status").equals("200")){
-                                    ToastUtil.showShort(CrowdDetailsSupportActivity.this, "请先勾选支持者协议!");
                                     Gson gson = new Gson();
                                     WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
                                     wxPay(wxPayBean);
@@ -247,7 +248,7 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
         }else{//1是开发票
             ViseHttp.POST("/AppOrder/crowdFundingOrderSubmission")
                     .addForm("userId",SpUtils.getUserId(context))
-                    .addForm("sellerId",gid)
+                    .addForm("sellerId",id)
                     .addForm("goodsNum",num)
                     .addForm("invoiceId","1")
                     .addForm("addressId",addressid+"")

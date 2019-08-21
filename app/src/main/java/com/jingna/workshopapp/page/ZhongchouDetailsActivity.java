@@ -175,7 +175,7 @@ public class ZhongchouDetailsActivity extends BaseActivity {
                 Intent intent = new Intent();
                 intent.setClass(context, CrowdDetailsSupportActivity.class);
                 intent.putExtra("id", id);
-                intent.putExtra("num", popNum);
+                intent.putExtra("num", popNum+"");
                 startActivity(intent);
             }
         });
