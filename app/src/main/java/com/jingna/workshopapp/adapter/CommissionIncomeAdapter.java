@@ -1,7 +1,6 @@
 package com.jingna.workshopapp.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.jingna.workshopapp.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,14 +33,7 @@ public class CommissionIncomeAdapter extends RecyclerView.Adapter<CommissionInco
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        List<String> list = new ArrayList<>();
-        list.add("");
-        list.add("");
-        CommissionIncomeItemAdapter itemAdapter = new CommissionIncomeItemAdapter(list);
-        LinearLayoutManager manager = new LinearLayoutManager(context);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        holder.rv.setLayoutManager(manager);
-        holder.rv.setAdapter(itemAdapter);
+
     }
 
     @Override

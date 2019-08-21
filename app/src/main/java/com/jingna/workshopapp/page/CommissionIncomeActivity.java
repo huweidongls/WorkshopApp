@@ -5,11 +5,21 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
-import com.jingna.workshopapp.adapter.CommissionIncomeAdapter;
+import com.jingna.workshopapp.adapter.CommissionIncomeItemAdapter;
 import com.jingna.workshopapp.base.BaseActivity;
+import com.jingna.workshopapp.bean.CommissionIncomeBean;
+import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +34,13 @@ public class CommissionIncomeActivity extends BaseActivity {
 
     @BindView(R.id.rv)
     RecyclerView recyclerView;
+    @BindView(R.id.tv_zhichu)
+    TextView tvZhichu;
+    @BindView(R.id.tv_shouru)
+    TextView tvShouru;
 
-    private CommissionIncomeAdapter adapter;
-    private List<String> mList;
+    private CommissionIncomeItemAdapter adapter;
+    private List<CommissionIncomeBean.DataBean.CommissionRevenuesBean> mList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +55,36 @@ public class CommissionIncomeActivity extends BaseActivity {
 
     private void initData() {
 
-        mList = new ArrayList<>();
-        mList.add("");
-        mList.add("");
-        adapter = new CommissionIncomeAdapter(mList);
-        LinearLayoutManager manager = new LinearLayoutManager(context);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(adapter);
+        ViseHttp.GET(NetUrl.MemUserCommissionRevenuesSum)
+                .addParam("memberId", SpUtils.getUserId(context))
+                .addParam("type", "")
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if(jsonObject.optString("status").equals("200")){
+                                Gson gson = new Gson();
+                                CommissionIncomeBean bean = gson.fromJson(data, CommissionIncomeBean.class);
+                                mList = bean.getData().getCommissionRevenues();
+                                adapter = new CommissionIncomeItemAdapter(mList);
+                                LinearLayoutManager manager = new LinearLayoutManager(context);
+                                manager.setOrientation(LinearLayoutManager.VERTICAL);
+                                recyclerView.setLayoutManager(manager);
+                                recyclerView.setAdapter(adapter);
+                                tvZhichu.setText("支出 ¥"+bean.getData().getZhuanchu());
+                                tvShouru.setText("收入 ¥"+bean.getData().getZhuanru());
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
+                    }
+                });
 
     }
 

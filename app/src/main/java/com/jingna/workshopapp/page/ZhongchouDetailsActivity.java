@@ -1,6 +1,7 @@
 package com.jingna.workshopapp.page;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.http.SslError;
@@ -65,8 +66,10 @@ public class ZhongchouDetailsActivity extends BaseActivity {
     private RecyclerView rvPop;
     private TextView tvYunfei;
     private TextView tvFahuo;
+    private TextView tvQuzhichi;
     private ZhongchouPopAdapter popAdapter;
     private List<ZhongchouPopBean.DataBean> mList;
+    private String dangweiId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +95,7 @@ public class ZhongchouDetailsActivity extends BaseActivity {
         rvPop = view.findViewById(R.id.rv_dangwei);
         tvYunfei = view.findViewById(R.id.tv_yunfei);
         tvFahuo = view.findViewById(R.id.tv_fahuo);
+        tvQuzhichi = view.findViewById(R.id.tv_quzhichi);
 
         ViseHttp.GET(NetUrl.AppCrowdFundinggetGearPositionById)
                 .addParam("id", id)
@@ -109,6 +113,7 @@ public class ZhongchouDetailsActivity extends BaseActivity {
                                     public void onClick(int pos) {
                                         Glide.with(context).load(NetUrl.BASE_URL + mList.get(pos).getGearPictureApp()).into(ivPop);
                                         tvTitle.setText(mList.get(pos).getGearSubtitle());
+                                        dangweiId = mList.get(pos).getId()+"";
                                         if(mList.get(pos).getFreight() == 0){
                                             tvYunfei.setText("配送运费：免运费");
                                         }else {
@@ -128,6 +133,7 @@ public class ZhongchouDetailsActivity extends BaseActivity {
                                 if (mList.size() > 0) {
                                     Glide.with(context).load(NetUrl.BASE_URL + mList.get(0).getGearPictureApp()).into(ivPop);
                                     tvTitle.setText(mList.get(0).getGearSubtitle());
+                                    dangweiId = mList.get(0).getId()+"";
                                     if(mList.get(0).getFreight() == 0){
                                         tvYunfei.setText("配送运费：免运费");
                                     }else {
@@ -161,6 +167,16 @@ public class ZhongchouDetailsActivity extends BaseActivity {
             public void onClick(View v) {
                 popNum = popNum + 1;
                 tvNum.setText(popNum + "");
+            }
+        });
+        tvQuzhichi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context, CrowdDetailsSupportActivity.class);
+                intent.putExtra("id", id);
+                intent.putExtra("num", popNum);
+                startActivity(intent);
             }
         });
 
