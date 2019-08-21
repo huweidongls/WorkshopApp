@@ -88,4 +88,8 @@ public class NetUrl {
     public static final String AppShopGoodsEvaluatetoUpdate ="/AppShopGoodsEvaluate/toUpdate";
     //订单收货
     public static final String AppOrderorderReceiving ="/AppOrder/orderReceiving";
+    //佣金收益记录接口
+    public static final String MemUserCommissionRevenuesSum ="/MemUser/CommissionRevenuesSum";
+    //佣金提现申请接口
+    public static final String AppMemberCommissionAudittoUpdate ="/AppMemberCommissionAudit/toUpdate";
 }
