@@ -84,12 +84,14 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
     private WXShare wxShare;
     private IWXAPI api;
     private String id="";
+    private String num="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crowd_details_support);
         api = WXAPIFactory.createWXAPI(context, null);
         id = getIntent().getStringExtra("id");
+        num =getIntent().getStringExtra("num");
         StatusBarUtils.setStatusBar(CrowdDetailsSupportActivity.this, getResources().getColor(R.color.statusbar_color));
         ButterKnife.bind(CrowdDetailsSupportActivity.this);
         LoadAddredd();
@@ -97,8 +99,8 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
     }
     private void initdata(){
         ViseHttp.POST("/AppOrder/crowdFundingOrderConfiguration")
-                .addForm("goodsNum","1")
-                .addForm("gearPositionId","1")
+                .addForm("goodsNum",num)
+                .addForm("gearPositionId",id)
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {
@@ -217,7 +219,7 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
             ViseHttp.POST("/AppOrder/crowdFundingOrderSubmission")
                     .addForm("userId",SpUtils.getUserId(context))
                     .addForm("sellerId",gid)
-                    .addForm("goodsNum","1")
+                    .addForm("goodsNum",num)
                     .addForm("invoiceId","0")
                     .addForm("addressId",addressid+"")
                     .addForm("remarks",search)
@@ -246,7 +248,7 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
             ViseHttp.POST("/AppOrder/crowdFundingOrderSubmission")
                     .addForm("userId",SpUtils.getUserId(context))
                     .addForm("sellerId",gid)
-                    .addForm("goodsNum","1")
+                    .addForm("goodsNum",num)
                     .addForm("invoiceId","1")
                     .addForm("addressId",addressid+"")
                     .addForm("remarks",search)
