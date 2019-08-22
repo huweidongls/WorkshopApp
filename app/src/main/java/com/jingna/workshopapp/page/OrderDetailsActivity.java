@@ -332,6 +332,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
                             JSONObject jsonObject1 = new JSONObject(data);
                             if (jsonObject1.optString("data").equals("已退款")){
                                 ToastUtil.showShort(context, "退款成功!");
+                                finish();
                                 /*mList.remove(pos);
                                 adapter.notifyDataSetChanged();*/
                             }
@@ -359,6 +360,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
                                     JSONObject jsonObject = new JSONObject(d);
                                     if (jsonObject.optString("status").equals("200")){
                                         ToastUtil.showShort(context, "删除订单成功!");
+                                        finish();
                                         /*data.remove(position);
                                         notifyDataSetChanged();*/
                                     }
@@ -389,6 +391,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
                                     JSONObject jsonObject = new JSONObject(d);
                                     if (jsonObject.optString("data").equals("Success")){
                                         ToastUtil.showShort(context, "取消订单成功!");
+                                        finish();
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();

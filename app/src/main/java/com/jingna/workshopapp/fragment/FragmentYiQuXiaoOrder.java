@@ -47,13 +47,49 @@ public class FragmentYiQuXiaoOrder extends OrderBaseFragment{
     @BindView(R.id.empty_order_bloack)
     RelativeLayout empty_order_bloack;
     private int page=1;
+    private boolean isFirst = true;
     @Override
     public View initView() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_yiquxiao_order, null);
         ButterKnife.bind(this, view);
         return view;
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(isFirst){
+            isFirst = false;
+        }else {
+            ViseHttp.GET(NetUrl.AppOrderActivityList)
+                    .addParam("pageNum", "1")
+                    .addParam("pageSize", "10")
+                    .addParam("type","3")
+                    .addParam("userId", SpUtils.getUserId(getContext()))
+                    .request(new ACallback<String>() {
+                        @Override
+                        public void onSuccess(String data) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(data);
+                                if (jsonObject.optString("status").equals("200")) {
+                                    Gson gson = new Gson();
+                                    OrderListBean bean = gson.fromJson(data, OrderListBean.class);
+                                    mList.clear();
+                                    mList.addAll(bean.getData());
+                                    adapter.notifyDataSetChanged();
+                                    page = 2;
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
 
+                        @Override
+                        public void onFail(int errCode, String errMsg) {
+
+                        }
+                    });
+        }
+    }
     @Override
     public void initData() {
         smartRefreshLayout.setRefreshHeader(new MaterialHeader(getContext()));
