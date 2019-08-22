@@ -253,6 +253,7 @@
                     />
             </LinearLayout>-->
             <LinearLayout
+                android:id="@+id/fsc_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -279,6 +280,7 @@
                     />
             </LinearLayout>
             <View
+                android:id="@+id/h_x"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#ffaeaeae"
@@ -362,7 +364,7 @@
                     android:id="@+id/yunfei"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="+¥0.00"
+                    android:text="¥0.00"
                     android:textColor="#FFFFFF"
                     android:textSize="15sp"
                     />
@@ -410,6 +412,7 @@
                 android:background="#FFFFFF"
                 >
                <Button
+                   android:id="@+id/tv_to_pay"
                    android:layout_gravity="center_vertical"
                    android:layout_width="70dp"
                    android:layout_height="35dp"
@@ -421,11 +424,60 @@
                    android:layout_marginBottom="15dp"
                    />
                 <Button
+                    android:id="@+id/qx_to"
                     android:layout_gravity="center_vertical"
                     android:layout_width="70dp"
                     android:layout_height="35dp"
                     android:layout_marginRight="20dp"
                     android:text="取消订单"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="#1AE694"
+                    />
+                <Button
+                    android:id="@+id/del_order_to"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="20dp"
+                    android:text="删除订单"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="#1AE694"
+                    />
+                <Button
+                    android:id="@+id/qpj_to"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="20dp"
+                    android:text="去评价"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="#1AE694"
+                    />
+                <Button
+                    android:id="@+id/tk_to"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="20dp"
+                    android:text="退款"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="#1AE694"
+                    />
+                <Button
+                    android:id="@+id/qrsh_to"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="20dp"
+                    android:text="确认收货"
                     android:textColor="#FFFFFF"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="15dp"
