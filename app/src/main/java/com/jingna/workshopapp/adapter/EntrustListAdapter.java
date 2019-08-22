@@ -44,7 +44,7 @@ public class EntrustListAdapter extends RecyclerView.Adapter<EntrustListAdapter.
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
         holder.llXing.removeAllViews();
-        int commentLevel = 4;
+        int commentLevel = data.get(position).getIntEvalute();
         int a = DensityTool.dp2px(context, 7);
         ImageView imageView;
         for (int i = 0; i<commentLevel; i++){
@@ -63,6 +63,7 @@ public class EntrustListAdapter extends RecyclerView.Adapter<EntrustListAdapter.
                 holder.llXing.addView(imageView, layoutParams);
             }
         }
+        holder.tvPingfen.setText(data.get(position).getEvaluate()+"");
 
         Glide.with(context).load(NetUrl.BASE_URL+data.get(position).getAppCategoryPic()).into(holder.iv);
         holder.tvTitle.setText(data.get(position).getCategoryName());
@@ -92,6 +93,7 @@ public class EntrustListAdapter extends RecyclerView.Adapter<EntrustListAdapter.
         private ImageView iv;
         private TextView tvTitle;
         private TextView tvPrice;
+        private TextView tvPingfen;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -99,6 +101,7 @@ public class EntrustListAdapter extends RecyclerView.Adapter<EntrustListAdapter.
             iv = itemView.findViewById(R.id.iv);
             tvTitle = itemView.findViewById(R.id.tv_title);
             tvPrice = itemView.findViewById(R.id.tv_price);
+            tvPingfen = itemView.findViewById(R.id.tv_pingfen);
         }
     }
 

@@ -66,6 +66,24 @@ public class CategoryQueryChildListBean {
         private int pid;
         private String appCategoryPic;
         private List<?> productAttributeList;
+        private double evaluate;
+        private int intEvalute;
+
+        public int getIntEvalute() {
+            return intEvalute;
+        }
+
+        public void setIntEvalute(int intEvalute) {
+            this.intEvalute = intEvalute;
+        }
+
+        public double getEvaluate() {
+            return evaluate;
+        }
+
+        public void setEvaluate(double evaluate) {
+            this.evaluate = evaluate;
+        }
 
         public int getId() {
             return id;

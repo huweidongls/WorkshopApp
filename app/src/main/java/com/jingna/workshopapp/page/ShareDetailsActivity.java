@@ -123,7 +123,6 @@ public class ShareDetailsActivity extends BaseActivity {
         StatusBarUtils.setStatusBarTransparent(ShareDetailsActivity.this);
         ButterKnife.bind(ShareDetailsActivity.this);
         initView();
-        initBottomStar();
         initData();
 
     }
@@ -293,6 +292,7 @@ public class ShareDetailsActivity extends BaseActivity {
                                 }else {
                                     Glide.with(context).load(R.mipmap.star_w).into(ivStar);
                                 }
+                                initBottomStar(shareDetailsBean.getData().getIntEvalute());
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -307,13 +307,12 @@ public class ShareDetailsActivity extends BaseActivity {
 
     }
 
-    private void initBottomStar() {
+    private void initBottomStar(int num) {
 
         llBottomStar.removeAllViews();
-        int commentLevel = 5;
         int a = DensityTool.dp2px(context, 9);
         ImageView imageView;
-        for (int i = 0; i<commentLevel; i++){
+        for (int i = 0; i<num; i++){
             if(i == 0){
                 imageView = new ImageView(context);
                 imageView.setImageResource(R.mipmap.xingxing_red);

@@ -45,7 +45,7 @@ public class ShareListAdapter extends RecyclerView.Adapter<ShareListAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.llXing.removeAllViews();
-        int commentLevel = 4;
+        int commentLevel = data.get(position).getIntEvalute();
         int a = DensityTool.dp2px(context, 12);
         ImageView imageView;
         for (int i = 0; i<commentLevel; i++){
@@ -64,6 +64,7 @@ public class ShareListAdapter extends RecyclerView.Adapter<ShareListAdapter.View
                 holder.llXing.addView(imageView, layoutParams);
             }
         }
+        holder.tvPingfen.setText(data.get(position).getEvaluate()+"");
 
         Glide.with(context).load(NetUrl.BASE_URL+data.get(position).getAppCategoryPic()).into(holder.iv);
         holder.tvTitle.setText(data.get(position).getCategoryName());
@@ -94,12 +95,14 @@ public class ShareListAdapter extends RecyclerView.Adapter<ShareListAdapter.View
         private LinearLayout llXing;
         private ImageView iv;
         private TextView tvTitle;
+        private TextView tvPingfen;
 
         public ViewHolder(View itemView) {
             super(itemView);
             llXing = itemView.findViewById(R.id.ll_xing);
             iv = itemView.findViewById(R.id.iv);
             tvTitle = itemView.findViewById(R.id.tv_title);
+            tvPingfen = itemView.findViewById(R.id.tv_pingfen);
         }
     }
 

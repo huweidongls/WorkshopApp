@@ -54,6 +54,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tv_pingfen"
                 android:layout_marginLeft="5dp"
                 android:layout_gravity="center_vertical"
                 android:textColor="@color/white_ffffff"
