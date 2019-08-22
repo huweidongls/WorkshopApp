@@ -1,9 +1,11 @@
 package com.jingna.workshopapp.page;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
@@ -38,6 +40,12 @@ public class CommissionIncomeActivity extends BaseActivity {
     TextView tvZhichu;
     @BindView(R.id.tv_shouru)
     TextView tvShouru;
+    @BindView(R.id.tv1)
+    TextView tv1;
+    @BindView(R.id.tv2)
+    TextView tv2;
+    @BindView(R.id.tv3)
+    TextView tv3;
 
     private CommissionIncomeItemAdapter adapter;
     private List<CommissionIncomeBean.DataBean.CommissionRevenuesBean> mList;
@@ -88,11 +96,110 @@ public class CommissionIncomeActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.rl_back})
+    @OnClick({R.id.rl_back, R.id.rl1, R.id.rl2, R.id.rl3})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.rl_back:
                 finish();
+                break;
+            case R.id.rl1:
+                tv1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+                tv1 .setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                tv2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+                tv2 .setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                tv3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+                tv3 .setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                ViseHttp.GET(NetUrl.MemUserCommissionRevenuesSum)
+                        .addParam("memberId", SpUtils.getUserId(context))
+                        .addParam("type", "")
+                        .request(new ACallback<String>() {
+                            @Override
+                            public void onSuccess(String data) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(data);
+                                    if(jsonObject.optString("status").equals("200")){
+                                        Gson gson = new Gson();
+                                        CommissionIncomeBean bean = gson.fromJson(data, CommissionIncomeBean.class);
+                                        mList.clear();
+                                        mList.addAll(bean.getData().getCommissionRevenues());
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFail(int errCode, String errMsg) {
+
+                            }
+                        });
+                break;
+            case R.id.rl2:
+                tv1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+                tv1 .setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                tv2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+                tv2 .setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                tv3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+                tv3 .setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                ViseHttp.GET(NetUrl.MemUserCommissionRevenuesSum)
+                        .addParam("memberId", SpUtils.getUserId(context))
+                        .addParam("type", "0")
+                        .request(new ACallback<String>() {
+                            @Override
+                            public void onSuccess(String data) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(data);
+                                    if(jsonObject.optString("status").equals("200")){
+                                        Gson gson = new Gson();
+                                        CommissionIncomeBean bean = gson.fromJson(data, CommissionIncomeBean.class);
+                                        mList.clear();
+                                        mList.addAll(bean.getData().getCommissionRevenues());
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFail(int errCode, String errMsg) {
+
+                            }
+                        });
+                break;
+            case R.id.rl3:
+                tv1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+                tv1 .setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                tv2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+                tv2 .setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                tv3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+                tv3 .setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                ViseHttp.GET(NetUrl.MemUserCommissionRevenuesSum)
+                        .addParam("memberId", SpUtils.getUserId(context))
+                        .addParam("type", "1")
+                        .request(new ACallback<String>() {
+                            @Override
+                            public void onSuccess(String data) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(data);
+                                    if(jsonObject.optString("status").equals("200")){
+                                        Gson gson = new Gson();
+                                        CommissionIncomeBean bean = gson.fromJson(data, CommissionIncomeBean.class);
+                                        mList.clear();
+                                        mList.addAll(bean.getData().getCommissionRevenues());
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFail(int errCode, String errMsg) {
+
+                            }
+                        });
                 break;
         }
     }

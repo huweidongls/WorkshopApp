@@ -1,6 +1,7 @@
 package com.jingna.workshopapp.page;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -49,11 +50,14 @@ public class MyBankCardActivity extends BaseActivity {
 
     private PopupWindow popupWindow;
 
+    private String type = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_bank_card);
 
+        type = getIntent().getStringExtra("type");
         userId = SpUtils.getUserId(context);
         StatusBarUtils.setStatusBar(MyBankCardActivity.this, getResources().getColor(R.color.statusbar_color));
         ButterKnife.bind(MyBankCardActivity.this);
@@ -82,7 +86,14 @@ public class MyBankCardActivity extends BaseActivity {
                                 adapter = new MyBankCardAdapter(mList, new MyBankCardAdapter.ClickListener() {
                                     @Override
                                     public void onItemClick(int pos, String bankName, String card) {
-                                        showDelPop(pos, bankName, card);
+                                        if(type.equals("my")){
+                                            showDelPop(pos, bankName, card);
+                                        }else {
+                                            Intent intent = new Intent();
+                                            intent.putExtra("bean", mList.get(pos));
+                                            setResult(1000, intent);
+                                            finish();
+                                        }
                                     }
                                 });
                                 LinearLayoutManager manager = new LinearLayoutManager(context);

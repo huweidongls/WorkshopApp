@@ -169,6 +169,7 @@ public class FragmentMy extends BaseFragment {
                     startActivity(intent);
                 } else {
                     intent.setClass(getContext(), MyBankCardActivity.class);
+                    intent.putExtra("type", "my");
                     startActivity(intent);
                 }
                 break;

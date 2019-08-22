@@ -1,12 +1,13 @@
 package com.jingna.workshopapp.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2019/7/23.
  */
 
-public class BankCardListBean {
+public class BankCardListBean implements Serializable {
 
     /**
      * status : 200
@@ -72,7 +73,7 @@ public class BankCardListBean {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable {
         /**
          * id : 1
          * userId : 46
