@@ -11,6 +11,7 @@ import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,6 +59,18 @@ public class OrderDetailsActivity extends AppCompatActivity {
         initdata();
     }
     private void initdata(){
-        ViseHttp.GET(NetUrl)
+        ViseHttp.GET(NetUrl.AppOrderorderDetails)
+                .addParam("goodsOrderId",id)
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
+                    }
+                });
     }
 }
