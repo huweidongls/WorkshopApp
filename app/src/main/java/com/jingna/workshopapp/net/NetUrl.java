@@ -92,4 +92,6 @@ public class NetUrl {
     public static final String MemUserCommissionRevenuesSum ="/MemUser/CommissionRevenuesSum";
     //佣金提现申请接口
     public static final String AppMemberCommissionAudittoUpdate ="/AppMemberCommissionAudit/toUpdate";
+    //根据用户ID查询该用户的可提现金额
+    public static final String MemUsergetByUserMoney ="MemUser/getByUserMoney";
 }
