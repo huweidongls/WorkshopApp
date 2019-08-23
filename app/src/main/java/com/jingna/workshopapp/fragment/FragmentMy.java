@@ -22,6 +22,7 @@ import com.jingna.workshopapp.page.CollectionActivity;
 import com.jingna.workshopapp.page.CommissionActivity;
 import com.jingna.workshopapp.page.CommissionIncomeActivity;
 import com.jingna.workshopapp.page.ForgotPwd1Activity;
+import com.jingna.workshopapp.page.MaintenanceAfterSaleActivity;
 import com.jingna.workshopapp.page.MyBankCardActivity;
 import com.jingna.workshopapp.page.MyOrderActivity;
 import com.jingna.workshopapp.page.MySetActivity;
@@ -126,7 +127,7 @@ public class FragmentMy extends BaseFragment {
     }
 
     @OnClick({R.id.iv_avatar, R.id.ll_login, R.id.ll_my_order, R.id.rl1, R.id.rl2, R.id.rl3, R.id.rl4, R.id.rl5, R.id.rl6
-            , R.id.rl7, R.id.iv_my_set, R.id.iv_my_msg, R.id.tv_edit})
+            , R.id.rl7, R.id.iv_my_set, R.id.iv_my_msg, R.id.tv_edit,R.id.ll_Maintenance})
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -238,6 +239,10 @@ public class FragmentMy extends BaseFragment {
                     intent.setClass(getContext(), PersonInformationActivity.class);
                     startActivity(intent);
                 }
+                break;
+            case R.id.ll_Maintenance:
+                intent.setClass(getContext(), MaintenanceAfterSaleActivity.class);
+                startActivity(intent);
                 break;
         }
     }
