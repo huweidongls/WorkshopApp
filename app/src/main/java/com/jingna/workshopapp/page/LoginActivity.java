@@ -41,7 +41,7 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        StatusBarUtils.setStatusBar(LoginActivity.this, Color.parseColor("#ffffff"));
+        StatusBarUtils.setStatusBar(LoginActivity.this, getResources().getColor(R.color.statusbar_color));
         ButterKnife.bind(LoginActivity.this);
 
     }

@@ -37,7 +37,7 @@ public class SMSLoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_smslogin);
 
-        StatusBarUtils.setStatusBar(SMSLoginActivity.this, Color.parseColor("#ffffff"));
+        StatusBarUtils.setStatusBar(SMSLoginActivity.this, getResources().getColor(R.color.statusbar_color));
         ButterKnife.bind(SMSLoginActivity.this);
 
     }
