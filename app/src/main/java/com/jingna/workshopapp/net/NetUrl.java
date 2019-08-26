@@ -96,4 +96,6 @@ public class NetUrl {
     public static final String AppMemberCommissionAudittoUpdate ="/AppMemberCommissionAudit/toUpdate";
     //根据用户ID查询该用户的可提现金额
     public static final String MemUsergetByUserMoney ="MemUser/getByUserMoney";
+    //查询维修设备列表(售后服务)
+    public static final String AppAfterSaleEquipmentqueryList = "/AppAfterSaleEquipment/queryList";
 }

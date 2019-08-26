@@ -19,6 +19,7 @@
             android:text="售后服务"
             style="@style/tv_top_title" />
            <TextView
+               android:id="@+id/add_order"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:text="添加"
