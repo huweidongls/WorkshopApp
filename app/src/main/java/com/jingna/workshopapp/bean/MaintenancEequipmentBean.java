@@ -43,6 +43,7 @@ public class MaintenancEequipmentBean implements Serializable {
         private String equipmentName;
         private String equipmentModel;
         private int isSelect = 0;
+        private int num = 1;
 
         public int getId() {
             return id;
@@ -55,7 +56,13 @@ public class MaintenancEequipmentBean implements Serializable {
         public String getEquipmentName() {
             return equipmentName;
         }
+        public int getNum() {
+            return num;
+        }
 
+        public void setNum(int num) {
+            this.num = num;
+        }
         public int getIsSelect() {
             return isSelect;
         }

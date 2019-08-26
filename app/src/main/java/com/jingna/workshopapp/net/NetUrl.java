@@ -98,4 +98,6 @@ public class NetUrl {
     public static final String MemUsergetByUserMoney ="MemUser/getByUserMoney";
     //查询维修设备列表(售后服务)
     public static final String AppAfterSaleEquipmentqueryList = "/AppAfterSaleEquipment/queryList";
+    //提交售后订单
+    public static final String AfterSaleOrderafterSaleOrder = "/AfterSaleOrder/afterSaleOrder";
 }

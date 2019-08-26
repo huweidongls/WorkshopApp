@@ -34,10 +34,31 @@ public class AfterSaleEquipmentAdapter extends RecyclerView.Adapter<AfterSaleEqu
     }
 
     @Override
-    public void onBindViewHolder(AfterSaleEquipmentAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final AfterSaleEquipmentAdapter.ViewHolder holder, final int position) {
         holder.tvName.setText(data.get(position).getEquipmentName());
         holder.tv.setText(data.get(position).getEquipmentModel());
-        holder.tvNum.setText("1");
+        /*holder.tvNum.setText("1");*/
+       /* holder.rlJian.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int num = data.get(position).getNum();
+                if(num > 1){
+                    num = num - 1;
+                    data.get(position).setNum(num);
+                    holder.tvNum.setText(num+"");
+                }
+            }
+        });
+
+        holder.rlJia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int num = data.get(position).getNum();
+                num = num + 1;
+                data.get(position).setNum(num);
+                holder.tvNum.setText(num+"");
+            }
+        });*/
     }
 
     @Override
@@ -48,15 +69,15 @@ public class AfterSaleEquipmentAdapter extends RecyclerView.Adapter<AfterSaleEqu
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvName;
         private TextView tv;
-        private RelativeLayout rlJian;
-        private RelativeLayout rlJia;
+      /*  private RelativeLayout rlJian;
+        private RelativeLayout rlJia;*/
         private TextView tvNum;
         public ViewHolder(View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tv_name);
             tv = itemView.findViewById(R.id.tv);
-            rlJian = itemView.findViewById(R.id.rl_jian);
-            rlJia = itemView.findViewById(R.id.rl_jia);
+         /*   rlJian = itemView.findViewById(R.id.rl_jian);
+            rlJia = itemView.findViewById(R.id.rl_jia);*/
             tvNum = itemView.findViewById(R.id.tv_num);
         }
     }
