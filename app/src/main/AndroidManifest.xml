@@ -148,7 +148,8 @@
         <activity android:name=".page.SearchGoodsListActivity" />
         <activity android:name=".page.ZhongchouDetailsActivity" />
         <activity android:name=".page.AcceptanceActivity" />
-        <activity android:name=".page.MaintenanceAfterSaleActivity"></activity>
+        <activity android:name=".page.MaintenanceAfterSaleActivity" />
+        <activity android:name=".page.MaintenancEequipmentActivity"></activity>
     </application>
 
 </manifest>
