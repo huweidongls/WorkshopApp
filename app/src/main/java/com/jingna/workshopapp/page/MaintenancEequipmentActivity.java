@@ -1,10 +1,12 @@
 package com.jingna.workshopapp.page;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
@@ -14,16 +16,19 @@ import com.jingna.workshopapp.bean.MaintenancEequipmentBean;
 import com.jingna.workshopapp.bean.PeitaoshebeiBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.ToastUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MaintenancEequipmentActivity extends AppCompatActivity {
     private Context context = MaintenancEequipmentActivity.this;
@@ -31,6 +36,7 @@ public class MaintenancEequipmentActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     private MaintenancEequipmentAdapter adapter;
     private List<MaintenancEequipmentBean.DataBean> mList;
+    private int Commint_On=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,5 +77,36 @@ public class MaintenancEequipmentActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+    @OnClick({R.id.rl_back, R.id.tv_cancel, R.id.tv_save})
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.rl_back:
+                finish();
+                break;
+            case R.id.tv_cancel:
+                finish();
+                break;
+            case R.id.tv_save:
+                On_Self();
+                if (Commint_On==0){
+                    ToastUtil.showShort(context, "请完善信息后提交");
+                }else{
+                    startActivity(new Intent(MaintenancEequipmentActivity.this,AfterSale_Commit_orderActivity.class)
+                            .putExtra("bean",(Serializable) mList)
+                    );
+                }
+
+                break;
+        }
+    }
+    private void On_Self(){
+        for (MaintenancEequipmentBean.DataBean bean : mList){
+            if(bean.getIsSelect() == 1){
+                Commint_On = 1;
+            }else{
+                Commint_On = 0;
+            }
+        }
     }
 }

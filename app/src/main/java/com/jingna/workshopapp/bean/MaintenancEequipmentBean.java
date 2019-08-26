@@ -1,12 +1,13 @@
 package com.jingna.workshopapp.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2019/8/26.
  */
 
-public class MaintenancEequipmentBean {
+public class MaintenancEequipmentBean implements Serializable {
     /**
      * status : 200
      * data : [{"id":3,"equipmentName":"污水处理设备","equipmentModel":"型号003"},{"id":2,"equipmentName":"污水处理设备","equipmentModel":"型号002"},{"id":1,"equipmentName":"污水处理设备","equipmentModel":"型号001"}]
@@ -31,7 +32,7 @@ public class MaintenancEequipmentBean {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable {
         /**
          * id : 3
          * equipmentName : 污水处理设备
