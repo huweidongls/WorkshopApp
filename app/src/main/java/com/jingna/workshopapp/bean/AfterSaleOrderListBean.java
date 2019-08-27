@@ -3,13 +3,14 @@ package com.jingna.workshopapp.bean;
 import java.util.List;
 
 /**
- * Created by Administrator on 2019/8/26.
+ * Created by Administrator on 2019/8/27.
  */
 
-public class AfterSaleOrderList {
+public class AfterSaleOrderListBean {
+
     /**
      * status : 200
-     * data : [{"id":"20190826104446656","deviceId":"1,2","addresCoordinate":"126.63238520689535,45.7427950567895","addresPhone":"18686817319","addresName":"汉广街41号","orderStatus":"2","deviceName":"污水处理设备型号001,污水处理设备型号002,","appAfterSaleEquipments":[{"equipmentName":"污水处理设备","equipmentModel":"型号001"},{"equipmentName":"污水处理设备","equipmentModel":"型号002"}]},{"id":"20190826105907227","deviceId":"1,2","addresCoordinate":"126.63238520689535,45.7427950567895","addresPhone":"18686817319","addresName":"汉广街41号","orderStatus":"2","deviceName":"污水处理设备型号001,污水处理设备型号002,","appAfterSaleEquipments":[{"equipmentName":"污水处理设备","equipmentModel":"型号001"},{"equipmentName":"污水处理设备","equipmentModel":"型号002"}]},{"id":"20190826154805486","deviceId":"2,1","addresCoordinate":"null,null","addresPhone":"13652525252","addresName":"北京市-北京市-东城区mottled","orderStatus":"1","deviceName":"污水处理设备型号002,污水处理设备型号001,","appAfterSaleEquipments":[{"equipmentName":"污水处理设备","equipmentModel":"型号002"},{"equipmentName":"污水处理设备","equipmentModel":"型号001"}]},{"id":"20190826163453334","deviceId":"2,1","addresCoordinate":"116.4224009776628,39.93482727239599","addresPhone":"13652525252","addresName":"北京市-北京市-东城区mottled","orderStatus":"1","deviceName":"污水处理设备型号002,污水处理设备型号001,","appAfterSaleEquipments":[{"equipmentName":"污水处理设备","equipmentModel":"型号002"},{"equipmentName":"污水处理设备","equipmentModel":"型号001"}]}]
+     * data : [{"id":"20190826104446656","deviceId":"1,2","addresCoordinate":"126.63238520689535,45.7427950567895","addresPhone":"18686817319","addresName":"汉广街41号","orderRealPrice":0,"orderStatus":"2","deviceName":"污水处理设备型号001,污水处理设备型号002,","appAfterSaleEquipments":[{"equipmentName":"污水处理设备","equipmentModel":"型号001"},{"equipmentName":"污水处理设备","equipmentModel":"型号002"}]},{"id":"20190826105907227","deviceId":"1,2","addresCoordinate":"126.63238520689535,45.7427950567895","addresPhone":"18686817319","addresName":"汉广街41号","orderRealPrice":0,"orderStatus":"2","deviceName":"污水处理设备型号001,污水处理设备型号002,","appAfterSaleEquipments":[{"equipmentName":"污水处理设备","equipmentModel":"型号001"},{"equipmentName":"污水处理设备","equipmentModel":"型号002"}]},{"id":"20190826154805486","deviceId":"2,1","addresCoordinate":"null,null","addresPhone":"13652525252","addresName":"北京市-北京市-东城区mottled","orderRealPrice":0,"orderStatus":"2","deviceName":"污水处理设备型号002,污水处理设备型号001,","appAfterSaleEquipments":[{"equipmentName":"污水处理设备","equipmentModel":"型号002"},{"equipmentName":"污水处理设备","equipmentModel":"型号001"}]},{"id":"20190826163453334","deviceId":"2,1","addresCoordinate":"116.4224009776628,39.93482727239599","addresPhone":"13652525252","addresName":"北京市-北京市-东城区mottled","orderRealPrice":0,"orderStatus":"1","deviceName":"污水处理设备型号002,污水处理设备型号001,","appAfterSaleEquipments":[{"equipmentName":"污水处理设备","equipmentModel":"型号002"},{"equipmentName":"污水处理设备","equipmentModel":"型号001"}]}]
      */
 
     private String status;
@@ -38,6 +39,7 @@ public class AfterSaleOrderList {
          * addresCoordinate : 126.63238520689535,45.7427950567895
          * addresPhone : 18686817319
          * addresName : 汉广街41号
+         * orderRealPrice : 0
          * orderStatus : 2
          * deviceName : 污水处理设备型号001,污水处理设备型号002,
          * appAfterSaleEquipments : [{"equipmentName":"污水处理设备","equipmentModel":"型号001"},{"equipmentName":"污水处理设备","equipmentModel":"型号002"}]
@@ -48,6 +50,7 @@ public class AfterSaleOrderList {
         private String addresCoordinate;
         private String addresPhone;
         private String addresName;
+        private int orderRealPrice;
         private String orderStatus;
         private String deviceName;
         private List<AppAfterSaleEquipmentsBean> appAfterSaleEquipments;
@@ -90,6 +93,14 @@ public class AfterSaleOrderList {
 
         public void setAddresName(String addresName) {
             this.addresName = addresName;
+        }
+
+        public int getOrderRealPrice() {
+            return orderRealPrice;
+        }
+
+        public void setOrderRealPrice(int orderRealPrice) {
+            this.orderRealPrice = orderRealPrice;
         }
 
         public String getOrderStatus() {

@@ -100,4 +100,12 @@ public class NetUrl {
     public static final String AppAfterSaleEquipmentqueryList = "/AppAfterSaleEquipment/queryList";
     //提交售后订单
     public static final String AfterSaleOrderafterSaleOrder = "/AfterSaleOrder/afterSaleOrder";
+    //订单列表(售后)
+    public static final String AfterSaleOrdergetByUserIdOrder = "/AfterSaleOrder/getByUserIdOrder";
+    //删除订单(售后)
+    public static final String AfterSaleOrdertoDeleteRepairOrder = "/AfterSaleOrder/toDeleteRepairOrder";
+    //取消订单(售后)
+    public static final String AfterSaleOrdergetByOrderRepairId = "/AfterSaleOrder/getByOrderRepairId";
+    //去支付(售后)
+    public static final String AfterSaleOrdergetByWxPay = "/AfterSaleOrder/getByWxPay";
 }
