@@ -150,7 +150,9 @@
         <activity android:name=".page.AcceptanceActivity" />
         <activity android:name=".page.MaintenanceAfterSaleActivity" />
         <activity android:name=".page.MaintenancEequipmentActivity" />
-        <activity android:name=".page.AfterSale_Commit_orderActivity"></activity>
+        <activity android:name=".page.AfterSale_Commit_orderActivity" />
+        <activity android:name=".page.AfterSaleOrderDetailsActivity" />
+        <activity android:name=".page.AfterSaleOrderDetailsTopayActivity"></activity>
     </application>
 
 </manifest>

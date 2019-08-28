@@ -108,4 +108,8 @@ public class NetUrl {
     public static final String AfterSaleOrdergetByOrderRepairId = "/AfterSaleOrder/getByOrderRepairId";
     //去支付(售后)
     public static final String AfterSaleOrdergetByWxPay = "/AfterSaleOrder/getByWxPay";
+    //订单详情售后
+    public static final String AfterSaleOrdergetOneByOrderId = "/AfterSaleOrder/getOneByOrderId";
+    //订单详情(售后去支付)
+    public static final String AfterSaleOrdergetByWxPayDetails = "/AfterSaleOrder/getByWxPayDetails";
 }

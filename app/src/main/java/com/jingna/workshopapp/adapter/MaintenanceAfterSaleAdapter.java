@@ -1,6 +1,7 @@
 package com.jingna.workshopapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,9 @@ import com.jingna.workshopapp.bean.AfterSaleOrderListBean;
 import com.jingna.workshopapp.bean.CommissionIncomeBean;
 import com.jingna.workshopapp.dialog.DialogCustom;
 import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.page.AcceptanceActivity;
+import com.jingna.workshopapp.page.AfterSaleOrderDetailsActivity;
+import com.jingna.workshopapp.page.AfterSaleOrderDetailsTopayActivity;
 import com.jingna.workshopapp.util.ToastUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
@@ -21,6 +25,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
+
+import butterknife.BindView;
 
 /**
  * Created by Administrator on 2019/8/23.
@@ -55,36 +61,49 @@ public class MaintenanceAfterSaleAdapter extends RecyclerView.Adapter<Maintenanc
             holder.del_order.setVisibility(View.GONE);
             holder.to_pay.setVisibility(View.GONE);
             holder.radio_order.setVisibility(View.GONE);
+            holder.to_no_price.setVisibility(View.GONE);
         }else if(data.get(position).getOrderStatus().equals("0")){
             holder.tv_status.setText("订单已取消");
             holder.btn_order.setVisibility(View.GONE);
             holder.del_order.setVisibility(View.VISIBLE);
             holder.to_pay.setVisibility(View.GONE);
+            holder.to_no_price.setVisibility(View.GONE);
             holder.radio_order.setVisibility(View.GONE);
         }else if(data.get(position).getOrderStatus().equals("4")){
-            holder.tv_status.setText("¥"+data.get(position).getOrderRealPrice());
+            holder.tv_status.setText("未提交价格");
             holder.btn_order.setVisibility(View.GONE);
-            holder.del_order.setVisibility(View.VISIBLE);
+            holder.del_order.setVisibility(View.GONE);
             holder.to_pay.setVisibility(View.GONE);
             holder.radio_order.setVisibility(View.GONE);
+            holder.to_no_price.setVisibility(View.VISIBLE);
         }else if(data.get(position).getOrderStatus().equals("2")){
             holder.tv_status.setText("维修中");
             holder.btn_order.setVisibility(View.GONE);
             holder.del_order.setVisibility(View.GONE);
             holder.to_pay.setVisibility(View.GONE);
             holder.radio_order.setVisibility(View.VISIBLE);
+            holder.to_no_price.setVisibility(View.GONE);
         }else if(data.get(position).getOrderStatus().equals("3")){
             holder.tv_status.setText("维修中");
             holder.btn_order.setVisibility(View.GONE);
             holder.del_order.setVisibility(View.GONE);
             holder.to_pay.setVisibility(View.GONE);
             holder.radio_order.setVisibility(View.VISIBLE);
+            holder.to_no_price.setVisibility(View.GONE);
         }else if(data.get(position).getOrderStatus().equals("5")){
+            holder.tv_status.setText("¥"+data.get(position).getOrderRealPrice());
+            holder.btn_order.setVisibility(View.GONE);
+            holder.del_order.setVisibility(View.GONE);
+            holder.to_pay.setVisibility(View.VISIBLE);
+            holder.radio_order.setVisibility(View.GONE);
+            holder.to_no_price.setVisibility(View.GONE);
+        }else if(data.get(position).getOrderStatus().equals("6")){
             holder.tv_status.setText("¥"+data.get(position).getOrderRealPrice());
             holder.btn_order.setVisibility(View.GONE);
             holder.del_order.setVisibility(View.VISIBLE);
             holder.to_pay.setVisibility(View.GONE);
             holder.radio_order.setVisibility(View.GONE);
+            holder.to_no_price.setVisibility(View.GONE);
         }
         holder.del_order.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,6 +184,23 @@ public class MaintenanceAfterSaleAdapter extends RecyclerView.Adapter<Maintenanc
                 dialogCustom.show();
             }
         });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                if(data.get(position).getOrderStatus().equals("5")){//去支付详情
+                    intent.setClass(context, AfterSaleOrderDetailsTopayActivity.class);
+                    intent.putExtra("id", data.get(position).getId());
+                    context.startActivity(intent);
+                }else if(data.get(position).getOrderStatus().equals("6")){//支付完成详情
+
+                }else{//提交订单后的详情
+                    intent.setClass(context, AfterSaleOrderDetailsActivity.class);
+                    intent.putExtra("id", data.get(position).getId());
+                    context.startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override
@@ -183,6 +219,7 @@ public class MaintenanceAfterSaleAdapter extends RecyclerView.Adapter<Maintenanc
         private Button del_order;
         private Button to_pay;
         private Button radio_order;
+        private Button to_no_price;
         public ViewHolder(View itemView) {
             super(itemView);
             tv_order_sn = itemView.findViewById(R.id.tv_order_sn);
@@ -195,6 +232,7 @@ public class MaintenanceAfterSaleAdapter extends RecyclerView.Adapter<Maintenanc
             del_order = itemView.findViewById(R.id.del_order);
             to_pay = itemView.findViewById(R.id.to_pay);
             radio_order = itemView.findViewById(R.id.radio_order);
+            to_no_price = itemView.findViewById(R.id.to_no_price);
         }
     }
     public interface ClickListener{
