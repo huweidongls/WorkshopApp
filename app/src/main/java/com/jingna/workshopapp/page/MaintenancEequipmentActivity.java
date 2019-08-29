@@ -104,8 +104,6 @@ public class MaintenancEequipmentActivity extends AppCompatActivity {
         for (MaintenancEequipmentBean.DataBean bean : mList){
             if(bean.getIsSelect() == 1){
                 Commint_On = 1;
-            }else{
-                Commint_On = 0;
             }
         }
     }
