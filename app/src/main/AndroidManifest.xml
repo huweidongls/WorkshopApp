@@ -317,7 +317,8 @@
             android:name="JPUSH_APPKEY"
             android:value="3959464c3d8a613cc2c4a208" />
 
-        <activity android:name=".page.SignatureActivity"></activity>
+        <activity android:name=".page.SignatureActivity" />
+        <activity android:name=".page.AfterOrderDetailsPaymentedActivity"></activity>
     </application>
 
 </manifest>
