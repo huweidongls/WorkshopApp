@@ -15,6 +15,7 @@ import com.jingna.workshopapp.bean.CommissionIncomeBean;
 import com.jingna.workshopapp.dialog.DialogCustom;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.page.AcceptanceActivity;
+import com.jingna.workshopapp.page.AfterOrderDetailsPaymentedActivity;
 import com.jingna.workshopapp.page.AfterSaleOrderDetailsActivity;
 import com.jingna.workshopapp.page.AfterSaleOrderDetailsTopayActivity;
 import com.jingna.workshopapp.page.SignatureActivity;
@@ -179,7 +180,11 @@ public class MaintenanceAfterSaleAdapter extends RecyclerView.Adapter<Maintenanc
                 DialogCustom dialogCustom = new DialogCustom(context, "去支付?", new DialogCustom.OnYesListener() {
                     @Override
                     public void onYes() {
-                        listener.onPay(position);
+                        //listener.onPay(position);
+                        Intent intent = new Intent();
+                        intent.setClass(context, AfterSaleOrderDetailsTopayActivity.class);
+                        intent.putExtra("id", data.get(position).getId());
+                        context.startActivity(intent);
                     }
                 });
                 dialogCustom.show();
@@ -194,16 +199,16 @@ public class MaintenanceAfterSaleAdapter extends RecyclerView.Adapter<Maintenanc
                     intent.putExtra("id", data.get(position).getId());
                     context.startActivity(intent);
                 }else if(data.get(position).getOrderStatus().equals("6")){//支付完成详情
-
-                }else{//提交订单后的详情
-
-                    intent.setClass(context, SignatureActivity.class);
-                    //intent.putExtra("id", data.get(position).getId());
+                    intent.setClass(context, AfterOrderDetailsPaymentedActivity.class);
+                    intent.putExtra("id", data.get(position).getId());
                     context.startActivity(intent);
-
-                   /* intent.setClass(context, AfterSaleOrderDetailsActivity.class);
+                }else{//提交订单后的详情
+                    /*intent.setClass(context, SignatureActivity.class);
                     intent.putExtra("id", data.get(position).getId());
                     context.startActivity(intent);*/
+                    intent.setClass(context, AfterSaleOrderDetailsActivity.class);
+                    intent.putExtra("id", data.get(position).getId());
+                    context.startActivity(intent);
                 }
             }
         });

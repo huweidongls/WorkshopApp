@@ -7,7 +7,6 @@
     android:background="@color/bg"
     android:orientation="vertical"
     tools:context="com.jingna.workshopapp.page.CrowdDetailsSupportActivity">
-
     <RelativeLayout
         android:id="@+id/rl_top"
         style="@style/rl_top_bar">
@@ -29,7 +28,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
             <LinearLayout
                 android:id="@+id/ll_invoice"
                 android:layout_width="match_parent"
@@ -84,7 +82,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
-
             <RelativeLayout
                 android:id="@+id/rl_address"
                 android:layout_width="match_parent"
@@ -145,7 +142,6 @@
                     android:textColor="#333333"
                     android:textSize="14sp" />
             </RelativeLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -154,12 +150,10 @@
                 android:layout_marginTop="10dp"
                 android:background="#FFFFFF"
                 android:orientation="vertical">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -169,23 +163,19 @@
                         android:textColor="#333333"
                         android:textSize="15sp" />
                 </LinearLayout>
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:orientation="vertical">
-
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:descendantFocusability="blocksDescendants">
-
                             <android.support.v7.widget.RecyclerView
                                 android:id="@+id/rv"
                                 android:layout_width="match_parent"
@@ -194,7 +184,6 @@
                     </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
-
             <LinearLayout
                 android:id="@+id/ll_invoices"
                 android:layout_width="match_parent"
@@ -225,7 +214,6 @@
                     android:textColor="@color/black_333333"
                     android:textSize="14sp" />
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -234,13 +222,11 @@
                 android:layout_marginTop="10dp"
                 android:background="#FFFFFF"
                 android:orientation="vertical">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="19dp"
                     android:orientation="horizontal">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -262,13 +248,11 @@
                         android:textColor="#333333"
                         android:textSize="13sp" />
                 </LinearLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="9dp"
                     android:orientation="horizontal">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -277,7 +261,6 @@
                         android:text="维修工时费"
                         android:textColor="#333333"
                         android:textSize="15sp" />
-
                     <TextView
                         android:id="@+id/goods_yunfei"
                         android:layout_width="wrap_content"
@@ -288,7 +271,6 @@
                         android:textColor="#333333"
                         android:textSize="13sp" />
                 </LinearLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -316,8 +298,58 @@
                         android:textSize="13sp" />
                 </LinearLayout>
             </LinearLayout>
+            <!--<LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1"
+                    android:text="全部费用"
+                    android:textColor="#333333"
+                    android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/conmit_all_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="12dp"
+                    android:text="已付款：¥1340.00"
+                    android:textColor="#333333"
+                    android:textSize="13sp" />
+            </LinearLayout>-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:background="#FFFFFF"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="105dp"
+                    android:layout_height="21dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1"
+                    android:text="已支付"
+                    android:textColor="#333333"
+                    android:textSize="15sp" />
 
-
+                <TextView
+                    android:id="@+id/conmit_all_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="9dp"
+                    android:text="已付款：¥1340.00"
+                    android:textColor="@color/black_333333"
+                    android:textSize="14sp" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

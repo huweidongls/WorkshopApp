@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -25,6 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class AfterSaleOrderDetailsActivity extends AppCompatActivity {
     @BindView(R.id.rv)
@@ -87,5 +89,13 @@ public class AfterSaleOrderDetailsActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+    @OnClick({R.id.rl_back})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.rl_back:
+                finish();
+                break;
+        }
     }
 }

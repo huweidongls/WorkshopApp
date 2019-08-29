@@ -75,6 +75,7 @@ public class MaintenanceAfterSaleActivity extends AppCompatActivity {
             case R.id.add_order:
                 intent.setClass(MaintenanceAfterSaleActivity.this, MaintenancEequipmentActivity.class);
                 startActivity(intent);
+                finish();
                 break;
         }
     }

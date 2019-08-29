@@ -95,6 +95,7 @@ public class MaintenancEequipmentActivity extends AppCompatActivity {
                     startActivity(new Intent(MaintenancEequipmentActivity.this,AfterSale_Commit_orderActivity.class)
                             .putExtra("bean",(Serializable) mList)
                     );
+                    finish();
                 }
 
                 break;
