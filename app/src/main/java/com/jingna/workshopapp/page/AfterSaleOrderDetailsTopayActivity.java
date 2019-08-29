@@ -39,9 +39,9 @@ import butterknife.OnClick;
 
 public class AfterSaleOrderDetailsTopayActivity extends AppCompatActivity {
     private Context context = AfterSaleOrderDetailsTopayActivity.this;
-    private int pay=1;
-    private int moeny_all=0;
-    private String id="";
+    private int pay = 1;
+    private int moeny_all = 0;
+    private String id = "";
     private AfterSaleOrderDetailsTopayAdapter adapter;
     @BindView(R.id.iv_pay_wx)
     ImageView iv_pay_wx;
@@ -66,6 +66,7 @@ public class AfterSaleOrderDetailsTopayActivity extends AppCompatActivity {
     private List<AfterSaleOrderDetailsToPayBean.DataBean.AfterSaleOrderItemsBean> mList;
     private WXShare wxShare;
     private IWXAPI api;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,28 +77,34 @@ public class AfterSaleOrderDetailsTopayActivity extends AppCompatActivity {
         api = WXAPIFactory.createWXAPI(AfterSaleOrderDetailsTopayActivity.this, null);
         initData();
     }
-    private void initData(){
+
+    private void initData() {
         ViseHttp.GET(NetUrl.AfterSaleOrdergetByWxPayDetails)
-                .addParam("orderId",id)
+                .addParam("orderId", id)
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {
                         try {
                             JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
+                            if (jsonObject.optString("status").equals("200")) {
                                 Gson gson = new Gson();
-                                AfterSaleOrderDetailsToPayBean bean = gson.fromJson(data,AfterSaleOrderDetailsToPayBean.class);
+                                AfterSaleOrderDetailsToPayBean bean = gson.fromJson(data, AfterSaleOrderDetailsToPayBean.class);
                                 mList = bean.getData().getAfterSaleOrderItems();
                                 tv_name.setText(bean.getData().getAddresUname());
                                 tv_tel.setText(bean.getData().getAddresPhone());
                                 tv_address.setText(bean.getData().getAddresName());
-                                goods_all_price.setText("¥"+bean.getData().getRepairMoney()+"元");
-                                goods_yunfei.setText("¥"+bean.getData().getRepairTimeMoney()+"元");
-                                pay_price.setText("¥"+bean.getData().getCarMoney()+"元");
-                                moeny_all = bean.getData().getCarMoney()+bean.getData().getRepairTimeMoney()+bean.getData().getRepairMoney();
-                                conmit_all_price.setText("¥"+moeny_all+"元");
+                                goods_all_price.setText("¥" + bean.getData().getRepairMoney() + "元");
+                                goods_yunfei.setText("¥" + bean.getData().getRepairTimeMoney() + "元");
+                                pay_price.setText("¥" + bean.getData().getCarMoney() + "元");
+                                moeny_all = bean.getData().getCarMoney() + bean.getData().getRepairTimeMoney() + bean.getData().getRepairMoney();
+                                conmit_all_price.setText("¥" + moeny_all + "元");
                                 adapter = new AfterSaleOrderDetailsTopayAdapter(mList);
-                                LinearLayoutManager manager = new LinearLayoutManager(AfterSaleOrderDetailsTopayActivity.this);
+                                LinearLayoutManager manager = new LinearLayoutManager(AfterSaleOrderDetailsTopayActivity.this){
+                                    @Override
+                                    public boolean canScrollVertically() {
+                                        return false;
+                                    }
+                                };
                                 manager.setOrientation(LinearLayoutManager.VERTICAL);
                                 recyclerView.setLayoutManager(manager);
                                 recyclerView.setAdapter(adapter);
@@ -113,20 +120,21 @@ public class AfterSaleOrderDetailsTopayActivity extends AppCompatActivity {
                     }
                 });
     }
-    @OnClick({R.id.rl_back, R.id.iv_wx,R.id.iv_zfb,R.id.submit_order})
-    public void onClick(View view){
+
+    @OnClick({R.id.rl_back, R.id.iv_wx, R.id.iv_zfb, R.id.submit_order})
+    public void onClick(View view) {
         //Intent intent = new Intent();
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.rl_back:
                 finish();
                 break;
             case R.id.iv_zfb:
-                pay=2;
+                pay = 2;
                 Glide.with(context).load(R.mipmap.duihao).into(iv_pay_zfb);
                 Glide.with(context).load(R.drawable.img_radios).into(iv_pay_wx);
                 break;
             case R.id.iv_wx:
-                pay=1;
+                pay = 1;
                 Glide.with(context).load(R.mipmap.duihao).into(iv_pay_wx);
                 Glide.with(context).load(R.drawable.img_radios).into(iv_pay_zfb);
                 break;
@@ -135,15 +143,16 @@ public class AfterSaleOrderDetailsTopayActivity extends AppCompatActivity {
                 break;
         }
     }
-    private void order_submit(){
+
+    private void order_submit() {
         ViseHttp.POST(NetUrl.AfterSaleOrdergetByWxPay)
-                .addParam("orderId",id)
+                .addParam("orderId", id)
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {
                         try {
                             JSONObject jsonObject = new JSONObject(data);
-                            if (jsonObject.optString("status").equals("200")){
+                            if (jsonObject.optString("status").equals("200")) {
                                 Gson gson = new Gson();
                                 WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
                                 wxPay(wxPayBean);
@@ -159,6 +168,7 @@ public class AfterSaleOrderDetailsTopayActivity extends AppCompatActivity {
                     }
                 });
     }
+
     public void wxPay(WxPayBean model) {
         api.registerApp(WXShare.APP_ID);
         PayReq req = new PayReq();
