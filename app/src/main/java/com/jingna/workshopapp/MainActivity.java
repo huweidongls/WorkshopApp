@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();
         tagAliasBean.isAliasAction = true;
         tagAliasBean.action = TagAliasOperatorHelper.ACTION_SET;
-        tagAliasBean.alias = "j_"+ SpUtils.getUserId(context);//别名
+        tagAliasBean.alias = "a"+ SpUtils.getUserId(context);//别名
         TagAliasOperatorHelper.getInstance().handleAction(context, TAG, tagAliasBean);
 
         PermissionManager.instance().request(this, new OnPermissionCallback() {

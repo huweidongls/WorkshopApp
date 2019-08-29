@@ -161,7 +161,7 @@
         <activity android:name=".page.MaintenancEequipmentActivity" />
         <activity android:name=".page.AfterSale_Commit_orderActivity" />
         <activity android:name=".page.AfterSaleOrderDetailsActivity" />
-        <activity android:name=".page.AfterSaleOrderDetailsTopayActivity"/>
+        <activity android:name=".page.AfterSaleOrderDetailsTopayActivity" />
 
         <!-- Required SDK 核心功能 -->
         <!-- 可配置 android:process 参数将 PushService 放在其他进程中 -->
@@ -317,6 +317,7 @@
             android:name="JPUSH_APPKEY"
             android:value="3959464c3d8a613cc2c4a208" />
 
+        <activity android:name=".page.SignatureActivity"></activity>
     </application>
 
 </manifest>
