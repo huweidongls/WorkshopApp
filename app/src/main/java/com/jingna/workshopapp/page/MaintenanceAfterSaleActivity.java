@@ -1,6 +1,8 @@
 package com.jingna.workshopapp.page;
 
+import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +22,10 @@ import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.wxapi.WXShare;
+import com.scwang.smartrefresh.header.MaterialHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -37,12 +43,19 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MaintenanceAfterSaleActivity extends AppCompatActivity {
+
+    private Context context = MaintenanceAfterSaleActivity.this;
+
     @BindView(R.id.rv)
     RecyclerView recyclerView;
+    @BindView(R.id.refresh)
+    SmartRefreshLayout smartRefreshLayout;
+
     private List<AfterSaleOrderListBean.DataBean> mList;
     private MaintenanceAfterSaleAdapter adapter;
     private WXShare wxShare;
     private IWXAPI api;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,8 +79,39 @@ public class MaintenanceAfterSaleActivity extends AppCompatActivity {
         }
     }
     private void initData(){
+        smartRefreshLayout.setRefreshHeader(new MaterialHeader(context));
+        smartRefreshLayout.setEnableLoadMore(false);
+        smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
+                ViseHttp.GET(NetUrl.AfterSaleOrdergetByUserIdOrder)
+                        .addParam("userId", SpUtils.getUserId(context))
+                        .request(new ACallback<String>() {
+                            @Override
+                            public void onSuccess(String data) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(data);
+                                    if(jsonObject.optString("status").equals("200")){
+                                        Gson gson = new Gson();
+                                        AfterSaleOrderListBean bean = gson.fromJson(data, AfterSaleOrderListBean.class);
+                                        mList.clear();
+                                        mList.addAll(bean.getData());
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                    refreshLayout.finishRefresh(500);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            @Override
+                            public void onFail(int errCode, String errMsg) {
+                                refreshLayout.finishRefresh(500);
+                            }
+                        });
+            }
+        });
         ViseHttp.GET(NetUrl.AfterSaleOrdergetByUserIdOrder)
-                .addParam("userId", SpUtils.getUserId(MaintenanceAfterSaleActivity.this))
+                .addParam("userId", SpUtils.getUserId(context))
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {

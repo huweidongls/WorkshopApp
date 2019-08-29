@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.base.BaseActivity;
+import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
 import com.jingna.workshopapp.widget.LinePathView;
 
@@ -30,6 +31,7 @@ public class SignatureActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signature);
 
+        StatusBarUtils.setStatusBar(SignatureActivity.this, getResources().getColor(R.color.statusbar_color));
         ButterKnife.bind(SignatureActivity.this);
         initData();
 
@@ -64,8 +66,9 @@ public class SignatureActivity extends BaseActivity {
                         if (!dir.exists()) {
                             dir.mkdirs();
                         }
-                        linePathView.save(dir.getAbsolutePath()+System.currentTimeMillis()+".jpg", true, 10);
-                        setResult(100);
+                        String s = dir.getAbsolutePath()+"/"+System.currentTimeMillis()+".jpg";
+                        linePathView.save(s, true, 10);
+                        finish();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

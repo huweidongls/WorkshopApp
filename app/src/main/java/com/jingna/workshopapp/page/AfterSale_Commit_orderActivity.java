@@ -59,7 +59,7 @@ public class AfterSale_Commit_orderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_after_sale__commit_order);
-        StatusBarUtils.setStatusBar(AfterSale_Commit_orderActivity.this, getResources().getColor(R.color.white_ffffff));
+        StatusBarUtils.setStatusBar(AfterSale_Commit_orderActivity.this, getResources().getColor(R.color.statusbar_color));
         ButterKnife.bind(AfterSale_Commit_orderActivity.this);
         Intent intent = getIntent();
         if(intent != null){
