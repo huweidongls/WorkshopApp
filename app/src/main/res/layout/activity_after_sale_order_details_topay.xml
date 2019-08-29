@@ -97,6 +97,63 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/ll_qianming"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:background="#FFFFFF"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="105dp"
+                    android:layout_height="21dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1"
+                    android:text="是否签名"
+                    android:textColor="#333333"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_qianmingtext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="9dp"
+                    android:text="未签名"
+                    android:textColor="@color/black_333333"
+                    android:textSize="14sp" />
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:src="@mipmap/fanhui"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_qianmingimg"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:background="#FFFFFF"
+                android:orientation="horizontal">
+                <ImageView
+                    android:adjustViewBounds="true"
+                    android:id="@+id/img_qinming"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/fanhui"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    />
+            </LinearLayout>
+            <LinearLayout
                 android:id="@+id/ll_invoice"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"

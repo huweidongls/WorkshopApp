@@ -1,6 +1,7 @@
 package com.jingna.workshopapp.page;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
@@ -68,6 +69,9 @@ public class SignatureActivity extends BaseActivity {
                         }
                         String s = dir.getAbsolutePath()+"/"+System.currentTimeMillis()+".jpg";
                         linePathView.save(s, true, 10);
+                        Intent intent = new Intent();
+                        intent.putExtra("pash", s);
+                        setResult(1002, intent);
                         finish();
                     } catch (IOException e) {
                         e.printStackTrace();

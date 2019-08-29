@@ -1,5 +1,6 @@
 package com.jingna.workshopapp.page;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,18 +10,21 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.adapter.AfterSaleOrderDetailsTopayAdapter;
+import com.jingna.workshopapp.bean.AddressBean;
 import com.jingna.workshopapp.bean.AfterSaleOrderDetailsToPayBean;
 import com.jingna.workshopapp.bean.WxPayBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.WeiboDialogUtils;
 import com.jingna.workshopapp.wxapi.WXShare;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -31,6 +35,7 @@ import com.vise.xsnow.http.callback.ACallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -63,10 +68,18 @@ public class AfterSaleOrderDetailsTopayActivity extends AppCompatActivity {
     TextView pay_price;
     @BindView(R.id.conmit_all_price)
     TextView conmit_all_price;
+    @BindView(R.id.ll_qianmingimg)
+    LinearLayout ll_qianmingimg;
+    @BindView(R.id.img_qinming)
+    ImageView img_qinming;
+    @BindView(R.id.tv_qianmingtext)
+    TextView tv_qianmingtext;
     private List<AfterSaleOrderDetailsToPayBean.DataBean.AfterSaleOrderItemsBean> mList;
     private WXShare wxShare;
     private IWXAPI api;
-
+    private int qm=0;
+    private String qm_img="";
+    private Dialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,7 +134,7 @@ public class AfterSaleOrderDetailsTopayActivity extends AppCompatActivity {
                 });
     }
 
-    @OnClick({R.id.rl_back, R.id.iv_wx, R.id.iv_zfb, R.id.submit_order})
+    @OnClick({R.id.rl_back, R.id.iv_wx, R.id.iv_zfb, R.id.submit_order,R.id.ll_qianming})
     public void onClick(View view) {
         //Intent intent = new Intent();
         switch (view.getId()) {
@@ -138,19 +151,32 @@ public class AfterSaleOrderDetailsTopayActivity extends AppCompatActivity {
                 Glide.with(context).load(R.mipmap.duihao).into(iv_pay_wx);
                 Glide.with(context).load(R.drawable.img_radios).into(iv_pay_zfb);
                 break;
+            case R.id.ll_qianming:
+                Intent intent = new Intent();
+                intent.setClass(context,SignatureActivity.class);
+                startActivityForResult(intent, 1001);
+                break;
             case R.id.submit_order:
-                order_submit();
+                if (qm==0){
+                    ToastUtil.showShort(context, "请先完成签名!");
+                }else{
+                    dialog = WeiboDialogUtils.createLoadingDialog(context,"请等待");
+                    order_submit();
+                }
                 break;
         }
     }
 
     private void order_submit() {
-        ViseHttp.POST(NetUrl.AfterSaleOrdergetByWxPay)
+        File file = new File(qm_img);
+        ViseHttp.UPLOAD(NetUrl.AfterSaleOrdergetByWxPay)
                 .addParam("orderId", id)
+                .addFile("file0",file)
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {
                         try {
+                            WeiboDialogUtils.closeDialog(dialog);
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.optString("status").equals("200")) {
                                 Gson gson = new Gson();
@@ -164,7 +190,7 @@ public class AfterSaleOrderDetailsTopayActivity extends AppCompatActivity {
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
-
+                        WeiboDialogUtils.closeDialog(dialog);
                     }
                 });
     }
@@ -181,5 +207,16 @@ public class AfterSaleOrderDetailsTopayActivity extends AppCompatActivity {
         req.sign = model.getData().getPaySign();
         req.extData = "app data";
         api.sendReq(req);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1001&&data != null){
+            qm_img = data.getStringExtra("pash");
+            qm=1;
+            ll_qianmingimg.setVisibility(View.VISIBLE);
+            tv_qianmingtext.setText("已签名");
+            Glide.with(context).load(qm_img).into(img_qinming);
+        }
     }
 }
