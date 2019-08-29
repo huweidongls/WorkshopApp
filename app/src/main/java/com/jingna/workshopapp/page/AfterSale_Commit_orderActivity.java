@@ -134,6 +134,7 @@ public class AfterSale_Commit_orderActivity extends AppCompatActivity {
                 break;
             case R.id.tv_commit:
                 Commint_Order();
+                finish();
                 break;
         }
     }
