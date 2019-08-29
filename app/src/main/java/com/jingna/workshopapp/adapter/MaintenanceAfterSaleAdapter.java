@@ -17,6 +17,7 @@ import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.page.AcceptanceActivity;
 import com.jingna.workshopapp.page.AfterSaleOrderDetailsActivity;
 import com.jingna.workshopapp.page.AfterSaleOrderDetailsTopayActivity;
+import com.jingna.workshopapp.page.SignatureActivity;
 import com.jingna.workshopapp.util.ToastUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
@@ -195,9 +196,14 @@ public class MaintenanceAfterSaleAdapter extends RecyclerView.Adapter<Maintenanc
                 }else if(data.get(position).getOrderStatus().equals("6")){//支付完成详情
 
                 }else{//提交订单后的详情
-                    intent.setClass(context, AfterSaleOrderDetailsActivity.class);
-                    intent.putExtra("id", data.get(position).getId());
+
+                    intent.setClass(context, SignatureActivity.class);
+                    //intent.putExtra("id", data.get(position).getId());
                     context.startActivity(intent);
+
+                   /* intent.setClass(context, AfterSaleOrderDetailsActivity.class);
+                    intent.putExtra("id", data.get(position).getId());
+                    context.startActivity(intent);*/
                 }
             }
         });
