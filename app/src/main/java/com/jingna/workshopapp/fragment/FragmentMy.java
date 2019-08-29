@@ -241,8 +241,13 @@ public class FragmentMy extends BaseFragment {
                 }
                 break;
             case R.id.ll_Maintenance:
-                intent.setClass(getContext(), MaintenanceAfterSaleActivity.class);
-                startActivity(intent);
+                if (userId.equals("0")) {
+                    intent.setClass(getContext(), SMSLoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    intent.setClass(getContext(), MaintenanceAfterSaleActivity.class);
+                    startActivity(intent);
+                }
                 break;
         }
     }

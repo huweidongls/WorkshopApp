@@ -177,6 +177,7 @@ public class AfterSaleOrderDetailsTopayActivity extends AppCompatActivity {
                     public void onSuccess(String data) {
                         try {
                             WeiboDialogUtils.closeDialog(dialog);
+                            Logger.e("123123", data);
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.optString("status").equals("200")) {
                                 Gson gson = new Gson();

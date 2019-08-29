@@ -57,7 +57,6 @@
                     android:layout_marginRight="9dp"
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"
-                    android:text="80646226239"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -84,7 +83,6 @@
                     android:layout_marginRight="9dp"
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"
-                    android:text="2019-06-04 12:43:59"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -117,7 +115,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="9dp"
-                        android:text="张三"
                         android:textColor="#333333"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -128,7 +125,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="5dp"
-                        android:text="123****4567"
                         android:textColor="#333333"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -144,7 +140,6 @@
                     android:layout_marginLeft="40dp"
                     android:layout_marginRight="50dp"
                     android:layout_marginTop="3dp"
-                    android:text="黑龙江省哈尔滨市南岗区汉广街41号金华大厦"
                     android:textColor="#333333"
                     android:textSize="12sp" />
             </RelativeLayout>
@@ -189,7 +184,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
-            android:text="共2件维修"
             android:textColor="#333333"
             android:textSize="13sp" />
         <TextView
