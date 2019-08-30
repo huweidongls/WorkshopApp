@@ -157,6 +157,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_daizhifu"
                         android:layout_weight="1"
                         android:orientation="vertical"
                         android:layout_width="0dp"
@@ -180,6 +181,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_jinxingzhong"
                         android:layout_weight="1"
                         android:orientation="vertical"
                         android:layout_width="0dp"
@@ -213,6 +215,7 @@
                     android:layout_height="wrap_content">
 
                     <LinearLayout
+                        android:id="@+id/ll_daishouhuo"
                         android:layout_weight="1"
                         android:orientation="vertical"
                         android:layout_width="0dp"

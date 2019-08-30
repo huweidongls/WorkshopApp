@@ -127,7 +127,7 @@ public class FragmentMy extends BaseFragment {
     }
 
     @OnClick({R.id.iv_avatar, R.id.ll_login, R.id.ll_my_order, R.id.rl1, R.id.rl2, R.id.rl3, R.id.rl4, R.id.rl5, R.id.rl6
-            , R.id.rl7, R.id.iv_my_set, R.id.iv_my_msg, R.id.tv_edit,R.id.ll_Maintenance})
+            , R.id.rl7, R.id.iv_my_set, R.id.iv_my_msg, R.id.tv_edit,R.id.ll_Maintenance,R.id.ll_daizhifu,R.id.ll_jinxingzhong,R.id.ll_daishouhuo})
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -151,6 +151,36 @@ public class FragmentMy extends BaseFragment {
                 } else {
                     intent.setClass(getContext(), MyOrderActivity.class);
                     intent.putExtra("index", 0);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.ll_daizhifu:
+                if (userId.equals("0")) {
+                    intent.setClass(getContext(), SMSLoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    intent.setClass(getContext(), MyOrderActivity.class);
+                    intent.putExtra("index", 1);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.ll_jinxingzhong:
+                if (userId.equals("0")) {
+                    intent.setClass(getContext(), SMSLoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    intent.setClass(getContext(), MyOrderActivity.class);
+                    intent.putExtra("index", 2);
+                    startActivity(intent);
+                }
+                    break;
+            case R.id.ll_daishouhuo:
+                if (userId.equals("0")) {
+                    intent.setClass(getContext(), SMSLoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    intent.setClass(getContext(), MyOrderActivity.class);
+                    intent.putExtra("index", 3);
                     startActivity(intent);
                 }
                 break;
