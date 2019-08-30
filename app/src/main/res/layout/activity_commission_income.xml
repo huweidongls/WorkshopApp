@@ -104,7 +104,6 @@
                 android:layout_gravity="end"
                 android:textColor="#FFFFFF"
                 android:textSize="13sp"
-                android:text="支出 ¥1000.00"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -113,7 +112,6 @@
                 android:layout_gravity="end"
                 android:textColor="#FFFFFF"
                 android:textSize="13sp"
-                android:text="收入 ¥3000.00"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
@@ -25,6 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class SearchGoodsListActivity extends AppCompatActivity {
     @BindView(R.id.rv1)
@@ -40,6 +42,7 @@ public class SearchGoodsListActivity extends AppCompatActivity {
     private List<LikeGoodsBean.DataBean.ShopCategoriesBean.ShopCategorysBean> ShopmList;
     private List<LikeGoodsBean.DataBean.ShopCategoriesWtjgBean.ShopCategorysBeanX> EquipmentmList;
     private List<LikeGoodsBean.DataBean.ListBean.CrowdFundingsBean> CrowdmList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,13 +54,13 @@ public class SearchGoodsListActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        String url = "/AppShopCategory/findByName?name="+LikeName;
+        String url = "/AppShopCategory/findByName?name=" + LikeName;
         ViseHttp.GET(url).request(new ACallback<String>() {
             @Override
             public void onSuccess(String data) {
                 try {
                     JSONObject jsonObject = new JSONObject(data);
-                    if(jsonObject.optString("status").equals("200")){
+                    if (jsonObject.optString("status").equals("200")) {
                         //ToastUtil.showShort(SearchGoodsListActivity.this, LikeName);
                         Gson gson = new Gson();
                         LikeGoodsBean bean = gson.fromJson(data, LikeGoodsBean.class);
@@ -67,7 +70,7 @@ public class SearchGoodsListActivity extends AppCompatActivity {
                         adapter1 = new workshopListAdapter(ShopmList);
                         adapter2 = new EquipmentListAdapter(EquipmentmList);
                         adapter3 = new CrowdFundingListAdapter(CrowdmList);
-                        LinearLayoutManager manager = new LinearLayoutManager(SearchGoodsListActivity.this){
+                        LinearLayoutManager manager = new LinearLayoutManager(SearchGoodsListActivity.this) {
                             @Override
                             public boolean canScrollVertically() {
                                 return false;
@@ -76,7 +79,7 @@ public class SearchGoodsListActivity extends AppCompatActivity {
                         manager.setOrientation(LinearLayoutManager.VERTICAL);
                         rv1.setLayoutManager(manager);
                         rv1.setAdapter(adapter1);
-                        LinearLayoutManager manager2 = new LinearLayoutManager(SearchGoodsListActivity.this){
+                        LinearLayoutManager manager2 = new LinearLayoutManager(SearchGoodsListActivity.this) {
                             @Override
                             public boolean canScrollVertically() {
                                 return false;
@@ -85,7 +88,7 @@ public class SearchGoodsListActivity extends AppCompatActivity {
                         manager2.setOrientation(LinearLayoutManager.VERTICAL);
                         rv2.setLayoutManager(manager2);
                         rv2.setAdapter(adapter2);
-                        LinearLayoutManager manager3 = new LinearLayoutManager(SearchGoodsListActivity.this){
+                        LinearLayoutManager manager3 = new LinearLayoutManager(SearchGoodsListActivity.this) {
                             @Override
                             public boolean canScrollVertically() {
                                 return false;
@@ -106,4 +109,14 @@ public class SearchGoodsListActivity extends AppCompatActivity {
             }
         });
     }
+
+    @OnClick({R.id.rl_back})
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.rl_back:
+                finish();
+                break;
+        }
+    }
+
 }

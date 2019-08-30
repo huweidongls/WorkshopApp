@@ -163,11 +163,11 @@
                         android:background="@drawable/img_radios" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="11dp"
                         android:layout_marginTop="18dp"
-                        android:text="智能物联锁"
+                        android:text="平台自营"
                         android:textColor="#333333"
                         android:textSize="13sp" />
                 </LinearLayout>
