@@ -93,6 +93,22 @@ public class ShareDetailsActivity extends BaseActivity {
     LinearLayout llEwai;
     @BindView(R.id.tv_money)
     TextView tvMoney;
+    @BindView(R.id.xinxi)
+    View viewXinxi;
+    @BindView(R.id.chejian)
+    View viewChejian;
+    @BindView(R.id.peitao)
+    View viewPeitao;
+    @BindView(R.id.peitaoshebei)
+    View viewPeitaoshebei;
+    @BindView(R.id.comment)
+    View viewComment;
+    @BindView(R.id.shiyongxuzhi)
+    View viewShiyongxuzhi;
+    @BindView(R.id.anquanxuzhi)
+    View viewAnquanxuzhi;
+    @BindView(R.id.zerenren)
+    View viewZerenren;
 
     private ShareDetailsCalendarAdapter calendarAdapter;
     private List<ShareDetailsBean.DataBean.TimesBean> mCalendarList;
@@ -170,6 +186,7 @@ public class ShareDetailsActivity extends BaseActivity {
                                     }
                                 }else {
                                     llXinxiShow.setVisibility(View.GONE);
+                                    viewXinxi.setVisibility(View.GONE);
                                 }
                                 //车间描述
                                 String chejian = shareDetailsBean.getData().getCategoryTextApp();
@@ -185,6 +202,7 @@ public class ShareDetailsActivity extends BaseActivity {
                                     }
                                 }else {
                                     llChejianDescribe.setVisibility(View.GONE);
+                                    viewChejian.setVisibility(View.GONE);
                                 }
                                 //配套服务
                                 String peitao = shareDetailsBean.getData().getSupportingServicesApp();
@@ -200,6 +218,7 @@ public class ShareDetailsActivity extends BaseActivity {
                                     }
                                 }else {
                                     llPeitaofuwu.setVisibility(View.GONE);
+                                    viewPeitao.setVisibility(View.GONE);
                                 }
                                 //配套设备
                                 peitaoshebeiList = shareDetailsBean.getData().getSupportingEquipments();
@@ -211,6 +230,7 @@ public class ShareDetailsActivity extends BaseActivity {
                                     rvPeitaoshebei.setAdapter(peitaoshebeiAdapter);
                                 }else {
                                     llPeitaoshebei.setVisibility(View.GONE);
+                                    viewPeitaoshebei.setVisibility(View.GONE);
                                 }
                                 //评价
                                 commentList = shareDetailsBean.getData().getShopGoodsEvaluates();
@@ -227,6 +247,7 @@ public class ShareDetailsActivity extends BaseActivity {
                                     rvComment.setAdapter(commentAdapter);
                                 }else {
                                     llComment.setVisibility(View.GONE);
+                                    viewComment.setVisibility(View.GONE);
                                 }
                                 //使用须知
                                 String shiyong = shareDetailsBean.getData().getInstructionsUseApp();
@@ -242,6 +263,7 @@ public class ShareDetailsActivity extends BaseActivity {
                                     }
                                 }else {
                                     llShiyongxuzhi.setVisibility(View.GONE);
+                                    viewShiyongxuzhi.setVisibility(View.GONE);
                                 }
                                 //安全须知
                                 String anquan = shareDetailsBean.getData().getSafetyInstructionsApp();
@@ -257,6 +279,7 @@ public class ShareDetailsActivity extends BaseActivity {
                                     }
                                 }else {
                                     llAnquanxuzhi.setVisibility(View.GONE);
+                                    viewAnquanxuzhi.setVisibility(View.GONE);
                                 }
                                 //责任人
                                 zerenList = shareDetailsBean.getData().getSysUserInfos();
@@ -268,6 +291,7 @@ public class ShareDetailsActivity extends BaseActivity {
                                     rvZeren.setAdapter(zerenAdapter);
                                 }else {
                                     llZeren.setVisibility(View.GONE);
+                                    viewZerenren.setVisibility(View.GONE);
                                 }
                                 //额外费用
                                 List<ShareDetailsBean.DataBean.AdditionalCostsBean> ewaiList = shareDetailsBean.getData().getAdditionalCosts();

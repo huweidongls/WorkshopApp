@@ -316,6 +316,19 @@
                     android:layout_width="91dp"
                     android:layout_height="31dp" />
 
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_no"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:textColor="@color/white_ffffff"
+                    android:textSize="13sp"
+                    android:text="- 没有更多了 -"
+                    android:layout_width="91dp"
+                    android:layout_height="31dp" />
+
             </LinearLayout>
 
         </LinearLayout>

@@ -55,6 +55,8 @@ public class FragmentIndex extends BaseFragment {
     ImageView ivShow2;
     @BindView(R.id.tv_more)
     TextView tvMore;
+    @BindView(R.id.tv_no)
+    TextView tvNo;
 
     private IndexAdapter adapter;
     private List<CrowdPopularBean.DataBean> mList;
@@ -251,7 +253,7 @@ public class FragmentIndex extends BaseFragment {
 
     private void more() {
 
-        tvMore.setVisibility(View.GONE);
+        tvMore.setVisibility(View.INVISIBLE);
         ViseHttp.GET(NetUrl.AppCrowdFundingfindByPopular)
                 .addParam("pageSize", page + "")
                 .addParam("pageNum", "2")
@@ -263,10 +265,16 @@ public class FragmentIndex extends BaseFragment {
                             if(jsonObject.optString("status").equals("200")){
                                 Gson gson = new Gson();
                                 CrowdPopularBean popularBean = gson.fromJson(data, CrowdPopularBean.class);
-                                mList.addAll(popularBean.getData());
-                                adapter.notifyDataSetChanged();
-                                page = page + 1;
-                                tvMore.setVisibility(View.VISIBLE);
+                                if(popularBean.getData().size()>0){
+                                    mList.addAll(popularBean.getData());
+                                    adapter.notifyDataSetChanged();
+                                    page = page + 1;
+                                    tvMore.setVisibility(View.VISIBLE);
+                                }else {
+                                    ToastUtil.showShort(getContext(), "已经到底了");
+                                    tvMore.setVisibility(View.GONE);
+                                    tvNo.setVisibility(View.VISIBLE);
+                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

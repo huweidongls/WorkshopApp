@@ -104,6 +104,7 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/xinxi"
                 android:layout_marginTop="25dp"
                 android:layout_marginRight="24dp"
                 android:layout_marginLeft="24dp"
@@ -145,6 +146,7 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/chejian"
                 android:layout_marginTop="25dp"
                 android:layout_marginRight="24dp"
                 android:layout_marginLeft="24dp"
@@ -186,6 +188,7 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/peitao"
                 android:layout_marginTop="25dp"
                 android:layout_marginRight="24dp"
                 android:layout_marginLeft="24dp"
@@ -240,6 +243,7 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/peitaoshebei"
                 android:layout_marginTop="25dp"
                 android:layout_marginRight="24dp"
                 android:layout_marginLeft="24dp"
@@ -292,6 +296,7 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/comment"
                 android:layout_marginTop="25dp"
                 android:layout_marginRight="24dp"
                 android:layout_marginLeft="24dp"
@@ -333,6 +338,7 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/shiyongxuzhi"
                 android:layout_marginTop="25dp"
                 android:layout_marginRight="24dp"
                 android:layout_marginLeft="24dp"
@@ -374,6 +380,7 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/anquanxuzhi"
                 android:layout_marginTop="25dp"
                 android:layout_marginRight="24dp"
                 android:layout_marginLeft="24dp"
@@ -426,6 +433,7 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/zerenren"
                 android:layout_marginTop="25dp"
                 android:layout_marginRight="24dp"
                 android:layout_marginLeft="24dp"
