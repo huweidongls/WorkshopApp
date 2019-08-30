@@ -2,88 +2,78 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/bg"
-    >
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+    android:background="@color/bg">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="22dp"
-        android:layout_marginTop="26dp"
         android:layout_marginRight="22dp"
-        >
+        android:layout_marginTop="26dp">
+
         <ImageView
+            android:scaleType="centerCrop"
             android:id="@+id/iv_img1"
             android:layout_width="159dp"
             android:layout_height="106dp"
-            android:src="@mipmap/chang"
-            />
+            android:src="@mipmap/chang" />
+
         <TextView
             android:id="@+id/tv_title1"
-            android:layout_toRightOf="@+id/iv_img1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="车间车间车间车间车间车间车间车间车间车间车间车间"
-            android:textColor="#FFFFFF"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="1dp"
-            android:textSize="14sp"
             android:layout_marginTop="14dp"
-            />
+            android:layout_toRightOf="@+id/iv_img1"
+            android:text="车间车间车间车间车间车间车间车间车间车间车间车间"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+
         <LinearLayout
             android:id="@+id/img_for"
-            android:layout_alignLeft="@+id/tv_title1"
-            android:layout_below="@id/tv_title1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_title1"
+            android:layout_below="@id/tv_title1"
             android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="12dp"
                 android:layout_height="12dp"
-                android:src="@mipmap/xing"
-                />
+                android:src="@mipmap/xing" />
+
             <ImageView
                 android:layout_width="12dp"
                 android:layout_height="12dp"
-                android:src="@mipmap/xing"
-                />
+                android:src="@mipmap/xing" />
+
             <ImageView
                 android:layout_width="12dp"
                 android:layout_height="12dp"
-                android:src="@mipmap/xing"
-                />
+                android:src="@mipmap/xing" />
+
             <ImageView
                 android:layout_width="12dp"
                 android:layout_height="12dp"
-                android:src="@mipmap/xing"
-                />
+                android:src="@mipmap/xing" />
+
             <ImageView
                 android:layout_width="12dp"
                 android:layout_height="12dp"
-                android:src="@mipmap/xing"
-                />
+                android:src="@mipmap/xing" />
+
             <TextView
                 android:id="@+id/pingfen"
-                android:layout_gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
                 android:text="7.8"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginBottom="5dp"
-                />
+                android:textSize="12sp" />
         </LinearLayout>
     </RelativeLayout>
-        </LinearLayout>
-    </ScrollView>
 </LinearLayout>

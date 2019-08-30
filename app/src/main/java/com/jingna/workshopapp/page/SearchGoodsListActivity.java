@@ -67,15 +67,30 @@ public class SearchGoodsListActivity extends AppCompatActivity {
                         adapter1 = new workshopListAdapter(ShopmList);
                         adapter2 = new EquipmentListAdapter(EquipmentmList);
                         adapter3 = new CrowdFundingListAdapter(CrowdmList);
-                        LinearLayoutManager manager = new LinearLayoutManager(SearchGoodsListActivity.this);
+                        LinearLayoutManager manager = new LinearLayoutManager(SearchGoodsListActivity.this){
+                            @Override
+                            public boolean canScrollVertically() {
+                                return false;
+                            }
+                        };
                         manager.setOrientation(LinearLayoutManager.VERTICAL);
                         rv1.setLayoutManager(manager);
                         rv1.setAdapter(adapter1);
-                        LinearLayoutManager manager2 = new LinearLayoutManager(SearchGoodsListActivity.this);
+                        LinearLayoutManager manager2 = new LinearLayoutManager(SearchGoodsListActivity.this){
+                            @Override
+                            public boolean canScrollVertically() {
+                                return false;
+                            }
+                        };
                         manager2.setOrientation(LinearLayoutManager.VERTICAL);
                         rv2.setLayoutManager(manager2);
                         rv2.setAdapter(adapter2);
-                        LinearLayoutManager manager3 = new LinearLayoutManager(SearchGoodsListActivity.this);
+                        LinearLayoutManager manager3 = new LinearLayoutManager(SearchGoodsListActivity.this){
+                            @Override
+                            public boolean canScrollVertically() {
+                                return false;
+                            }
+                        };
                         manager3.setOrientation(LinearLayoutManager.VERTICAL);
                         rv3.setLayoutManager(manager3);
                         rv3.setAdapter(adapter3);

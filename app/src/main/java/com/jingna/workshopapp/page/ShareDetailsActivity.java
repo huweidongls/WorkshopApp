@@ -110,6 +110,7 @@ public class ShareDetailsActivity extends BaseActivity {
     private List<ShareDetailsBean.DataBean.SysUserInfosBean> zerenList;
 
     private int isCollect;//0未收藏
+    private boolean isScroll = false;
 
     private String type = "";//1车间  2委托
 
@@ -341,9 +342,14 @@ public class ShareDetailsActivity extends BaseActivity {
 //                    llSearch.setBackgroundResource(R.drawable.bg_index_search);
 //                    rlSaoyisao.setBackgroundResource(R.drawable.bg_42000000_round);
 //                    rlMessage.setBackgroundResource(R.drawable.bg_42000000_round);
+                    isScroll = false;
                     Glide.with(context).load(R.mipmap.backff).into(ivBack);
                     Glide.with(context).load(R.mipmap.phone_w).into(ivPhone);
-                    Glide.with(context).load(R.mipmap.star_null_w).into(ivStar);
+                    if(isCollect == 0){
+                        Glide.with(context).load(R.mipmap.star_null_w).into(ivStar);
+                    }else {
+                        Glide.with(context).load(R.mipmap.star_w).into(ivStar);
+                    }
                     Glide.with(context).load(R.mipmap.share_w).into(ivShare);
 //                    tvSearchText.setTextColor(Color.parseColor("#9C9C9C"));
                 } else if (y > 0 && y <= 888) {
@@ -356,9 +362,14 @@ public class ShareDetailsActivity extends BaseActivity {
 //                    llSearch.setBackgroundResource(R.drawable.bg_index_search_dark);
 //                    rlSaoyisao.setBackgroundResource(R.drawable.bg_ffffff_round);
 //                    rlMessage.setBackgroundResource(R.drawable.bg_ffffff_round);
+                    isScroll = true;
                     Glide.with(context).load(R.mipmap.back_b).into(ivBack);
                     Glide.with(context).load(R.mipmap.phone_b).into(ivPhone);
-                    Glide.with(context).load(R.mipmap.star_null_b).into(ivStar);
+                    if(isCollect == 0){
+                        Glide.with(context).load(R.mipmap.star_null_b).into(ivStar);
+                    }else {
+                        Glide.with(context).load(R.mipmap.star_b).into(ivStar);
+                    }
                     Glide.with(context).load(R.mipmap.share_b).into(ivShare);
 //                    tvSearchText.setTextColor(Color.parseColor("#ffffff"));
                 }
@@ -417,7 +428,11 @@ public class ShareDetailsActivity extends BaseActivity {
                                 JSONObject jsonObject = new JSONObject(data);
                                 if(jsonObject.optString("status").equals("200")){
                                     isCollect = 1;
-                                    Glide.with(context).load(R.mipmap.star_w).into(ivStar);
+                                    if(isScroll){
+                                        Glide.with(context).load(R.mipmap.star_b).into(ivStar);
+                                    }else {
+                                        Glide.with(context).load(R.mipmap.star_w).into(ivStar);
+                                    }
                                     ToastUtil.showShort(context, "收藏成功");
                                 }
                             } catch (JSONException e) {
@@ -442,7 +457,11 @@ public class ShareDetailsActivity extends BaseActivity {
                                 JSONObject jsonObject = new JSONObject(data);
                                 if(jsonObject.optString("status").equals("200")){
                                     isCollect = 0;
-                                    Glide.with(context).load(R.mipmap.star_null_w).into(ivStar);
+                                    if(isScroll){
+                                        Glide.with(context).load(R.mipmap.star_null_b).into(ivStar);
+                                    }else {
+                                        Glide.with(context).load(R.mipmap.star_null_w).into(ivStar);
+                                    }
                                     ToastUtil.showShort(context, "取消收藏成功");
                                 }
                             } catch (JSONException e) {

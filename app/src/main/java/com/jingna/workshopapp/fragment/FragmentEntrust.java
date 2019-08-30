@@ -1,5 +1,6 @@
 package com.jingna.workshopapp.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import com.jingna.workshopapp.bean.BannerBean;
 import com.jingna.workshopapp.bean.EntrustListBean;
 import com.jingna.workshopapp.bean.EntrustTypeBean;
 import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.page.SearchActivity;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -38,6 +40,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2019/6/18.
@@ -73,6 +76,17 @@ public class FragmentEntrust extends BaseFragment {
         initData();
 
         return view;
+    }
+
+    @OnClick({R.id.ll_search})
+    public void onClick(View view){
+        Intent intent = new Intent();
+        switch (view.getId()){
+            case R.id.ll_search:
+                intent.setClass(getContext(), SearchActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 
     private void initData() {

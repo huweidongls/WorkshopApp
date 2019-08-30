@@ -34,6 +34,7 @@
                         android:layout_height="48dp">
 
                         <LinearLayout
+                            android:id="@+id/ll_search"
                             android:orientation="horizontal"
                             android:layout_marginRight="20dp"
                             android:layout_marginLeft="20dp"
@@ -60,6 +61,7 @@
                                 android:layout_height="wrap_content" />
 
                             <LinearLayout
+                                android:visibility="gone"
                                 android:layout_marginRight="25dp"
                                 android:layout_gravity="center_vertical"
                                 android:orientation="horizontal"

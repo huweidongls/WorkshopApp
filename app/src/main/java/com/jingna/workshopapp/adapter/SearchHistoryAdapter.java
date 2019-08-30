@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jingna.workshopapp.R;
+import com.jingna.workshopapp.page.SearchGoodsListActivity;
 
 /**
  * Created by Administrator on 2019/3/26.
@@ -37,10 +38,10 @@ public class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdap
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent();
-//                intent.setClass(context, SearchGoodsListActivity.class);
-//                intent.putExtra("goodsName", data[position]);
-//                context.startActivity(intent);
+                Intent intent = new Intent();
+                intent.setClass(context, SearchGoodsListActivity.class);
+                intent.putExtra("goodsName", data[position]);
+                context.startActivity(intent);
             }
         });
     }
