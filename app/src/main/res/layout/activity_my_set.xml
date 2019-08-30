@@ -43,7 +43,7 @@
 
                 <TextView
                     android:id="@+id/tv_uname"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="95dp"
                     android:layout_marginTop="28dp"
@@ -53,9 +53,10 @@
 
                 <ImageView
                     android:id="@+id/iv_sex"
+                    android:layout_toRightOf="@+id/tv_uname"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
-                    android:layout_marginLeft="230dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="35dp"
                     android:src="@mipmap/nan" />
 
