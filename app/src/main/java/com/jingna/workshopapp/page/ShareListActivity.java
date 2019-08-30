@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -44,7 +45,8 @@ public class ShareListActivity extends BaseActivity {
     TextView tvTitle;
     @BindView(R.id.refresh)
     SmartRefreshLayout smartRefreshLayout;
-
+    @BindView(R.id.empty_order_bloacks)
+    RelativeLayout empty_order_bloacks;
     private ShareListAdapter adapter;
     private List<CategoryQueryChildListBean.DataBean> mList;
 
@@ -150,6 +152,9 @@ public class ShareListActivity extends BaseActivity {
                                 Gson gson = new Gson();
                                 CategoryQueryChildListBean childListBean = gson.fromJson(data, CategoryQueryChildListBean.class);
                                 mList = childListBean.getData();
+                                if (mList.size()==0){
+                                    empty_order_bloacks.setVisibility(View.VISIBLE);
+                                }
                                 adapter = new ShareListAdapter(mList, type);
                                 LinearLayoutManager manager = new LinearLayoutManager(context);
                                 manager.setOrientation(LinearLayoutManager.VERTICAL);

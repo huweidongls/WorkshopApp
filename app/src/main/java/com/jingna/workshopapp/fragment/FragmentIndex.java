@@ -189,7 +189,7 @@ public class FragmentIndex extends BaseFragment {
     }
 
     @OnClick({R.id.iv1, R.id.iv2, R.id.iv3, R.id.iv4, R.id.iv5, R.id.iv6, R.id.tv_more, R.id.iv_show1, R.id.iv_show2,
-    R.id.ll_search})
+    R.id.ll_search,R.id.goods_more})
     public void onClick(View view){
         Intent intent = new Intent();
         switch (view.getId()){
@@ -242,6 +242,12 @@ public class FragmentIndex extends BaseFragment {
                 intent.setClass(getContext(), ShareDetailsActivity.class);
                 intent.putExtra("type", "1");
                 intent.putExtra("id", id2);
+                startActivity(intent);
+                break;
+            case R.id.goods_more:
+                intent.setClass(getContext(), ShareListActivity.class);
+                intent.putExtra("name", "共享车间");
+                intent.putExtra("type", "1");
                 startActivity(intent);
                 break;
             case R.id.ll_search:

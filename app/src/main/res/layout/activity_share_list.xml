@@ -26,7 +26,24 @@
             style="@style/tv_top_title" />
 
     </RelativeLayout>
-
+    <RelativeLayout
+        android:id="@+id/empty_order_bloacks"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg"
+        android:gravity="center_vertical"
+        >
+        <TextView
+            android:textSize="16dp"
+            android:textColor="#FFFFFF"
+            android:text="暂无厂房!"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            />
+    </RelativeLayout>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refresh"
         android:layout_width="match_parent"
