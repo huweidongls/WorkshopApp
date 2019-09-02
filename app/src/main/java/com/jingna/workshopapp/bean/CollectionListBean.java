@@ -8,9 +8,10 @@ import java.util.List;
 
 public class CollectionListBean {
 
+
     /**
      * status : 200
-     * data : [{"id":49,"categoryName":"测试车间8151141","appCategoryPic":"upload/workshop/2019-08-15/425f20b4cc8b4dd99fb25d91ec2ac79b.jpg","money":5000,"productAttributeList":[],"times":[],"sysUserInfos":[],"shopGoodsEvaluates":[],"additionalCosts":[],"supportingEquipments":[]},{"id":47,"categoryName":"测试车间815917","appCategoryPic":"upload/workshop/2019-08-15/425f20b4cc8b4dd99fb25d91ec2ac79b.jpg","money":5000,"productAttributeList":[],"times":[],"sysUserInfos":[],"shopGoodsEvaluates":[],"additionalCosts":[],"supportingEquipments":[]}]
+     * data : [{"name":"车间4","id":"12","type":"0","picture":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg"},{"name":"众筹车间01","id":"1","type":"1","picture":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg"}]
      */
 
     private String status;
@@ -34,107 +35,47 @@ public class CollectionListBean {
 
     public static class DataBean {
         /**
-         * id : 49
-         * categoryName : 测试车间8151141
-         * appCategoryPic : upload/workshop/2019-08-15/425f20b4cc8b4dd99fb25d91ec2ac79b.jpg
-         * money : 5000
-         * productAttributeList : []
-         * times : []
-         * sysUserInfos : []
-         * shopGoodsEvaluates : []
-         * additionalCosts : []
-         * supportingEquipments : []
+         * name : 车间4
+         * id : 12
+         * type : 0
+         * picture : upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg
          */
 
-        private int id;
-        private String categoryName;
-        private String appCategoryPic;
-        private int money;
-        private List<?> productAttributeList;
-        private List<?> times;
-        private List<?> sysUserInfos;
-        private List<?> shopGoodsEvaluates;
-        private List<?> additionalCosts;
-        private List<?> supportingEquipments;
+        private String name;
+        private String id;
+        private String type;
+        private String picture;
 
-        public int getId() {
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.id = id;
         }
 
-        public String getCategoryName() {
-            return categoryName;
+        public String getType() {
+            return type;
         }
 
-        public void setCategoryName(String categoryName) {
-            this.categoryName = categoryName;
+        public void setType(String type) {
+            this.type = type;
         }
 
-        public String getAppCategoryPic() {
-            return appCategoryPic;
+        public String getPicture() {
+            return picture;
         }
 
-        public void setAppCategoryPic(String appCategoryPic) {
-            this.appCategoryPic = appCategoryPic;
-        }
-
-        public int getMoney() {
-            return money;
-        }
-
-        public void setMoney(int money) {
-            this.money = money;
-        }
-
-        public List<?> getProductAttributeList() {
-            return productAttributeList;
-        }
-
-        public void setProductAttributeList(List<?> productAttributeList) {
-            this.productAttributeList = productAttributeList;
-        }
-
-        public List<?> getTimes() {
-            return times;
-        }
-
-        public void setTimes(List<?> times) {
-            this.times = times;
-        }
-
-        public List<?> getSysUserInfos() {
-            return sysUserInfos;
-        }
-
-        public void setSysUserInfos(List<?> sysUserInfos) {
-            this.sysUserInfos = sysUserInfos;
-        }
-
-        public List<?> getShopGoodsEvaluates() {
-            return shopGoodsEvaluates;
-        }
-
-        public void setShopGoodsEvaluates(List<?> shopGoodsEvaluates) {
-            this.shopGoodsEvaluates = shopGoodsEvaluates;
-        }
-
-        public List<?> getAdditionalCosts() {
-            return additionalCosts;
-        }
-
-        public void setAdditionalCosts(List<?> additionalCosts) {
-            this.additionalCosts = additionalCosts;
-        }
-
-        public List<?> getSupportingEquipments() {
-            return supportingEquipments;
-        }
-
-        public void setSupportingEquipments(List<?> supportingEquipments) {
-            this.supportingEquipments = supportingEquipments;
+        public void setPicture(String picture) {
+            this.picture = picture;
         }
     }
 }

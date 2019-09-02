@@ -1,6 +1,7 @@
 package com.jingna.workshopapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,9 @@ import com.bumptech.glide.Glide;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.bean.CollectionListBean;
 import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.page.AcceptanceActivity;
+import com.jingna.workshopapp.page.ShareDetailsActivity;
+import com.jingna.workshopapp.page.ZhongchouDetailsActivity;
 
 import java.util.List;
 
@@ -37,9 +41,32 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Glide.with(context).load(NetUrl.BASE_URL+data.get(position).getAppCategoryPic()).into(holder.iv);
-        holder.tv.setText(data.get(position).getCategoryName());
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        Glide.with(context).load(NetUrl.BASE_URL+data.get(position).getPicture()).into(holder.iv);
+        holder.tv.setText(data.get(position).getName());
+
+        if (data.get(position).getType().equals("0")){//车间
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, ShareDetailsActivity.class);
+                    intent.putExtra("id", data.get(position).getId());
+                    intent.putExtra("type", "1");
+                    context.startActivity(intent);
+                }
+            });
+        }else{//众筹
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, ZhongchouDetailsActivity.class);
+                    intent.putExtra("id", data.get(position).getId());
+                    context.startActivity(intent);
+                }
+            });
+        }
     }
 
     @Override
