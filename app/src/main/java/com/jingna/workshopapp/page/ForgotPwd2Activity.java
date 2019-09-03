@@ -119,11 +119,15 @@ public class ForgotPwd2Activity extends BaseActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(data);
                             if(jsonObject.optString("status").equals("200")){
-                                Intent intent = new Intent();
-                                intent.setClass(context, ForgotPwd3Activity.class);
-                                intent.putExtra("phone", phoneNum);
-                                startActivity(intent);
-                                finish();
+                                if(jsonObject.optInt("data") == 1){
+                                    Intent intent = new Intent();
+                                    intent.setClass(context, ForgotPwd3Activity.class);
+                                    intent.putExtra("phone", phoneNum);
+                                    startActivity(intent);
+                                    finish();
+                                }else {
+                                    ToastUtil.showShort(context, "验证码不正确");
+                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

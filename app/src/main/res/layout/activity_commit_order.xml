@@ -64,7 +64,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="9dp"
-                        android:text="张三"
                         android:textColor="#333333"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -75,7 +74,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="5dp"
-                        android:text="123****4567"
                         android:textColor="#333333"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -91,7 +89,6 @@
                     android:layout_marginLeft="40dp"
                     android:layout_marginRight="50dp"
                     android:layout_marginTop="3dp"
-                    android:text="黑龙江省哈尔滨市南岗区汉广街41号金华大厦"
                     android:textColor="#333333"
                     android:textSize="14sp" />
 

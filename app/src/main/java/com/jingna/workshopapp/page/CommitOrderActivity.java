@@ -23,6 +23,7 @@ import com.jingna.workshopapp.util.Base64Utils;
 import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.ToastUtil;
 import com.jingna.workshopapp.wxapi.WXShare;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -281,6 +282,9 @@ public class CommitOrderActivity extends BaseActivity {
                                         Gson gson = new Gson();
                                         WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
                                         wxPay(wxPayBean);
+                                        finish();
+                                    }else if(jsonObject.optString("status").equals("500")){
+                                        ToastUtil.showShort(context, jsonObject.optString("errorMsg"));
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -310,6 +314,9 @@ public class CommitOrderActivity extends BaseActivity {
                                         Gson gson = new Gson();
                                         WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
                                         wxPay(wxPayBean);
+                                        finish();
+                                    }else if(jsonObject.optString("status").equals("500")){
+                                        ToastUtil.showShort(context, jsonObject.optString("errorMsg"));
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();

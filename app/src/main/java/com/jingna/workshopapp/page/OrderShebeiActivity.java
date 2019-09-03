@@ -137,6 +137,7 @@ public class OrderShebeiActivity extends BaseActivity {
                     intent.putExtra("end", end);
                     intent.putExtra("json", json);
                     startActivity(intent);
+                    finish();
                 }else {
                     ToastUtil.showShort(context, "请完善信息后提交");
                 }

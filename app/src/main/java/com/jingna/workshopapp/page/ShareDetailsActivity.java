@@ -444,6 +444,7 @@ public class ShareDetailsActivity extends BaseActivity {
             ViseHttp.POST(NetUrl.AppGoodsShopisFollow)
                     .addParam("goodsId", id)
                     .addParam("memberId", SpUtils.getUserId(context))
+                    .addParam("goodsType", "0")
                     .addParam("type", "1")
                     .request(new ACallback<String>() {
                         @Override
@@ -473,6 +474,7 @@ public class ShareDetailsActivity extends BaseActivity {
             ViseHttp.POST(NetUrl.AppGoodsShopisFollow)
                     .addParam("goodsId", id)
                     .addParam("memberId", SpUtils.getUserId(context))
+                    .addParam("goodsType", "0")
                     .addParam("type", "0")
                     .request(new ACallback<String>() {
                         @Override
