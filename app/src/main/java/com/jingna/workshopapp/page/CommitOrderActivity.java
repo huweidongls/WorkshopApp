@@ -97,6 +97,8 @@ public class CommitOrderActivity extends BaseActivity {
     private int num = 1;//委托商品数量
     private int price;//商品价格
 
+    private int payPriceAll=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,6 +139,7 @@ public class CommitOrderActivity extends BaseActivity {
                                     tvPrice.setText("¥"+orderChejianBean.getData().getOrderPrice());
                                     tvAllPrice.setText("¥"+(orderChejianBean.getData().getOrderPrice()+orderChejianBean.getData().getEquipmentMoney()));
                                     tvBottomPrice.setText("¥"+(orderChejianBean.getData().getOrderPrice()+orderChejianBean.getData().getEquipmentMoney()));
+                                    payPriceAll = orderChejianBean.getData().getOrderPrice()+orderChejianBean.getData().getEquipmentMoney();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -199,6 +202,7 @@ public class CommitOrderActivity extends BaseActivity {
                                     tvBottomPrice.setText("¥"+(orderWeituoBean.getData().getMoney()*num));
                                     tvStartTime.setText(orderWeituoBean.getData().getStartTime());
                                     tvEndTime.setText(orderWeituoBean.getData().getEndTime());
+                                    payPriceAll = orderWeituoBean.getData().getMoney()*num;
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -227,8 +231,9 @@ public class CommitOrderActivity extends BaseActivity {
                 startActivityForResult(intent, 1001);
                 break;
             case R.id.ll_invoice:
+                ToastUtil.showShort(context, payPriceAll+"");
                 intent.setClass(context, InvoiceActivity.class);
-                intent.putExtra("price", 0.00);
+                intent.putExtra("price", payPriceAll+"");
                 startActivityForResult(intent, 100);
                 break;
             case R.id.rl_wx:

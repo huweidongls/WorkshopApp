@@ -202,7 +202,7 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
                 break;
             case R.id.ll_invoice:
                 intent.setClass(context, InvoiceActivity.class);
-                intent.putExtra("price", 0.00);
+                intent.putExtra("price", payAll+"");
                 startActivityForResult(intent, 100);
                 break;
             case R.id.submit_order:

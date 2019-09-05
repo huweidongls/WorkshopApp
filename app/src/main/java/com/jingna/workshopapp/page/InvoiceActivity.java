@@ -89,14 +89,14 @@ public class InvoiceActivity extends BaseActivity {
     private String invoiceEmail = "";
     private String invoiceCompaniesAdress = "";
     private String invoiceCompaniesPhone = "";
-    private double price;
+    private String price;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invoice);
 
-        price = getIntent().getDoubleExtra("price", 0.00);
+        price = getIntent().getStringExtra("price");
         StatusBarUtils.setStatusBar(InvoiceActivity.this, getResources().getColor(R.color.statusbar_color));
         ButterKnife.bind(InvoiceActivity.this);
         initData();
