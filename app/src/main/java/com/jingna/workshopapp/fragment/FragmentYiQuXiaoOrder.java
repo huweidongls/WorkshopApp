@@ -92,6 +92,40 @@ public class FragmentYiQuXiaoOrder extends OrderBaseFragment{
     }
     @Override
     public void initData() {
+        ViseHttp.GET(NetUrl.AppOrderActivityList)
+                .addParam("pageNum", "1")
+                .addParam("pageSize", "10")
+                .addParam("type","3")
+                .addParam("userId", SpUtils.getUserId(getContext()))
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if (jsonObject.optString("status").equals("200")) {
+                                Gson gson = new Gson();
+                                OrderListBean bean = gson.fromJson(data, OrderListBean.class);
+                                mList = bean.getData();
+                                if (mList.size()>0){
+                                    adapter = new FragmentYiQuXiaoAdapter(mList);
+                                    LinearLayoutManager manager = new LinearLayoutManager(getContext());
+                                    manager.setOrientation(LinearLayoutManager.VERTICAL);
+                                    recyclerView.setLayoutManager(manager);
+                                    recyclerView.setAdapter(adapter);
+                                    page=2;
+                                }else{
+                                    empty_order_bloack.setVisibility(View.VISIBLE);
+                                }
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+                    }
+                });
         smartRefreshLayout.setRefreshHeader(new MaterialHeader(getContext()));
         smartRefreshLayout.setRefreshFooter(new ClassicsFooter(getContext()));
         smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -161,41 +195,6 @@ public class FragmentYiQuXiaoOrder extends OrderBaseFragment{
                         });
             }
         });
-
-        ViseHttp.GET(NetUrl.AppOrderActivityList)
-                .addParam("pageNum", "1")
-                .addParam("pageSize", "10")
-                .addParam("type","3")
-                .addParam("userId", SpUtils.getUserId(getContext()))
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if (jsonObject.optString("status").equals("200")) {
-                                Gson gson = new Gson();
-                                OrderListBean bean = gson.fromJson(data, OrderListBean.class);
-                                mList = bean.getData();
-                                if (mList.size()>0){
-                                    adapter = new FragmentYiQuXiaoAdapter(mList);
-                                    LinearLayoutManager manager = new LinearLayoutManager(getContext());
-                                    manager.setOrientation(LinearLayoutManager.VERTICAL);
-                                    recyclerView.setLayoutManager(manager);
-                                    recyclerView.setAdapter(adapter);
-                                    page=2;
-                                }else{
-                                    empty_order_bloack.setVisibility(View.VISIBLE);
-                                }
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-                    }
-                });
     }
 
     @Override
