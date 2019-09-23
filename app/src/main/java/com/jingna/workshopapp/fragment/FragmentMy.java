@@ -180,7 +180,7 @@ public class FragmentMy extends BaseFragment {
                     startActivity(intent);
                 } else {
                     intent.setClass(getContext(), MyOrderActivity.class);
-                    intent.putExtra("index", 3);
+                    intent.putExtra("index", 2);
                     startActivity(intent);
                 }
                 break;

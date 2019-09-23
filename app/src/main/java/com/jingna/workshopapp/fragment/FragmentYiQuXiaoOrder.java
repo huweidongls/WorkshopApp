@@ -72,10 +72,19 @@ public class FragmentYiQuXiaoOrder extends OrderBaseFragment{
                                 JSONObject jsonObject = new JSONObject(data);
                                 if (jsonObject.optString("status").equals("200")) {
                                     Gson gson = new Gson();
-                                    OrderListBean bean = gson.fromJson(data, OrderListBean.class);
                                     mList.clear();
-                                    mList.addAll(bean.getData());
-                                    adapter.notifyDataSetChanged();
+                                    OrderListBean bean = gson.fromJson(data, OrderListBean.class);
+                                    mList = bean.getData();
+                                    if (mList.size()>0){
+                                        adapter = new FragmentYiQuXiaoAdapter(mList);
+                                        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+                                        manager.setOrientation(LinearLayoutManager.VERTICAL);
+                                        recyclerView.setLayoutManager(manager);
+                                        recyclerView.setAdapter(adapter);
+                                        page=2;
+                                    }else{
+                                        empty_order_bloack.setVisibility(View.VISIBLE);
+                                    }
                                     page = 2;
                                 }
                             } catch (JSONException e) {
