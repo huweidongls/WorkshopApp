@@ -34,6 +34,7 @@ import com.vise.xsnow.http.callback.ACallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -231,9 +232,9 @@ public class CommitOrderActivity extends BaseActivity {
                 startActivityForResult(intent, 1001);
                 break;
             case R.id.ll_invoice:
-                ToastUtil.showShort(context, payPriceAll+"");
                 intent.setClass(context, InvoiceActivity.class);
                 intent.putExtra("price", payPriceAll+"");
+                intent.putExtra("bean",(Serializable) map);
                 startActivityForResult(intent, 100);
                 break;
             case R.id.rl_wx:

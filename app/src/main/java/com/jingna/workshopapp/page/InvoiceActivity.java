@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,12 +16,15 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.base.BaseActivity;
+import com.jingna.workshopapp.bean.MaintenancEequipmentBean;
+import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.StringUtils;
 import com.jingna.workshopapp.util.ToastUtil;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -77,7 +81,7 @@ public class InvoiceActivity extends BaseActivity {
     EditText etCompanyPhone;
     @BindView(R.id.tv_price)
     TextView tvPrice;
-
+    private Map<String, String> maps;//发票map
     private String invoiceTitle = "";
     private String invoiceCode = "";
     private String invoiceContent = "商品明细";
@@ -95,8 +99,8 @@ public class InvoiceActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invoice);
-
         price = getIntent().getStringExtra("price");
+        maps= (Map<String, String>) getIntent().getSerializableExtra("bean");
         StatusBarUtils.setStatusBar(InvoiceActivity.this, getResources().getColor(R.color.statusbar_color));
         ButterKnife.bind(InvoiceActivity.this);
         initData();
@@ -104,9 +108,67 @@ public class InvoiceActivity extends BaseActivity {
     }
 
     private void initData() {
-
         tvPrice.setText(price+"");
-
+        //Log.e("4545454545",maps+"");
+        if (maps!=null){
+            etInvoiceTitle.setText(maps.get("invoiceTitle")+"");
+            etInvoiceCode.setText(maps.get("invoiceCode")+"");
+            etName.setText(maps.get("invoiceContacts")+"");
+            etPhoneNum.setText(maps.get("invoicePhone")+"");
+            etEmail.setText(maps.get("invoiceEmail")+"");
+            if (maps.get("generalInvoice").equals("普通发票")){
+                llCompanyAddress.setVisibility(View.GONE);
+                llCompanyPhone.setVisibility(View.GONE);
+                viewCompanyAddress.setVisibility(View.GONE);
+                viewCompanyPhone.setVisibility(View.GONE);
+                Glide.with(context).load(R.mipmap.apply_true).into(ivPutong);
+                Glide.with(context).load(R.mipmap.apply_false).into(ivZhuanyong);
+                viewPutong.setBackgroundColor(Color.parseColor("#F71F1F"));
+                viewZhuanyong.setBackgroundColor(getResources().getColor(R.color.line));
+                generalInvoice = "普通发票";
+            }else{//invoiceCompaniesAdress
+                etCompanyAddress.setText(maps.get("invoiceCompaniesAdress")+"");
+                etCompanyPhone.setText(maps.get("invoiceCompaniesPhone")+"");
+                llCompanyAddress.setVisibility(View.VISIBLE);
+                llCompanyPhone.setVisibility(View.VISIBLE);
+                viewCompanyAddress.setVisibility(View.VISIBLE);
+                viewCompanyPhone.setVisibility(View.VISIBLE);
+                Glide.with(context).load(R.mipmap.apply_false).into(ivPutong);
+                Glide.with(context).load(R.mipmap.apply_true).into(ivZhuanyong);
+                viewPutong.setBackgroundColor(getResources().getColor(R.color.line));
+                viewZhuanyong.setBackgroundColor(Color.parseColor("#F71F1F"));
+                generalInvoice = "增值税专用发票";
+            }
+            if(maps.get("invoiceType").equals("电子发票")){
+                Glide.with(context).load(R.mipmap.apply_true).into(ivDianzi);
+                Glide.with(context).load(R.mipmap.apply_false).into(ivZhizhi);
+                Logger.e("4445454545","电子发票");
+                invoiceType = "电子发票";
+            }else{
+                Glide.with(context).load(R.mipmap.apply_false).into(ivDianzi);
+                Glide.with(context).load(R.mipmap.apply_true).into(ivZhizhi);
+                Logger.e("4445454545","纸质发票");
+                invoiceType = "纸质发票";
+            }
+            if(maps.get("invoiceContent").equals("商品明细")){
+                Glide.with(context).load(R.mipmap.apply_true).into(ivMingxi);
+                Glide.with(context).load(R.mipmap.apply_false).into(ivLeibie);
+                invoiceContent = "商品明细";
+            }else{
+                Glide.with(context).load(R.mipmap.apply_false).into(ivMingxi);
+                Glide.with(context).load(R.mipmap.apply_true).into(ivLeibie);
+                invoiceContent = "商品类别";
+            }
+            if(maps.get("personalCompanies").equals("公司发票")){
+                Glide.with(context).load(R.mipmap.apply_true).into(ivDanwei);
+                Glide.with(context).load(R.mipmap.apply_false).into(ivGeren);
+                personalCompanies = "公司发票";
+            }else{
+                Glide.with(context).load(R.mipmap.apply_false).into(ivDanwei);
+                Glide.with(context).load(R.mipmap.apply_true).into(ivGeren);
+                personalCompanies = "个人发票";
+            }
+        }
     }
 
     @OnClick({R.id.rl_back, R.id.btn_sure, R.id.rl_putong, R.id.rl_zhuanyong, R.id.ll_dianzi, R.id.ll_zhizhi, R.id.ll_danwei,
