@@ -14,6 +14,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.model.LatLng;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
@@ -25,6 +35,7 @@ import com.jingna.workshopapp.base.BaseActivity;
 import com.jingna.workshopapp.bean.ShareDetailsBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.DensityTool;
+import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
@@ -109,6 +120,8 @@ public class ShareDetailsActivity extends BaseActivity {
     View viewAnquanxuzhi;
     @BindView(R.id.zerenren)
     View viewZerenren;
+    @BindView(R.id.mapview)
+    MapView mapView;
 
     private ShareDetailsCalendarAdapter calendarAdapter;
     private List<ShareDetailsBean.DataBean.TimesBean> mCalendarList;
@@ -130,6 +143,8 @@ public class ShareDetailsActivity extends BaseActivity {
 
     private String type = "";//1车间  2委托
 
+    private BaiduMap mBaiduMap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,6 +154,7 @@ public class ShareDetailsActivity extends BaseActivity {
         id = getIntent().getStringExtra("id");
         StatusBarUtils.setStatusBarTransparent(ShareDetailsActivity.this);
         ButterKnife.bind(ShareDetailsActivity.this);
+        mBaiduMap = mapView.getMap();
         initView();
         initData();
 
@@ -318,6 +334,27 @@ public class ShareDetailsActivity extends BaseActivity {
                                     Glide.with(context).load(R.mipmap.star_w).into(ivStar);
                                 }
                                 initBottomStar(shareDetailsBean.getData().getIntEvalute());
+                                //位置
+                                String[] map = shareDetailsBean.getData().getPositionalCoordinates().split(",");
+                                Logger.e("12341234", map[0]+"----"+map[1]);
+                                BitmapDescriptor bitmap = BitmapDescriptorFactory
+                                        .fromResource(R.mipmap.location_big);
+                                List<OverlayOptions> options = new ArrayList<OverlayOptions>();
+                                options.add(new MarkerOptions().position(new LatLng(Double.valueOf(map[1]), Double.valueOf(map[0]))).icon(bitmap));
+                                mBaiduMap.addOverlays(options);
+                                //设定中心点坐标
+                                LatLng cenpt =  new LatLng(Double.valueOf(map[1]), Double.valueOf(map[0]));
+                                //定义地图状态
+                                MapStatus mMapStatus = new MapStatus.Builder()
+                                        //要移动的点
+                                        .target(cenpt)
+                                        //放大地图到20倍
+                                        .zoom(17)
+                                        .build();
+                                //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+                                MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+                                //改变地图状态
+                                mBaiduMap.setMapStatus(mMapStatusUpdate);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
