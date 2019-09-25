@@ -112,4 +112,6 @@ public class NetUrl {
     public static final String AfterSaleOrdergetOneByOrderId = "/AfterSaleOrder/getOneByOrderId";
     //订单详情(售后去支付)
     public static final String AfterSaleOrdergetByWxPayDetails = "/AfterSaleOrder/getByWxPayDetails";
+    //根据众筹Id和用户ID查询数量以及是否收藏
+    public static final String AppCrowdFundinggetByCfIdAndUserId = "/AppCrowdFunding/getByCfIdAndUserId";
 }

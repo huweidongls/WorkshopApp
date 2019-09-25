@@ -46,6 +46,7 @@
         android:layout_height="50dp">
 
         <RelativeLayout
+            android:id="@+id/rl_collection"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent">
@@ -57,17 +58,18 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:id="@+id/iv_collection"
                     android:layout_gravity="center_horizontal"
                     android:src="@mipmap/star_null_b"
                     android:layout_width="15dp"
                     android:layout_height="15dp" />
 
                 <TextView
+                    android:id="@+id/tv_collection_num"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="3dp"
                     android:textSize="12sp"
                     android:textColor="@color/black_333333"
-                    android:text="收藏 2725"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -123,11 +125,11 @@
                     android:layout_height="15dp" />
 
                 <TextView
+                    android:id="@+id/tv_comment_num"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="3dp"
                     android:textSize="12sp"
                     android:textColor="@color/black_333333"
-                    android:text="评论 246"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 

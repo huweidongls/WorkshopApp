@@ -318,7 +318,10 @@
             android:value="3959464c3d8a613cc2c4a208" />
 
         <activity android:name=".page.SignatureActivity" />
-        <activity android:name=".page.AfterOrderDetailsPaymentedActivity"></activity>
+        <activity android:name=".page.AfterOrderDetailsPaymentedActivity"/>
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="fqxProkeDNh2UDQnuUNVyKguGpRT2Qny" />
     </application>
 
 </manifest>

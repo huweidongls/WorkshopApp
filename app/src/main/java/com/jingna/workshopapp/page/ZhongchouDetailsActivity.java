@@ -29,8 +29,10 @@ import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.adapter.ZhongchouPopAdapter;
 import com.jingna.workshopapp.base.BaseActivity;
+import com.jingna.workshopapp.bean.GetByCfIdAndUserIdBean;
 import com.jingna.workshopapp.bean.ZhongchouPopBean;
 import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
 import com.vise.xsnow.http.ViseHttp;
@@ -51,6 +53,12 @@ public class ZhongchouDetailsActivity extends BaseActivity {
 
     @BindView(R.id.webview)
     WebView webview;
+    @BindView(R.id.tv_collection_num)
+    TextView tvCollectionNum;
+    @BindView(R.id.tv_comment_num)
+    TextView tvCommentNum;
+    @BindView(R.id.iv_collection)
+    ImageView ivCollection;
 
     private String id = "";
 
@@ -71,6 +79,9 @@ public class ZhongchouDetailsActivity extends BaseActivity {
     private List<ZhongchouPopBean.DataBean> mList;
     private String dangweiId = "";
 
+    private String isCollection = "";
+    private int collection = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,8 +90,45 @@ public class ZhongchouDetailsActivity extends BaseActivity {
         id = getIntent().getStringExtra("id");
         StatusBarUtils.setStatusBar(ZhongchouDetailsActivity.this, getResources().getColor(R.color.white_ffffff));
         ButterKnife.bind(ZhongchouDetailsActivity.this);
+        initData();
         initWebView();
         initPopView();
+
+    }
+
+    private void initData() {
+
+        ViseHttp.GET(NetUrl.AppCrowdFundinggetByCfIdAndUserId)
+                .addParam("userId", SpUtils.getUserId(context))
+                .addParam("crowdFundingId", id)
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if(jsonObject.optString("status").equals("200")){
+                                Gson gson = new Gson();
+                                GetByCfIdAndUserIdBean bean = gson.fromJson(data, GetByCfIdAndUserIdBean.class);
+                                collection = Integer.valueOf(bean.getData().getCrowdFundingNum());
+                                tvCollectionNum.setText("收藏 "+collection);
+                                tvCommentNum.setText("评论 "+bean.getData().getEvaluteNum());
+                                isCollection = bean.getData().getIsCollect();
+                                if(isCollection.equals("0")){
+                                    Glide.with(context).load(R.mipmap.star_null_b).into(ivCollection);
+                                }else if(isCollection.equals("1")){
+                                    Glide.with(context).load(R.mipmap.star_b).into(ivCollection);
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
+                    }
+                });
 
     }
 
@@ -259,8 +307,9 @@ public class ZhongchouDetailsActivity extends BaseActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @OnClick({R.id.rl_back, R.id.tv_commit})
+    @OnClick({R.id.rl_back, R.id.tv_commit, R.id.rl_collection})
     public void onClick(View view) {
+        Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.rl_back:
                 finish();
@@ -273,6 +322,68 @@ public class ZhongchouDetailsActivity extends BaseActivity {
                 break;
             case R.id.tv_commit:
                 showPop();
+                break;
+            case R.id.rl_collection:
+                if(SpUtils.getUserId(context).equals("0")){
+                    intent.setClass(context, SMSLoginActivity.class);
+                    startActivity(intent);
+                }else if(isCollection.equals("0")){
+                    ViseHttp.POST(NetUrl.AppGoodsShopisFollow)
+                            .addParam("goodsId", id)
+                            .addParam("memberId", SpUtils.getUserId(context))
+                            .addParam("goodsType", "1")
+                            .addParam("type", "1")
+                            .request(new ACallback<String>() {
+                                @Override
+                                public void onSuccess(String data) {
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(data);
+                                        if(jsonObject.optString("status").equals("200")){
+                                            isCollection = "1";
+                                            Glide.with(context).load(R.mipmap.star_b).into(ivCollection);
+                                            collection = collection + 1;
+                                            tvCollectionNum.setText("收藏 "+collection);
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onFail(int errCode, String errMsg) {
+
+                                }
+                            });
+                }else if(isCollection.equals("1")){
+                    ViseHttp.POST(NetUrl.AppGoodsShopisFollow)
+                            .addParam("goodsId", id)
+                            .addParam("memberId", SpUtils.getUserId(context))
+                            .addParam("goodsType", "1")
+                            .addParam("type", "0")
+                            .request(new ACallback<String>() {
+                                @Override
+                                public void onSuccess(String data) {
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(data);
+                                        if(jsonObject.optString("status").equals("200")){
+                                            isCollection = "0";
+                                            Glide.with(context).load(R.mipmap.star_null_b).into(ivCollection);
+                                            if(collection>0){
+                                                collection = collection - 1;
+                                                tvCollectionNum.setText("收藏 "+collection);
+                                            }
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onFail(int errCode, String errMsg) {
+
+                                }
+                            });
+                }
                 break;
         }
     }
