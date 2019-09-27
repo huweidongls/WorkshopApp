@@ -4,7 +4,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 
 import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
@@ -20,7 +23,6 @@ import com.vise.xsnow.http.callback.ACallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -33,6 +35,8 @@ public class TeamManagerActivity extends BaseActivity {
 
     @BindView(R.id.rv)
     RecyclerView recyclerView;
+    @BindView(R.id.et_search)
+    EditText etSearch;
 
     private TeamManagerAdapter adapter;
     private List<TeamManagementBean.DataBean> mList;
@@ -61,11 +65,27 @@ public class TeamManagerActivity extends BaseActivity {
                                 Gson gson = new Gson();
                                 TeamManagementBean bean = gson.fromJson(data, TeamManagementBean.class);
                                 mList = bean.getData();
-                                adapter = new TeamManagerAdapter(mList);
                                 LinearLayoutManager manager = new LinearLayoutManager(context);
                                 manager.setOrientation(LinearLayoutManager.VERTICAL);
                                 recyclerView.setLayoutManager(manager);
+                                adapter = new TeamManagerAdapter(mList);
                                 recyclerView.setAdapter(adapter);
+                                etSearch.addTextChangedListener(new TextWatcher() {
+                                    @Override
+                                    public void beforeTextChanged(CharSequence sequence, int i, int i1, int i2) {
+
+                                    }
+
+                                    @Override
+                                    public void onTextChanged(CharSequence sequence, int i, int i1, int i2) {
+                                        adapter.getFilter().filter(sequence.toString());
+                                    }
+
+                                    @Override
+                                    public void afterTextChanged(Editable editable) {
+
+                                    }
+                                });
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

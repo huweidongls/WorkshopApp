@@ -12,6 +12,16 @@
         android:id="@+id/rl_top"
         style="@style/rl_top_bar">
 
+        <RelativeLayout
+            android:id="@+id/rl_back"
+            android:layout_width="50dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                style="@style/iv_top_back" />
+
+        </RelativeLayout>
+
         <TextView
             style="@style/tv_top_title"
             android:text="设置中心" />
@@ -38,8 +48,7 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_marginLeft="11dp"
-                    android:layout_marginTop="17dp"
-                    android:src="@mipmap/gongxianglingjian" />
+                    android:layout_marginTop="17dp" />
 
                 <TextView
                     android:id="@+id/tv_uname"
@@ -47,7 +56,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="95dp"
                     android:layout_marginTop="28dp"
-                    android:text="jd12345566778886"
                     android:textColor="#FFFFFF"
                     android:textSize="15sp" />
 
@@ -66,7 +74,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="95dp"
                     android:layout_marginTop="52dp"
-                    android:text="用户名：jd12345566778886"
                     android:textColor="#B2B2B2"
                     android:textSize="12sp" />
 
@@ -221,21 +228,6 @@
                     android:text="0M"
                     android:textColor="#B2B2B2" />
 
-                <RelativeLayout
-                    android:id="@+id/rl_back"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginBottom="336dp">
-
-                    <ImageView
-                        android:layout_width="9dp"
-                        android:layout_height="16dp"
-                        android:layout_centerInParent="true"
-                        android:src="@mipmap/whiteback" />
-                </RelativeLayout>
             </RelativeLayout>
 
             <View

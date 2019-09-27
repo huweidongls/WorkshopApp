@@ -1,5 +1,6 @@
 package com.jingna.workshopapp.page;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.StringUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.WeiboDialogUtils;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
@@ -31,6 +33,8 @@ public class SMSLoginActivity extends BaseActivity {
 
     @BindView(R.id.et_phonenum)
     EditText etPhoneNum;
+
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +80,13 @@ public class SMSLoginActivity extends BaseActivity {
         }else if(!StringUtils.isPhoneNumberValid(phoneNum)){
             ToastUtil.showShort(context, "请输入正确格式的手机号码");
         }else {
+            dialog = WeiboDialogUtils.createLoadingDialog(context, "正在发送...");
             ViseHttp.GET(NetUrl.MemUsersendMessage)
                     .addParam("phone", phoneNum)
                     .request(new ACallback<String>() {
                         @Override
                         public void onSuccess(String data) {
+                            WeiboDialogUtils.closeDialog(dialog);
                             Log.e("123123", data);
                             try {
                                 JSONObject jsonObject = new JSONObject(data);
@@ -101,7 +107,7 @@ public class SMSLoginActivity extends BaseActivity {
 
                         @Override
                         public void onFail(int errCode, String errMsg) {
-
+                            WeiboDialogUtils.closeDialog(dialog);
                         }
                     });
         }
