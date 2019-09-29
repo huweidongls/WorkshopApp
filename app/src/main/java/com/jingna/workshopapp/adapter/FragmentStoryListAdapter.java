@@ -1,6 +1,7 @@
 package com.jingna.workshopapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.bean.StoryListBean;
 import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.page.StoreDetailsActivity;
 
 import java.util.List;
 
@@ -37,7 +39,7 @@ public class FragmentStoryListAdapter extends RecyclerView.Adapter<FragmentStory
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         Glide.with(context).load(NetUrl.BASE_URL+data.get(position).getStoryTitlePictrueApp()).into(holder.iv);
         int type = data.get(position).getStoryType();
         if(type == 0){
@@ -46,6 +48,15 @@ public class FragmentStoryListAdapter extends RecyclerView.Adapter<FragmentStory
             holder.tvTitle.setText("员工·动态");
         }
         holder.tvContent.setText(data.get(position).getStoryTitle());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context, StoreDetailsActivity.class);
+                intent.putExtra("id", data.get(position).getId()+"");
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

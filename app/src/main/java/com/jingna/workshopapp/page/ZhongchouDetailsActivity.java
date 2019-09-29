@@ -287,7 +287,7 @@ public class ZhongchouDetailsActivity extends BaseActivity {
 
         webview.addJavascriptInterface(new JsInterface(), "android");
 
-        webview.loadUrl("http://192.168.2.121/detail.html?id=" + id);
+        webview.loadUrl("http://192.168.2.120/detail.html?id=" + id);
 
     }
 
@@ -302,7 +302,7 @@ public class ZhongchouDetailsActivity extends BaseActivity {
          */
         @JavascriptInterface
         public void toDetail(String targetid) {
-            ToastUtil.showShort(context, targetid);
+            showPop();
         }
     }
 

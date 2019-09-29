@@ -121,8 +121,9 @@
         <activity android:name=".page.CrowdDetailsActivity" />
         <activity android:name=".page.ShareListActivity" />
         <activity android:name=".page.ShareDetailsActivity" />
-        <activity android:name=".page.TeamManagerActivity"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"/>
+        <activity
+            android:name=".page.TeamManagerActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity android:name=".page.MySetActivity" />
         <activity android:name=".page.CommissionActivity" />
         <activity android:name=".page.SpecialStatementActivity" />
@@ -319,10 +320,13 @@
             android:value="3959464c3d8a613cc2c4a208" />
 
         <activity android:name=".page.SignatureActivity" />
-        <activity android:name=".page.AfterOrderDetailsPaymentedActivity"/>
+        <activity android:name=".page.AfterOrderDetailsPaymentedActivity" />
+
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="fqxProkeDNh2UDQnuUNVyKguGpRT2Qny" />
+
+        <activity android:name=".page.StoreDetailsActivity"></activity>
     </application>
 
 </manifest>
