@@ -93,89 +93,89 @@
                 android:layout_marginTop="40dp"
                 android:background="#979797"/>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="51dp">
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="51dp">-->
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:text="推送消息设置"
-                    android:textColor="#FFFFFF"
-                    android:textSize="15sp" />
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginLeft="15dp"-->
+                    <!--android:text="推送消息设置"-->
+                    <!--android:textColor="#FFFFFF"-->
+                    <!--android:textSize="15sp" />-->
 
-                <ImageView
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_width="4dp"
-                    android:layout_height="12dp"
-                    android:layout_marginRight="12dp"
-                    android:src="@mipmap/right_gray" />
-            </RelativeLayout>
+                <!--<ImageView-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_width="4dp"-->
+                    <!--android:layout_height="12dp"-->
+                    <!--android:layout_marginRight="12dp"-->
+                    <!--android:src="@mipmap/right_gray" />-->
+            <!--</RelativeLayout>-->
 
-            <View
-                android:layout_width="720dp"
-                android:layout_height="1dp"
-                android:layout_marginLeft="14dp"
-                android:background="#979797"/>
+            <!--<View-->
+                <!--android:layout_width="720dp"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:layout_marginLeft="14dp"-->
+                <!--android:background="#979797"/>-->
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="51dp">
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="51dp">-->
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:text="隐私设置"
-                    android:textColor="#FFFFFF"
-                    android:textSize="15sp" />
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginLeft="15dp"-->
+                    <!--android:text="隐私设置"-->
+                    <!--android:textColor="#FFFFFF"-->
+                    <!--android:textSize="15sp" />-->
 
-                <ImageView
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_width="4dp"
-                    android:layout_height="12dp"
-                    android:layout_marginRight="12dp"
-                    android:src="@mipmap/right_gray" />
-            </RelativeLayout>
+                <!--<ImageView-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_width="4dp"-->
+                    <!--android:layout_height="12dp"-->
+                    <!--android:layout_marginRight="12dp"-->
+                    <!--android:src="@mipmap/right_gray" />-->
+            <!--</RelativeLayout>-->
 
-            <View
-                android:layout_width="720dp"
-                android:layout_height="1dp"
-                android:layout_marginLeft="14dp"
-                android:background="#979797"/>
+            <!--<View-->
+                <!--android:layout_width="720dp"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:layout_marginLeft="14dp"-->
+                <!--android:background="#979797"/>-->
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="51dp">
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="51dp">-->
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:text="WiFi环境下自动播放视频"
-                    android:textColor="#FFFFFF"
-                    android:textSize="15sp" />
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginLeft="15dp"-->
+                    <!--android:text="WiFi环境下自动播放视频"-->
+                    <!--android:textColor="#FFFFFF"-->
+                    <!--android:textSize="15sp" />-->
 
-                <ImageView
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_width="4dp"
-                    android:layout_height="12dp"
-                    android:layout_marginRight="12dp"
-                    android:src="@mipmap/right_gray" />
-            </RelativeLayout>
+                <!--<ImageView-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_width="4dp"-->
+                    <!--android:layout_height="12dp"-->
+                    <!--android:layout_marginRight="12dp"-->
+                    <!--android:src="@mipmap/right_gray" />-->
+            <!--</RelativeLayout>-->
 
-            <View
-                android:layout_width="720dp"
-                android:layout_height="1dp"
-                android:layout_marginLeft="14dp"
-                android:background="#979797"/>
+            <!--<View-->
+                <!--android:layout_width="720dp"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:layout_marginLeft="14dp"-->
+                <!--android:background="#979797"/>-->
 
             <RelativeLayout
                 android:id="@+id/rl_feedback"

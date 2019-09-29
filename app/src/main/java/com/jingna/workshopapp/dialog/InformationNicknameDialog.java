@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jingna.workshopapp.R;
+import com.jingna.workshopapp.util.StringUtils;
+import com.jingna.workshopapp.util.ToastUtil;
 
 /**
  * Created by Administrator on 2019/2/27.
@@ -49,8 +51,13 @@ public class InformationNicknameDialog extends Dialog {
         tvSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onSure(etName.getText().toString());
-                dismiss();
+                String name = etName.getText().toString();
+                if(StringUtils.isEmpty(name)){
+                    ToastUtil.showShort(context, "昵称不能为空");
+                }else {
+                    listener.onSure(name);
+                    dismiss();
+                }
             }
         });
         tvCancel.setOnClickListener(new View.OnClickListener() {
