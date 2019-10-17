@@ -10,6 +10,7 @@ import com.jingna.workshopapp.util.BankCodeTimeCount;
 import com.jingna.workshopapp.util.FTPTimeCount;
 import com.jingna.workshopapp.util.ForgotTimeCount;
 import com.jingna.workshopapp.util.SMSCodeTimeCount;
+import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 import com.vise.xsnow.http.ViseHttp;
 
 import java.util.LinkedList;
@@ -46,6 +47,7 @@ public class MyApplication extends Application {
         ViseHttp.CONFIG().baseUrl(NetUrl.BASE_URL);
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
+        ZXingLibrary.initDisplayOpinion(this);
         smsCodeTimeCount = new SMSCodeTimeCount(60000, 1000);
         ftptimecount = new FTPTimeCount(60000, 1000);
         forgotTimeCount = new ForgotTimeCount(60000, 1000);

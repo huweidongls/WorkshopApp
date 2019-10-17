@@ -46,6 +46,7 @@ import butterknife.ButterKnife;
  */
 
 public class FragmentRaise extends BaseFragment {
+
     private List<Fragment> fragmentList;
     private ArrayList<String> mTitleDataList;
     @BindView(R.id.magic_indicator)
@@ -54,6 +55,7 @@ public class FragmentRaise extends BaseFragment {
     @BindView(R.id.vp)
     ViewPager mViewPager;
     private int index = 0;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -67,7 +69,7 @@ public class FragmentRaise extends BaseFragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if(!hidden){
+        if (!hidden) {
             StatusBarUtils.setStatusBarTransparent(getActivity());
         }
     }
@@ -82,13 +84,13 @@ public class FragmentRaise extends BaseFragment {
                     public void onSuccess(String data) {
                         try {
                             JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
+                            if (jsonObject.optString("status").equals("200")) {
                                 Gson gson = new Gson();
                                 RaiseGetTypeBean bean = gson.fromJson(data, RaiseGetTypeBean.class);
                                 List<RaiseGetTypeBean.DataBean> list = bean.getData();
-                                for (RaiseGetTypeBean.DataBean bean1 : list){
+                                for (RaiseGetTypeBean.DataBean bean1 : list) {
                                     mTitleDataList.add(bean1.getName());
-                                    fragmentList.add(FragmentTuijian.newInstance(bean1.getId()+""));
+                                    fragmentList.add(FragmentTuijian.newInstance(bean1.getId() + ""));
                                 }
                                 GoodsDetailsViewpagerAdapter mViewPagerFragmentAdapter = new GoodsDetailsViewpagerAdapter(mFragmentManager, fragmentList);
                                 mViewPager.setAdapter(mViewPagerFragmentAdapter);
@@ -98,12 +100,13 @@ public class FragmentRaise extends BaseFragment {
                                     public int getCount() {
                                         return mTitleDataList == null ? 0 : mTitleDataList.size();
                                     }
+
                                     @Override
                                     public IPagerTitleView getTitleView(Context context, final int index) {
                                         SimplePagerTitleView simplePagerTitleView = new ScaleTransitionPagerTitleView(context);
                                         simplePagerTitleView.setText(mTitleDataList.get(index));
                                         //设置字体
-                                        simplePagerTitleView.setPadding(70,0,70,0);
+                                        simplePagerTitleView.setPadding(70, 0, 70, 0);
                                         simplePagerTitleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
                                         simplePagerTitleView.setNormalColor(Color.parseColor("#B2B2B2"));
                                         simplePagerTitleView.setSelectedColor(Color.parseColor("#ffffff"));
@@ -115,6 +118,7 @@ public class FragmentRaise extends BaseFragment {
                                         });
                                         return simplePagerTitleView;
                                     }
+
                                     @Override
                                     public IPagerIndicator getIndicator(Context context) {
                                         LinePagerIndicator indicator = new LinePagerIndicator(context);

@@ -1,5 +1,6 @@
 package com.jingna.workshopapp.page;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import com.jingna.workshopapp.app.MyApplication;
 import com.jingna.workshopapp.base.BaseActivity;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.WeiboDialogUtils;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
@@ -39,6 +41,8 @@ public class ForgotPwd2Activity extends BaseActivity {
     public TextView getCode_btn() {
         return tvGetCode;
     }
+
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +113,7 @@ public class ForgotPwd2Activity extends BaseActivity {
 
     private void next() {
 
+        dialog = WeiboDialogUtils.createLoadingDialog(context, "请等待...");
         String code = etCode.getText().toString();
         String url = "/MemUser/matchCode?phone="+phoneNum+"&code="+code;
         ViseHttp.GET(url)
@@ -129,6 +134,7 @@ public class ForgotPwd2Activity extends BaseActivity {
                                     ToastUtil.showShort(context, "验证码不正确");
                                 }
                             }
+                            WeiboDialogUtils.closeDialog(dialog);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -136,7 +142,7 @@ public class ForgotPwd2Activity extends BaseActivity {
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
-
+                        WeiboDialogUtils.closeDialog(dialog);
                     }
                 });
 

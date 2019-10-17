@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg">
 
-    <ScrollView
+    <com.jingna.workshopapp.widget.ObservableScrollView
+        android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -21,75 +22,6 @@
                     android:id="@+id/banner"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
-
-                <LinearLayout
-                    android:layout_marginTop="30dp"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp">
-
-                    <ImageView
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="15dp"
-                        android:src="@mipmap/saoyisao"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp" />
-
-                    <LinearLayout
-                        android:id="@+id/ll_search"
-                        android:orientation="horizontal"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginLeft="9dp"
-                        android:background="@color/white_ffffff"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="13dp"
-                            android:src="@mipmap/sousuo"
-                            android:layout_width="15dp"
-                            android:layout_height="15dp" />
-
-                        <TextView
-                            android:layout_marginLeft="18dp"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:textColor="@color/black_333333"
-                            android:background="@null"
-                            android:textSize="14sp"
-                            android:hint="输入搜索"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content" />
-
-                        <LinearLayout
-                            android:visibility="gone"
-                            android:layout_marginRight="25dp"
-                            android:layout_gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:layout_gravity="center_vertical"
-                                android:textColor="@color/black_333333"
-                                android:textSize="14sp"
-                                android:text="全部"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-
-                            <ImageView
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="6dp"
-                                android:src="@mipmap/bottom_b"
-                                android:layout_width="14dp"
-                                android:layout_height="8dp" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </LinearLayout>
 
             </RelativeLayout>
 
@@ -333,6 +265,84 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </com.jingna.workshopapp.widget.ObservableScrollView>
 
-</LinearLayout>
+    <RelativeLayout
+        android:alpha="0"
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+
+            <ImageView
+                android:id="@+id/iv_sao"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/saoyisao"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+
+            <LinearLayout
+                android:id="@+id/ll_search"
+                android:orientation="horizontal"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="9dp"
+                android:background="@color/white_ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="13dp"
+                    android:src="@mipmap/sousuo"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp" />
+
+                <TextView
+                    android:layout_marginLeft="18dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/black_333333"
+                    android:background="@null"
+                    android:textSize="14sp"
+                    android:hint="输入搜索"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:layout_marginRight="25dp"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/black_333333"
+                        android:textSize="14sp"
+                        android:text="全部"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <ImageView
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="6dp"
+                        android:src="@mipmap/bottom_b"
+                        android:layout_width="14dp"
+                        android:layout_height="8dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

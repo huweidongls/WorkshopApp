@@ -9,6 +9,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -69,4 +70,5 @@ dependencies {
     implementation 'top.zibin:Luban:1.1.8'
     implementation files('libs/jcore-android-1.2.7.jar')
     implementation files('libs/BaiduLBS_Android.jar')
+    compile 'cn.yipianfengye.android:zxing-library:2.2'
 }

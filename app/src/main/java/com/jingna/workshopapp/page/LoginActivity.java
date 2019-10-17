@@ -1,5 +1,6 @@
 package com.jingna.workshopapp.page;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,6 +18,7 @@ import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.WeiboDialogUtils;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
@@ -35,6 +37,8 @@ public class LoginActivity extends BaseActivity {
     EditText etName;
     @BindView(R.id.et_pwd)
     EditText etPwd;
+
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +85,7 @@ public class LoginActivity extends BaseActivity {
         if(TextUtils.isEmpty(name)||TextUtils.isEmpty(pwd)){
             ToastUtil.showShort(context, "手机号或密码不能为空");
         }else {
+            dialog = WeiboDialogUtils.createLoadingDialog(context, "请等待...");
             ViseHttp.GET(NetUrl.MemUserloginAPP)
                     .addParam("phoneNum", name)
                     .addParam("password", pwd)
@@ -102,6 +107,7 @@ public class LoginActivity extends BaseActivity {
                                 }else {
                                     ToastUtil.showShort(context, jsonObject.optString("errorMsg"));
                                 }
+                                WeiboDialogUtils.closeDialog(dialog);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -109,7 +115,7 @@ public class LoginActivity extends BaseActivity {
 
                         @Override
                         public void onFail(int errCode, String errMsg) {
-
+                            WeiboDialogUtils.closeDialog(dialog);
                         }
                     });
         }

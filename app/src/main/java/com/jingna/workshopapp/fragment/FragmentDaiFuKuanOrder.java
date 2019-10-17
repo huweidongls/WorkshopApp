@@ -55,26 +55,28 @@ public class FragmentDaiFuKuanOrder extends OrderBaseFragment {
     RelativeLayout empty_order_bloack;
     private FragmentDaiFuKuanOrderAdapter adapter;
     private List<OrderListBean.DataBean> mList;
-    private int page=1;
+    private int page = 1;
     private WXShare wxShare;
     private IWXAPI api;
     private boolean isFirst = true;
+
     public View initView() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_daifukuan_order, null);
         ButterKnife.bind(this, view);
         api = WXAPIFactory.createWXAPI(getContext(), null);
         return view;
     }
+
     @Override
     public void onStart() {
         super.onStart();
-        if(isFirst){
+        if (isFirst) {
             isFirst = false;
-        }else {
+        } else {
             ViseHttp.GET(NetUrl.AppOrderActivityList)
                     .addParam("pageNum", "1")
                     .addParam("pageSize", "10")
-                    .addParam("type","0")
+                    .addParam("type", "0")
                     .addParam("userId", SpUtils.getUserId(getContext()))
                     .request(new ACallback<String>() {
                         @Override
@@ -101,6 +103,7 @@ public class FragmentDaiFuKuanOrder extends OrderBaseFragment {
                     });
         }
     }
+
     @Override
     public void initData() {
         smartRefreshLayout.setRefreshHeader(new MaterialHeader(getContext()));
@@ -111,7 +114,7 @@ public class FragmentDaiFuKuanOrder extends OrderBaseFragment {
                 ViseHttp.GET(NetUrl.AppOrderActivityList)
                         .addParam("pageNum", "1")
                         .addParam("pageSize", "10")
-                        .addParam("type","0")
+                        .addParam("type", "0")
                         .addParam("userId", SpUtils.getUserId(getContext()))
                         .request(new ACallback<String>() {
                             @Override
@@ -143,9 +146,9 @@ public class FragmentDaiFuKuanOrder extends OrderBaseFragment {
             @Override
             public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
                 ViseHttp.GET(NetUrl.AppOrderActivityList)
-                        .addParam("pageNum", page+"")
+                        .addParam("pageNum", page + "")
                         .addParam("pageSize", "10")
-                        .addParam("type","0")
+                        .addParam("type", "0")
                         .addParam("userId", SpUtils.getUserId(getContext()))
                         .request(new ACallback<String>() {
                             @Override
@@ -157,7 +160,7 @@ public class FragmentDaiFuKuanOrder extends OrderBaseFragment {
                                         OrderListBean bean = gson.fromJson(data, OrderListBean.class);
                                         mList.addAll(bean.getData());
                                         adapter.notifyDataSetChanged();
-                                        page = page+1;
+                                        page = page + 1;
                                     }
                                     refreshLayout.finishLoadMore(500);
                                 } catch (JSONException e) {
@@ -176,7 +179,7 @@ public class FragmentDaiFuKuanOrder extends OrderBaseFragment {
         ViseHttp.GET(NetUrl.AppOrderActivityList)
                 .addParam("pageNum", "1")
                 .addParam("pageSize", "10")
-                .addParam("type","0")
+                .addParam("type", "0")
                 .addParam("userId", SpUtils.getUserId(getContext()))
                 .request(new ACallback<String>() {
                     @Override
@@ -187,18 +190,18 @@ public class FragmentDaiFuKuanOrder extends OrderBaseFragment {
                                 Gson gson = new Gson();
                                 OrderListBean bean = gson.fromJson(data, OrderListBean.class);
                                 mList = bean.getData();
-                                if (mList.size()>0){//empty_order_bloack
-                                    adapter = new FragmentDaiFuKuanOrderAdapter(mList,new FragmentDaiFuKuanOrderAdapter.ClickListener(){
+                                if (mList.size() > 0) {//empty_order_bloack
+                                    adapter = new FragmentDaiFuKuanOrderAdapter(mList, new FragmentDaiFuKuanOrderAdapter.ClickListener() {
                                         @Override
                                         public void onPay(int pos) {
                                             ViseHttp.GET(NetUrl.AppOrderlistOrdersSubmitted)
-                                                    .addParam("id",mList.get(pos).getId())
+                                                    .addParam("id", mList.get(pos).getId())
                                                     .request(new ACallback<String>() {
                                                         @Override
                                                         public void onSuccess(String data) {
                                                             try {
                                                                 JSONObject jsonObject = new JSONObject(data);
-                                                                if (jsonObject.optString("status").equals("200")){
+                                                                if (jsonObject.optString("status").equals("200")) {
                                                                     Gson gson = new Gson();
                                                                     WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
                                                                     wxPay(wxPayBean);
@@ -218,13 +221,13 @@ public class FragmentDaiFuKuanOrder extends OrderBaseFragment {
                                         @Override
                                         public void onReturnPrice(final int pos) {
                                             ViseHttp.POST(NetUrl.AppOrdercancellationOrder)
-                                                    .addParam("goodsOrderId",mList.get(pos).getId())
+                                                    .addParam("goodsOrderId", mList.get(pos).getId())
                                                     .request(new ACallback<String>() {
                                                         @Override
                                                         public void onSuccess(String d) {
                                                             try {
                                                                 JSONObject jsonObject = new JSONObject(d);
-                                                                if (jsonObject.optString("data").equals("Success")){
+                                                                if (jsonObject.optString("data").equals("Success")) {
                                                                     ToastUtil.showShort(getContext(), "取消订单成功!");
                                                                     mList.remove(pos);
                                                                     adapter.notifyDataSetChanged();
@@ -245,8 +248,8 @@ public class FragmentDaiFuKuanOrder extends OrderBaseFragment {
                                     manager.setOrientation(LinearLayoutManager.VERTICAL);
                                     recyclerView.setLayoutManager(manager);
                                     recyclerView.setAdapter(adapter);
-                                    page=2;
-                                }else{
+                                    page = 2;
+                                } else {
                                     empty_order_bloack.setVisibility(View.VISIBLE);
                                 }
 
@@ -267,6 +270,7 @@ public class FragmentDaiFuKuanOrder extends OrderBaseFragment {
     public void hide() {
 
     }
+
     public void wxPay(WxPayBean model) {
         api.registerApp(WXShare.APP_ID);
         PayReq req = new PayReq();

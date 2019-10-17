@@ -7,6 +7,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -46,6 +48,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class ZhongchouDetailsActivity extends BaseActivity {
 
@@ -82,7 +89,18 @@ public class ZhongchouDetailsActivity extends BaseActivity {
     private String isCollection = "";
     private int collection = 0;
 
-    @Override
+    private Handler mhandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 100:
+                    showPop();
+                    break;
+            }
+        }
+    };
+
+
+        @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zhongchou_details);
@@ -287,7 +305,7 @@ public class ZhongchouDetailsActivity extends BaseActivity {
 
         webview.addJavascriptInterface(new JsInterface(), "android");
 
-        webview.loadUrl("http://192.168.2.120/detail.html?id=" + id);
+        webview.loadUrl("http://39.98.188.171:82/detail.html?id=" + id);
 
     }
 
@@ -302,7 +320,7 @@ public class ZhongchouDetailsActivity extends BaseActivity {
          */
         @JavascriptInterface
         public void toDetail(String targetid) {
-            showPop();
+            mhandler.sendEmptyMessage(100);
         }
     }
 

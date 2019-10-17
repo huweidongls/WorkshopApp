@@ -63,11 +63,28 @@ public class EntrustListAdapter extends RecyclerView.Adapter<EntrustListAdapter.
                 holder.llXing.addView(imageView, layoutParams);
             }
         }
+        int sheng = 5-commentLevel;
+        for (int i = 0; i<sheng; i++){
+            if(sheng == 5&&i == 0){
+                imageView = new ImageView(context);
+                imageView.setImageResource(R.mipmap.star_null_w);
+                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(a, a);
+                holder.llXing.addView(imageView, layoutParams);
+            }else {
+                imageView = new ImageView(context);
+                imageView.setImageResource(R.mipmap.star_null_w);
+                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(a, a);
+                layoutParams.leftMargin = 8;
+                holder.llXing.addView(imageView, layoutParams);
+            }
+        }
         holder.tvPingfen.setText(data.get(position).getEvaluate()+"");
 
         Glide.with(context).load(NetUrl.BASE_URL+data.get(position).getAppCategoryPic()).into(holder.iv);
         holder.tvTitle.setText(data.get(position).getCategoryName());
-        holder.tvPrice.setText("¥ "+data.get(position).getProcessingMoney());
+        holder.tvPrice.setText("¥ "+data.get(position).getMoney());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -44,7 +44,7 @@ public class EntrustListBean {
         private int id;
         private String categoryName;
         private String appCategoryPic;
-        private int processingMoney;
+        private int money;
         private List<?> productAttributeList;
         private double evaluate;
         private int intEvalute;
@@ -89,12 +89,12 @@ public class EntrustListBean {
             this.appCategoryPic = appCategoryPic;
         }
 
-        public int getProcessingMoney() {
-            return processingMoney;
+        public int getMoney() {
+            return money;
         }
 
-        public void setProcessingMoney(int processingMoney) {
-            this.processingMoney = processingMoney;
+        public void setMoney(int money) {
+            this.money = money;
         }
 
         public List<?> getProductAttributeList() {

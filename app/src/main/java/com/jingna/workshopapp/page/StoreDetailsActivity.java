@@ -65,7 +65,7 @@ public class StoreDetailsActivity extends BaseActivity {
 
 //        webview.addJavascriptInterface(new StoreDetailsActivity().JsInterface(), "android");
 
-        webview.loadUrl("http://192.168.2.120/detail_gs.html?id=" + id);
+        webview.loadUrl("http://39.98.188.171:82/detail_gs.html?id=" + id);
 
     }
 

@@ -63,7 +63,7 @@ public class ShareDetailsBean {
         private String categoryTextApp;
         private String appCategoryPic;
         private String bannerApp;
-        private double money;
+        private int money;
         private String workshopAddress;
         private String workshopInformationApp;
         private String supportingServicesApp;
@@ -154,11 +154,11 @@ public class ShareDetailsBean {
             this.bannerApp = bannerApp;
         }
 
-        public double getMoney() {
+        public int getMoney() {
             return money;
         }
 
-        public void setMoney(double money) {
+        public void setMoney(int money) {
             this.money = money;
         }
 

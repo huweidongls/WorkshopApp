@@ -20,7 +20,7 @@
             android:id="@+id/tv_title"
             android:layout_marginTop="10dp"
             android:ellipsize="end"
-            android:lines="2"
+            android:lines="1"
             android:textColor="@color/white_ffffff"
             android:textSize="14sp"
             android:text="设备设备设备设备设备设 备设备设备设备设备设…"

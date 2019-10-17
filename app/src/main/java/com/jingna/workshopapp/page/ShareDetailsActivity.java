@@ -325,7 +325,7 @@ public class ShareDetailsActivity extends BaseActivity {
                                     llEwai.setVisibility(View.GONE);
                                 }
                                 //价格
-                                tvMoney.setText("¥"+String.format("%2f", shareDetailsBean.getData().getMoney()));
+                                tvMoney.setText("¥"+shareDetailsBean.getData().getMoney());
                                 //是否收藏
                                 isCollect = shareDetailsBean.getData().getIsCollect();
                                 if(isCollect == 0){
@@ -387,6 +387,23 @@ public class ShareDetailsActivity extends BaseActivity {
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(a, a);
                 layoutParams.leftMargin = 5;
+                llBottomStar.addView(imageView, layoutParams);
+            }
+        }
+        int sheng = 5-num;
+        for (int i = 0; i<sheng; i++){
+            if(sheng == 5&&i == 0){
+                imageView = new ImageView(context);
+                imageView.setImageResource(R.mipmap.star_null_b);
+                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(a, a);
+                llBottomStar.addView(imageView, layoutParams);
+            }else {
+                imageView = new ImageView(context);
+                imageView.setImageResource(R.mipmap.star_null_b);
+                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(a, a);
+                layoutParams.leftMargin = 8;
                 llBottomStar.addView(imageView, layoutParams);
             }
         }
