@@ -248,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
                 fragmentTransaction.hide(fragmentList.get(i));
             }
         }
-        fragmentTransaction.commit();
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
     public void selectText(View v) {

@@ -83,7 +83,7 @@ public class FragmentEntrust extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_entrust, null);
 
         ButterKnife.bind(this, view);
-        mFragmentManager = getActivity().getSupportFragmentManager();
+        mFragmentManager = getChildFragmentManager();
         initBanner();
         initType();
 

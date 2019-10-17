@@ -14,6 +14,7 @@ import com.jingna.workshopapp.adapter.FragmentCrowdTuijianAdapter;
 import com.jingna.workshopapp.base.BaseFragment;
 import com.jingna.workshopapp.bean.RaiseListBean;
 import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.util.Logger;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
@@ -31,6 +32,7 @@ import butterknife.ButterKnife;
  */
 
 public class FragmentTuijian extends BaseFragment {
+
     @BindView(R.id.rv_evaluation)
     RecyclerView recyclerView;
 
@@ -69,18 +71,14 @@ public class FragmentTuijian extends BaseFragment {
                     @Override
                     public void onSuccess(String data) {
                         try {
+                            Logger.e("123123", data);
                             JSONObject jsonObject = new JSONObject(data);
                             if(jsonObject.optString("status").equals("200")){
                                 Gson gson = new Gson();
                                 RaiseListBean bean = gson.fromJson(data, RaiseListBean.class);
                                 mList = bean.getData();
                                 adapter = new FragmentCrowdTuijianAdapter(mList);
-                                GridLayoutManager manager = new GridLayoutManager(getContext(), 2){
-                                    @Override
-                                    public boolean canScrollVertically() {
-                                        return false;
-                                    }
-                                };
+                                GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
                                 recyclerView.setLayoutManager(manager);
                                 recyclerView.setAdapter(adapter);
                             }

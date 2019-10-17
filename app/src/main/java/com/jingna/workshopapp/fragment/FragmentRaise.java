@@ -54,14 +54,13 @@ public class FragmentRaise extends BaseFragment {
     private FragmentManager mFragmentManager;
     @BindView(R.id.vp)
     ViewPager mViewPager;
-    private int index = 0;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_raise, null);
         ButterKnife.bind(this, view);
-        mFragmentManager = getActivity().getSupportFragmentManager();
+        mFragmentManager = getChildFragmentManager();
         initData();
         return view;
     }
@@ -128,7 +127,6 @@ public class FragmentRaise extends BaseFragment {
                                 });
                                 magicIndicator.setNavigator(commonNavigator);
                                 ViewPagerHelper.bind(magicIndicator, mViewPager);
-                                mViewPager.setCurrentItem(index);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
