@@ -55,11 +55,11 @@ public class ShareDetailsCalendarItemAdapter extends RecyclerView.Adapter<ShareD
             }
         }
         if(isSelect){
-            holder.tv.setTextColor(Color.parseColor("#33A190"));
-            holder.tv.setBackgroundResource(R.drawable.bg_33a190_11dp_bord);
+            holder.tv.setTextColor(Color.parseColor("#999999"));
+            holder.tv.setBackgroundResource(R.drawable.bg_999999_11dp_bord);
         }else {
-            holder.tv.setTextColor(Color.parseColor("#454545"));
-            holder.tv.setBackgroundColor(Color.parseColor("#00000000"));
+            holder.tv.setTextColor(Color.parseColor("#33a190"));
+            holder.tv.setBackgroundResource(R.drawable.bg_33a190_11dp_bord);
         }
         holder.tv.setText(position+1+"");
     }

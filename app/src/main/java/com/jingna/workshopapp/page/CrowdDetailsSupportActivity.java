@@ -75,6 +75,8 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
     TextView conmit_all_price;
     @BindView(R.id.blackOutNumber)
     EditText remarks;
+    @BindView(R.id.tv_title_name)
+    TextView tvTitleName;
     private int pay=1;
     private int paycheck=0;
     private int addressid=0;
@@ -99,6 +101,7 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
         initdata();
     }
     private void initdata(){
+        Logger.e("123123", num+"----"+id);
         ViseHttp.POST("/AppOrder/crowdFundingOrderConfiguration")
                 .addParam("goodsNum",num)
                 .addParam("gearPositionId",id)
@@ -106,12 +109,14 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
                     @Override
                     public void onSuccess(String data) {
                         try {
+                            Logger.e("123123", data);
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.optString("status").equals("200")){
                                 Gson gson = new Gson();
                                 CrowOrderBean bean = gson.fromJson(data, CrowOrderBean.class);
                                 Glide.with(context).load(NetUrl.BASE_URL+bean.getData().getGearPositionPicture()).into(iv_img);
                                 gid=bean.getData().getSellerId();
+                                tvTitleName.setText(bean.getData().getGearPositionName());
                                 tv_title_goods.setText(bean.getData().getGearPositionTitle());
                                 goods_price.setText("¥"+bean.getData().getGearPositionMoney());
                                 goods_desc.setText(bean.getData().getGearPositionSubTitle());

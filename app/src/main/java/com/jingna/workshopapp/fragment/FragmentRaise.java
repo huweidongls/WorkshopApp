@@ -16,12 +16,14 @@ import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.adapter.GoodsDetailsViewpagerAdapter;
 import com.jingna.workshopapp.base.BaseFragment;
+import com.jingna.workshopapp.bean.BannerBean;
 import com.jingna.workshopapp.bean.RaiseGetTypeBean;
 import com.jingna.workshopapp.customview.ScaleTransitionPagerTitleView;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
+import com.youth.banner.Banner;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -54,6 +56,8 @@ public class FragmentRaise extends BaseFragment {
     private FragmentManager mFragmentManager;
     @BindView(R.id.vp)
     ViewPager mViewPager;
+    @BindView(R.id.banner)
+    Banner banner;
 
     @Nullable
     @Override
@@ -62,7 +66,39 @@ public class FragmentRaise extends BaseFragment {
         ButterKnife.bind(this, view);
         mFragmentManager = getChildFragmentManager();
         initData();
+        initBanner();
         return view;
+    }
+
+    private void initBanner() {
+
+        ViseHttp.GET(NetUrl.IndexPageApifindBanner)
+                .addParam("type", "2")
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if(jsonObject.optString("status").equals("200")){
+                                Gson gson = new Gson();
+                                BannerBean bannerBean = gson.fromJson(data, BannerBean.class);
+                                List<String> bannerList = new ArrayList<>();
+                                for (BannerBean.DataBean bean : bannerBean.getData()){
+                                    bannerList.add(NetUrl.BASE_URL+bean.getAppPic());
+                                }
+                                init(banner, bannerList);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
+                    }
+                });
+
     }
 
     @Override

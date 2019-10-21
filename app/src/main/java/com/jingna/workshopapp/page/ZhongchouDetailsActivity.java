@@ -239,10 +239,15 @@ public class ZhongchouDetailsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(context, CrowdDetailsSupportActivity.class);
-                intent.putExtra("id", id);
-                intent.putExtra("num", popNum+"");
-                startActivity(intent);
+                if(SpUtils.getUserId(context).equals("0")){
+                    intent.setClass(context, LoginActivity.class);
+                    startActivity(intent);
+                }else {
+                    intent.setClass(context, CrowdDetailsSupportActivity.class);
+                    intent.putExtra("id", dangweiId);
+                    intent.putExtra("num", popNum+"");
+                    startActivity(intent);
+                }
             }
         });
 

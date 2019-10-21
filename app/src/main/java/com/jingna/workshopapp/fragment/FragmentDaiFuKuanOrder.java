@@ -86,10 +86,69 @@ public class FragmentDaiFuKuanOrder extends OrderBaseFragment {
                                 if (jsonObject.optString("status").equals("200")) {
                                     Gson gson = new Gson();
                                     OrderListBean bean = gson.fromJson(data, OrderListBean.class);
-                                    mList.clear();
-                                    mList.addAll(bean.getData());
-                                    adapter.notifyDataSetChanged();
-                                    page = 2;
+                                    mList = bean.getData();
+                                    if (mList.size() > 0) {//empty_order_bloack
+                                        adapter = new FragmentDaiFuKuanOrderAdapter(mList, new FragmentDaiFuKuanOrderAdapter.ClickListener() {
+                                            @Override
+                                            public void onPay(int pos) {
+                                                ViseHttp.GET(NetUrl.AppOrderlistOrdersSubmitted)
+                                                        .addParam("id", mList.get(pos).getId())
+                                                        .request(new ACallback<String>() {
+                                                            @Override
+                                                            public void onSuccess(String data) {
+                                                                try {
+                                                                    JSONObject jsonObject = new JSONObject(data);
+                                                                    if (jsonObject.optString("status").equals("200")) {
+                                                                        Gson gson = new Gson();
+                                                                        WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
+                                                                        wxPay(wxPayBean);
+                                                                    }
+                                                                } catch (JSONException e) {
+                                                                    e.printStackTrace();
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            public void onFail(int errCode, String errMsg) {
+
+                                                            }
+                                                        });
+                                            }
+
+                                            @Override
+                                            public void onReturnPrice(final int pos) {
+                                                ViseHttp.POST(NetUrl.AppOrdercancellationOrder)
+                                                        .addParam("goodsOrderId", mList.get(pos).getId())
+                                                        .request(new ACallback<String>() {
+                                                            @Override
+                                                            public void onSuccess(String d) {
+                                                                try {
+                                                                    JSONObject jsonObject = new JSONObject(d);
+                                                                    if (jsonObject.optString("data").equals("Success")) {
+                                                                        ToastUtil.showShort(getContext(), "取消订单成功!");
+                                                                        mList.remove(pos);
+                                                                        adapter.notifyDataSetChanged();
+                                                                    }
+                                                                } catch (JSONException e) {
+                                                                    e.printStackTrace();
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            public void onFail(int errCode, String errMsg) {
+
+                                                            }
+                                                        });
+                                            }
+                                        });
+                                        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+                                        manager.setOrientation(LinearLayoutManager.VERTICAL);
+                                        recyclerView.setLayoutManager(manager);
+                                        recyclerView.setAdapter(adapter);
+                                        page = 2;
+                                    } else {
+                                        empty_order_bloack.setVisibility(View.VISIBLE);
+                                    }
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

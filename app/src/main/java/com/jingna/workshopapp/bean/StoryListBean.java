@@ -10,7 +10,7 @@ public class StoryListBean {
 
     /**
      * status : 200
-     * data : [{"id":1,"storyType":0,"storyTitlePictrueApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","storyTitle":"车间故事1"},{"id":2,"storyType":1,"storyTitlePictrueApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","storyTitle":"车间故事2"},{"id":3,"storyType":1,"storyTitlePictrueApp":"upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg","storyTitle":"车间故事13"}]
+     * data : [{"id":10,"storyType":0,"storyTitlePictureApp":"upload/story/2019-10-21/f9a8a9cfd69842f18b441d27d80ecb23.jpg","storyTitle":"公司故事"},{"id":9,"storyType":0,"storyTitlePictureApp":"upload/story/2019-10-18/b70c01101d6f46aca6d082820360bb03.jpg","storyTitle":"111112222"},{"id":7,"storyType":0,"storyTitlePictureApp":"upload/story/2019-10-18/88c85c9a8d5441e5afbffec544252222.jpg","storyTitle":"1111"}]
      * totalPage : 0
      * totalCount : 3
      */
@@ -54,15 +54,15 @@ public class StoryListBean {
 
     public static class DataBean {
         /**
-         * id : 1
+         * id : 10
          * storyType : 0
-         * storyTitlePictrueApp : upload/workshop/2019-07-24/110ce9940c444b73aad0b61445520a00.jpg
-         * storyTitle : 车间故事1
+         * storyTitlePictureApp : upload/story/2019-10-21/f9a8a9cfd69842f18b441d27d80ecb23.jpg
+         * storyTitle : 公司故事
          */
 
         private int id;
         private int storyType;
-        private String storyTitlePictrueApp;
+        private String storyTitlePictureApp;
         private String storyTitle;
 
         public int getId() {
@@ -81,12 +81,12 @@ public class StoryListBean {
             this.storyType = storyType;
         }
 
-        public String getStoryTitlePictrueApp() {
-            return storyTitlePictrueApp;
+        public String getStoryTitlePictureApp() {
+            return storyTitlePictureApp;
         }
 
-        public void setStoryTitlePictrueApp(String storyTitlePictrueApp) {
-            this.storyTitlePictrueApp = storyTitlePictrueApp;
+        public void setStoryTitlePictureApp(String storyTitlePictureApp) {
+            this.storyTitlePictureApp = storyTitlePictureApp;
         }
 
         public String getStoryTitle() {

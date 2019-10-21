@@ -3,6 +3,7 @@ package com.jingna.workshopapp.fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +31,10 @@ import com.jingna.workshopapp.page.ShareListActivity;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
 import com.jingna.workshopapp.widget.ObservableScrollView;
+import com.scwang.smartrefresh.header.MaterialHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.vise.xsnow.http.ViseHttp;
@@ -70,6 +75,8 @@ public class FragmentIndex extends BaseFragment {
     RelativeLayout rlTop;
     @BindView(R.id.scrollview)
     ObservableScrollView scrollView;
+    @BindView(R.id.refresh)
+    SmartRefreshLayout smartRefreshLayout;
 
     private IndexAdapter adapter;
     private List<CrowdPopularBean.DataBean> mList;
@@ -87,11 +94,55 @@ public class FragmentIndex extends BaseFragment {
 
         StatusBarUtils.setStatusBarTransparent(getActivity());
         ButterKnife.bind(this, view);
+        initRefresh();
         initBanner();
         initChejianShow();
         initData();
 
         return view;
+    }
+
+    private void initRefresh() {
+
+        smartRefreshLayout.setRefreshHeader(new MaterialHeader(getContext()));
+        smartRefreshLayout.setEnableLoadMore(false);
+        smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
+                initBanner();
+                initChejianShow();
+                ViseHttp.GET(NetUrl.AppCrowdFundingfindByPopular)
+                        .addParam("pageSize", "1")
+                        .addParam("pageNum", "2")
+                        .request(new ACallback<String>() {
+                            @Override
+                            public void onSuccess(String data) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(data);
+                                    if(jsonObject.optString("status").equals("200")){
+                                        Gson gson = new Gson();
+                                        CrowdPopularBean popularBean = gson.fromJson(data, CrowdPopularBean.class);
+                                        mList.clear();
+                                        mList.addAll(popularBean.getData());
+                                        adapter.notifyDataSetChanged();
+                                        page = 2;
+                                        tvMore.setVisibility(View.VISIBLE);
+                                        tvNo.setVisibility(View.GONE);
+                                    }
+                                    refreshLayout.finishRefresh(500);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFail(int errCode, String errMsg) {
+                                refreshLayout.finishRefresh(500);
+                            }
+                        });
+            }
+        });
+
     }
 
     /**

@@ -14,6 +14,7 @@ import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.bean.StoryListBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.page.StoreDetailsActivity;
+import com.jingna.workshopapp.util.Logger;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class FragmentStoryListAdapter extends RecyclerView.Adapter<FragmentStory
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        Glide.with(context).load(NetUrl.BASE_URL+data.get(position).getStoryTitlePictrueApp()).into(holder.iv);
+        Glide.with(context).load(NetUrl.BASE_URL+data.get(position).getStoryTitlePictureApp()).into(holder.iv);
         int type = data.get(position).getStoryType();
         if(type == 0){
             holder.tvTitle.setText("公司·动态");

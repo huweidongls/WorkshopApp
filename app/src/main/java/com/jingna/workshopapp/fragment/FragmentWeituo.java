@@ -16,10 +16,12 @@ import com.jingna.workshopapp.adapter.EntrustListAdapter;
 import com.jingna.workshopapp.base.BaseFragment;
 import com.jingna.workshopapp.bean.EntrustListBean;
 import com.jingna.workshopapp.net.NetUrl;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
@@ -74,8 +76,41 @@ public class FragmentWeituo extends BaseFragment {
 
     private void initData() {
 
-        smartRefreshLayout.setEnableRefresh(false);
+        smartRefreshLayout.setRefreshHeader(new MaterialHeader(getContext()));
         smartRefreshLayout.setRefreshFooter(new ClassicsFooter(getContext()));
+        smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
+                ViseHttp.GET(NetUrl.AppShopWtjgfindAllWtjgEquipment)
+                        .addParam("type", type)
+                        .addParam("pageSize", "1")
+                        .addParam("pageNum", "10")
+                        .request(new ACallback<String>() {
+                            @Override
+                            public void onSuccess(String data) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(data);
+                                    if(jsonObject.optString("status").equals("200")){
+                                        Gson gson = new Gson();
+                                        EntrustListBean bean = gson.fromJson(data, EntrustListBean.class);
+                                        mList.clear();
+                                        mList.addAll(bean.getData());
+                                        adapter.notifyDataSetChanged();
+                                        page = 2;
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                refreshLayout.finishRefresh(500);
+                            }
+
+                            @Override
+                            public void onFail(int errCode, String errMsg) {
+                                refreshLayout.finishRefresh(500);
+                            }
+                        });
+            }
+        });
         smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {

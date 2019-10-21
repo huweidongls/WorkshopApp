@@ -75,7 +75,6 @@ public class FragmentDaiShouHuoOrder extends OrderBaseFragment {
                                 if (jsonObject.optString("status").equals("200")) {
                                     Gson gson = new Gson();
                                     OrderListBean bean = gson.fromJson(data, OrderListBean.class);
-                                    mList.clear();
                                     mList = bean.getData();
                                     if (mList.size()>0){
                                         adapter = new FragmentDaiShouHuoOrderAdapter(mList);
@@ -87,7 +86,6 @@ public class FragmentDaiShouHuoOrder extends OrderBaseFragment {
                                     }else{
                                         empty_order_bloack.setVisibility(View.VISIBLE);
                                     }
-                                    page = 2;
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

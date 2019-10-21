@@ -62,6 +62,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+
+        </activity>
+        <activity android:name=".page.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -325,7 +328,7 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="fqxProkeDNh2UDQnuUNVyKguGpRT2Qny" />
 
-        <activity android:name=".page.StoreDetailsActivity"></activity>
+        <activity android:name=".page.StoreDetailsActivity" />
     </application>
 
 </manifest>

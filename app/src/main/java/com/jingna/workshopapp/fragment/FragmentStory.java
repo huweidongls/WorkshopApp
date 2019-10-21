@@ -19,6 +19,7 @@ import com.jingna.workshopapp.adapter.FragmentStoryListAdapter;
 import com.jingna.workshopapp.adapter.FragmentStoryListStheAdapter;
 import com.jingna.workshopapp.adapter.FragmentStoryListTwoAdapter;
 import com.jingna.workshopapp.base.BaseFragment;
+import com.jingna.workshopapp.bean.BannerBean;
 import com.jingna.workshopapp.bean.StoryListBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.StatusBarUtils;
@@ -30,10 +31,12 @@ import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
+import com.youth.banner.Banner;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -55,8 +58,8 @@ public class FragmentStory extends BaseFragment {
     RecyclerView rv_c;
     @BindView(R.id.refresh)
     SmartRefreshLayout smartRefreshLayout;
-    @BindView(R.id.et_search)
-    EditText etSearch;
+    @BindView(R.id.banner)
+    Banner banner;
 
     private List<StoryListBean.DataBean> mList;
     private List<String> mList2;
@@ -77,58 +80,38 @@ public class FragmentStory extends BaseFragment {
         ButterKnife.bind(this, view);
         manager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
         initData();
-        initSearch();
+        initBanner();
         return view;
     }
 
-    private void initSearch() {
+    private void initBanner() {
 
-        etSearch.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
-                    //先隐藏键盘
-                    if (manager.isActive()) {
-                        manager.hideSoftInputFromWindow(etSearch.getApplicationWindowToken(), 0);
+        ViseHttp.GET(NetUrl.IndexPageApifindBanner)
+                .addParam("type", "3")
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if(jsonObject.optString("status").equals("200")){
+                                Gson gson = new Gson();
+                                BannerBean bannerBean = gson.fromJson(data, BannerBean.class);
+                                List<String> bannerList = new ArrayList<>();
+                                for (BannerBean.DataBean bean : bannerBean.getData()){
+                                    bannerList.add(NetUrl.BASE_URL+bean.getAppPic());
+                                }
+                                init(banner, bannerList);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                    //自己需要的操作
-                    String search = etSearch.getText().toString();
-                    if(!TextUtils.isEmpty(search)){
-                        title = search;
-                        ViseHttp.GET(NetUrl.AppShopStorysqueryList)
-                                .addParam("pageSize", "1")
-                                .addParam("pageNum", "10")
-                                .addParam("title", title)
-                                .request(new ACallback<String>() {
-                                    @Override
-                                    public void onSuccess(String data) {
-                                        try {
-                                            JSONObject jsonObject = new JSONObject(data);
-                                            if (jsonObject.optString("status").equals("200")) {
-                                                Gson gson = new Gson();
-                                                StoryListBean bean = gson.fromJson(data, StoryListBean.class);
-                                                mList.clear();
-                                                mList.addAll(bean.getData());
-                                                adapter.notifyDataSetChanged();
-                                                page = 2;
-                                                etSearch.setText(null);
-                                            }
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
 
-                                    @Override
-                                    public void onFail(int errCode, String errMsg) {
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
 
-                                    }
-                                });
                     }
-                }
-                //记得返回false
-                return false;
-            }
-        });
+                });
 
     }
 

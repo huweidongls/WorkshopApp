@@ -19,36 +19,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <RelativeLayout
-                    android:visibility="gone"
+                <com.youth.banner.Banner
+                    android:id="@+id/banner"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="25dp"
-                    android:layout_marginTop="26dp"
-                    android:background="@drawable/textview_serche">
-
-                    <EditText
-                        android:singleLine="true"
-                        android:imeOptions="actionSearch"
-                        android:id="@+id/et_search"
-                        android:layout_centerVertical="true"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@null"
-                        android:hint="输入搜索"
-                        android:textColor="#333333"
-                        android:textSize="14sp" />
-
-                    <ImageView
-                        android:layout_centerVertical="true"
-                        android:layout_width="14dp"
-                        android:layout_height="14dp"
-                        android:layout_marginLeft="20dp"
-                        android:src="@mipmap/sousuo" />
-                </RelativeLayout>
+                    android:layout_height="250dp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"

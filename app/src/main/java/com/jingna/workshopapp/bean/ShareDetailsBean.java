@@ -81,6 +81,15 @@ public class ShareDetailsBean {
         private int isCollect;
         private double evaluate;
         private int intEvalute;
+        private String telephone;
+
+        public String getTelephone() {
+            return telephone;
+        }
+
+        public void setTelephone(String telephone) {
+            this.telephone = telephone;
+        }
 
         public int getIntEvalute() {
             return intEvalute;

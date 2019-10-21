@@ -1,8 +1,10 @@
 package com.jingna.workshopapp.page;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,6 +40,7 @@ import com.jingna.workshopapp.util.DensityTool;
 import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.StringUtils;
 import com.jingna.workshopapp.util.ToastUtil;
 import com.jingna.workshopapp.widget.ObservableScrollView;
 import com.vise.xsnow.http.ViseHttp;
@@ -144,6 +147,7 @@ public class ShareDetailsActivity extends BaseActivity {
     private String type = "";//1车间  2委托
 
     private BaiduMap mBaiduMap;
+    private String phone = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,6 +185,8 @@ public class ShareDetailsActivity extends BaseActivity {
                                 }
                                 init(banner, bannerlist);
                                 tvTitle.setText(shareDetailsBean.getData().getCategoryName());
+                                //电话
+                                phone = shareDetailsBean.getData().getTelephone();
                                 //可订日期
                                 mCalendarList = shareDetailsBean.getData().getTimes();
                                 calendarAdapter = new ShareDetailsCalendarAdapter(mCalendarList);
@@ -198,6 +204,7 @@ public class ShareDetailsActivity extends BaseActivity {
                                         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                                         imageView.setAdjustViewBounds(true);
                                         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                        layoutParams.topMargin = 8;
                                         llXinxiShow.addView(imageView, layoutParams);
                                     }
                                 }else {
@@ -214,6 +221,7 @@ public class ShareDetailsActivity extends BaseActivity {
                                         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                                         imageView.setAdjustViewBounds(true);
                                         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                        layoutParams.topMargin = 8;
                                         llChejianDescribe.addView(imageView, layoutParams);
                                     }
                                 }else {
@@ -230,6 +238,7 @@ public class ShareDetailsActivity extends BaseActivity {
                                         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                                         imageView.setAdjustViewBounds(true);
                                         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                        layoutParams.topMargin = 8;
                                         llPeitaofuwu.addView(imageView, layoutParams);
                                     }
                                 }else {
@@ -275,6 +284,7 @@ public class ShareDetailsActivity extends BaseActivity {
                                         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                                         imageView.setAdjustViewBounds(true);
                                         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                        layoutParams.topMargin = 8;
                                         llShiyongxuzhi.addView(imageView, layoutParams);
                                     }
                                 }else {
@@ -291,6 +301,7 @@ public class ShareDetailsActivity extends BaseActivity {
                                         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                                         imageView.setAdjustViewBounds(true);
                                         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                        layoutParams.topMargin = 8;
                                         llAnquanxuzhi.addView(imageView, layoutParams);
                                     }
                                 }else {
@@ -335,26 +346,27 @@ public class ShareDetailsActivity extends BaseActivity {
                                 }
                                 initBottomStar(shareDetailsBean.getData().getIntEvalute());
                                 //位置
-                                String[] map = shareDetailsBean.getData().getPositionalCoordinates().split(",");
-                                Logger.e("12341234", map[0]+"----"+map[1]);
-                                BitmapDescriptor bitmap = BitmapDescriptorFactory
-                                        .fromResource(R.mipmap.location_big);
-                                List<OverlayOptions> options = new ArrayList<OverlayOptions>();
-                                options.add(new MarkerOptions().position(new LatLng(Double.valueOf(map[1]), Double.valueOf(map[0]))).icon(bitmap));
-                                mBaiduMap.addOverlays(options);
-                                //设定中心点坐标
-                                LatLng cenpt =  new LatLng(Double.valueOf(map[1]), Double.valueOf(map[0]));
-                                //定义地图状态
-                                MapStatus mMapStatus = new MapStatus.Builder()
-                                        //要移动的点
-                                        .target(cenpt)
-                                        //放大地图到20倍
-                                        .zoom(17)
-                                        .build();
-                                //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
-                                MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
-                                //改变地图状态
-                                mBaiduMap.setMapStatus(mMapStatusUpdate);
+                                if(!shareDetailsBean.getData().getPositionalCoordinates().equals(",")){
+                                    String[] map = shareDetailsBean.getData().getPositionalCoordinates().split(",");
+                                    BitmapDescriptor bitmap = BitmapDescriptorFactory
+                                            .fromResource(R.mipmap.location_big);
+                                    List<OverlayOptions> options = new ArrayList<OverlayOptions>();
+                                    options.add(new MarkerOptions().position(new LatLng(Double.valueOf(map[1]), Double.valueOf(map[0]))).icon(bitmap));
+                                    mBaiduMap.addOverlays(options);
+                                    //设定中心点坐标
+                                    LatLng cenpt =  new LatLng(Double.valueOf(map[1]), Double.valueOf(map[0]));
+                                    //定义地图状态
+                                    MapStatus mMapStatus = new MapStatus.Builder()
+                                            //要移动的点
+                                            .target(cenpt)
+                                            //放大地图到20倍
+                                            .zoom(17)
+                                            .build();
+                                    //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+                                    MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+                                    //改变地图状态
+                                    mBaiduMap.setMapStatus(mMapStatusUpdate);
+                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -456,7 +468,8 @@ public class ShareDetailsActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.rl_back, R.id.tv_submit, R.id.rl_star})
+    @SuppressLint("MissingPermission")
+    @OnClick({R.id.rl_back, R.id.tv_submit, R.id.rl_star, R.id.rl_phone})
     public void onClick(View view){
         Intent intent = new Intent();
         switch (view.getId()){
@@ -487,6 +500,14 @@ public class ShareDetailsActivity extends BaseActivity {
                     startActivity(intent);
                 }else {
                     onCollect();
+                }
+                break;
+            case R.id.rl_phone:
+                if(!StringUtils.isEmpty(phone)){
+                    Intent intent1 = new Intent(Intent.ACTION_DIAL);
+                    Uri data = Uri.parse("tel:" + phone);
+                    intent1.setData(data);
+                    startActivity(intent1);
                 }
                 break;
         }

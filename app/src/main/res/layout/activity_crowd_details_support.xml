@@ -137,7 +137,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="11dp"
                         android:layout_marginTop="18dp"
-                        android:text="智能物联锁"
+                        android:text="平台自营"
                         android:textColor="#333333"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -147,6 +147,7 @@
                     android:layout_height="wrap_content">
 
                     <ImageView
+                        android:scaleType="centerCrop"
                         android:id="@+id/iv_img"
                         android:layout_width="80dp"
                         android:layout_height="85dp"
@@ -155,17 +156,31 @@
                         android:src="@mipmap/weituojiagong" />
 
                     <TextView
-                        android:id="@+id/tv_title_goods"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:id="@+id/tv_title_name"
                         android:layout_toRightOf="@+id/iv_img"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="20dp"
-                        android:gravity="center"
-                        android:text="NB联网自发电只能门锁"
                         android:textColor="#333333"
                         android:textSize="13sp" />
+
+                    <TextView
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:layout_below="@+id/tv_title_name"
+                        android:id="@+id/tv_title_goods"
+                        android:layout_toRightOf="@+id/iv_img"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:textColor="#333333"
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/goods_price"
@@ -176,7 +191,6 @@
                         android:layout_marginLeft="26dp"
                         android:layout_marginTop="80dp"
                         android:gravity="center"
-                        android:text="¥599.00"
                         android:textColor="#C99974"
                         android:textSize="13sp" />
 
@@ -198,7 +212,6 @@
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="27dp"
                     android:layout_marginTop="17dp"
-                    android:text="感谢您的支持！您将以众筹价599元获得市场价值699的 【Nokelock智能门锁 1把（附赠免费上门安装服务）。"
                     android:textColor="#333333"
                     android:textSize="12sp" />
 
@@ -221,7 +234,6 @@
                         android:layout_marginBottom="16dp"
                         android:layout_marginLeft="7dp"
                         android:layout_marginTop="18dp"
-                        android:text="预计70天后发货"
                         android:textColor="#8B8B8B"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -331,7 +343,6 @@
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="12dp"
-                        android:text="¥599.00"
                         android:textColor="#333333"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -357,7 +368,6 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="12dp"
-                        android:text="免运费"
                         android:textColor="#333333"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -384,7 +394,6 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="12dp"
-                        android:text="¥599.00"
                         android:textColor="#C99974"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -527,7 +536,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="14dp"
                 android:layout_marginTop="13dp"
-                android:text="请您务必审慎阅读、充分理解协议中相关条款内容，其中包括： 1、众筹不是商品交易，存在一定的风险。支持者应根据自己的 判断选择是否支持众筹项目，是否与发起人共同实现梦想并获得 发起人承诺的回报。 2、众筹仅为发起人和支持者之间的众筹行为提供网络空间、技 术支持和系统维护等服务，使用众筹平台产生的法律后果由发起 人与支持者自行承担。 3、存在众筹项目失败、无法发放回报产品乃至无法全额退款的 风险。众筹项目的回报大方及收货服务有发起人负责，如果发起 人出现延迟或无法发放回报等情形，支持者应和发起人独立协商 解决。 更多信息请您仔细阅读《支持者协议"
+                android:text="请您务必审慎阅读、充分理解协议中相关条款内容，其中包括： 1、众筹不是商品交易，存在一定的风险。支持者应根据自己的 判断选择是否支持众筹项目，是否与发起人共同实现梦想并获得 发起人承诺的回报。 2、众筹仅为发起人和支持者之间的众筹行为提供网络空间、技 术支持和系统维护等服务，使用众筹平台产生的法律后果由发起 人与支持者自行承担。 3、存在众筹项目失败、无法发放回报产品乃至无法全额退款的 风险。众筹项目的回报大方及收货服务有发起人负责，如果发起 人出现延迟或无法发放回报等情形，支持者应和发起人独立协商 解决。 更多信息请您仔细阅读《支持者协议》"
                 android:textColor="#FFFFFF"
                 android:textSize="12sp" />
 

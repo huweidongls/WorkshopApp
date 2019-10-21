@@ -75,10 +75,41 @@ public class FragmentJinXingZhongOrder extends OrderBaseFragment {
                                 if (jsonObject.optString("status").equals("200")) {
                                     Gson gson = new Gson();
                                     OrderListBean bean = gson.fromJson(data, OrderListBean.class);
-                                    mList.clear();
-                                    mList.addAll(bean.getData());
-                                    adapter.notifyDataSetChanged();
-                                    page = 2;
+                                    mList = bean.getData();
+                                    if (mList.size()>0){
+                                        adapter = new FragmentJinXingZhongOrderAdapter(mList, new FragmentJinXingZhongOrderAdapter.ClickListener() {
+                                            @Override
+                                            public void onReturnPrice(final int pos) {
+                                                ViseHttp.GET(NetUrl.AppOrderorderRefund)
+                                                        .addParam("id",mList.get(pos).getId())
+                                                        .request(new ACallback<String>() {
+                                                            @Override
+                                                            public void onSuccess(String data) {
+                                                                try {
+                                                                    JSONObject jsonObject1 = new JSONObject(data);
+                                                                    if (jsonObject1.optString("data").equals("已退款")){
+                                                                        ToastUtil.showShort(getContext(), "退款成功!");
+                                                                        mList.remove(pos);
+                                                                        adapter.notifyDataSetChanged();
+                                                                    }
+                                                                } catch (JSONException e) {
+                                                                    e.printStackTrace();
+                                                                }
+                                                            }
+                                                            @Override
+                                                            public void onFail(int errCode, String errMsg) {
+                                                            }
+                                                        });
+                                            }
+                                        });
+                                        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+                                        manager.setOrientation(LinearLayoutManager.VERTICAL);
+                                        recyclerView.setLayoutManager(manager);
+                                        recyclerView.setAdapter(adapter);
+                                        page=2;
+                                    }else{
+                                        empty_order_bloack.setVisibility(View.VISIBLE);
+                                    }
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
