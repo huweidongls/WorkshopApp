@@ -201,9 +201,9 @@ public class ShareDetailsActivity extends BaseActivity {
                                     for (int i = 0; i<xinxiList.length; i++){
                                         imageView = new ImageView(context);
                                         Glide.with(context).load(NetUrl.BASE_URL+xinxiList[i]).into(imageView);
+                                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                                         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                                         imageView.setAdjustViewBounds(true);
-                                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                                         layoutParams.topMargin = 8;
                                         llXinxiShow.addView(imageView, layoutParams);
                                     }

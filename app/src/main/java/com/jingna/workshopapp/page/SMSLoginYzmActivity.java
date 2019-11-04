@@ -109,7 +109,7 @@ public class SMSLoginYzmActivity extends BaseActivity {
                                     SpUtils.setPhoneNum(context, phoneNum);
                                     finish();
                                 }else {
-                                    ToastUtil.showShort(context, "验证码不正确");
+                                    ToastUtil.showShort(context, jsonObject.optString("errorMsg"));
                                 }
                                 WeiboDialogUtils.closeDialog(dialog);
                             } catch (JSONException e) {
