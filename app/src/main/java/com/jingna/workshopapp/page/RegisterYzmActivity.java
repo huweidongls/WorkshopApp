@@ -132,7 +132,7 @@ public class RegisterYzmActivity extends BaseActivity {
                             try {
                                 Log.e("123123", data);
                                 JSONObject jsonObject = new JSONObject(data);
-                                if(jsonObject.optString("status").equals("200")){
+                                if(jsonObject.optInt("data") == 1){
                                     Intent intent = new Intent();
                                     intent.setClass(context, RegisterSetPwdActivity.class);
                                     intent.putExtra("number", phoneNumber);
