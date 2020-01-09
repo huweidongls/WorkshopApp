@@ -29,6 +29,7 @@ import com.jingna.workshopapp.page.MySetActivity;
 import com.jingna.workshopapp.page.PersonInformationActivity;
 import com.jingna.workshopapp.page.SMSLoginActivity;
 import com.jingna.workshopapp.page.TeamManagerActivity;
+import com.jingna.workshopapp.page.YqActivity;
 import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
@@ -127,7 +128,8 @@ public class FragmentMy extends BaseFragment {
     }
 
     @OnClick({R.id.iv_avatar, R.id.ll_login, R.id.ll_my_order, R.id.rl1, R.id.rl2, R.id.rl3, R.id.rl4, R.id.rl5, R.id.rl6
-            , R.id.rl7, R.id.iv_my_set, R.id.iv_my_msg, R.id.tv_edit,R.id.ll_Maintenance,R.id.ll_daizhifu,R.id.ll_jinxingzhong,R.id.ll_daishouhuo})
+            , R.id.rl7, R.id.iv_my_set, R.id.iv_my_msg, R.id.tv_edit,R.id.ll_Maintenance,R.id.ll_daizhifu,
+            R.id.ll_jinxingzhong,R.id.ll_daishouhuo, R.id.rl8})
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -276,6 +278,15 @@ public class FragmentMy extends BaseFragment {
                     startActivity(intent);
                 } else {
                     intent.setClass(getContext(), MaintenanceAfterSaleActivity.class);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.rl8:
+                if (userId.equals("0")) {
+                    intent.setClass(getContext(), SMSLoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    intent.setClass(getContext(), YqActivity.class);
                     startActivity(intent);
                 }
                 break;

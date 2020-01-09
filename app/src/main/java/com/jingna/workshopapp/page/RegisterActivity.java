@@ -32,6 +32,8 @@ public class RegisterActivity extends BaseActivity {
 
     @BindView(R.id.et_number)
     EditText etNumber;
+    @BindView(R.id.et_yq)
+    EditText etYq;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,7 @@ public class RegisterActivity extends BaseActivity {
     private void next() {
 
         final String phoneNum = etNumber.getText().toString();
+        final String yq = etYq.getText().toString();
         if(TextUtils.isEmpty(phoneNum)){
             ToastUtil.showShort(context, "手机号不能为空");
         }else if(!StringUtils.isPhoneNumberValid(phoneNum)){
@@ -100,6 +103,7 @@ public class RegisterActivity extends BaseActivity {
                                             Intent intent = new Intent();
                                             intent.setClass(context, RegisterYzmActivity.class);
                                             intent.putExtra("number", phoneNum);
+                                            intent.putExtra("yq", yq);
                                             startActivity(intent);
                                             finish();
                                         }else {

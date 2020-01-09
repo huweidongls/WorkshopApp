@@ -27,6 +27,8 @@ import com.vise.xsnow.http.callback.ACallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -42,6 +44,7 @@ public class RegisterSetPwdActivity extends BaseActivity {
 
     private boolean isShowPwd = false;
     private String phoneNumber = "";
+    private String yq = "";
 
     private Dialog dialog;
 
@@ -51,6 +54,7 @@ public class RegisterSetPwdActivity extends BaseActivity {
         setContentView(R.layout.activity_register_set_pwd);
 
         phoneNumber = getIntent().getStringExtra("number");
+        yq = getIntent().getStringExtra("yq");
         StatusBarUtils.setStatusBar(RegisterSetPwdActivity.this, getResources().getColor(R.color.statusbar_color));
         ButterKnife.bind(RegisterSetPwdActivity.this);
 
@@ -96,6 +100,7 @@ public class RegisterSetPwdActivity extends BaseActivity {
             ViseHttp.GET(NetUrl.MemUseraddMember)
                     .addParam("phone", phoneNumber)
                     .addParam("password", pwd)
+                    .addParam("yq", yq)
                     .request(new ACallback<String>() {
                         @Override
                         public void onSuccess(String data) {

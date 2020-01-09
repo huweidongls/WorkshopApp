@@ -37,7 +37,8 @@ public class RegisterYzmActivity extends BaseActivity {
     @BindView(R.id.tv_get_code)
     TextView tvGetCode;
 
-    private String phoneNumber;
+    private String phoneNumber = "";
+    private String yq = "";
 
     public TextView getCode_btn() {
         return tvGetCode;
@@ -52,6 +53,7 @@ public class RegisterYzmActivity extends BaseActivity {
 
         MyApplication.ftptimecount.setActivity(RegisterYzmActivity.this);
         phoneNumber = getIntent().getStringExtra("number");
+        yq = getIntent().getStringExtra("yq");
         StatusBarUtils.setStatusBar(RegisterYzmActivity.this, getResources().getColor(R.color.statusbar_color));
         ButterKnife.bind(RegisterYzmActivity.this);
         initData();
@@ -136,6 +138,7 @@ public class RegisterYzmActivity extends BaseActivity {
                                     Intent intent = new Intent();
                                     intent.setClass(context, RegisterSetPwdActivity.class);
                                     intent.putExtra("number", phoneNumber);
+                                    intent.putExtra("yq", yq);
                                     startActivity(intent);
                                     finish();
                                 }else {

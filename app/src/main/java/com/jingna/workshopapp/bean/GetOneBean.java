@@ -8,7 +8,7 @@ public class GetOneBean {
 
     /**
      * status : 200
-     * data : {"goodsNum":1,"sellerNum":1,"browseRecord":4,"memberUserInfo":{"id":30,"gender":"0","memBirthday":"2019-02-08","memName":"嘻嘻","headPhoto":"/upload/9cede2d9bea8444d90177dc111983eca.png","username":"18686817319","password":"25f9e794323b453885f5181f1b624d0b","memBalance":"123","memIntegral":"10000","phoneNum":"18686817319","newTime":"2019年03月04日"}}
+     * data : {"goodsNum":1,"sellerNum":0,"browseRecord":0,"memberUserInfo":{"id":52,"gender":"0","memBirthday":"1995-08-30","memName":"茶派呀","headPhoto":"/upload/appHeadPhoto/ea226f14584147a18535c4f3f21b5056.png","username":"15561817068","password":"e10adc3949ba59abbe56e057f20f883e","phoneNum":"15561817068","newTime":"2019年08月30日","personalInvitationCode":"e1288466","superiorInvitationCode":"savd16sz","totalAmount":0,"withdrawableCash":0,"historicalCashWithdrawal":0}}
      */
 
     private String status;
@@ -33,9 +33,9 @@ public class GetOneBean {
     public static class DataBean {
         /**
          * goodsNum : 1
-         * sellerNum : 1
-         * browseRecord : 4
-         * memberUserInfo : {"id":30,"gender":"0","memBirthday":"2019-02-08","memName":"嘻嘻","headPhoto":"/upload/9cede2d9bea8444d90177dc111983eca.png","username":"18686817319","password":"25f9e794323b453885f5181f1b624d0b","memBalance":"123","memIntegral":"10000","phoneNum":"18686817319","newTime":"2019年03月04日"}
+         * sellerNum : 0
+         * browseRecord : 0
+         * memberUserInfo : {"id":52,"gender":"0","memBirthday":"1995-08-30","memName":"茶派呀","headPhoto":"/upload/appHeadPhoto/ea226f14584147a18535c4f3f21b5056.png","username":"15561817068","password":"e10adc3949ba59abbe56e057f20f883e","phoneNum":"15561817068","newTime":"2019年08月30日","personalInvitationCode":"e1288466","superiorInvitationCode":"savd16sz","totalAmount":0,"withdrawableCash":0,"historicalCashWithdrawal":0}
          */
 
         private int goodsNum;
@@ -77,17 +77,20 @@ public class GetOneBean {
 
         public static class MemberUserInfoBean {
             /**
-             * id : 30
+             * id : 52
              * gender : 0
-             * memBirthday : 2019-02-08
-             * memName : 嘻嘻
-             * headPhoto : /upload/9cede2d9bea8444d90177dc111983eca.png
-             * username : 18686817319
-             * password : 25f9e794323b453885f5181f1b624d0b
-             * memBalance : 123
-             * memIntegral : 10000
-             * phoneNum : 18686817319
-             * newTime : 2019年03月04日
+             * memBirthday : 1995-08-30
+             * memName : 茶派呀
+             * headPhoto : /upload/appHeadPhoto/ea226f14584147a18535c4f3f21b5056.png
+             * username : 15561817068
+             * password : e10adc3949ba59abbe56e057f20f883e
+             * phoneNum : 15561817068
+             * newTime : 2019年08月30日
+             * personalInvitationCode : e1288466
+             * superiorInvitationCode : savd16sz
+             * totalAmount : 0
+             * withdrawableCash : 0
+             * historicalCashWithdrawal : 0
              */
 
             private int id;
@@ -97,10 +100,13 @@ public class GetOneBean {
             private String headPhoto;
             private String username;
             private String password;
-            private String memBalance;
-            private String memIntegral;
             private String phoneNum;
             private String newTime;
+            private String personalInvitationCode;
+            private String superiorInvitationCode;
+            private int totalAmount;
+            private int withdrawableCash;
+            private int historicalCashWithdrawal;
 
             public int getId() {
                 return id;
@@ -158,22 +164,6 @@ public class GetOneBean {
                 this.password = password;
             }
 
-            public String getMemBalance() {
-                return memBalance;
-            }
-
-            public void setMemBalance(String memBalance) {
-                this.memBalance = memBalance;
-            }
-
-            public String getMemIntegral() {
-                return memIntegral;
-            }
-
-            public void setMemIntegral(String memIntegral) {
-                this.memIntegral = memIntegral;
-            }
-
             public String getPhoneNum() {
                 return phoneNum;
             }
@@ -188,6 +178,46 @@ public class GetOneBean {
 
             public void setNewTime(String newTime) {
                 this.newTime = newTime;
+            }
+
+            public String getPersonalInvitationCode() {
+                return personalInvitationCode;
+            }
+
+            public void setPersonalInvitationCode(String personalInvitationCode) {
+                this.personalInvitationCode = personalInvitationCode;
+            }
+
+            public String getSuperiorInvitationCode() {
+                return superiorInvitationCode;
+            }
+
+            public void setSuperiorInvitationCode(String superiorInvitationCode) {
+                this.superiorInvitationCode = superiorInvitationCode;
+            }
+
+            public int getTotalAmount() {
+                return totalAmount;
+            }
+
+            public void setTotalAmount(int totalAmount) {
+                this.totalAmount = totalAmount;
+            }
+
+            public int getWithdrawableCash() {
+                return withdrawableCash;
+            }
+
+            public void setWithdrawableCash(int withdrawableCash) {
+                this.withdrawableCash = withdrawableCash;
+            }
+
+            public int getHistoricalCashWithdrawal() {
+                return historicalCashWithdrawal;
+            }
+
+            public void setHistoricalCashWithdrawal(int historicalCashWithdrawal) {
+                this.historicalCashWithdrawal = historicalCashWithdrawal;
             }
         }
     }

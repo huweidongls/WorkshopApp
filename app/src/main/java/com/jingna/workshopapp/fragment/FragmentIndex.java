@@ -25,9 +25,11 @@ import com.jingna.workshopapp.bean.BannerBean;
 import com.jingna.workshopapp.bean.CategoryQueryChildListBean;
 import com.jingna.workshopapp.bean.CrowdPopularBean;
 import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.page.LoginActivity;
 import com.jingna.workshopapp.page.SearchActivity;
 import com.jingna.workshopapp.page.ShareDetailsActivity;
 import com.jingna.workshopapp.page.ShareListActivity;
+import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
 import com.jingna.workshopapp.widget.ObservableScrollView;
@@ -340,8 +342,13 @@ public class FragmentIndex extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.iv_sao:
-                Intent intent1 = new Intent(getContext(), CaptureActivity.class);
-                startActivityForResult(intent1, REQUEST_CODE);
+                if(SpUtils.getUserId(getContext()).equals("0")){
+                    intent.setClass(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                }else {
+                    Intent intent1 = new Intent(getContext(), CaptureActivity.class);
+                    startActivityForResult(intent1, REQUEST_CODE);
+                }
                 break;
         }
     }
@@ -361,7 +368,30 @@ public class FragmentIndex extends BaseFragment {
                 }
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
                     String result = bundle.getString(CodeUtils.RESULT_STRING);
-                    Toast.makeText(getContext(), "解析结果:" + result, Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getContext(), "解析结果:" + result, Toast.LENGTH_LONG).show();
+                    ViseHttp.POST(NetUrl.MemUsertoUpdate)
+                            .addParam("id", SpUtils.getUserId(getContext()))
+                            .addParam("superiorInvitationCode", result)
+                            .request(new ACallback<String>() {
+                                @Override
+                                public void onSuccess(String data) {
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(data);
+                                        if(jsonObject.optString("status").equals("200")){
+                                            ToastUtil.showShort(getContext(), "添加成功");
+                                        }else {
+                                            ToastUtil.showShort(getContext(), "添加失败");
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onFail(int errCode, String errMsg) {
+
+                                }
+                            });
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                     Toast.makeText(getContext(), "解析二维码失败", Toast.LENGTH_LONG).show();
                 }
