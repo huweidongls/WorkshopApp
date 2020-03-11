@@ -20,6 +20,7 @@ import com.jingna.workshopapp.bean.AddressBean;
 import com.jingna.workshopapp.bean.MaintenancEequipmentBean;
 import com.jingna.workshopapp.bean.PeitaoshebeiBean;
 import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
@@ -149,6 +150,7 @@ public class AfterSale_Commit_orderActivity extends AppCompatActivity {
                     public void onSuccess(String data) {
                         try {
                             JSONObject jsonObject = new JSONObject(data);
+                            Logger.e("123123", data);
                             if (jsonObject.optString("status").equals("200")){
                                 ToastUtil.showShort(context, "订单提交成功!");
                                 startActivity(new Intent(AfterSale_Commit_orderActivity.this,MaintenanceAfterSaleActivity.class)

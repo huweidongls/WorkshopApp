@@ -316,6 +316,7 @@ public class CommitOrderActivity extends BaseActivity {
                             public void onSuccess(String data) {
                                 try {
                                     JSONObject jsonObject = new JSONObject(data);
+                                    Logger.e("JSON:",data);
                                     if(jsonObject.optString("status").equals("200")){
                                         Gson gson = new Gson();
                                         WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
@@ -348,10 +349,13 @@ public class CommitOrderActivity extends BaseActivity {
                             public void onSuccess(String data) {
                                 try {
                                     JSONObject jsonObject = new JSONObject(data);
+                                    Logger.e("JSON:",data);
                                     if(jsonObject.optString("status").equals("200")){
                                         Gson gson = new Gson();
                                         WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
                                         wxPay(wxPayBean);
+                                    }else if(jsonObject.optString("status").equals("500")){
+                                        ToastUtil.showShort(context, jsonObject.optString("errorMsg"));
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -376,10 +380,13 @@ public class CommitOrderActivity extends BaseActivity {
                             public void onSuccess(String data) {
                                 try {
                                     JSONObject jsonObject = new JSONObject(data);
+                                    Logger.e("JSON:",data);
                                     if(jsonObject.optString("status").equals("200")){
                                         Gson gson = new Gson();
                                         WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
                                         wxPay(wxPayBean);
+                                    }else if(jsonObject.optString("status").equals("500")){
+                                        ToastUtil.showShort(context, jsonObject.optString("errorMsg"));
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
