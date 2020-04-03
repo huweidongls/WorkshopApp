@@ -16,6 +16,7 @@ import com.jingna.workshopapp.bean.EntrustListBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.page.ShareDetailsActivity;
 import com.jingna.workshopapp.util.DensityTool;
+import com.jingna.workshopapp.util.StringUtils;
 
 import java.util.List;
 
@@ -84,7 +85,7 @@ public class EntrustListAdapter extends RecyclerView.Adapter<EntrustListAdapter.
 
         Glide.with(context).load(NetUrl.BASE_URL+data.get(position).getAppCategoryPic()).into(holder.iv);
         holder.tvTitle.setText(data.get(position).getCategoryName());
-        holder.tvPrice.setText("¥ "+data.get(position).getMoney());
+        holder.tvPrice.setText("¥ "+ StringUtils.roundByScale(data.get(position).getMoney(), 2));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

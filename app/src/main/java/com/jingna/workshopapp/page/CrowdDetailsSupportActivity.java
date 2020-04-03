@@ -21,6 +21,7 @@ import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.StringUtils;
 import com.jingna.workshopapp.util.ToastUtil;
 import com.jingna.workshopapp.wxapi.WXShare;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -81,7 +82,7 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
     private int paycheck=0;
     private int addressid=0;
     private int invoiceId=0;
-    private int payAll=0;
+    private double payAll=0.00;
     private String gid="";
     private Map<String, String> map;//发票map
     private WXShare wxShare;
@@ -118,18 +119,18 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
                                 gid=bean.getData().getSellerId();
                                 tvTitleName.setText(bean.getData().getGearPositionName());
                                 tv_title_goods.setText(bean.getData().getGearPositionTitle());
-                                goods_price.setText("¥"+bean.getData().getGearPositionMoney());
+                                goods_price.setText("¥"+ StringUtils.roundByScale(bean.getData().getGearPositionMoney(), 2));
                                 goods_desc.setText(bean.getData().getGearPositionSubTitle());
                                 time_fahuo.setText("预计"+bean.getData().getDeliveryTime()+"天后发货");
-                                goods_all_price.setText("¥"+bean.getData().getGearPositionMoney());
+                                goods_all_price.setText("¥"+StringUtils.roundByScale(bean.getData().getGearPositionMoney(), 2));
                                 if (bean.getData().getFreight()<=0){
                                     goods_yunfei.setText("免运费");
                                 }else{
                                     goods_yunfei.setText(bean.getData().getFreight()+"元");
                                 }
-                                pay_price.setText("¥"+bean.getData().getGearPositionMoney());
+                                pay_price.setText("¥"+StringUtils.roundByScale(bean.getData().getGearPositionMoney(), 2));
                                 payAll =bean.getData().getFreight()+bean.getData().getGearPositionMoney();
-                                conmit_all_price.setText("¥"+payAll+"");
+                                conmit_all_price.setText("¥"+StringUtils.roundByScale(payAll, 2)+"");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -15,6 +15,7 @@ import com.jingna.workshopapp.adapter.AfterSaleOrderDetailsTopayAdapter;
 import com.jingna.workshopapp.bean.AfterSaleOrderDetailsToPayBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.StringUtils;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
@@ -30,7 +31,7 @@ import butterknife.OnClick;
 public class AfterOrderDetailsPaymentedActivity extends AppCompatActivity {
     private Context context = AfterOrderDetailsPaymentedActivity.this;
     private String id="";
-    private int moeny_all = 0;
+    private double moeny_all = 0.00;
     private AfterSaleOrderDetailsTopayAdapter adapter;
     private List<AfterSaleOrderDetailsToPayBean.DataBean.AfterSaleOrderItemsBean> mList;
     @BindView(R.id.rv)
@@ -79,11 +80,11 @@ public class AfterOrderDetailsPaymentedActivity extends AppCompatActivity {
                                 tv_time.setText(bean.getData().getCreateTime());
                                 tv_tel.setText(bean.getData().getAddresPhone());
                                 tv_address.setText(bean.getData().getAddresName());
-                                goods_all_price.setText("¥" + bean.getData().getRepairMoney() + "元");
-                                goods_yunfei.setText("¥" + bean.getData().getRepairTimeMoney() + "元");
-                                pay_price.setText("¥" + bean.getData().getCarMoney() + "元");
+                                goods_all_price.setText("¥" + StringUtils.roundByScale(bean.getData().getRepairMoney(), 2) + "元");
+                                goods_yunfei.setText("¥" + StringUtils.roundByScale(bean.getData().getRepairTimeMoney(), 2) + "元");
+                                pay_price.setText("¥" + StringUtils.roundByScale(bean.getData().getCarMoney(), 2) + "元");
                                 moeny_all = bean.getData().getCarMoney() + bean.getData().getRepairTimeMoney() + bean.getData().getRepairMoney();
-                                conmit_all_price.setText("¥" + moeny_all + "元");
+                                conmit_all_price.setText("¥" + StringUtils.roundByScale(moeny_all, 2) + "元");
                                 adapter = new AfterSaleOrderDetailsTopayAdapter(mList);
                                 LinearLayoutManager manager = new LinearLayoutManager(context){
                                     @Override

@@ -15,7 +15,9 @@ import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.bean.OrderListBean;
 import com.jingna.workshopapp.dialog.DialogCustom;
 import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.page.OrderDetailsActivity;
 import com.jingna.workshopapp.page.SubmissionEvaluateActivity;
+import com.jingna.workshopapp.util.StringUtils;
 
 import java.util.List;
 
@@ -46,7 +48,16 @@ public class FragmentDaiShouHuoOrderAdapter extends RecyclerView.Adapter<Fragmen
         Glide.with(context).load(NetUrl.BASE_URL+data.get(position).getGoodsPictureApp()).into(holder.iv_title);
         holder.tv_title.setText(data.get(position).getGoodsTitle());
         holder.tv_goods_num.setText("共"+data.get(position).getGoodsNum()+"件商品 应付款：");
-        holder.tv_price.setText("¥"+data.get(position).getOrderPrice());
+        holder.tv_price.setText("¥"+ StringUtils.roundByScale(data.get(position).getOrderRealPrice(), 2));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context,OrderDetailsActivity.class);
+                intent.putExtra("id",data.get(position).getId());
+                context.startActivity(intent);
+            }
+        });
         holder.tv_to_pj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

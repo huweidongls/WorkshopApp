@@ -46,12 +46,12 @@ public class CrowdTuijianBean {
          */
 
         private int id;
-        private int allMoney;
+        private double allMoney;
         private int allPeople;
         private String gearPictureApp;
         private String gearTitle;
         private String gearSubtitle;
-        private int gearMoney;
+        private double gearMoney;
         private String percentage;
         private List<?> list;
 
@@ -63,11 +63,11 @@ public class CrowdTuijianBean {
             this.id = id;
         }
 
-        public int getAllMoney() {
+        public double getAllMoney() {
             return allMoney;
         }
 
-        public void setAllMoney(int allMoney) {
+        public void setAllMoney(double allMoney) {
             this.allMoney = allMoney;
         }
 
@@ -103,11 +103,11 @@ public class CrowdTuijianBean {
             this.gearSubtitle = gearSubtitle;
         }
 
-        public int getGearMoney() {
+        public double getGearMoney() {
             return gearMoney;
         }
 
-        public void setGearMoney(int gearMoney) {
+        public void setGearMoney(double gearMoney) {
             this.gearMoney = gearMoney;
         }
 

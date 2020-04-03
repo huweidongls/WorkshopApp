@@ -243,7 +243,7 @@ public class LikeGoodsBean {
                 private int id;
                 private String categoryName;
                 private String appCategoryPic;
-                private int money;
+                private double money;
                 private int evaluate;
                 private int intEvalute;
                 private List<?> productAttributeList;
@@ -277,11 +277,11 @@ public class LikeGoodsBean {
                     this.appCategoryPic = appCategoryPic;
                 }
 
-                public int getMoney() {
+                public double getMoney() {
                     return money;
                 }
 
-                public void setMoney(int money) {
+                public void setMoney(double money) {
                     this.money = money;
                 }
 
@@ -389,12 +389,12 @@ public class LikeGoodsBean {
 
                 private int id;
                 private String endTime;
-                private int allMoney;
+                private double allMoney;
                 private int allPeople;
                 private String gearPictureApp;
                 private String gearTitle;
                 private String gearSubtitle;
-                private int gearMoney;
+                private double gearMoney;
                 private String percentage;
                 private int percentageNum;
                 private List<?> list;
@@ -416,11 +416,11 @@ public class LikeGoodsBean {
                     this.endTime = endTime;
                 }
 
-                public int getAllMoney() {
+                public double getAllMoney() {
                     return allMoney;
                 }
 
-                public void setAllMoney(int allMoney) {
+                public void setAllMoney(double allMoney) {
                     this.allMoney = allMoney;
                 }
 
@@ -456,11 +456,11 @@ public class LikeGoodsBean {
                     this.gearSubtitle = gearSubtitle;
                 }
 
-                public int getGearMoney() {
+                public double getGearMoney() {
                     return gearMoney;
                 }
 
-                public void setGearMoney(int gearMoney) {
+                public void setGearMoney(double gearMoney) {
                     this.gearMoney = gearMoney;
                 }
 

@@ -29,6 +29,7 @@ import com.jingna.workshopapp.page.CrowdDetailsSupportActivity;
 import com.jingna.workshopapp.page.OrderDetailsActivity;
 import com.jingna.workshopapp.page.SubmissionEvaluateActivity;
 import com.jingna.workshopapp.util.Logger;
+import com.jingna.workshopapp.util.StringUtils;
 import com.jingna.workshopapp.util.ToastUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
@@ -67,7 +68,7 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         Glide.with(context).load(NetUrl.BASE_URL+data.get(position).getGoodsPictureApp()).into(holder.iv_title);
         holder.tv_title.setText(data.get(position).getGoodsTitle());
-        holder.tv_price.setText("¥"+data.get(position).getOrderPrice()+"");
+        holder.tv_price.setText("¥"+ StringUtils.roundByScale(data.get(position).getOrderRealPrice(), 2)+"");
         holder.tv_goods_num.setText("共"+data.get(position).getGoodsNum()+"件商品 应付款：");
         if(data.get(position).getOrderStatus().equals("0")){
             holder.tv_to_pay.setVisibility(View.VISIBLE);

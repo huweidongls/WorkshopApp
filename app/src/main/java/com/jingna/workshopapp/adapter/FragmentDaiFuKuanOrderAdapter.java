@@ -18,6 +18,7 @@ import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.page.AfterServiceActivity;
 import com.jingna.workshopapp.page.CrowdDetailsSupportActivity;
 import com.jingna.workshopapp.page.OrderDetailsActivity;
+import com.jingna.workshopapp.util.StringUtils;
 
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class FragmentDaiFuKuanOrderAdapter extends RecyclerView.Adapter<Fragment
         Glide.with(context).load(NetUrl.BASE_URL+data.get(position).getGoodsPictureApp()).into(holder.iv_title_img);
         holder.tv_title.setText(data.get(position).getGoodsTitle());
         holder.tv_goods_num.setText("共"+data.get(position).getGoodsNum()+"件商品 应付款：");
-        holder.tv_price.setText("¥"+data.get(position).getOrderPrice()+"");
+        holder.tv_price.setText("¥"+ StringUtils.roundByScale(data.get(position).getOrderRealPrice(), 2)+"");
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

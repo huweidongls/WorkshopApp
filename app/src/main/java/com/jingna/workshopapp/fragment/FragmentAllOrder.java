@@ -91,67 +91,68 @@ public class FragmentAllOrder extends OrderBaseFragment {
                                     OrderListBean bean = gson.fromJson(data, OrderListBean.class);
                                     mList = bean.getData();
                                     if (mList.size()>0){
-                                        adapter = new FragmentAllOrderAdapter(mList, new FragmentAllOrderAdapter.ClickListener() {
-                                            @Override
-                                            public void onPay(int pos) {
-                                                ViseHttp.GET(NetUrl.AppOrderlistOrdersSubmitted)
-                                                        .addParam("id",mList.get(pos).getId())
-                                                        .request(new ACallback<String>() {
-                                                            @Override
-                                                            public void onSuccess(String data) {
-                                                                try {
-                                                                    JSONObject jsonObject = new JSONObject(data);
-                                                                    if (jsonObject.optString("status").equals("200")){
-                                                                        Gson gson = new Gson();
-                                                                        WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
-                                                                        wxPay(wxPayBean);
-                                                                    }
-                                                                } catch (JSONException e) {
-                                                                    e.printStackTrace();
-                                                                }
-                                                            }
-
-                                                            @Override
-                                                            public void onFail(int errCode, String errMsg) {
-
-                                                            }
-                                                        });
-                                            }
-
-                                            @Override
-                                            public void onReturnPrice(final int pos) {
-                                                ViseHttp.GET(NetUrl.AppOrderorderRefund)
-                                                        .addParam("id",mList.get(pos).getId())
-                                                        .request(new ACallback<String>() {
-                                                            @Override
-                                                            public void onSuccess(String data) {
-                                                                try {
-                                                                    JSONObject jsonObject1 = new JSONObject(data);
-                                                                    if (jsonObject1.optString("data").equals("已退款")){
-                                                                        ToastUtil.showShort(getContext(), "退款成功!");
-                                                                        mList.remove(pos);
-                                                                        adapter.notifyDataSetChanged();
-                                                                    }
-                                                                } catch (JSONException e) {
-                                                                    e.printStackTrace();
-                                                                }
-                                                            }
-
-                                                            @Override
-                                                            public void onFail(int errCode, String errMsg) {
-
-                                                            }
-                                                        });
-                                            }
-                                        });
-                                        LinearLayoutManager manager = new LinearLayoutManager(getContext());
-                                        manager.setOrientation(LinearLayoutManager.VERTICAL);
-                                        recyclerView.setLayoutManager(manager);
-                                        recyclerView.setAdapter(adapter);
-                                        page=2;
+                                        empty_order_bloack.setVisibility(View.GONE);
                                     }else{
                                         empty_order_bloack.setVisibility(View.VISIBLE);
                                     }
+                                    adapter = new FragmentAllOrderAdapter(mList, new FragmentAllOrderAdapter.ClickListener() {
+                                        @Override
+                                        public void onPay(int pos) {
+                                            ViseHttp.GET(NetUrl.AppOrderlistOrdersSubmitted)
+                                                    .addParam("id",mList.get(pos).getId())
+                                                    .request(new ACallback<String>() {
+                                                        @Override
+                                                        public void onSuccess(String data) {
+                                                            try {
+                                                                JSONObject jsonObject = new JSONObject(data);
+                                                                if (jsonObject.optString("status").equals("200")){
+                                                                    Gson gson = new Gson();
+                                                                    WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
+                                                                    wxPay(wxPayBean);
+                                                                }
+                                                            } catch (JSONException e) {
+                                                                e.printStackTrace();
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void onFail(int errCode, String errMsg) {
+
+                                                        }
+                                                    });
+                                        }
+
+                                        @Override
+                                        public void onReturnPrice(final int pos) {
+                                            ViseHttp.GET(NetUrl.AppOrderorderRefund)
+                                                    .addParam("id",mList.get(pos).getId())
+                                                    .request(new ACallback<String>() {
+                                                        @Override
+                                                        public void onSuccess(String data) {
+                                                            try {
+                                                                JSONObject jsonObject1 = new JSONObject(data);
+                                                                if (jsonObject1.optString("data").equals("已退款")){
+                                                                    ToastUtil.showShort(getContext(), "退款成功!");
+                                                                    mList.remove(pos);
+                                                                    adapter.notifyDataSetChanged();
+                                                                }
+                                                            } catch (JSONException e) {
+                                                                e.printStackTrace();
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void onFail(int errCode, String errMsg) {
+
+                                                        }
+                                                    });
+                                        }
+                                    });
+                                    LinearLayoutManager manager = new LinearLayoutManager(getContext());
+                                    manager.setOrientation(LinearLayoutManager.VERTICAL);
+                                    recyclerView.setLayoutManager(manager);
+                                    recyclerView.setAdapter(adapter);
+                                    page=2;
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -250,68 +251,68 @@ public class FragmentAllOrder extends OrderBaseFragment {
                                 OrderListBean bean = gson.fromJson(data, OrderListBean.class);
                                 mList = bean.getData();
                                 if (mList.size()>0){
-                                    adapter = new FragmentAllOrderAdapter(mList, new FragmentAllOrderAdapter.ClickListener() {
-                                        @Override
-                                        public void onPay(int pos) {
-                                            ViseHttp.GET(NetUrl.AppOrderlistOrdersSubmitted)
-                                                    .addParam("id",mList.get(pos).getId())
-                                                    .request(new ACallback<String>() {
-                                                        @Override
-                                                        public void onSuccess(String data) {
-                                                            try {
-                                                                JSONObject jsonObject = new JSONObject(data);
-                                                                if (jsonObject.optString("status").equals("200")){
-                                                                    Gson gson = new Gson();
-                                                                    WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
-                                                                    wxPay(wxPayBean);
-                                                                }
-                                                            } catch (JSONException e) {
-                                                                e.printStackTrace();
-                                                            }
-                                                        }
-
-                                                        @Override
-                                                        public void onFail(int errCode, String errMsg) {
-
-                                                        }
-                                                    });
-                                        }
-
-                                        @Override
-                                        public void onReturnPrice(final int pos) {
-                                            ViseHttp.GET(NetUrl.AppOrderorderRefund)
-                                                    .addParam("id",mList.get(pos).getId())
-                                                    .request(new ACallback<String>() {
-                                                        @Override
-                                                        public void onSuccess(String data) {
-                                                            try {
-                                                                JSONObject jsonObject1 = new JSONObject(data);
-                                                                if (jsonObject1.optString("data").equals("已退款")){
-                                                                    ToastUtil.showShort(getContext(), "退款成功!");
-                                                                    mList.remove(pos);
-                                                                    adapter.notifyDataSetChanged();
-                                                                }
-                                                            } catch (JSONException e) {
-                                                                e.printStackTrace();
-                                                            }
-                                                        }
-
-                                                        @Override
-                                                        public void onFail(int errCode, String errMsg) {
-
-                                                        }
-                                                    });
-                                        }
-                                    });
-                                    LinearLayoutManager manager = new LinearLayoutManager(getContext());
-                                    manager.setOrientation(LinearLayoutManager.VERTICAL);
-                                    recyclerView.setLayoutManager(manager);
-                                    recyclerView.setAdapter(adapter);
-                                    page=2;
+                                    empty_order_bloack.setVisibility(View.GONE);
                                 }else{
                                     empty_order_bloack.setVisibility(View.VISIBLE);
                                 }
+                                adapter = new FragmentAllOrderAdapter(mList, new FragmentAllOrderAdapter.ClickListener() {
+                                    @Override
+                                    public void onPay(int pos) {
+                                        ViseHttp.GET(NetUrl.AppOrderlistOrdersSubmitted)
+                                                .addParam("id",mList.get(pos).getId())
+                                                .request(new ACallback<String>() {
+                                                    @Override
+                                                    public void onSuccess(String data) {
+                                                        try {
+                                                            JSONObject jsonObject = new JSONObject(data);
+                                                            if (jsonObject.optString("status").equals("200")){
+                                                                Gson gson = new Gson();
+                                                                WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
+                                                                wxPay(wxPayBean);
+                                                            }
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
 
+                                                    @Override
+                                                    public void onFail(int errCode, String errMsg) {
+
+                                                    }
+                                                });
+                                    }
+
+                                    @Override
+                                    public void onReturnPrice(final int pos) {
+                                        ViseHttp.GET(NetUrl.AppOrderorderRefund)
+                                                .addParam("id",mList.get(pos).getId())
+                                                .request(new ACallback<String>() {
+                                                    @Override
+                                                    public void onSuccess(String data) {
+                                                        try {
+                                                            JSONObject jsonObject1 = new JSONObject(data);
+                                                            if (jsonObject1.optString("data").equals("已退款")){
+                                                                ToastUtil.showShort(getContext(), "退款成功!");
+                                                                mList.remove(pos);
+                                                                adapter.notifyDataSetChanged();
+                                                            }
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onFail(int errCode, String errMsg) {
+
+                                                    }
+                                                });
+                                    }
+                                });
+                                LinearLayoutManager manager = new LinearLayoutManager(getContext());
+                                manager.setOrientation(LinearLayoutManager.VERTICAL);
+                                recyclerView.setLayoutManager(manager);
+                                recyclerView.setAdapter(adapter);
+                                page=2;
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

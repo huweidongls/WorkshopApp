@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.bean.CommissionIncomeBean;
+import com.jingna.workshopapp.util.StringUtils;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class CommissionIncomeItemAdapter extends RecyclerView.Adapter<Commission
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.tv.setText(data.get(position).getType());
         holder.tvTime.setText(data.get(position).getCreateTime());
-        holder.tvMoney.setText(data.get(position).getMoney()+"");
+        holder.tvMoney.setText(StringUtils.roundByScale(data.get(position).getMoney(), 2)+"");
     }
 
     @Override

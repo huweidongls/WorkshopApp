@@ -49,7 +49,7 @@ public class ZhongchouPopBean {
         private String deliveryTime;
         private String gearPictureApp;
         private String gearSubtitle;
-        private int gearMoney;
+        private double gearMoney;
         private List<?> list;
         private List<?> shopGoodsEvaluates;
 
@@ -93,11 +93,11 @@ public class ZhongchouPopBean {
             this.gearSubtitle = gearSubtitle;
         }
 
-        public int getGearMoney() {
+        public double getGearMoney() {
             return gearMoney;
         }
 
-        public void setGearMoney(int gearMoney) {
+        public void setGearMoney(double gearMoney) {
             this.gearMoney = gearMoney;
         }
 

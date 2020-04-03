@@ -50,7 +50,7 @@ public class AfterSaleOrderListBean {
         private String addresCoordinate;
         private String addresPhone;
         private String addresName;
-        private int orderRealPrice;
+        private double orderRealPrice;
         private String orderStatus;
         private String deviceName;
         private List<AppAfterSaleEquipmentsBean> appAfterSaleEquipments;
@@ -95,11 +95,11 @@ public class AfterSaleOrderListBean {
             this.addresName = addresName;
         }
 
-        public int getOrderRealPrice() {
+        public double getOrderRealPrice() {
             return orderRealPrice;
         }
 
-        public void setOrderRealPrice(int orderRealPrice) {
+        public void setOrderRealPrice(double orderRealPrice) {
             this.orderRealPrice = orderRealPrice;
         }
 

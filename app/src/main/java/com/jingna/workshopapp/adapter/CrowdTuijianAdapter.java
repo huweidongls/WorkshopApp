@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.bean.CrowdTuijianBean;
 import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.util.StringUtils;
 
 import java.util.List;
 
@@ -43,10 +44,10 @@ public class CrowdTuijianAdapter extends RecyclerView.Adapter<CrowdTuijianAdapte
         Glide.with(context).load(NetUrl.BASE_URL+data.get(position).getGearPictureApp()).into(holder.iv);
         holder.tvTitle.setText(data.get(position).getGearTitle());
         holder.tvSubTitle.setText(data.get(position).getGearSubtitle());
-        holder.tvPrice.setText(data.get(position).getGearMoney()+"");
+        holder.tvPrice.setText(StringUtils.roundByScale(data.get(position).getGearMoney(), 2)+"");
         holder.tvPercent.setText(data.get(position).getPercentage());
         holder.tvAllPeople.setText(data.get(position).getAllPeople()+"");
-        holder.tvAllPrice.setText(data.get(position).getAllMoney()+"");
+        holder.tvAllPrice.setText(StringUtils.roundByScale(data.get(position).getAllMoney(), 2)+"");
         String percent = data.get(position).getPercentage();
         percent = percent.substring(0, percent.length()-1);
         holder.progressBar.setProgress(Integer.valueOf(percent));

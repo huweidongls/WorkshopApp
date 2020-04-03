@@ -21,6 +21,7 @@ import com.jingna.workshopapp.bean.CrowdDetailsBean;
 import com.jingna.workshopapp.bean.CrowdTuijianBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.StringUtils;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
@@ -133,11 +134,11 @@ public class CrowdDetailsActivity extends BaseActivity {
                                 tv_title.setText(detailsBean.getData().getTitle());//众筹标题
                                 tv_ftitle.setText(detailsBean.getData().getSubtitle());//副标题
                                 tvAllPeople.setText(detailsBean.getData().getAllPeople()+"");//总人数
-                                tv_allmoney.setText(detailsBean.getData().getAllMoney()+"");//总金额
+                                tv_allmoney.setText(StringUtils.roundByScale(detailsBean.getData().getAllMoney(), 2)+"");//总金额
                                 tv_percentage.setText(detailsBean.getData().getPercentage());//达成率
                                 Glide.with(context).load(NetUrl.BASE_URL+detailsBean.getData().getBackgroundPictureApp()).into(iv_backgroundPictureApp);//背景图片
                                 tv_endTime.setText("众筹中("+detailsBean.getData().getEndTime()+"天结束)");//还有多少天结束
-                                tv_gearMoney.setText(detailsBean.getData().getGearMoney()+"起");//档位金额多少元起
+                                tv_gearMoney.setText(StringUtils.roundByScale(detailsBean.getData().getGearMoney(), 2)+"起");//档位金额多少元起
                                 String xinxi = detailsBean.getData().getStoryApp();
                                 String[] xinxiList = xinxi.split(",");
                                 if(xinxiList.length>0){

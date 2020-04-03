@@ -77,15 +77,16 @@ public class FragmentDaiShouHuoOrder extends OrderBaseFragment {
                                     OrderListBean bean = gson.fromJson(data, OrderListBean.class);
                                     mList = bean.getData();
                                     if (mList.size()>0){
-                                        adapter = new FragmentDaiShouHuoOrderAdapter(mList);
-                                        LinearLayoutManager manager = new LinearLayoutManager(getContext());
-                                        manager.setOrientation(LinearLayoutManager.VERTICAL);
-                                        recyclerView.setLayoutManager(manager);
-                                        recyclerView.setAdapter(adapter);
-                                        page=2;
+                                        empty_order_bloack.setVisibility(View.GONE);
                                     }else{
                                         empty_order_bloack.setVisibility(View.VISIBLE);
                                     }
+                                    adapter = new FragmentDaiShouHuoOrderAdapter(mList);
+                                    LinearLayoutManager manager = new LinearLayoutManager(getContext());
+                                    manager.setOrientation(LinearLayoutManager.VERTICAL);
+                                    recyclerView.setLayoutManager(manager);
+                                    recyclerView.setAdapter(adapter);
+                                    page=2;
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -186,16 +187,16 @@ public class FragmentDaiShouHuoOrder extends OrderBaseFragment {
                                 OrderListBean bean = gson.fromJson(data, OrderListBean.class);
                                 mList = bean.getData();
                                 if (mList.size()>0){
-                                    adapter = new FragmentDaiShouHuoOrderAdapter(mList);
-                                    LinearLayoutManager manager = new LinearLayoutManager(getContext());
-                                    manager.setOrientation(LinearLayoutManager.VERTICAL);
-                                    recyclerView.setLayoutManager(manager);
-                                    recyclerView.setAdapter(adapter);
-                                    page=2;
+                                    empty_order_bloack.setVisibility(View.GONE);
                                 }else{
                                     empty_order_bloack.setVisibility(View.VISIBLE);
                                 }
-
+                                adapter = new FragmentDaiShouHuoOrderAdapter(mList);
+                                LinearLayoutManager manager = new LinearLayoutManager(getContext());
+                                manager.setOrientation(LinearLayoutManager.VERTICAL);
+                                recyclerView.setLayoutManager(manager);
+                                recyclerView.setAdapter(adapter);
+                                page=2;
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

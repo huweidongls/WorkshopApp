@@ -62,12 +62,12 @@ public class OrderDetailsBean {
         private String paymentTime;
         private String paymentMode;
         private String createTime;
-        private int orderPrice;
+        private double orderPrice;
         private String startTime;
         private String endTime;
         private String goodsPictureApp;
         private String goodsTitle;
-        private int freightMoney;
+        private double freightMoney;
         private List<?> list;
 
         public String getId() {
@@ -150,11 +150,11 @@ public class OrderDetailsBean {
             this.createTime = createTime;
         }
 
-        public int getOrderPrice() {
+        public double getOrderPrice() {
             return orderPrice;
         }
 
-        public void setOrderPrice(int orderPrice) {
+        public void setOrderPrice(double orderPrice) {
             this.orderPrice = orderPrice;
         }
 
@@ -190,11 +190,11 @@ public class OrderDetailsBean {
             this.goodsTitle = goodsTitle;
         }
 
-        public int getFreightMoney() {
+        public double getFreightMoney() {
             return freightMoney;
         }
 
-        public void setFreightMoney(int freightMoney) {
+        public void setFreightMoney(double freightMoney) {
             this.freightMoney = freightMoney;
         }
 

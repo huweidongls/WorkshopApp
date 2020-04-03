@@ -19,6 +19,7 @@ import com.jingna.workshopapp.page.AfterOrderDetailsPaymentedActivity;
 import com.jingna.workshopapp.page.AfterSaleOrderDetailsActivity;
 import com.jingna.workshopapp.page.AfterSaleOrderDetailsTopayActivity;
 import com.jingna.workshopapp.page.SignatureActivity;
+import com.jingna.workshopapp.util.StringUtils;
 import com.jingna.workshopapp.util.ToastUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
@@ -93,14 +94,14 @@ public class MaintenanceAfterSaleAdapter extends RecyclerView.Adapter<Maintenanc
             holder.radio_order.setVisibility(View.VISIBLE);
             holder.to_no_price.setVisibility(View.GONE);
         }else if(data.get(position).getOrderStatus().equals("5")){
-            holder.tv_status.setText("¥"+data.get(position).getOrderRealPrice());
+            holder.tv_status.setText("¥"+ StringUtils.roundByScale(data.get(position).getOrderRealPrice(), 2));
             holder.btn_order.setVisibility(View.GONE);
             holder.del_order.setVisibility(View.GONE);
             holder.to_pay.setVisibility(View.VISIBLE);
             holder.radio_order.setVisibility(View.GONE);
             holder.to_no_price.setVisibility(View.GONE);
         }else if(data.get(position).getOrderStatus().equals("6")){
-            holder.tv_status.setText("¥"+data.get(position).getOrderRealPrice());
+            holder.tv_status.setText("¥"+ StringUtils.roundByScale(data.get(position).getOrderRealPrice(), 2));
             holder.btn_order.setVisibility(View.GONE);
             holder.del_order.setVisibility(View.VISIBLE);
             holder.to_pay.setVisibility(View.GONE);

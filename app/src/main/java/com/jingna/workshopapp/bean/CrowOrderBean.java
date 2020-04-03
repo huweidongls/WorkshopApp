@@ -49,7 +49,7 @@ public class CrowOrderBean {
         private String gearPositionPicture;
         private String gearPositionName;
         private String gearPositionTitle;
-        private int gearPositionMoney;
+        private double gearPositionMoney;
         private String gearPositionSubTitle;
         private int freight;
         private String deliveryTime;
@@ -88,11 +88,11 @@ public class CrowOrderBean {
             this.gearPositionTitle = gearPositionTitle;
         }
 
-        public int getGearPositionMoney() {
+        public double getGearPositionMoney() {
             return gearPositionMoney;
         }
 
-        public void setGearPositionMoney(int gearPositionMoney) {
+        public void setGearPositionMoney(double gearPositionMoney) {
             this.gearPositionMoney = gearPositionMoney;
         }
 

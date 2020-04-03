@@ -16,6 +16,7 @@ import com.jingna.workshopapp.bean.CrowdTuijianBean;
 import com.jingna.workshopapp.bean.LikeGoodsBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.page.ZhongchouDetailsActivity;
+import com.jingna.workshopapp.util.StringUtils;
 
 import java.util.List;
 
@@ -45,8 +46,8 @@ public class CrowdFundingListAdapter extends RecyclerView.Adapter<CrowdFundingLi
     public void onBindViewHolder(CrowdFundingListAdapter.ViewHolder holder, final int position) {
         Glide.with(context).load(NetUrl.BASE_URL+data.get(position).getGearPictureApp()).into(holder.iv);
         holder.tv_title.setText(data.get(position).getGearTitle()+"");
-        holder.tv_price.setText("¥"+data.get(position).getGearMoney());
-        holder.tv_all_price.setText(data.get(position).getAllMoney()+"");
+        holder.tv_price.setText("¥"+StringUtils.roundByScale(data.get(position).getGearMoney(), 2));
+        holder.tv_all_price.setText(StringUtils.roundByScale(data.get(position).getAllMoney(), 2)+"");
         holder.tv_people.setText(data.get(position).getAllPeople()+"");
         holder.tv_persent.setText(data.get(position).getPercentage()+"");
         holder.pro.setProgress(data.get(position).getPercentageNum());

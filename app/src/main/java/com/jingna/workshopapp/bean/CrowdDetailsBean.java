@@ -59,12 +59,12 @@ public class CrowdDetailsBean {
         private String storyApp;
         private String endTime;
         private String backgroundPictureApp;
-        private int allMoney;
+        private double allMoney;
         private int allPeople;
         private String gearPictureApp;
         private String gearTitle;
         private String gearSubtitle;
-        private int gearMoney;
+        private double gearMoney;
         private String percentage;
         private List<?> list;
         private List<ShopGoodsEvaluatesBean> shopGoodsEvaluates;
@@ -125,11 +125,11 @@ public class CrowdDetailsBean {
             this.backgroundPictureApp = backgroundPictureApp;
         }
 
-        public int getAllMoney() {
+        public double getAllMoney() {
             return allMoney;
         }
 
-        public void setAllMoney(int allMoney) {
+        public void setAllMoney(double allMoney) {
             this.allMoney = allMoney;
         }
 
@@ -165,11 +165,11 @@ public class CrowdDetailsBean {
             this.gearSubtitle = gearSubtitle;
         }
 
-        public int getGearMoney() {
+        public double getGearMoney() {
             return gearMoney;
         }
 
-        public void setGearMoney(int gearMoney) {
+        public void setGearMoney(double gearMoney) {
             this.gearMoney = gearMoney;
         }
 

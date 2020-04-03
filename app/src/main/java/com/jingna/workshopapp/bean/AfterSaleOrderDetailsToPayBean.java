@@ -68,16 +68,16 @@ public class AfterSaleOrderDetailsToPayBean {
         private String addresUname;
         private String addresName;
         private String addresCode;
-        private int orderRealPrice;
-        private int orderPrice;
-        private int carMoney;
+        private double orderRealPrice;
+        private double orderPrice;
+        private double carMoney;
         private String orderStatus;
         private String createTime;
         private String updateTime;
         private int isDelete;
         private int repairTime;
-        private int repairMoney;
-        private int repairTimeMoney;
+        private double repairMoney;
+        private double repairTimeMoney;
         private List<?> appAfterSaleEquipments;
         private List<AfterSaleOrderItemsBean> afterSaleOrderItems;
 
@@ -161,27 +161,27 @@ public class AfterSaleOrderDetailsToPayBean {
             this.addresCode = addresCode;
         }
 
-        public int getOrderRealPrice() {
+        public double getOrderRealPrice() {
             return orderRealPrice;
         }
 
-        public void setOrderRealPrice(int orderRealPrice) {
+        public void setOrderRealPrice(double orderRealPrice) {
             this.orderRealPrice = orderRealPrice;
         }
 
-        public int getOrderPrice() {
+        public double getOrderPrice() {
             return orderPrice;
         }
 
-        public void setOrderPrice(int orderPrice) {
+        public void setOrderPrice(double orderPrice) {
             this.orderPrice = orderPrice;
         }
 
-        public int getCarMoney() {
+        public double getCarMoney() {
             return carMoney;
         }
 
-        public void setCarMoney(int carMoney) {
+        public void setCarMoney(double carMoney) {
             this.carMoney = carMoney;
         }
 
@@ -225,19 +225,19 @@ public class AfterSaleOrderDetailsToPayBean {
             this.repairTime = repairTime;
         }
 
-        public int getRepairMoney() {
+        public double getRepairMoney() {
             return repairMoney;
         }
 
-        public void setRepairMoney(int repairMoney) {
+        public void setRepairMoney(double repairMoney) {
             this.repairMoney = repairMoney;
         }
 
-        public int getRepairTimeMoney() {
+        public double getRepairTimeMoney() {
             return repairTimeMoney;
         }
 
-        public void setRepairTimeMoney(int repairTimeMoney) {
+        public void setRepairTimeMoney(double repairTimeMoney) {
             this.repairTimeMoney = repairTimeMoney;
         }
 

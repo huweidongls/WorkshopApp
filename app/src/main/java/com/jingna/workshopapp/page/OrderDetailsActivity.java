@@ -20,6 +20,7 @@ import com.jingna.workshopapp.bean.WxPayBean;
 import com.jingna.workshopapp.dialog.DialogCustom;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.StringUtils;
 import com.jingna.workshopapp.util.ToastUtil;
 import com.jingna.workshopapp.wxapi.WXShare;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -108,9 +109,11 @@ public class OrderDetailsActivity extends AppCompatActivity {
     private String id="";
     private String getGoodsPictureApp="";
     private String getGoodsTitle="";
-    private int payAll=0;
+    private double payAll=0.00;
     private WXShare wxShare;
     private IWXAPI api;
+
+    private String orderSn = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,6 +137,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
                                 OrderDetailsBean bean = gson.fromJson(data, OrderDetailsBean.class);
                                 getGoodsPictureApp = bean.getData().getGoodsPictureApp();
                                 getGoodsTitle = bean.getData().getGoodsTitle();
+                                orderSn = bean.getData().getId();
                                 if (bean.getData().getGoodsId().isEmpty()){//等于空
                                     r_address.setVisibility(View.VISIBLE);//显示
                                     tv_goods_title.setText(bean.getData().getGoodsTitle());
@@ -146,10 +150,10 @@ public class OrderDetailsActivity extends AppCompatActivity {
                                     pay_type.setText(bean.getData().getPaymentMode());
                                     fsc_time.setVisibility(View.GONE);
                                     h_x.setVisibility(View.GONE);
-                                    count_money.setText("¥"+bean.getData().getOrderPrice()+"");
-                                    yunfei.setText("¥"+bean.getData().getFreightMoney());
+                                    count_money.setText("¥"+ StringUtils.roundByScale(bean.getData().getOrderPrice(), 2)+"");
+                                    yunfei.setText("¥"+StringUtils.roundByScale(bean.getData().getFreightMoney(), 2));
                                     payAll = bean.getData().getOrderPrice()+bean.getData().getFreightMoney();
-                                    zong_money.setText("¥"+payAll);
+                                    zong_money.setText("¥"+StringUtils.roundByScale(payAll, 2));
                                     if (bean.getData().getInvoiceId().equals("0")){
                                         fp_type.setText("不开发票");
                                     }else{
@@ -215,10 +219,10 @@ public class OrderDetailsActivity extends AppCompatActivity {
                                     fsc_time.setVisibility(View.VISIBLE);
                                     h_x.setVisibility(View.VISIBLE);
                                     sc_time.setText(bean.getData().getStartTime()+"至"+bean.getData().getEndTime());
-                                    count_money.setText("¥"+bean.getData().getOrderPrice()+"");
-                                    yunfei.setText("¥"+bean.getData().getFreightMoney());
+                                    count_money.setText("¥"+StringUtils.roundByScale(bean.getData().getOrderPrice(), 2)+"");
+                                    yunfei.setText("¥"+StringUtils.roundByScale(bean.getData().getFreightMoney(), 2));
                                     payAll = bean.getData().getOrderPrice()+bean.getData().getFreightMoney();
-                                    zong_money.setText("¥"+payAll);
+                                    zong_money.setText("¥"+StringUtils.roundByScale(payAll, 2));
                                     if (bean.getData().getInvoiceId().equals("0")){
                                         fp_type.setText("不开发票");
                                     }else{
@@ -287,10 +291,14 @@ public class OrderDetailsActivity extends AppCompatActivity {
                     }
                 });
     }
-    @OnClick({R.id.rl_back, R.id.tv_to_pay,R.id.qx_to,R.id.del_order_to,R.id.qpj_to,R.id.tk_to,R.id.qrsh_to})
+    @OnClick({R.id.rl_back, R.id.tv_to_pay,R.id.qx_to,R.id.del_order_to,R.id.qpj_to,R.id.tk_to,R.id.qrsh_to, R.id.btn_copy})
     public void onClick(View view){
         Intent intent = new Intent();
         switch (view.getId()){
+            case R.id.btn_copy:
+                StringUtils.copy(orderSn, context);
+                ToastUtil.showShort(context, "已复制到剪切板");
+                break;
             case R.id.rl_back:
                 finish();
                 break;

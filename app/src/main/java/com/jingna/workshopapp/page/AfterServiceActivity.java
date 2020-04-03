@@ -2,24 +2,19 @@ package com.jingna.workshopapp.page;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.adapter.GoodsDetailsViewpagerAdapter;
 import com.jingna.workshopapp.customview.ScaleTransitionPagerTitleView;
-import com.jingna.workshopapp.fragment.FragmentAllOrder;
-import com.jingna.workshopapp.fragment.FragmentDaiFuKuanOrder;
-import com.jingna.workshopapp.fragment.FragmentDaiShouHuoOrder;
 import com.jingna.workshopapp.fragment.FragmentInvestigated;
-import com.jingna.workshopapp.fragment.FragmentJinXingZhongOrder;
 import com.jingna.workshopapp.fragment.FragmentShouHou;
-import com.jingna.workshopapp.fragment.FragmentYiQuXiaoOrder;
 import com.jingna.workshopapp.util.StatusBarUtils;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;

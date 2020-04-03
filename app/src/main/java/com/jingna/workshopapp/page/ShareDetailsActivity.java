@@ -336,7 +336,7 @@ public class ShareDetailsActivity extends BaseActivity {
                                     llEwai.setVisibility(View.GONE);
                                 }
                                 //价格
-                                tvMoney.setText("¥"+shareDetailsBean.getData().getMoney());
+                                tvMoney.setText("¥"+StringUtils.roundByScale(shareDetailsBean.getData().getMoney(), 2));
                                 //是否收藏
                                 isCollect = shareDetailsBean.getData().getIsCollect();
                                 if(isCollect == 0){

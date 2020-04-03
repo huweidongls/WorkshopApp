@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.bean.ZhongchouPopBean;
+import com.jingna.workshopapp.util.StringUtils;
 
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class ZhongchouPopAdapter extends RecyclerView.Adapter<ZhongchouPopAdapte
         }else {
             holder.tv.setBackgroundResource(R.drawable.bg_999999_2dp_bord);
         }
-        holder.tv.setText("¥"+data.get(position).getGearMoney());
+        holder.tv.setText("¥"+ StringUtils.roundByScale(data.get(position).getGearMoney(), 2));
         holder.tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

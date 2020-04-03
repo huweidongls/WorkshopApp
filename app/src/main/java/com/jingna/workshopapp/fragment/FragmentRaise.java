@@ -47,6 +47,7 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2019/6/18.
  */
 
+//众筹
 public class FragmentRaise extends BaseFragment {
 
     private List<Fragment> fragmentList;

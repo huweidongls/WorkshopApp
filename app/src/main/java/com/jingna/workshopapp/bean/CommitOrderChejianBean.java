@@ -43,8 +43,8 @@ public class CommitOrderChejianBean {
          */
 
         private String goodsId;
-        private int orderPrice;
-        private int equipmentMoney;
+        private double orderPrice;
+        private double equipmentMoney;
         private String workshopPicture;
         private String workshopName;
         private List<?> list;
@@ -57,19 +57,19 @@ public class CommitOrderChejianBean {
             this.goodsId = goodsId;
         }
 
-        public int getOrderPrice() {
+        public double getOrderPrice() {
             return orderPrice;
         }
 
-        public void setOrderPrice(int orderPrice) {
+        public void setOrderPrice(double orderPrice) {
             this.orderPrice = orderPrice;
         }
 
-        public int getEquipmentMoney() {
+        public double getEquipmentMoney() {
             return equipmentMoney;
         }
 
-        public void setEquipmentMoney(int equipmentMoney) {
+        public void setEquipmentMoney(double equipmentMoney) {
             this.equipmentMoney = equipmentMoney;
         }
 

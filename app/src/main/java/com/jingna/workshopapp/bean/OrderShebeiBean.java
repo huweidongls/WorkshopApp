@@ -62,18 +62,18 @@ public class OrderShebeiBean {
     private String orderStatus;
     private String invoiceEmail;
     private String addresPhone;
-    private int equipmentMoney;
+    private double equipmentMoney;
     private String invoiceContacts;
     private String sellerId;
     private String addresName;
     private String invoiceType;
-    private int orderPrice;
+    private double orderPrice;
     private String startTime;
     private String id;
     private Object paymentTime;
     private String invoiceTitle;
     private String skuId;
-    private int orderRealPrice;
+    private double orderRealPrice;
     private String invoiceCompaniesAdress;
     private String invoiceContent;
     private String couponMemberId;
@@ -89,7 +89,7 @@ public class OrderShebeiBean {
     private int varietyNum;
     private String addresCode;
     private Object createTime;
-    private int couponPrice;
+    private double couponPrice;
     private String invoiceId;
     private String endTime;
     private String workshopPicture;
@@ -168,11 +168,11 @@ public class OrderShebeiBean {
         this.addresPhone = addresPhone;
     }
 
-    public int getEquipmentMoney() {
+    public double getEquipmentMoney() {
         return equipmentMoney;
     }
 
-    public void setEquipmentMoney(int equipmentMoney) {
+    public void setEquipmentMoney(double equipmentMoney) {
         this.equipmentMoney = equipmentMoney;
     }
 
@@ -208,11 +208,11 @@ public class OrderShebeiBean {
         this.invoiceType = invoiceType;
     }
 
-    public int getOrderPrice() {
+    public double getOrderPrice() {
         return orderPrice;
     }
 
-    public void setOrderPrice(int orderPrice) {
+    public void setOrderPrice(double orderPrice) {
         this.orderPrice = orderPrice;
     }
 
@@ -256,11 +256,11 @@ public class OrderShebeiBean {
         this.skuId = skuId;
     }
 
-    public int getOrderRealPrice() {
+    public double getOrderRealPrice() {
         return orderRealPrice;
     }
 
-    public void setOrderRealPrice(int orderRealPrice) {
+    public void setOrderRealPrice(double orderRealPrice) {
         this.orderRealPrice = orderRealPrice;
     }
 
@@ -384,11 +384,11 @@ public class OrderShebeiBean {
         this.createTime = createTime;
     }
 
-    public int getCouponPrice() {
+    public double getCouponPrice() {
         return couponPrice;
     }
 
-    public void setCouponPrice(int couponPrice) {
+    public void setCouponPrice(double couponPrice) {
         this.couponPrice = couponPrice;
     }
 

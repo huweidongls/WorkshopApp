@@ -1,6 +1,7 @@
 package com.jingna.workshopapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,8 @@ import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.bean.OrderListBean;
 import com.jingna.workshopapp.dialog.DialogCustom;
 import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.page.OrderDetailsActivity;
+import com.jingna.workshopapp.util.StringUtils;
 import com.jingna.workshopapp.util.ToastUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
@@ -48,7 +51,7 @@ public class FragmentYiQuXiaoAdapter extends RecyclerView.Adapter<FragmentYiQuXi
         holder.tv_order_status.setText("已完成");
         holder.tv_title.setText(data.get(position).getGoodsTitle());
         holder.tv_goods_num.setText("共"+data.get(position).getGoodsNum()+"件商品 应付款：");
-        holder.tv_price.setText("¥"+data.get(position).getOrderPrice()+"");
+        holder.tv_price.setText("¥"+ StringUtils.roundByScale(data.get(position).getOrderRealPrice(), 2)+"");
         holder.tv_to_del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +81,15 @@ public class FragmentYiQuXiaoAdapter extends RecyclerView.Adapter<FragmentYiQuXi
                     }
                 });
                 dialogCustom.show();
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context,OrderDetailsActivity.class);
+                intent.putExtra("id",data.get(position).getId());
+                context.startActivity(intent);
             }
         });
     }

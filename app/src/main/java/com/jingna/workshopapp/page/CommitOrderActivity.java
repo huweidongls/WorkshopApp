@@ -23,6 +23,7 @@ import com.jingna.workshopapp.util.Base64Utils;
 import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.StringUtils;
 import com.jingna.workshopapp.util.ToastUtil;
 import com.jingna.workshopapp.wxapi.WXShare;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -96,9 +97,9 @@ public class CommitOrderActivity extends BaseActivity {
     private String json = "";
 
     private int num = 1;//委托商品数量
-    private int price;//商品价格
+    private double price;//商品价格
 
-    private int payPriceAll=0;
+    private double payPriceAll=0.00;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,9 +138,9 @@ public class CommitOrderActivity extends BaseActivity {
                                     CommitOrderChejianBean orderChejianBean = gson.fromJson(data, CommitOrderChejianBean.class);
                                     Glide.with(context).load(NetUrl.BASE_URL+orderChejianBean.getData().getWorkshopPicture()).into(ivImg);
                                     tvTitle.setText(orderChejianBean.getData().getWorkshopName());
-                                    tvPrice.setText("¥"+orderChejianBean.getData().getOrderPrice());
-                                    tvAllPrice.setText("¥"+(orderChejianBean.getData().getOrderPrice()+orderChejianBean.getData().getEquipmentMoney()));
-                                    tvBottomPrice.setText("¥"+(orderChejianBean.getData().getOrderPrice()+orderChejianBean.getData().getEquipmentMoney()));
+                                    tvPrice.setText("¥"+ StringUtils.roundByScale(orderChejianBean.getData().getOrderPrice(), 2));
+                                    tvAllPrice.setText("¥"+StringUtils.roundByScale((orderChejianBean.getData().getOrderPrice()+orderChejianBean.getData().getEquipmentMoney()), 2));
+                                    tvBottomPrice.setText("¥"+StringUtils.roundByScale((orderChejianBean.getData().getOrderPrice()+orderChejianBean.getData().getEquipmentMoney()), 2));
                                     payPriceAll = orderChejianBean.getData().getOrderPrice()+orderChejianBean.getData().getEquipmentMoney();
                                 }
                             } catch (JSONException e) {
@@ -198,9 +199,9 @@ public class CommitOrderActivity extends BaseActivity {
                                     Glide.with(context).load(NetUrl.BASE_URL+orderWeituoBean.getData().getAppCategoryPic()).into(ivImg);
                                     tvTitle.setText(orderWeituoBean.getData().getCategoryName());
                                     price = orderWeituoBean.getData().getMoney();
-                                    tvPrice.setText("¥"+orderWeituoBean.getData().getMoney());
-                                    tvAllPrice.setText("¥"+(orderWeituoBean.getData().getMoney()*num));
-                                    tvBottomPrice.setText("¥"+(orderWeituoBean.getData().getMoney()*num));
+                                    tvPrice.setText("¥"+StringUtils.roundByScale(orderWeituoBean.getData().getMoney(), 2));
+                                    tvAllPrice.setText("¥"+StringUtils.roundByScale((orderWeituoBean.getData().getMoney()*num), 2));
+                                    tvBottomPrice.setText("¥"+StringUtils.roundByScale((orderWeituoBean.getData().getMoney()*num), 2));
                                     tvStartTime.setText(orderWeituoBean.getData().getStartTime());
                                     tvEndTime.setText(orderWeituoBean.getData().getEndTime());
                                     payPriceAll = orderWeituoBean.getData().getMoney()*num;

@@ -65,6 +65,7 @@ import butterknife.OnClick;
  * Created by Administrator on 2019/6/18.
  */
 
+//委托
 public class FragmentEntrust extends BaseFragment {
 
     @BindView(R.id.banner)
