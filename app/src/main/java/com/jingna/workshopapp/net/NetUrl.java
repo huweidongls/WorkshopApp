@@ -5,8 +5,8 @@ package com.jingna.workshopapp.net;
  */
 
 public class NetUrl {
-    public static final String BASE_URL = "http://39.98.188.171:80/";//231 http://192.168.2.103:80/
-//    public static final String BASE_URL = "http://192.168.1.102:80/";
+//    public static final String BASE_URL = "http://39.98.188.171:80/";//231 http://192.168.2.103:80/
+    public static final String BASE_URL = "http://192.168.1.102:80/";
 //    public static final String BASE_URL = "http://wangwenlong.5ijiaoyu.cn/";
     //APP会员登录接口
     public static final String MemUserloginAPP = "MemUser/loginAPP";

@@ -54,7 +54,11 @@ public class FragmentJinXingZhongOrderAdapter extends RecyclerView.Adapter<Fragm
         }
         Glide.with(context).load(NetUrl.BASE_URL+data.get(position).getGoodsPictureApp()).into(holder.iv_title);
         holder.tv_title.setText(data.get(position).getGoodsTitle());
-        holder.tv_goods_num.setText("共"+data.get(position).getGoodsNum()+"件商品 应付款：");
+        if(data.get(position).getGoodsNum()==null){
+            holder.tv_goods_num.setText("共1件商品 应付款：");
+        }else {
+            holder.tv_goods_num.setText("共"+data.get(position).getGoodsNum()+"件商品 应付款：");
+        }
         holder.tv_price.setText("¥"+ StringUtils.roundByScale(data.get(position).getOrderRealPrice(), 2)+"");
         holder.tv_to_tuikuan.setOnClickListener(new View.OnClickListener() {
             @Override

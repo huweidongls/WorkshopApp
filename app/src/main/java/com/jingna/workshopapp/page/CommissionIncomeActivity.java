@@ -17,6 +17,7 @@ import com.jingna.workshopapp.bean.CommissionIncomeBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.StringUtils;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
@@ -80,8 +81,8 @@ public class CommissionIncomeActivity extends BaseActivity {
                                 manager.setOrientation(LinearLayoutManager.VERTICAL);
                                 recyclerView.setLayoutManager(manager);
                                 recyclerView.setAdapter(adapter);
-                                tvZhichu.setText("支出 ¥"+bean.getData().getZhuanchu());
-                                tvShouru.setText("收入 ¥"+bean.getData().getZhuanru());
+                                tvZhichu.setText("支出 ¥"+ StringUtils.roundByScale(bean.getData().getZhuanchu(), 2));
+                                tvShouru.setText("收入 ¥"+ StringUtils.roundByScale(bean.getData().getZhuanru(), 2));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

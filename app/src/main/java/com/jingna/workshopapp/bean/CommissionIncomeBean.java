@@ -39,23 +39,23 @@ public class CommissionIncomeBean {
          * commissionRevenues : [{"id":2,"type":"转出","userId":46,"money":10,"isDelete":0,"createTime":"2019-08-21 11:49:54"}]
          */
 
-        private int zhuanchu;
-        private int zhuanru;
+        private double zhuanchu;
+        private double zhuanru;
         private List<CommissionRevenuesBean> commissionRevenues;
 
-        public int getZhuanchu() {
+        public double getZhuanchu() {
             return zhuanchu;
         }
 
-        public void setZhuanchu(int zhuanchu) {
+        public void setZhuanchu(double zhuanchu) {
             this.zhuanchu = zhuanchu;
         }
 
-        public int getZhuanru() {
+        public double getZhuanru() {
             return zhuanru;
         }
 
-        public void setZhuanru(int zhuanru) {
+        public void setZhuanru(double zhuanru) {
             this.zhuanru = zhuanru;
         }
 

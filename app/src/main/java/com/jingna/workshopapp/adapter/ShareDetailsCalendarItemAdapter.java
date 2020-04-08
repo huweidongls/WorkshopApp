@@ -50,7 +50,7 @@ public class ShareDetailsCalendarItemAdapter extends RecyclerView.Adapter<ShareD
     public void onBindViewHolder(ViewHolder holder, int position) {
         boolean isSelect = false;
         for (int i = 0; i<data.size(); i++){
-            if (data.get(i).equals(position+1+"")){
+            if (data.get(i).equals(buL(position+1))){
                 isSelect = true;
             }
         }
@@ -62,6 +62,14 @@ public class ShareDetailsCalendarItemAdapter extends RecyclerView.Adapter<ShareD
             holder.tv.setBackgroundResource(R.drawable.bg_33a190_11dp_bord);
         }
         holder.tv.setText(position+1+"");
+    }
+
+    private String buL(int p){
+        if(p<10){
+            return "0"+p;
+        }else {
+            return p+"";
+        }
     }
 
     @Override
