@@ -27,7 +27,7 @@
         <TextView
             android:textSize="16dp"
             android:textColor="#FFFFFF"
-            android:text="暂无订单，快去下单把!"
+            android:text="暂无订单，快去下单吧!"
             android:layout_width="wrap_content"
             android:layout_marginLeft="100dp"
             android:layout_marginRight="100dp"

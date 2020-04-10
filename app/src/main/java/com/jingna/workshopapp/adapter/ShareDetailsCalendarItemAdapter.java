@@ -27,7 +27,7 @@ public class ShareDetailsCalendarItemAdapter extends RecyclerView.Adapter<ShareD
 
     public ShareDetailsCalendarItemAdapter(String month, List<String> data) {
         this.data = data;
-        this.month = month;
+        this.month = month.split("-")[1];
         Calendar ca = Calendar.getInstance();
         int year = ca.get(Calendar.YEAR);
         ca.set(year, Calendar.DECEMBER, 31);
@@ -74,33 +74,33 @@ public class ShareDetailsCalendarItemAdapter extends RecyclerView.Adapter<ShareD
 
     @Override
     public int getItemCount() {
-        if(month.equals("一月")){
+        if(month.equals("01")){
             return 31;
-        }else if(month.equals("二月")){
+        }else if(month.equals("02")){
             if(is366){
                 return 29;
             }else {
                 return 28;
             }
-        }else if(month.equals("三月")){
+        }else if(month.equals("03")){
             return 31;
-        }else if(month.equals("四月")){
+        }else if(month.equals("04")){
             return 30;
-        }else if(month.equals("五月")){
+        }else if(month.equals("05")){
             return 31;
-        }else if(month.equals("六月")){
+        }else if(month.equals("06")){
             return 30;
-        }else if(month.equals("七月")){
+        }else if(month.equals("07")){
             return 31;
-        }else if(month.equals("八月")){
+        }else if(month.equals("08")){
             return 31;
-        }else if(month.equals("九月")){
+        }else if(month.equals("09")){
             return 30;
-        }else if(month.equals("十月")){
+        }else if(month.equals("10")){
             return 31;
-        }else if(month.equals("十一月")){
+        }else if(month.equals("11")){
             return 30;
-        }else if(month.equals("十二月")){
+        }else if(month.equals("12")){
             return 31;
         }
         return 31;

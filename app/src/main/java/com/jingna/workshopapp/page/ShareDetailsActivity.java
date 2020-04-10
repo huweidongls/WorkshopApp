@@ -175,6 +175,7 @@ public class ShareDetailsActivity extends BaseActivity {
         ViseUtil.Get(context, NetUrl.AppShopCategorygetByCategoryId, map, new ViseUtil.ViseListener() {
             @Override
             public void onReturn(String s) {
+                Logger.e("123123", s);
                 Gson gson = new Gson();
                 ShareDetailsBean shareDetailsBean = gson.fromJson(s, ShareDetailsBean.class);
                 String banner1 = shareDetailsBean.getData().getBannerApp();

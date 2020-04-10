@@ -85,6 +85,7 @@ public class ZhongchouDetailsActivity extends BaseActivity {
     private TextView tvYunfei;
     private TextView tvFahuo;
     private TextView tvQuzhichi;
+    private TextView tvGoodsNum;
     private ZhongchouPopAdapter popAdapter;
     private List<ZhongchouPopBean.DataBean> mList;
     private String dangweiId = "";
@@ -153,6 +154,7 @@ public class ZhongchouDetailsActivity extends BaseActivity {
         tvYunfei = view.findViewById(R.id.tv_yunfei);
         tvFahuo = view.findViewById(R.id.tv_fahuo);
         tvQuzhichi = view.findViewById(R.id.tv_quzhichi);
+        tvGoodsNum = view.findViewById(R.id.tv_goods_num);
 
         Map<String, String> map = new LinkedHashMap<>();
         map.put("id", id);
@@ -168,6 +170,7 @@ public class ZhongchouDetailsActivity extends BaseActivity {
                         Glide.with(context).load(NetUrl.BASE_URL + mList.get(pos).getGearPictureApp()).into(ivPop);
                         tvTitle.setText(mList.get(pos).getGearSubtitle());
                         dangweiId = mList.get(pos).getId()+"";
+                        tvGoodsNum.setText("剩余数量"+mList.get(pos).getGoodsNum());
                         if(mList.get(pos).getFreight() == 0){
                             tvYunfei.setText("配送运费：免运费");
                         }else {
@@ -188,6 +191,7 @@ public class ZhongchouDetailsActivity extends BaseActivity {
                     Glide.with(context).load(NetUrl.BASE_URL + mList.get(0).getGearPictureApp()).into(ivPop);
                     tvTitle.setText(mList.get(0).getGearSubtitle());
                     dangweiId = mList.get(0).getId()+"";
+                    tvGoodsNum.setText("剩余数量"+mList.get(0).getGoodsNum());
                     if(mList.get(0).getFreight() == 0){
                         tvYunfei.setText("配送运费：免运费");
                     }else {

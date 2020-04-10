@@ -52,6 +52,15 @@ public class ZhongchouPopBean {
         private double gearMoney;
         private List<?> list;
         private List<?> shopGoodsEvaluates;
+        private int goodsNum;
+
+        public int getGoodsNum() {
+            return goodsNum;
+        }
+
+        public void setGoodsNum(int goodsNum) {
+            this.goodsNum = goodsNum;
+        }
 
         public int getId() {
             return id;

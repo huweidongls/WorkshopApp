@@ -21,6 +21,7 @@ import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.jingna.workshopapp.util.WeiboDialogUtils;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
@@ -126,7 +127,20 @@ public class AcceptanceActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.rl_commit:
-                commit();
+                if(mList.size()>0){
+                    commit();
+                }else {
+                    weiboDialog = WeiboDialogUtils.createLoadingDialog(context,"上传中...");
+                    Map<String, String> map = new LinkedHashMap<>();
+                    map.put("orderId", id);
+                    ViseUtil.Post(context, NetUrl.AppOrderorderReceiving, map, weiboDialog, new ViseUtil.ViseListener() {
+                        @Override
+                        public void onReturn(String s) {
+                            ToastUtil.showShort(context,"验收成功");
+                            finish();
+                        }
+                    });
+                }
                 break;
         }
     }
