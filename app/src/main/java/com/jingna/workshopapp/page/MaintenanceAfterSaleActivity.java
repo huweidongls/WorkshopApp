@@ -2,25 +2,22 @@ package com.jingna.workshopapp.page;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
-import com.jingna.workshopapp.adapter.CommentAddPicAdapter;
-import com.jingna.workshopapp.adapter.FragmentAllOrderAdapter;
 import com.jingna.workshopapp.adapter.MaintenanceAfterSaleAdapter;
 import com.jingna.workshopapp.bean.AfterSaleOrderListBean;
-import com.jingna.workshopapp.bean.OrderListBean;
 import com.jingna.workshopapp.bean.WxPayBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.jingna.workshopapp.wxapi.WXShare;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -35,8 +32,9 @@ import com.vise.xsnow.http.callback.ACallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,10 +63,11 @@ public class MaintenanceAfterSaleActivity extends AppCompatActivity {
         api = WXAPIFactory.createWXAPI(MaintenanceAfterSaleActivity.this, null);
         initData();
     }
-    @OnClick({R.id.add_order,R.id.rl_back})
-    public void onClick(View view){
+
+    @OnClick({R.id.add_order, R.id.rl_back})
+    public void onClick(View view) {
         Intent intent = new Intent();
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.rl_back:
                 finish();
                 break;
@@ -79,90 +78,58 @@ public class MaintenanceAfterSaleActivity extends AppCompatActivity {
                 break;
         }
     }
-    private void initData(){
+
+    private void initData() {
         smartRefreshLayout.setRefreshHeader(new MaterialHeader(context));
         smartRefreshLayout.setEnableLoadMore(false);
         smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
-                ViseHttp.GET(NetUrl.AfterSaleOrdergetByUserIdOrder)
-                        .addParam("userId", SpUtils.getUserId(context))
-                        .request(new ACallback<String>() {
-                            @Override
-                            public void onSuccess(String data) {
-                                try {
-                                    JSONObject jsonObject = new JSONObject(data);
-                                    if(jsonObject.optString("status").equals("200")){
-                                        Gson gson = new Gson();
-                                        AfterSaleOrderListBean bean = gson.fromJson(data, AfterSaleOrderListBean.class);
-                                        mList.clear();
-                                        mList.addAll(bean.getData());
-                                        adapter.notifyDataSetChanged();
-                                    }
-                                    refreshLayout.finishRefresh(500);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            @Override
-                            public void onFail(int errCode, String errMsg) {
-                                refreshLayout.finishRefresh(500);
-                            }
-                        });
-            }
-        });
-        ViseHttp.GET(NetUrl.AfterSaleOrdergetByUserIdOrder)
-                .addParam("userId", SpUtils.getUserId(context))
-                .request(new ACallback<String>() {
+                Map<String, String> map = new LinkedHashMap<>();
+                map.put("userId", SpUtils.getUserId(context));
+                ViseUtil.Get(context, NetUrl.AfterSaleOrdergetByUserIdOrder, map, refreshLayout, 0, new ViseUtil.ViseListener() {
                     @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                AfterSaleOrderListBean bean = gson.fromJson(data, AfterSaleOrderListBean.class);
-                                mList = bean.getData();
-                                adapter = new MaintenanceAfterSaleAdapter(mList, new MaintenanceAfterSaleAdapter.ClickListener() {
-                                    @Override
-                                    public void onPay(int pos) {
-                                        ViseHttp.POST(NetUrl.AfterSaleOrdergetByWxPay)
-                                                .addParam("orderId",mList.get(pos).getId())
-                                                .request(new ACallback<String>() {
-                                                    @Override
-                                                    public void onSuccess(String datas) {
-                                                        try {
-                                                            JSONObject jsonObject1 = new JSONObject(datas);
-                                                            if (jsonObject1.optString("status").equals("200")){
-                                                                Gson gson = new Gson();
-                                                                WxPayBean wxPayBean = gson.fromJson(datas, WxPayBean.class);
-                                                                wxPay(wxPayBean);
-                                                            }
-                                                        } catch (JSONException e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onFail(int errCode, String errMsg) {
-
-                                                    }
-                                                });
-                                    }
-                                });
-                                LinearLayoutManager manager = new LinearLayoutManager(MaintenanceAfterSaleActivity.this);
-                                manager.setOrientation(LinearLayoutManager.VERTICAL);
-                                recyclerView.setLayoutManager(manager);
-                                recyclerView.setAdapter(adapter);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
+                    public void onReturn(String s) {
+                        Gson gson = new Gson();
+                        AfterSaleOrderListBean bean = gson.fromJson(s, AfterSaleOrderListBean.class);
+                        mList.clear();
+                        mList.addAll(bean.getData());
+                        adapter.notifyDataSetChanged();
                     }
                 });
+            }
+        });
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("userId", SpUtils.getUserId(context));
+        ViseUtil.Get(context, NetUrl.AfterSaleOrdergetByUserIdOrder, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                AfterSaleOrderListBean bean = gson.fromJson(s, AfterSaleOrderListBean.class);
+                mList = bean.getData();
+                adapter = new MaintenanceAfterSaleAdapter(mList, new MaintenanceAfterSaleAdapter.ClickListener() {
+                    @Override
+                    public void onPay(int pos) {
+                        Map<String, String> map1 = new LinkedHashMap<>();
+                        map1.put("orderId", mList.get(pos).getId());
+                        ViseUtil.Post(context, NetUrl.AfterSaleOrdergetByWxPay, map1, new ViseUtil.ViseListener() {
+                            @Override
+                            public void onReturn(String s) {
+                                Gson gson = new Gson();
+                                WxPayBean wxPayBean = gson.fromJson(s, WxPayBean.class);
+                                wxPay(wxPayBean);
+                            }
+                        });
+                    }
+                });
+                LinearLayoutManager manager = new LinearLayoutManager(MaintenanceAfterSaleActivity.this);
+                manager.setOrientation(LinearLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(manager);
+                recyclerView.setAdapter(adapter);
+            }
+        });
     }
+
     public void wxPay(WxPayBean model) {
         api.registerApp(WXShare.APP_ID);
         PayReq req = new PayReq();

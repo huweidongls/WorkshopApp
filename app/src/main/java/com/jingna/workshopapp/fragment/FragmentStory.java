@@ -23,6 +23,7 @@ import com.jingna.workshopapp.bean.BannerBean;
 import com.jingna.workshopapp.bean.StoryListBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -37,7 +38,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -86,32 +89,20 @@ public class FragmentStory extends BaseFragment {
 
     private void initBanner() {
 
-        ViseHttp.GET(NetUrl.IndexPageApifindBanner)
-                .addParam("type", "3")
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                BannerBean bannerBean = gson.fromJson(data, BannerBean.class);
-                                List<String> bannerList = new ArrayList<>();
-                                for (BannerBean.DataBean bean : bannerBean.getData()){
-                                    bannerList.add(NetUrl.BASE_URL+bean.getAppPic());
-                                }
-                                init(banner, bannerList);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
-                    }
-                });
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("type", "3");
+        ViseUtil.Get(getContext(), NetUrl.IndexPageApifindBanner, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                BannerBean bannerBean = gson.fromJson(s, BannerBean.class);
+                List<String> bannerList = new ArrayList<>();
+                for (BannerBean.DataBean bean : bannerBean.getData()){
+                    bannerList.add(NetUrl.BASE_URL+bean.getAppPic());
+                }
+                init(banner, bannerList);
+            }
+        });
 
     }
 
@@ -131,133 +122,65 @@ public class FragmentStory extends BaseFragment {
             @Override
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
                 title = "";
-                ViseHttp.GET(NetUrl.AppShopStorysqueryList)
-                        .addParam("pageSize", "1")
-                        .addParam("pageNum", "10")
-                        .addParam("title", title)
-                        .request(new ACallback<String>() {
-                            @Override
-                            public void onSuccess(String data) {
-                                try {
-                                    JSONObject jsonObject = new JSONObject(data);
-                                    if (jsonObject.optString("status").equals("200")) {
-                                        Gson gson = new Gson();
-                                        StoryListBean bean = gson.fromJson(data, StoryListBean.class);
-                                        mList.clear();
-                                        mList.addAll(bean.getData());
-                                        adapter.notifyDataSetChanged();
-                                        page = 2;
-                                    }
-                                    refreshLayout.finishRefresh(1000);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onFail(int errCode, String errMsg) {
-                                refreshLayout.finishRefresh(1000);
-                            }
-                        });
+                Map<String, String> map = new LinkedHashMap<>();
+                map.put("pageSize", "1");
+                map.put("pageNum", "10");
+                map.put("title", title);
+                ViseUtil.Get(getContext(), NetUrl.AppShopStorysqueryList, map, refreshLayout, 0, new ViseUtil.ViseListener() {
+                    @Override
+                    public void onReturn(String s) {
+                        Gson gson = new Gson();
+                        StoryListBean bean = gson.fromJson(s, StoryListBean.class);
+                        mList.clear();
+                        mList.addAll(bean.getData());
+                        adapter.notifyDataSetChanged();
+                        page = 2;
+                    }
+                });
             }
         });
         smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
-                ViseHttp.GET(NetUrl.AppShopStorysqueryList)
-                        .addParam("pageSize", page + "")
-                        .addParam("pageNum", "10")
-                        .addParam("title", title)
-                        .request(new ACallback<String>() {
-                            @Override
-                            public void onSuccess(String data) {
-                                try {
-                                    JSONObject jsonObject = new JSONObject(data);
-                                    if (jsonObject.optString("status").equals("200")) {
-                                        Gson gson = new Gson();
-                                        StoryListBean bean = gson.fromJson(data, StoryListBean.class);
-                                        mList.addAll(bean.getData());
-                                        adapter.notifyDataSetChanged();
-                                        page = page + 1;
-                                    }
-                                    refreshLayout.finishLoadMore(1000);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onFail(int errCode, String errMsg) {
-                                refreshLayout.finishLoadMore(1000);
-                            }
-                        });
+                Map<String, String> map = new LinkedHashMap<>();
+                map.put("pageSize", page + "");
+                map.put("pageNum", "10");
+                map.put("title", title);
+                ViseUtil.Get(getContext(), NetUrl.AppShopStorysqueryList, map, refreshLayout, 1, new ViseUtil.ViseListener() {
+                    @Override
+                    public void onReturn(String s) {
+                        Gson gson = new Gson();
+                        StoryListBean bean = gson.fromJson(s, StoryListBean.class);
+                        mList.addAll(bean.getData());
+                        adapter.notifyDataSetChanged();
+                        page = page + 1;
+                    }
+                });
             }
         });
 
-        ViseHttp.GET(NetUrl.AppShopStorysqueryList)
-                .addParam("pageSize", "1")
-                .addParam("pageNum", "10")
-                .addParam("title", title)
-                .request(new ACallback<String>() {
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("pageSize", "1");
+        map.put("pageNum", "10");
+        map.put("title", title);
+        ViseUtil.Get(getContext(), NetUrl.AppShopStorysqueryList, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                StoryListBean bean = gson.fromJson(s, StoryListBean.class);
+                mList = bean.getData();
+                adapter = new FragmentStoryListAdapter(mList);
+                GridLayoutManager manager = new GridLayoutManager(getContext(), 2) {
                     @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if (jsonObject.optString("status").equals("200")) {
-                                Gson gson = new Gson();
-                                StoryListBean bean = gson.fromJson(data, StoryListBean.class);
-                                mList = bean.getData();
-                                adapter = new FragmentStoryListAdapter(mList);
-                                GridLayoutManager manager = new GridLayoutManager(getContext(), 2) {
-                                    @Override
-                                    public boolean canScrollVertically() {
-                                        return false;
-                                    }
-                                };
-                                rv_a.setLayoutManager(manager);
-                                rv_a.setAdapter(adapter);
-                                page = 2;
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                    public boolean canScrollVertically() {
+                        return false;
                     }
+                };
+                rv_a.setLayoutManager(manager);
+                rv_a.setAdapter(adapter);
+                page = 2;
+            }
+        });
 
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
-                    }
-                });
-
-//        mList2 = new ArrayList<>();
-//        mList2.add("");
-//        mList2.add("");
-//        mList2.add("");
-//        mList2.add("");
-//        adapter2 = new FragmentStoryListTwoAdapter(mList2);
-//        LinearLayoutManager managers = new LinearLayoutManager(getContext()){
-//            @Override
-//            public boolean canScrollVertically() {
-//                return false;
-//            }
-//        };
-//        managers.setOrientation(LinearLayoutManager.HORIZONTAL);
-//        rv_b.setLayoutManager(managers);
-//        rv_b.setAdapter(adapter2);
-//
-//        mList3 = new ArrayList<>();
-//        mList3.add("");
-//        mList3.add("");
-//        mList3.add("");
-//        mList3.add("");
-//        adapter3 = new FragmentStoryListStheAdapter(mList3);
-//        GridLayoutManager managerse = new GridLayoutManager(getContext(), 2){
-//            @Override
-//            public boolean canScrollVertically() {
-//                return false;
-//            }
-//        };
-//        rv_c.setLayoutManager(managerse);
-//        rv_c.setAdapter(adapter3);
     }
 }

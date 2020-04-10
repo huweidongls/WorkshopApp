@@ -23,6 +23,7 @@ import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
@@ -30,7 +31,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,45 +75,33 @@ public class MyBankCardActivity extends BaseActivity {
 
     private void initData() {
 
-        ViseHttp.GET(NetUrl.MemBankCardqueryList)
-                .addParam("memberId", SpUtils.getUserId(context))
-                .request(new ACallback<String>() {
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("memberId", SpUtils.getUserId(context));
+        ViseUtil.Get(context, NetUrl.MemBankCardqueryList, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                BankCardListBean bean = gson.fromJson(s, BankCardListBean.class);
+                mList = bean.getData();
+                adapter = new MyBankCardAdapter(mList, new MyBankCardAdapter.ClickListener() {
                     @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                BankCardListBean bean = gson.fromJson(data, BankCardListBean.class);
-                                mList = bean.getData();
-                                adapter = new MyBankCardAdapter(mList, new MyBankCardAdapter.ClickListener() {
-                                    @Override
-                                    public void onItemClick(int pos, String bankName, String card) {
-                                        if(type.equals("my")){
-                                            showDelPop(pos, bankName, card);
-                                        }else {
-                                            Intent intent = new Intent();
-                                            intent.putExtra("bean", mList.get(pos));
-                                            setResult(1000, intent);
-                                            finish();
-                                        }
-                                    }
-                                });
-                                LinearLayoutManager manager = new LinearLayoutManager(context);
-                                manager.setOrientation(LinearLayoutManager.VERTICAL);
-                                recyclerView.setLayoutManager(manager);
-                                recyclerView.setAdapter(adapter);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                    public void onItemClick(int pos, String bankName, String card) {
+                        if(type.equals("my")){
+                            showDelPop(pos, bankName, card);
+                        }else {
+                            Intent intent = new Intent();
+                            intent.putExtra("bean", mList.get(pos));
+                            setResult(1000, intent);
+                            finish();
                         }
                     }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
-                    }
                 });
+                LinearLayoutManager manager = new LinearLayoutManager(context);
+                manager.setOrientation(LinearLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(manager);
+                recyclerView.setAdapter(adapter);
+            }
+        });
 
     }
 
@@ -134,31 +125,17 @@ public class MyBankCardActivity extends BaseActivity {
         tvDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViseHttp.GET(NetUrl.MemBankCardtoDelete)
-                        .addParam("cardId", mList.get(pos).getId()+"")
-                        .request(new ACallback<String>() {
-                            @Override
-                            public void onSuccess(String data) {
-                                try {
-                                    JSONObject jsonObject = new JSONObject(data);
-                                    if(jsonObject.optString("status").equals("200")){
-                                        popupWindow.dismiss();
-                                        ToastUtil.showShort(context, "删除成功");
-                                        mList.remove(pos);
-                                        adapter.notifyDataSetChanged();
-                                    }else{
-                                        ToastUtil.showShort(context, jsonObject.optString("errorMsg"));
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onFail(int errCode, String errMsg) {
-
-                            }
-                        });
+                Map<String, String> map1 = new LinkedHashMap<>();
+                map1.put("cardId", mList.get(pos).getId()+"");
+                ViseUtil.Get(context, NetUrl.MemBankCardtoDelete, map1, new ViseUtil.ViseListener() {
+                    @Override
+                    public void onReturn(String s) {
+                        popupWindow.dismiss();
+                        ToastUtil.showShort(context, "删除成功");
+                        mList.remove(pos);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
             }
         });
 

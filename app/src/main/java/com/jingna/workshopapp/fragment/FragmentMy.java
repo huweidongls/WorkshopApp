@@ -33,6 +33,7 @@ import com.jingna.workshopapp.page.YqActivity;
 import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
@@ -40,6 +41,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -86,30 +89,18 @@ public class FragmentMy extends BaseFragment {
         } else {
             llName.setVisibility(View.VISIBLE);
             llLogin.setVisibility(View.GONE);
-            String url = "/MemUser/getOne?id="+userId;
-            ViseHttp.GET(url)
-                    .request(new ACallback<String>() {
-                        @Override
-                        public void onSuccess(String data) {
-                            try {
-                                Logger.e("123123", data);
-                                JSONObject jsonObject = new JSONObject(data);
-                                if(jsonObject.optString("status").equals("200")){
-                                    Gson gson = new Gson();
-                                    GetOneBean bean = gson.fromJson(data, GetOneBean.class);
-                                    Glide.with(getContext()).load(NetUrl.BASE_URL+bean.getData().getMemberUserInfo().getHeadPhoto()).into(ivAvatar);
-                                    tvName.setText(bean.getData().getMemberUserInfo().getMemName());
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onFail(int errCode, String errMsg) {
-
-                        }
-                    });
+            String url = "/MemUser/getOne";
+            Map<String, String> map = new LinkedHashMap<>();
+            map.put("id", userId);
+            ViseUtil.Get(getContext(), url, map, new ViseUtil.ViseListener() {
+                @Override
+                public void onReturn(String s) {
+                    Gson gson = new Gson();
+                    GetOneBean bean = gson.fromJson(s, GetOneBean.class);
+                    Glide.with(getContext()).load(NetUrl.BASE_URL+bean.getData().getMemberUserInfo().getHeadPhoto()).into(ivAvatar);
+                    tvName.setText(bean.getData().getMemberUserInfo().getMemName());
+                }
+            });
         }
     }
 

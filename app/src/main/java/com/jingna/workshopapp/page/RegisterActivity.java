@@ -16,11 +16,15 @@ import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.StringUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -89,37 +93,20 @@ public class RegisterActivity extends BaseActivity {
             SendYzmDialog dialog = new SendYzmDialog(context, phoneNum, new SendYzmDialog.ClickListener() {
                 @Override
                 public void onSure() {
-                    Log.e("123123", phoneNum);
-                    ViseHttp.GET(NetUrl.MemUsersendMessage)
-                            .addParam("phone", phoneNum)
-                            .request(new ACallback<String>() {
-                                @Override
-                                public void onSuccess(String data) {
-                                    try {
-                                        Log.e("123123", data);
-                                        JSONObject jsonObject = new JSONObject(data);
-                                        if(jsonObject.optString("status").equals("200")){
-                                            ToastUtil.showShort(context, "短信验证码发送成功");
-                                            Intent intent = new Intent();
-                                            intent.setClass(context, RegisterYzmActivity.class);
-                                            intent.putExtra("number", phoneNum);
-                                            intent.putExtra("yq", yq);
-                                            startActivity(intent);
-                                            finish();
-                                        }else {
-                                            ToastUtil.showShort(context, "短信验证码发送失败");
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                @Override
-                                public void onFail(int errCode, String errMsg) {
-                                    Log.e("123123", errMsg);
-                                }
-                            });
-
+                    Map<String, String> map = new LinkedHashMap<>();
+                    map.put("phone", phoneNum);
+                    ViseUtil.Get(context, NetUrl.MemUsersendMessage, map, new ViseUtil.ViseListener() {
+                        @Override
+                        public void onReturn(String s) {
+                            ToastUtil.showShort(context, "短信验证码发送成功");
+                            Intent intent = new Intent();
+                            intent.setClass(context, RegisterYzmActivity.class);
+                            intent.putExtra("number", phoneNum);
+                            intent.putExtra("yq", yq);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
                 }
             });
             dialog.show();

@@ -14,6 +14,7 @@ import com.jingna.workshopapp.base.BaseActivity;
 import com.jingna.workshopapp.bean.PeitaoshebeiBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
@@ -21,7 +22,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,38 +61,26 @@ public class PeitaoshebeiActivity extends BaseActivity {
     private void initData() {
 
         if(type.equals("0")){
-            ViseHttp.GET(NetUrl.AppOrderworkshopEquipment)
-                    .addParam("workshopId", id)
-                    .request(new ACallback<String>() {
+            Map<String, String> map = new LinkedHashMap<>();
+            map.put("workshopId", id);
+            ViseUtil.Get(context, NetUrl.AppOrderworkshopEquipment, map, new ViseUtil.ViseListener() {
+                @Override
+                public void onReturn(String s) {
+                    Gson gson = new Gson();
+                    PeitaoshebeiBean bean = gson.fromJson(s, PeitaoshebeiBean.class);
+                    mList = bean.getData();
+                    adapter = new PeitaoshebeiAdapter(mList);
+                    LinearLayoutManager manager = new LinearLayoutManager(context){
                         @Override
-                        public void onSuccess(String data) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(data);
-                                if(jsonObject.optString("status").equals("200")){
-                                    Gson gson = new Gson();
-                                    PeitaoshebeiBean bean = gson.fromJson(data, PeitaoshebeiBean.class);
-                                    mList = bean.getData();
-                                    adapter = new PeitaoshebeiAdapter(mList);
-                                    LinearLayoutManager manager = new LinearLayoutManager(context){
-                                        @Override
-                                        public boolean canScrollVertically() {
-                                            return false;
-                                        }
-                                    };
-                                    manager.setOrientation(LinearLayoutManager.VERTICAL);
-                                    recyclerView.setLayoutManager(manager);
-                                    recyclerView.setAdapter(adapter);
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                        public boolean canScrollVertically() {
+                            return false;
                         }
-
-                        @Override
-                        public void onFail(int errCode, String errMsg) {
-
-                        }
-                    });
+                    };
+                    manager.setOrientation(LinearLayoutManager.VERTICAL);
+                    recyclerView.setLayoutManager(manager);
+                    recyclerView.setAdapter(adapter);
+                }
+            });
         }else {
             mList = beanList;
             adapter = new PeitaoshebeiAdapter(mList);

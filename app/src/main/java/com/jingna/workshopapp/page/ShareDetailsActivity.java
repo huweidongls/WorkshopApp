@@ -42,6 +42,7 @@ import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.StringUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.jingna.workshopapp.widget.ObservableScrollView;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
@@ -51,7 +52,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -166,218 +169,206 @@ public class ShareDetailsActivity extends BaseActivity {
 
     private void initData() {
 
-        ViseHttp.GET(NetUrl.AppShopCategorygetByCategoryId)
-                .addParam("id", id)
-                .addParam("memberId", SpUtils.getUserId(context))
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                ShareDetailsBean shareDetailsBean = gson.fromJson(data, ShareDetailsBean.class);
-                                String banner1 = shareDetailsBean.getData().getBannerApp();
-                                String[] bannerList = banner1.split(",");
-                                List<String> bannerlist = new ArrayList<>();
-                                for (int i = 0; i<bannerList.length; i++){
-                                    bannerlist.add(NetUrl.BASE_URL+bannerList[i]);
-                                }
-                                init(banner, bannerlist);
-                                tvTitle.setText(shareDetailsBean.getData().getCategoryName());
-                                //电话
-                                phone = shareDetailsBean.getData().getTelephone();
-                                //可订日期
-                                mCalendarList = shareDetailsBean.getData().getTimes();
-                                calendarAdapter = new ShareDetailsCalendarAdapter(mCalendarList);
-                                LinearLayoutManager manager = new LinearLayoutManager(context);
-                                manager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                                rvCalendar.setLayoutManager(manager);
-                                rvCalendar.setAdapter(calendarAdapter);
-                                //信息展示
-                                String xinxi = shareDetailsBean.getData().getWorkshopInformationApp();
-                                String[] xinxiList = xinxi.split(",");
-                                if(xinxiList.length>0){
-                                    for (int i = 0; i<xinxiList.length; i++){
-                                        imageView = new ImageView(context);
-                                        Glide.with(context).load(NetUrl.BASE_URL+xinxiList[i]).into(imageView);
-                                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                                        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        imageView.setAdjustViewBounds(true);
-                                        layoutParams.topMargin = 8;
-                                        llXinxiShow.addView(imageView, layoutParams);
-                                    }
-                                }else {
-                                    llXinxiShow.setVisibility(View.GONE);
-                                    viewXinxi.setVisibility(View.GONE);
-                                }
-                                //车间描述
-                                String chejian = shareDetailsBean.getData().getCategoryTextApp();
-                                String[] chejianList = chejian.split(",");
-                                if(chejianList.length>0){
-                                    for (int i = 0; i<chejianList.length; i++){
-                                        imageView = new ImageView(context);
-                                        Glide.with(context).load(NetUrl.BASE_URL+chejianList[i]).into(imageView);
-                                        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        imageView.setAdjustViewBounds(true);
-                                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                                        layoutParams.topMargin = 8;
-                                        llChejianDescribe.addView(imageView, layoutParams);
-                                    }
-                                }else {
-                                    llChejianDescribe.setVisibility(View.GONE);
-                                    viewChejian.setVisibility(View.GONE);
-                                }
-                                //配套服务
-                                String peitao = shareDetailsBean.getData().getSupportingServicesApp();
-                                String[] peitaoList = peitao.split(",");
-                                if(peitaoList.length>0){
-                                    for (int i = 0; i<peitaoList.length; i++){
-                                        imageView = new ImageView(context);
-                                        Glide.with(context).load(NetUrl.BASE_URL+peitaoList[i]).into(imageView);
-                                        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        imageView.setAdjustViewBounds(true);
-                                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                                        layoutParams.topMargin = 8;
-                                        llPeitaofuwu.addView(imageView, layoutParams);
-                                    }
-                                }else {
-                                    llPeitaofuwu.setVisibility(View.GONE);
-                                    viewPeitao.setVisibility(View.GONE);
-                                }
-                                //配套设备
-                                peitaoshebeiList = shareDetailsBean.getData().getSupportingEquipments();
-                                if(peitaoshebeiList.size()>0){
-                                    peitaoshebeiAdapter = new ShareDetailsPeitaoshebeiAdapter(peitaoshebeiList);
-                                    LinearLayoutManager shebeiManager = new LinearLayoutManager(context);
-                                    shebeiManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                                    rvPeitaoshebei.setLayoutManager(shebeiManager);
-                                    rvPeitaoshebei.setAdapter(peitaoshebeiAdapter);
-                                }else {
-                                    llPeitaoshebei.setVisibility(View.GONE);
-                                    viewPeitaoshebei.setVisibility(View.GONE);
-                                }
-                                //评价
-                                commentList = shareDetailsBean.getData().getShopGoodsEvaluates();
-                                if(commentList.size()>0){
-                                    commentAdapter = new ShareDetailsCommentAdapter(commentList);
-                                    LinearLayoutManager commentManager = new LinearLayoutManager(context){
-                                        @Override
-                                        public boolean canScrollVertically() {
-                                            return false;
-                                        }
-                                    };
-                                    commentManager.setOrientation(LinearLayoutManager.VERTICAL);
-                                    rvComment.setLayoutManager(commentManager);
-                                    rvComment.setAdapter(commentAdapter);
-                                }else {
-                                    llComment.setVisibility(View.GONE);
-                                    viewComment.setVisibility(View.GONE);
-                                }
-                                //使用须知
-                                String shiyong = shareDetailsBean.getData().getInstructionsUseApp();
-                                String[] shiyongList = shiyong.split(",");
-                                if(shiyongList.length>0){
-                                    for (int i = 0; i<shiyongList.length; i++){
-                                        imageView = new ImageView(context);
-                                        Glide.with(context).load(NetUrl.BASE_URL+shiyongList[i]).into(imageView);
-                                        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        imageView.setAdjustViewBounds(true);
-                                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                                        layoutParams.topMargin = 8;
-                                        llShiyongxuzhi.addView(imageView, layoutParams);
-                                    }
-                                }else {
-                                    llShiyongxuzhi.setVisibility(View.GONE);
-                                    viewShiyongxuzhi.setVisibility(View.GONE);
-                                }
-                                //安全须知
-                                String anquan = shareDetailsBean.getData().getSafetyInstructionsApp();
-                                String[] anquanList = anquan.split(",");
-                                if(anquanList.length>0){
-                                    for (int i = 0; i<anquanList.length; i++){
-                                        imageView = new ImageView(context);
-                                        Glide.with(context).load(NetUrl.BASE_URL+anquanList[i]).into(imageView);
-                                        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        imageView.setAdjustViewBounds(true);
-                                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                                        layoutParams.topMargin = 8;
-                                        llAnquanxuzhi.addView(imageView, layoutParams);
-                                    }
-                                }else {
-                                    llAnquanxuzhi.setVisibility(View.GONE);
-                                    viewAnquanxuzhi.setVisibility(View.GONE);
-                                }
-                                //责任人
-                                zerenList = shareDetailsBean.getData().getSysUserInfos();
-                                if(zerenList.size()>0){
-                                    zerenAdapter = new ShareDetailsZerenAdapter(zerenList);
-                                    LinearLayoutManager zerenManager = new LinearLayoutManager(context);
-                                    zerenManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                                    rvZeren.setLayoutManager(zerenManager);
-                                    rvZeren.setAdapter(zerenAdapter);
-                                }else {
-                                    llZeren.setVisibility(View.GONE);
-                                    viewZerenren.setVisibility(View.GONE);
-                                }
-                                //额外费用
-                                List<ShareDetailsBean.DataBean.AdditionalCostsBean> ewaiList = shareDetailsBean.getData().getAdditionalCosts();
-                                if(ewaiList.size()>0){
-                                    for (int i = 0; i<ewaiList.size(); i++){
-                                        textView = new TextView(context);
-                                        textView.setText(ewaiList.get(i).getAdditionalCostName()+": "+ewaiList.get(i).getAdditionalCostMoney()+"元");
-                                        textView.setTextColor(Color.parseColor("#333333"));
-                                        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-                                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                                        layoutParams.topMargin = 15;
-                                        llEwai.addView(textView);
-                                    }
-                                }else {
-                                    llEwai.setVisibility(View.GONE);
-                                }
-                                //价格
-                                tvMoney.setText("¥"+StringUtils.roundByScale(shareDetailsBean.getData().getMoney(), 2));
-                                //是否收藏
-                                isCollect = shareDetailsBean.getData().getIsCollect();
-                                if(isCollect == 0){
-                                    Glide.with(context).load(R.mipmap.star_null_w).into(ivStar);
-                                }else {
-                                    Glide.with(context).load(R.mipmap.star_w).into(ivStar);
-                                }
-                                initBottomStar(shareDetailsBean.getData().getIntEvalute());
-                                //位置
-                                if(!shareDetailsBean.getData().getPositionalCoordinates().equals(",")){
-                                    String[] map = shareDetailsBean.getData().getPositionalCoordinates().split(",");
-                                    BitmapDescriptor bitmap = BitmapDescriptorFactory
-                                            .fromResource(R.mipmap.location_big);
-                                    List<OverlayOptions> options = new ArrayList<OverlayOptions>();
-                                    options.add(new MarkerOptions().position(new LatLng(Double.valueOf(map[1]), Double.valueOf(map[0]))).icon(bitmap));
-                                    mBaiduMap.addOverlays(options);
-                                    //设定中心点坐标
-                                    LatLng cenpt =  new LatLng(Double.valueOf(map[1]), Double.valueOf(map[0]));
-                                    //定义地图状态
-                                    MapStatus mMapStatus = new MapStatus.Builder()
-                                            //要移动的点
-                                            .target(cenpt)
-                                            //放大地图到20倍
-                                            .zoom(17)
-                                            .build();
-                                    //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
-                                    MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
-                                    //改变地图状态
-                                    mBaiduMap.setMapStatus(mMapStatusUpdate);
-                                }
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("id", id);
+        map.put("memberId", SpUtils.getUserId(context));
+        ViseUtil.Get(context, NetUrl.AppShopCategorygetByCategoryId, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                ShareDetailsBean shareDetailsBean = gson.fromJson(s, ShareDetailsBean.class);
+                String banner1 = shareDetailsBean.getData().getBannerApp();
+                String[] bannerList = banner1.split(",");
+                List<String> bannerlist = new ArrayList<>();
+                for (int i = 0; i < bannerList.length; i++) {
+                    bannerlist.add(NetUrl.BASE_URL + bannerList[i]);
+                }
+                init(banner, bannerlist);
+                tvTitle.setText(shareDetailsBean.getData().getCategoryName());
+                //电话
+                phone = shareDetailsBean.getData().getTelephone();
+                //可订日期
+                mCalendarList = shareDetailsBean.getData().getTimes();
+                calendarAdapter = new ShareDetailsCalendarAdapter(mCalendarList);
+                LinearLayoutManager manager = new LinearLayoutManager(context);
+                manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                rvCalendar.setLayoutManager(manager);
+                rvCalendar.setAdapter(calendarAdapter);
+                //信息展示
+                String xinxi = shareDetailsBean.getData().getWorkshopInformationApp();
+                String[] xinxiList = xinxi.split(",");
+                if (xinxiList.length > 0) {
+                    for (int i = 0; i < xinxiList.length; i++) {
+                        imageView = new ImageView(context);
+                        Glide.with(context).load(NetUrl.BASE_URL + xinxiList[i]).into(imageView);
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                        imageView.setAdjustViewBounds(true);
+                        layoutParams.topMargin = 8;
+                        llXinxiShow.addView(imageView, layoutParams);
+                    }
+                } else {
+                    llXinxiShow.setVisibility(View.GONE);
+                    viewXinxi.setVisibility(View.GONE);
+                }
+                //车间描述
+                String chejian = shareDetailsBean.getData().getCategoryTextApp();
+                String[] chejianList = chejian.split(",");
+                if (chejianList.length > 0) {
+                    for (int i = 0; i < chejianList.length; i++) {
+                        imageView = new ImageView(context);
+                        Glide.with(context).load(NetUrl.BASE_URL + chejianList[i]).into(imageView);
+                        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                        imageView.setAdjustViewBounds(true);
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        layoutParams.topMargin = 8;
+                        llChejianDescribe.addView(imageView, layoutParams);
+                    }
+                } else {
+                    llChejianDescribe.setVisibility(View.GONE);
+                    viewChejian.setVisibility(View.GONE);
+                }
+                //配套服务
+                String peitao = shareDetailsBean.getData().getSupportingServicesApp();
+                String[] peitaoList = peitao.split(",");
+                if (peitaoList.length > 0) {
+                    for (int i = 0; i < peitaoList.length; i++) {
+                        imageView = new ImageView(context);
+                        Glide.with(context).load(NetUrl.BASE_URL + peitaoList[i]).into(imageView);
+                        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                        imageView.setAdjustViewBounds(true);
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        layoutParams.topMargin = 8;
+                        llPeitaofuwu.addView(imageView, layoutParams);
+                    }
+                } else {
+                    llPeitaofuwu.setVisibility(View.GONE);
+                    viewPeitao.setVisibility(View.GONE);
+                }
+                //配套设备
+                peitaoshebeiList = shareDetailsBean.getData().getSupportingEquipments();
+                if (peitaoshebeiList.size() > 0) {
+                    peitaoshebeiAdapter = new ShareDetailsPeitaoshebeiAdapter(peitaoshebeiList);
+                    LinearLayoutManager shebeiManager = new LinearLayoutManager(context);
+                    shebeiManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                    rvPeitaoshebei.setLayoutManager(shebeiManager);
+                    rvPeitaoshebei.setAdapter(peitaoshebeiAdapter);
+                } else {
+                    llPeitaoshebei.setVisibility(View.GONE);
+                    viewPeitaoshebei.setVisibility(View.GONE);
+                }
+                //评价
+                commentList = shareDetailsBean.getData().getShopGoodsEvaluates();
+                if (commentList.size() > 0) {
+                    commentAdapter = new ShareDetailsCommentAdapter(commentList);
+                    LinearLayoutManager commentManager = new LinearLayoutManager(context) {
+                        @Override
+                        public boolean canScrollVertically() {
+                            return false;
                         }
+                    };
+                    commentManager.setOrientation(LinearLayoutManager.VERTICAL);
+                    rvComment.setLayoutManager(commentManager);
+                    rvComment.setAdapter(commentAdapter);
+                } else {
+                    llComment.setVisibility(View.GONE);
+                    viewComment.setVisibility(View.GONE);
+                }
+                //使用须知
+                String shiyong = shareDetailsBean.getData().getInstructionsUseApp();
+                String[] shiyongList = shiyong.split(",");
+                if (shiyongList.length > 0) {
+                    for (int i = 0; i < shiyongList.length; i++) {
+                        imageView = new ImageView(context);
+                        Glide.with(context).load(NetUrl.BASE_URL + shiyongList[i]).into(imageView);
+                        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                        imageView.setAdjustViewBounds(true);
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        layoutParams.topMargin = 8;
+                        llShiyongxuzhi.addView(imageView, layoutParams);
                     }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
+                } else {
+                    llShiyongxuzhi.setVisibility(View.GONE);
+                    viewShiyongxuzhi.setVisibility(View.GONE);
+                }
+                //安全须知
+                String anquan = shareDetailsBean.getData().getSafetyInstructionsApp();
+                String[] anquanList = anquan.split(",");
+                if (anquanList.length > 0) {
+                    for (int i = 0; i < anquanList.length; i++) {
+                        imageView = new ImageView(context);
+                        Glide.with(context).load(NetUrl.BASE_URL + anquanList[i]).into(imageView);
+                        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                        imageView.setAdjustViewBounds(true);
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        layoutParams.topMargin = 8;
+                        llAnquanxuzhi.addView(imageView, layoutParams);
                     }
-                });
+                } else {
+                    llAnquanxuzhi.setVisibility(View.GONE);
+                    viewAnquanxuzhi.setVisibility(View.GONE);
+                }
+                //责任人
+                zerenList = shareDetailsBean.getData().getSysUserInfos();
+                if (zerenList.size() > 0) {
+                    zerenAdapter = new ShareDetailsZerenAdapter(zerenList);
+                    LinearLayoutManager zerenManager = new LinearLayoutManager(context);
+                    zerenManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                    rvZeren.setLayoutManager(zerenManager);
+                    rvZeren.setAdapter(zerenAdapter);
+                } else {
+                    llZeren.setVisibility(View.GONE);
+                    viewZerenren.setVisibility(View.GONE);
+                }
+                //额外费用
+                List<ShareDetailsBean.DataBean.AdditionalCostsBean> ewaiList = shareDetailsBean.getData().getAdditionalCosts();
+                if (ewaiList.size() > 0) {
+                    for (int i = 0; i < ewaiList.size(); i++) {
+                        textView = new TextView(context);
+                        textView.setText(ewaiList.get(i).getAdditionalCostName() + ": " + ewaiList.get(i).getAdditionalCostMoney() + "元");
+                        textView.setTextColor(Color.parseColor("#333333"));
+                        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        layoutParams.topMargin = 15;
+                        llEwai.addView(textView);
+                    }
+                } else {
+                    llEwai.setVisibility(View.GONE);
+                }
+                //价格
+                tvMoney.setText("¥" + StringUtils.roundByScale(shareDetailsBean.getData().getMoney(), 2));
+                //是否收藏
+                isCollect = shareDetailsBean.getData().getIsCollect();
+                if (isCollect == 0) {
+                    Glide.with(context).load(R.mipmap.star_null_w).into(ivStar);
+                } else {
+                    Glide.with(context).load(R.mipmap.star_w).into(ivStar);
+                }
+                initBottomStar(shareDetailsBean.getData().getIntEvalute());
+                //位置
+                if (!shareDetailsBean.getData().getPositionalCoordinates().equals(",")) {
+                    String[] map = shareDetailsBean.getData().getPositionalCoordinates().split(",");
+                    BitmapDescriptor bitmap = BitmapDescriptorFactory
+                            .fromResource(R.mipmap.location_big);
+                    List<OverlayOptions> options = new ArrayList<OverlayOptions>();
+                    options.add(new MarkerOptions().position(new LatLng(Double.valueOf(map[1]), Double.valueOf(map[0]))).icon(bitmap));
+                    mBaiduMap.addOverlays(options);
+                    //设定中心点坐标
+                    LatLng cenpt = new LatLng(Double.valueOf(map[1]), Double.valueOf(map[0]));
+                    //定义地图状态
+                    MapStatus mMapStatus = new MapStatus.Builder()
+                            //要移动的点
+                            .target(cenpt)
+                            //放大地图到20倍
+                            .zoom(17)
+                            .build();
+                    //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+                    MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+                    //改变地图状态
+                    mBaiduMap.setMapStatus(mMapStatusUpdate);
+                }
+            }
+        });
 
     }
 
@@ -386,14 +377,14 @@ public class ShareDetailsActivity extends BaseActivity {
         llBottomStar.removeAllViews();
         int a = DensityTool.dp2px(context, 9);
         ImageView imageView;
-        for (int i = 0; i<num; i++){
-            if(i == 0){
+        for (int i = 0; i < num; i++) {
+            if (i == 0) {
                 imageView = new ImageView(context);
                 imageView.setImageResource(R.mipmap.xingxing_red);
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(a, a);
                 llBottomStar.addView(imageView, layoutParams);
-            }else {
+            } else {
                 imageView = new ImageView(context);
                 imageView.setImageResource(R.mipmap.xingxing_red);
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -402,15 +393,15 @@ public class ShareDetailsActivity extends BaseActivity {
                 llBottomStar.addView(imageView, layoutParams);
             }
         }
-        int sheng = 5-num;
-        for (int i = 0; i<sheng; i++){
-            if(sheng == 5&&i == 0){
+        int sheng = 5 - num;
+        for (int i = 0; i < sheng; i++) {
+            if (sheng == 5 && i == 0) {
                 imageView = new ImageView(context);
                 imageView.setImageResource(R.mipmap.star_null_b);
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(a, a);
                 llBottomStar.addView(imageView, layoutParams);
-            }else {
+            } else {
                 imageView = new ImageView(context);
                 imageView.setImageResource(R.mipmap.star_null_b);
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -435,9 +426,9 @@ public class ShareDetailsActivity extends BaseActivity {
                     isScroll = false;
                     Glide.with(context).load(R.mipmap.backff).into(ivBack);
                     Glide.with(context).load(R.mipmap.phone_w).into(ivPhone);
-                    if(isCollect == 0){
+                    if (isCollect == 0) {
                         Glide.with(context).load(R.mipmap.star_null_w).into(ivStar);
-                    }else {
+                    } else {
                         Glide.with(context).load(R.mipmap.star_w).into(ivStar);
                     }
                     Glide.with(context).load(R.mipmap.share_w).into(ivShare);
@@ -455,9 +446,9 @@ public class ShareDetailsActivity extends BaseActivity {
                     isScroll = true;
                     Glide.with(context).load(R.mipmap.back_b).into(ivBack);
                     Glide.with(context).load(R.mipmap.phone_b).into(ivPhone);
-                    if(isCollect == 0){
+                    if (isCollect == 0) {
                         Glide.with(context).load(R.mipmap.star_null_b).into(ivStar);
-                    }else {
+                    } else {
                         Glide.with(context).load(R.mipmap.star_b).into(ivStar);
                     }
                     Glide.with(context).load(R.mipmap.share_b).into(ivShare);
@@ -470,23 +461,23 @@ public class ShareDetailsActivity extends BaseActivity {
 
     @SuppressLint("MissingPermission")
     @OnClick({R.id.rl_back, R.id.tv_submit, R.id.rl_star, R.id.rl_phone})
-    public void onClick(View view){
+    public void onClick(View view) {
         Intent intent = new Intent();
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.rl_back:
                 finish();
                 break;
             case R.id.tv_submit:
-                if(SpUtils.getUserId(context).equals("0")){
+                if (SpUtils.getUserId(context).equals("0")) {
                     intent.setClass(context, SMSLoginActivity.class);
                     startActivity(intent);
-                }else {
-                    if(type.equals("1")){
+                } else {
+                    if (type.equals("1")) {
                         intent.setClass(context, OrderShebeiActivity.class);
                         intent.putExtra("type", "1");
                         intent.putExtra("id", id);
                         startActivity(intent);
-                    }else if(type.equals("2")){
+                    } else if (type.equals("2")) {
                         intent.setClass(context, CommitOrderActivity.class);
                         intent.putExtra("type", "2");
                         intent.putExtra("id", id);
@@ -495,15 +486,15 @@ public class ShareDetailsActivity extends BaseActivity {
                 }
                 break;
             case R.id.rl_star:
-                if(SpUtils.getUserId(context).equals("0")){
+                if (SpUtils.getUserId(context).equals("0")) {
                     intent.setClass(context, SMSLoginActivity.class);
                     startActivity(intent);
-                }else {
+                } else {
                     onCollect();
                 }
                 break;
             case R.id.rl_phone:
-                if(!StringUtils.isEmpty(phone)){
+                if (!StringUtils.isEmpty(phone)) {
                     Intent intent1 = new Intent(Intent.ACTION_DIAL);
                     Uri data = Uri.parse("tel:" + phone);
                     intent1.setData(data);
@@ -515,66 +506,42 @@ public class ShareDetailsActivity extends BaseActivity {
 
     private void onCollect() {
 
-        if(isCollect == 0){
-            ViseHttp.POST(NetUrl.AppGoodsShopisFollow)
-                    .addParam("goodsId", id)
-                    .addParam("memberId", SpUtils.getUserId(context))
-                    .addParam("goodsType", "0")
-                    .addParam("type", "1")
-                    .request(new ACallback<String>() {
-                        @Override
-                        public void onSuccess(String data) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(data);
-                                if(jsonObject.optString("status").equals("200")){
-                                    isCollect = 1;
-                                    if(isScroll){
-                                        Glide.with(context).load(R.mipmap.star_b).into(ivStar);
-                                    }else {
-                                        Glide.with(context).load(R.mipmap.star_w).into(ivStar);
-                                    }
-                                    ToastUtil.showShort(context, "收藏成功");
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onFail(int errCode, String errMsg) {
-
-                        }
-                    });
-        }else {
-            ViseHttp.POST(NetUrl.AppGoodsShopisFollow)
-                    .addParam("goodsId", id)
-                    .addParam("memberId", SpUtils.getUserId(context))
-                    .addParam("goodsType", "0")
-                    .addParam("type", "0")
-                    .request(new ACallback<String>() {
-                        @Override
-                        public void onSuccess(String data) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(data);
-                                if(jsonObject.optString("status").equals("200")){
-                                    isCollect = 0;
-                                    if(isScroll){
-                                        Glide.with(context).load(R.mipmap.star_null_b).into(ivStar);
-                                    }else {
-                                        Glide.with(context).load(R.mipmap.star_null_w).into(ivStar);
-                                    }
-                                    ToastUtil.showShort(context, "取消收藏成功");
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onFail(int errCode, String errMsg) {
-
-                        }
-                    });
+        if (isCollect == 0) {
+            Map<String, String> map = new LinkedHashMap<>();
+            map.put("goodsId", id);
+            map.put("memberId", SpUtils.getUserId(context));
+            map.put("goodsType", "0");
+            map.put("type", "1");
+            ViseUtil.Post(context, NetUrl.AppGoodsShopisFollow, map, new ViseUtil.ViseListener() {
+                @Override
+                public void onReturn(String s) {
+                    isCollect = 1;
+                    if (isScroll) {
+                        Glide.with(context).load(R.mipmap.star_b).into(ivStar);
+                    } else {
+                        Glide.with(context).load(R.mipmap.star_w).into(ivStar);
+                    }
+                    ToastUtil.showShort(context, "收藏成功");
+                }
+            });
+        } else {
+            Map<String, String> map1 = new LinkedHashMap<>();
+            map1.put("goodsId", id);
+            map1.put("memberId", SpUtils.getUserId(context));
+            map1.put("goodsType", "0");
+            map1.put("type", "0");
+            ViseUtil.Post(context, NetUrl.AppGoodsShopisFollow, map1, new ViseUtil.ViseListener() {
+                @Override
+                public void onReturn(String s) {
+                    isCollect = 0;
+                    if (isScroll) {
+                        Glide.with(context).load(R.mipmap.star_null_b).into(ivStar);
+                    } else {
+                        Glide.with(context).load(R.mipmap.star_null_w).into(ivStar);
+                    }
+                    ToastUtil.showShort(context, "取消收藏成功");
+                }
+            });
         }
 
     }

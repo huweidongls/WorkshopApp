@@ -17,6 +17,7 @@ import com.jingna.workshopapp.bean.WxPayBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.jingna.workshopapp.wxapi.WXShare;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -34,7 +35,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,94 +76,65 @@ public class FragmentDaiFuKuanOrder extends OrderBaseFragment {
         if (isFirst) {
             isFirst = false;
         } else {
-            ViseHttp.GET(NetUrl.AppOrderActivityList)
-                    .addParam("pageNum", "1")
-                    .addParam("pageSize", "10")
-                    .addParam("type", "0")
-                    .addParam("userId", SpUtils.getUserId(getContext()))
-                    .request(new ACallback<String>() {
+            Map<String, String> map = new LinkedHashMap<>();
+            map.put("pageNum", "1");
+            map.put("pageSize", "10");
+            map.put("type", "0");
+            map.put("userId", SpUtils.getUserId(getContext()));
+            ViseUtil.Get(getContext(), NetUrl.AppOrderActivityList, map, new ViseUtil.ViseListener() {
+                @Override
+                public void onReturn(String s) {
+                    Gson gson = new Gson();
+                    OrderListBean bean = gson.fromJson(s, OrderListBean.class);
+                    mList = bean.getData();
+                    if (mList.size() > 0) {//empty_order_bloack
+                        empty_order_bloack.setVisibility(View.GONE);
+                    } else {
+                        empty_order_bloack.setVisibility(View.VISIBLE);
+                    }
+                    adapter = new FragmentDaiFuKuanOrderAdapter(mList, new FragmentDaiFuKuanOrderAdapter.ClickListener() {
                         @Override
-                        public void onSuccess(String data) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(data);
-                                if (jsonObject.optString("status").equals("200")) {
+                        public void onPay(int pos) {
+                            Map<String, String> map1 = new LinkedHashMap<>();
+                            map1.put("id", mList.get(pos).getId());
+                            ViseUtil.Get(getContext(), NetUrl.AppOrderlistOrdersSubmitted, map1, new ViseUtil.ViseListener() {
+                                @Override
+                                public void onReturn(String s) {
                                     Gson gson = new Gson();
-                                    OrderListBean bean = gson.fromJson(data, OrderListBean.class);
-                                    mList = bean.getData();
-                                    if (mList.size() > 0) {//empty_order_bloack
-                                        empty_order_bloack.setVisibility(View.GONE);
-                                    } else {
-                                        empty_order_bloack.setVisibility(View.VISIBLE);
-                                    }
-                                    adapter = new FragmentDaiFuKuanOrderAdapter(mList, new FragmentDaiFuKuanOrderAdapter.ClickListener() {
-                                        @Override
-                                        public void onPay(int pos) {
-                                            ViseHttp.GET(NetUrl.AppOrderlistOrdersSubmitted)
-                                                    .addParam("id", mList.get(pos).getId())
-                                                    .request(new ACallback<String>() {
-                                                        @Override
-                                                        public void onSuccess(String data) {
-                                                            try {
-                                                                JSONObject jsonObject = new JSONObject(data);
-                                                                if (jsonObject.optString("status").equals("200")) {
-                                                                    Gson gson = new Gson();
-                                                                    WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
-                                                                    wxPay(wxPayBean);
-                                                                }
-                                                            } catch (JSONException e) {
-                                                                e.printStackTrace();
-                                                            }
-                                                        }
-
-                                                        @Override
-                                                        public void onFail(int errCode, String errMsg) {
-
-                                                        }
-                                                    });
-                                        }
-
-                                        @Override
-                                        public void onReturnPrice(final int pos) {
-                                            ViseHttp.POST(NetUrl.AppOrdercancellationOrder)
-                                                    .addParam("goodsOrderId", mList.get(pos).getId())
-                                                    .request(new ACallback<String>() {
-                                                        @Override
-                                                        public void onSuccess(String d) {
-                                                            try {
-                                                                JSONObject jsonObject = new JSONObject(d);
-                                                                if (jsonObject.optString("data").equals("Success")) {
-                                                                    ToastUtil.showShort(getContext(), "取消订单成功!");
-                                                                    mList.remove(pos);
-                                                                    adapter.notifyDataSetChanged();
-                                                                }
-                                                            } catch (JSONException e) {
-                                                                e.printStackTrace();
-                                                            }
-                                                        }
-
-                                                        @Override
-                                                        public void onFail(int errCode, String errMsg) {
-
-                                                        }
-                                                    });
-                                        }
-                                    });
-                                    LinearLayoutManager manager = new LinearLayoutManager(getContext());
-                                    manager.setOrientation(LinearLayoutManager.VERTICAL);
-                                    recyclerView.setLayoutManager(manager);
-                                    recyclerView.setAdapter(adapter);
-                                    page = 2;
+                                    WxPayBean wxPayBean = gson.fromJson(s, WxPayBean.class);
+                                    wxPay(wxPayBean);
                                 }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                            });
                         }
 
                         @Override
-                        public void onFail(int errCode, String errMsg) {
-
+                        public void onReturnPrice(final int pos) {
+                            Map<String, String> map1 = new LinkedHashMap<>();
+                            map1.put("goodsOrderId", mList.get(pos).getId());
+                            ViseUtil.Post(getContext(), NetUrl.AppOrdercancellationOrder, map1, new ViseUtil.ViseListener() {
+                                @Override
+                                public void onReturn(String s) {
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(s);
+                                        if (jsonObject.optString("data").equals("Success")) {
+                                            ToastUtil.showShort(getContext(), "取消订单成功!");
+                                            mList.remove(pos);
+                                            adapter.notifyDataSetChanged();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
                         }
                     });
+                    LinearLayoutManager manager = new LinearLayoutManager(getContext());
+                    manager.setOrientation(LinearLayoutManager.VERTICAL);
+                    recyclerView.setLayoutManager(manager);
+                    recyclerView.setAdapter(adapter);
+                    page = 2;
+                }
+            });
         }
     }
 
@@ -171,159 +145,104 @@ public class FragmentDaiFuKuanOrder extends OrderBaseFragment {
         smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
-                ViseHttp.GET(NetUrl.AppOrderActivityList)
-                        .addParam("pageNum", "1")
-                        .addParam("pageSize", "10")
-                        .addParam("type", "0")
-                        .addParam("userId", SpUtils.getUserId(getContext()))
-                        .request(new ACallback<String>() {
-                            @Override
-                            public void onSuccess(String data) {
-                                try {
-                                    JSONObject jsonObject = new JSONObject(data);
-                                    if (jsonObject.optString("status").equals("200")) {
-                                        Gson gson = new Gson();
-                                        OrderListBean bean = gson.fromJson(data, OrderListBean.class);
-                                        mList.clear();
-                                        mList.addAll(bean.getData());
-                                        adapter.notifyDataSetChanged();
-                                        page = 2;
-                                    }
-                                    refreshLayout.finishRefresh(500);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onFail(int errCode, String errMsg) {
-                                refreshLayout.finishRefresh(500);
-                            }
-                        });
+                Map<String, String> map = new LinkedHashMap<>();
+                map.put("pageNum", "1");
+                map.put("pageSize", "10");
+                map.put("type", "0");
+                map.put("userId", SpUtils.getUserId(getContext()));
+                ViseUtil.Get(getContext(), NetUrl.AppOrderActivityList, map, refreshLayout, 0, new ViseUtil.ViseListener() {
+                    @Override
+                    public void onReturn(String s) {
+                        Gson gson = new Gson();
+                        OrderListBean bean = gson.fromJson(s, OrderListBean.class);
+                        mList.clear();
+                        mList.addAll(bean.getData());
+                        adapter.notifyDataSetChanged();
+                        page = 2;
+                    }
+                });
             }
         });
         smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
-                ViseHttp.GET(NetUrl.AppOrderActivityList)
-                        .addParam("pageNum", page + "")
-                        .addParam("pageSize", "10")
-                        .addParam("type", "0")
-                        .addParam("userId", SpUtils.getUserId(getContext()))
-                        .request(new ACallback<String>() {
+                Map<String, String> map = new LinkedHashMap<>();
+                map.put("pageNum", page + "");
+                map.put("pageSize", "10");
+                map.put("type", "0");
+                map.put("userId", SpUtils.getUserId(getContext()));
+                ViseUtil.Get(getContext(), NetUrl.AppOrderActivityList, map, refreshLayout, 1, new ViseUtil.ViseListener() {
+                    @Override
+                    public void onReturn(String s) {
+                        Gson gson = new Gson();
+                        OrderListBean bean = gson.fromJson(s, OrderListBean.class);
+                        mList.addAll(bean.getData());
+                        adapter.notifyDataSetChanged();
+                        page = page + 1;
+                    }
+                });
+            }
+        });
+
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("pageNum", "1");
+        map.put("pageSize", "10");
+        map.put("type", "0");
+        map.put("userId", SpUtils.getUserId(getContext()));
+        ViseUtil.Get(getContext(), NetUrl.AppOrderActivityList, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                OrderListBean bean = gson.fromJson(s, OrderListBean.class);
+                mList = bean.getData();
+                if (mList.size() > 0) {//empty_order_bloack
+                    empty_order_bloack.setVisibility(View.GONE);
+                } else {
+                    empty_order_bloack.setVisibility(View.VISIBLE);
+                }
+                adapter = new FragmentDaiFuKuanOrderAdapter(mList, new FragmentDaiFuKuanOrderAdapter.ClickListener() {
+                    @Override
+                    public void onPay(int pos) {
+                        Map<String, String> map1 = new LinkedHashMap<>();
+                        map1.put("id", mList.get(pos).getId());
+                        ViseUtil.Get(getContext(), NetUrl.AppOrderlistOrdersSubmitted, map1, new ViseUtil.ViseListener() {
                             @Override
-                            public void onSuccess(String data) {
+                            public void onReturn(String s) {
+                                Gson gson = new Gson();
+                                WxPayBean wxPayBean = gson.fromJson(s, WxPayBean.class);
+                                wxPay(wxPayBean);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onReturnPrice(final int pos) {
+                        Map<String, String> map1 = new LinkedHashMap<>();
+                        map1.put("goodsOrderId", mList.get(pos).getId());
+                        ViseUtil.Post(getContext(), NetUrl.AppOrdercancellationOrder, map1, new ViseUtil.ViseListener() {
+                            @Override
+                            public void onReturn(String s) {
                                 try {
-                                    JSONObject jsonObject = new JSONObject(data);
-                                    if (jsonObject.optString("status").equals("200")) {
-                                        Gson gson = new Gson();
-                                        OrderListBean bean = gson.fromJson(data, OrderListBean.class);
-                                        mList.addAll(bean.getData());
+                                    JSONObject jsonObject = new JSONObject(s);
+                                    if (jsonObject.optString("data").equals("Success")) {
+                                        ToastUtil.showShort(getContext(), "取消订单成功!");
+                                        mList.remove(pos);
                                         adapter.notifyDataSetChanged();
-                                        page = page + 1;
                                     }
-                                    refreshLayout.finishLoadMore(500);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
                             }
-
-                            @Override
-                            public void onFail(int errCode, String errMsg) {
-                                refreshLayout.finishLoadMore(500);
-                            }
                         });
-            }
-        });
-
-        ViseHttp.GET(NetUrl.AppOrderActivityList)
-                .addParam("pageNum", "1")
-                .addParam("pageSize", "10")
-                .addParam("type", "0")
-                .addParam("userId", SpUtils.getUserId(getContext()))
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if (jsonObject.optString("status").equals("200")) {
-                                Gson gson = new Gson();
-                                OrderListBean bean = gson.fromJson(data, OrderListBean.class);
-                                mList = bean.getData();
-                                if (mList.size() > 0) {//empty_order_bloack
-                                    empty_order_bloack.setVisibility(View.GONE);
-                                } else {
-                                    empty_order_bloack.setVisibility(View.VISIBLE);
-                                }
-                                adapter = new FragmentDaiFuKuanOrderAdapter(mList, new FragmentDaiFuKuanOrderAdapter.ClickListener() {
-                                    @Override
-                                    public void onPay(int pos) {
-                                        ViseHttp.GET(NetUrl.AppOrderlistOrdersSubmitted)
-                                                .addParam("id", mList.get(pos).getId())
-                                                .request(new ACallback<String>() {
-                                                    @Override
-                                                    public void onSuccess(String data) {
-                                                        try {
-                                                            JSONObject jsonObject = new JSONObject(data);
-                                                            if (jsonObject.optString("status").equals("200")) {
-                                                                Gson gson = new Gson();
-                                                                WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
-                                                                wxPay(wxPayBean);
-                                                            }
-                                                        } catch (JSONException e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onFail(int errCode, String errMsg) {
-
-                                                    }
-                                                });
-                                    }
-
-                                    @Override
-                                    public void onReturnPrice(final int pos) {
-                                        ViseHttp.POST(NetUrl.AppOrdercancellationOrder)
-                                                .addParam("goodsOrderId", mList.get(pos).getId())
-                                                .request(new ACallback<String>() {
-                                                    @Override
-                                                    public void onSuccess(String d) {
-                                                        try {
-                                                            JSONObject jsonObject = new JSONObject(d);
-                                                            if (jsonObject.optString("data").equals("Success")) {
-                                                                ToastUtil.showShort(getContext(), "取消订单成功!");
-                                                                mList.remove(pos);
-                                                                adapter.notifyDataSetChanged();
-                                                            }
-                                                        } catch (JSONException e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onFail(int errCode, String errMsg) {
-
-                                                    }
-                                                });
-                                    }
-                                });
-                                LinearLayoutManager manager = new LinearLayoutManager(getContext());
-                                manager.setOrientation(LinearLayoutManager.VERTICAL);
-                                recyclerView.setLayoutManager(manager);
-                                recyclerView.setAdapter(adapter);
-                                page = 2;
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
                     }
                 });
+                LinearLayoutManager manager = new LinearLayoutManager(getContext());
+                manager.setOrientation(LinearLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(manager);
+                recyclerView.setAdapter(adapter);
+                page = 2;
+            }
+        });
     }
 
     @Override

@@ -12,11 +12,15 @@ import com.jingna.workshopapp.bean.PrivacyPolicyBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.HtmlFromUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,29 +46,17 @@ public class PrivacyPolicyActivity extends BaseActivity {
 
     private void initData() {
 
-        ViseHttp.GET(NetUrl.PrivacyPolicyqueryList)
-                .addParam("pageSize", "0")
-                .addParam("pageNum", "0")
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                PrivacyPolicyBean bean = gson.fromJson(data, PrivacyPolicyBean.class);
-                                HtmlFromUtils.setTextFromHtml(PrivacyPolicyActivity.this, tv, bean.getData().getPrivacyPolicy());
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
-                    }
-                });
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("pageSize", "0");
+        map.put("pageNum", "0");
+        ViseUtil.Get(context, NetUrl.PrivacyPolicyqueryList, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                PrivacyPolicyBean bean = gson.fromJson(s, PrivacyPolicyBean.class);
+                HtmlFromUtils.setTextFromHtml(PrivacyPolicyActivity.this, tv, bean.getData().getPrivacyPolicy());
+            }
+        });
 
     }
 

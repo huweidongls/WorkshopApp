@@ -16,12 +16,16 @@ import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.StringUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.jingna.workshopapp.util.WeiboDialogUtils;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -81,35 +85,19 @@ public class SMSLoginActivity extends BaseActivity {
             ToastUtil.showShort(context, "请输入正确格式的手机号码");
         }else {
             dialog = WeiboDialogUtils.createLoadingDialog(context, "正在发送...");
-            ViseHttp.GET(NetUrl.MemUsersendMessage)
-                    .addParam("phone", phoneNum)
-                    .request(new ACallback<String>() {
-                        @Override
-                        public void onSuccess(String data) {
-                            WeiboDialogUtils.closeDialog(dialog);
-                            Log.e("123123", data);
-                            try {
-                                JSONObject jsonObject = new JSONObject(data);
-                                if(jsonObject.optString("status").equals("200")){
-                                    ToastUtil.showShort(context, "验证码发送成功");
-                                    Intent intent = new Intent();
-                                    intent.setClass(context, SMSLoginYzmActivity.class);
-                                    intent.putExtra("phone", phoneNum);
-                                    startActivity(intent);
-                                    finish();
-                                }else {
-                                    ToastUtil.showShort(context, "验证码发送失败");
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onFail(int errCode, String errMsg) {
-                            WeiboDialogUtils.closeDialog(dialog);
-                        }
-                    });
+            Map<String, String> map = new LinkedHashMap<>();
+            map.put("phone", phoneNum);
+            ViseUtil.Get(context, NetUrl.MemUsersendMessage, map, dialog, new ViseUtil.ViseListener() {
+                @Override
+                public void onReturn(String s) {
+                    ToastUtil.showShort(context, "验证码发送成功");
+                    Intent intent = new Intent();
+                    intent.setClass(context, SMSLoginYzmActivity.class);
+                    intent.putExtra("phone", phoneNum);
+                    startActivity(intent);
+                    finish();
+                }
+            });
         }
 
     }

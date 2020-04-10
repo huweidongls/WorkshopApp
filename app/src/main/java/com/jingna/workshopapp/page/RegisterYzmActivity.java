@@ -17,12 +17,16 @@ import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.jingna.workshopapp.util.WeiboDialogUtils;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -88,30 +92,14 @@ public class RegisterYzmActivity extends BaseActivity {
      */
     private void getCode() {
 
-        Log.e("123123", phoneNumber);
-        ViseHttp.GET(NetUrl.MemUsersendMessage)
-                .addParam("phone", phoneNumber)
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            Log.e("123123", data);
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                ToastUtil.showShort(context, "短信验证码发送成功");
-                            }else {
-                                ToastUtil.showShort(context, "短信验证码发送失败");
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-                        Log.e("123123", errMsg);
-                    }
-                });
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("phone", phoneNumber);
+        ViseUtil.Get(context, NetUrl.MemUsersendMessage, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                ToastUtil.showShort(context, "短信验证码发送成功");
+            }
+        });
 
     }
 
@@ -125,37 +113,30 @@ public class RegisterYzmActivity extends BaseActivity {
             ToastUtil.showShort(context, "验证码不能为空");
         }else {
             dialog = WeiboDialogUtils.createLoadingDialog(context, "请等待...");
-            ViseHttp.GET(NetUrl.MemUsermatchCode)
-                    .addParam("phone", phoneNumber)
-                    .addParam("code", code)
-                    .request(new ACallback<String>() {
-                        @Override
-                        public void onSuccess(String data) {
-                            try {
-                                Log.e("123123", data);
-                                JSONObject jsonObject = new JSONObject(data);
-                                if(jsonObject.optInt("data") == 1){
-                                    Intent intent = new Intent();
-                                    intent.setClass(context, RegisterSetPwdActivity.class);
-                                    intent.putExtra("number", phoneNumber);
-                                    intent.putExtra("yq", yq);
-                                    startActivity(intent);
-                                    finish();
-                                }else {
-                                    ToastUtil.showShort(context, "短信验证码错误");
-                                }
-                                WeiboDialogUtils.closeDialog(dialog);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+            Map<String, String> map = new LinkedHashMap<>();
+            map.put("phone", phoneNumber);
+            map.put("code", code);
+            ViseUtil.Get(context, NetUrl.MemUsermatchCode, map, dialog, new ViseUtil.ViseListener() {
+                @Override
+                public void onReturn(String s) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(s);
+                        if(jsonObject.optInt("data") == 1){
+                            Intent intent = new Intent();
+                            intent.setClass(context, RegisterSetPwdActivity.class);
+                            intent.putExtra("number", phoneNumber);
+                            intent.putExtra("yq", yq);
+                            startActivity(intent);
+                            finish();
+                        }else {
+                            ToastUtil.showShort(context, "短信验证码错误");
                         }
-
-                        @Override
-                        public void onFail(int errCode, String errMsg) {
-                            Logger.e("123123", errMsg);
-                            WeiboDialogUtils.closeDialog(dialog);
-                        }
-                    });
+                        WeiboDialogUtils.closeDialog(dialog);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
 
     }

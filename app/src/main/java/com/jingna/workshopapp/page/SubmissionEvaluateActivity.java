@@ -15,11 +15,15 @@ import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.StringUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -82,29 +86,17 @@ public class SubmissionEvaluateActivity extends AppCompatActivity {
         String content = etContent.getText().toString();
         int star = (int) ratingBar.getRating();
         if(!StringUtils.isEmpty(content)&&star != 0){
-            ViseHttp.POST(NetUrl.AppShopGoodsEvaluatetoUpdate)
-                    .addParam("goodsEvaluate", content)
-                    .addParam("synthesizeEvaluate", star+"")
-                    .addParam("goodsOrderId", id)
-                    .request(new ACallback<String>() {
-                        @Override
-                        public void onSuccess(String data) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(data);
-                                if(jsonObject.optString("status").equals("200")){
-                                    ToastUtil.showShort(context, "评价成功");
-                                    finish();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onFail(int errCode, String errMsg) {
-
-                        }
-                    });
+            Map<String, String> map = new LinkedHashMap<>();
+            map.put("goodsEvaluate", content);
+            map.put("synthesizeEvaluate", star+"");
+            map.put("goodsOrderId", id);
+            ViseUtil.Post(context, NetUrl.AppShopGoodsEvaluatetoUpdate, map, new ViseUtil.ViseListener() {
+                @Override
+                public void onReturn(String s) {
+                    ToastUtil.showShort(context, "评价成功");
+                    finish();
+                }
+            });
         }else {
             ToastUtil.showShort(context, "评价内容与星级不能为空");
         }

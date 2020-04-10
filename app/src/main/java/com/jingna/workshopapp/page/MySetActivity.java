@@ -16,11 +16,15 @@ import com.jingna.workshopapp.bean.GetOneBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +41,7 @@ public class MySetActivity extends BaseActivity {
     TextView tv_username;
     @BindView(R.id.iv_sex)
     ImageView iv_sex;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,39 +51,30 @@ public class MySetActivity extends BaseActivity {
         ButterKnife.bind(MySetActivity.this);
         initData();
     }
-    private void initData(){
-        String url = "/MemUser/getOne?id="+SpUtils.getUserId(context);
-        ViseHttp.GET(url)
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if (jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                GetOneBean bean = gson.fromJson(data, GetOneBean.class);
-                                if (bean.getData().getMemberUserInfo().getGender().equals("1")){
-                                    Glide.with(context).load(R.mipmap.nv).into(iv_sex);
-                                }
-                                Glide.with(context).load(NetUrl.BASE_URL+bean.getData().getMemberUserInfo().getHeadPhoto()).into(iv_img);
-                                tv_uname.setText(bean.getData().getMemberUserInfo().getMemName());
-                                tv_username.setText(bean.getData().getMemberUserInfo().getMemName());
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
 
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
-                    }
-                });
+    private void initData() {
+        String url = "/MemUser/getOne";
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("id", SpUtils.getUserId(context));
+        ViseUtil.Get(context, url, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                GetOneBean bean = gson.fromJson(s, GetOneBean.class);
+                if (bean.getData().getMemberUserInfo().getGender().equals("1")) {
+                    Glide.with(context).load(R.mipmap.nv).into(iv_sex);
+                }
+                Glide.with(context).load(NetUrl.BASE_URL + bean.getData().getMemberUserInfo().getHeadPhoto()).into(iv_img);
+                tv_uname.setText(bean.getData().getMemberUserInfo().getMemName());
+                tv_username.setText(bean.getData().getMemberUserInfo().getMemName());
+            }
+        });
     }
+
     @OnClick({R.id.rl_back, R.id.rl_special_statement, R.id.rl_privacy_policy, R.id.rl_feedback})
-    public void onClick(View view){
+    public void onClick(View view) {
         Intent intent = new Intent();
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.rl_back:
                 finish();
                 break;

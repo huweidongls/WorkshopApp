@@ -16,6 +16,7 @@ import com.jingna.workshopapp.base.BaseFragment;
 import com.jingna.workshopapp.bean.RaiseListBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.Logger;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -29,7 +30,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -80,101 +83,60 @@ public class FragmentTuijian extends BaseFragment {
         smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
-                ViseHttp.GET(NetUrl.AppCrowdFundingfindAllByType)
-                        .addParam("type", id)
-                        .addParam("pageSize", "1")
-                        .addParam("pageNum", "10")
-                        .request(new ACallback<String>() {
-                            @Override
-                            public void onSuccess(String data) {
-                                try {
-                                    Logger.e("123123", data);
-                                    JSONObject jsonObject = new JSONObject(data);
-                                    if(jsonObject.optString("status").equals("200")){
-                                        Gson gson = new Gson();
-                                        RaiseListBean bean = gson.fromJson(data, RaiseListBean.class);
-                                        mList.clear();
-                                        mList.addAll(bean.getData());
-                                        adapter.notifyDataSetChanged();
-                                        page = 2;
-                                    }
-                                    refreshLayout.finishRefresh(500);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onFail(int errCode, String errMsg) {
-                                refreshLayout.finishRefresh(500);
-                            }
-                        });
+                Map<String, String> map = new LinkedHashMap<>();
+                map.put("type", id);
+                map.put("pageSize", "1");
+                map.put("pageNum", "10");
+                ViseUtil.Get(getContext(), NetUrl.AppCrowdFundingfindAllByType, map, refreshLayout, 0, new ViseUtil.ViseListener() {
+                    @Override
+                    public void onReturn(String s) {
+                        Gson gson = new Gson();
+                        RaiseListBean bean = gson.fromJson(s, RaiseListBean.class);
+                        mList.clear();
+                        mList.addAll(bean.getData());
+                        adapter.notifyDataSetChanged();
+                        page = 2;
+                    }
+                });
             }
         });
         smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
-                ViseHttp.GET(NetUrl.AppCrowdFundingfindAllByType)
-                        .addParam("type", id)
-                        .addParam("pageSize", page+"")
-                        .addParam("pageNum", "10")
-                        .request(new ACallback<String>() {
-                            @Override
-                            public void onSuccess(String data) {
-                                try {
-                                    Logger.e("123123", data);
-                                    JSONObject jsonObject = new JSONObject(data);
-                                    if(jsonObject.optString("status").equals("200")){
-                                        Gson gson = new Gson();
-                                        RaiseListBean bean = gson.fromJson(data, RaiseListBean.class);
-                                        mList.addAll(bean.getData());
-                                        adapter.notifyDataSetChanged();
-                                        page = page+1;
-                                    }
-                                    refreshLayout.finishLoadMore(500);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onFail(int errCode, String errMsg) {
-                                refreshLayout.finishLoadMore(500);
-                            }
-                        });
+                Map<String, String> map = new LinkedHashMap<>();
+                map.put("type", id);
+                map.put("pageSize", page+"");
+                map.put("pageNum", "10");
+                ViseUtil.Get(getContext(), NetUrl.AppCrowdFundingfindAllByType, map, refreshLayout, 1, new ViseUtil.ViseListener() {
+                    @Override
+                    public void onReturn(String s) {
+                        Gson gson = new Gson();
+                        RaiseListBean bean = gson.fromJson(s, RaiseListBean.class);
+                        mList.addAll(bean.getData());
+                        adapter.notifyDataSetChanged();
+                        page = page+1;
+                    }
+                });
             }
         });
 
-        ViseHttp.GET(NetUrl.AppCrowdFundingfindAllByType)
-                .addParam("type", id)
-                .addParam("pageSize", "1")
-                .addParam("pageNum", "10")
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            Logger.e("123123", data);
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                RaiseListBean bean = gson.fromJson(data, RaiseListBean.class);
-                                mList = bean.getData();
-                                adapter = new FragmentCrowdTuijianAdapter(mList);
-                                GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
-                                recyclerView.setLayoutManager(manager);
-                                recyclerView.setAdapter(adapter);
-                                page = 2;
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
-                    }
-                });
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("type", id);
+        map.put("pageSize", "1");
+        map.put("pageNum", "10");
+        ViseUtil.Get(getContext(), NetUrl.AppCrowdFundingfindAllByType, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                RaiseListBean bean = gson.fromJson(s, RaiseListBean.class);
+                mList = bean.getData();
+                adapter = new FragmentCrowdTuijianAdapter(mList);
+                GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
+                recyclerView.setLayoutManager(manager);
+                recyclerView.setAdapter(adapter);
+                page = 2;
+            }
+        });
 
     }
 }

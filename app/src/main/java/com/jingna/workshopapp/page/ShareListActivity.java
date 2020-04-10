@@ -16,6 +16,7 @@ import com.jingna.workshopapp.base.BaseActivity;
 import com.jingna.workshopapp.bean.CategoryQueryChildListBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -29,7 +30,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,102 +79,64 @@ public class ShareListActivity extends BaseActivity {
         smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
-                ViseHttp.GET(NetUrl.AppShopCategoryqueryChildList)
-                        .addParam("pid", type)
-                        .addParam("pageSize", "1")
-                        .addParam("pageNum", "5")
-                        .request(new ACallback<String>() {
-                            @Override
-                            public void onSuccess(String data) {
-                                try {
-                                    JSONObject jsonObject = new JSONObject(data);
-                                    if(jsonObject.optString("status").equals("200")){
-                                        Gson gson = new Gson();
-                                        CategoryQueryChildListBean childListBean = gson.fromJson(data, CategoryQueryChildListBean.class);
-                                        mList.clear();
-                                        mList.addAll(childListBean.getData());
-                                        adapter.notifyDataSetChanged();
-                                        page = 2;
-                                    }
-                                    refreshLayout.finishRefresh(1000);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onFail(int errCode, String errMsg) {
-                                refreshLayout.finishRefresh(1000);
-                            }
-                        });
+                Map<String, String> map = new LinkedHashMap<>();
+                map.put("pid", type);
+                map.put("pageSize", "1");
+                map.put("pageNum", "5");
+                ViseUtil.Get(context, NetUrl.AppShopCategoryqueryChildList, map, refreshLayout, 0, new ViseUtil.ViseListener() {
+                    @Override
+                    public void onReturn(String s) {
+                        Gson gson = new Gson();
+                        CategoryQueryChildListBean childListBean = gson.fromJson(s, CategoryQueryChildListBean.class);
+                        mList.clear();
+                        mList.addAll(childListBean.getData());
+                        adapter.notifyDataSetChanged();
+                        page = 2;
+                    }
+                });
             }
         });
         smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
-                ViseHttp.GET(NetUrl.AppShopCategoryqueryChildList)
-                        .addParam("pid", type)
-                        .addParam("pageSize", page+"")
-                        .addParam("pageNum", "5")
-                        .request(new ACallback<String>() {
-                            @Override
-                            public void onSuccess(String data) {
-                                try {
-                                    JSONObject jsonObject = new JSONObject(data);
-                                    if(jsonObject.optString("status").equals("200")){
-                                        Gson gson = new Gson();
-                                        CategoryQueryChildListBean childListBean = gson.fromJson(data, CategoryQueryChildListBean.class);
-                                        mList.addAll(childListBean.getData());
-                                        adapter.notifyDataSetChanged();
-                                        page = page + 1;
-                                    }
-                                    refreshLayout.finishLoadMore(1000);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onFail(int errCode, String errMsg) {
-                                refreshLayout.finishLoadMore(1000);
-                            }
-                        });
+                Map<String, String> map = new LinkedHashMap<>();
+                map.put("pid", type);
+                map.put("pageSize", page+"");
+                map.put("pageNum", "5");
+                ViseUtil.Get(context, NetUrl.AppShopCategoryqueryChildList, map, refreshLayout, 1, new ViseUtil.ViseListener() {
+                    @Override
+                    public void onReturn(String s) {
+                        Gson gson = new Gson();
+                        CategoryQueryChildListBean childListBean = gson.fromJson(s, CategoryQueryChildListBean.class);
+                        mList.addAll(childListBean.getData());
+                        adapter.notifyDataSetChanged();
+                        page = page + 1;
+                    }
+                });
             }
         });
 
-        ViseHttp.GET(NetUrl.AppShopCategoryqueryChildList)
-                .addParam("pid", type)
-                .addParam("pageSize", "1")
-                .addParam("pageNum", "5")
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                CategoryQueryChildListBean childListBean = gson.fromJson(data, CategoryQueryChildListBean.class);
-                                mList = childListBean.getData();
-                                if (mList.size()==0){
-                                    empty_order_bloacks.setVisibility(View.VISIBLE);
-                                }
-                                adapter = new ShareListAdapter(mList, type);
-                                LinearLayoutManager manager = new LinearLayoutManager(context);
-                                manager.setOrientation(LinearLayoutManager.VERTICAL);
-                                recyclerView.setLayoutManager(manager);
-                                recyclerView.setAdapter(adapter);
-                                page = 2;
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
-                    }
-                });
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("pid", type);
+        map.put("pageSize", "1");
+        map.put("pageNum", "5");
+        ViseUtil.Get(context, NetUrl.AppShopCategoryqueryChildList, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                CategoryQueryChildListBean childListBean = gson.fromJson(s, CategoryQueryChildListBean.class);
+                mList = childListBean.getData();
+                if (mList.size()==0){
+                    empty_order_bloacks.setVisibility(View.VISIBLE);
+                }
+                adapter = new ShareListAdapter(mList, type);
+                LinearLayoutManager manager = new LinearLayoutManager(context);
+                manager.setOrientation(LinearLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(manager);
+                recyclerView.setAdapter(adapter);
+                page = 2;
+            }
+        });
 
     }
 

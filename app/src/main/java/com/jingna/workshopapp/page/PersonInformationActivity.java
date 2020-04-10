@@ -23,6 +23,7 @@ import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
@@ -32,6 +33,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,36 +77,24 @@ public class PersonInformationActivity extends BaseActivity {
 
     private void initData() {
 
-        String url = "/MemUser/getOne?id="+SpUtils.getUserId(context);
-        ViseHttp.GET(url)
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            Log.e("123123", data);
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                GetOneBean bean = gson.fromJson(data, GetOneBean.class);
-                                Glide.with(context).load(NetUrl.BASE_URL+bean.getData().getMemberUserInfo().getHeadPhoto()).into(ivAvatar);
-                                tvNickname.setText(bean.getData().getMemberUserInfo().getMemName());
-                                if(bean.getData().getMemberUserInfo().getGender().equals("0")){
-                                    tvSex.setText("男");
-                                }else {
-                                    tvSex.setText("女");
-                                }
-                                tvBirthday.setText(bean.getData().getMemberUserInfo().getMemBirthday());
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
-                    }
-                });
+        String url = "/MemUser/getOne";
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("id", SpUtils.getUserId(context));
+        ViseUtil.Get(context, url, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                GetOneBean bean = gson.fromJson(s, GetOneBean.class);
+                Glide.with(context).load(NetUrl.BASE_URL+bean.getData().getMemberUserInfo().getHeadPhoto()).into(ivAvatar);
+                tvNickname.setText(bean.getData().getMemberUserInfo().getMemName());
+                if(bean.getData().getMemberUserInfo().getGender().equals("0")){
+                    tvSex.setText("男");
+                }else {
+                    tvSex.setText("女");
+                }
+                tvBirthday.setText(bean.getData().getMemberUserInfo().getMemBirthday());
+            }
+        });
 
     }
 
@@ -160,30 +151,16 @@ public class PersonInformationActivity extends BaseActivity {
      */
     private void onNickname(final String name) {
 
-        ViseHttp.POST("/MemUser/toUpdate")
-                .addParam("id", SpUtils.getUserId(context))
-                .addParam("memName", name)
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                ToastUtil.showShort(context, "设置成功");
-                                tvNickname.setText(name);
-                            }else {
-                                ToastUtil.showShort(context, "设置失败");
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
-                    }
-                });
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("id", SpUtils.getUserId(context));
+        map.put("memName", name);
+        ViseUtil.Post(context, "/MemUser/toUpdate", map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                ToastUtil.showShort(context, "设置成功");
+                tvNickname.setText(name);
+            }
+        });
 
     }
 
@@ -192,35 +169,20 @@ public class PersonInformationActivity extends BaseActivity {
      */
     private void onSex(final int sex) {
 
-        ViseHttp.POST("/MemUser/toUpdate")
-                .addParam("id", SpUtils.getUserId(context))
-                .addParam("gender", sex+"")
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        Log.e("123123", data);
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                ToastUtil.showShort(context, "设置成功");
-                                if(sex == 0){
-                                    tvSex.setText("男");
-                                }else {
-                                    tvSex.setText("女");
-                                }
-                            }else {
-                                ToastUtil.showShort(context, "设置失败");
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-                        Log.e("123123", errMsg);
-                    }
-                });
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("id", SpUtils.getUserId(context));
+        map.put("gender", sex+"");
+        ViseUtil.Post(context, "/MemUser/toUpdate", map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                ToastUtil.showShort(context, "设置成功");
+                if(sex == 0){
+                    tvSex.setText("男");
+                }else {
+                    tvSex.setText("女");
+                }
+            }
+        });
 
     }
 

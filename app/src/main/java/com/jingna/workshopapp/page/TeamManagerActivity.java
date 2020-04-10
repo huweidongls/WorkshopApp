@@ -17,13 +17,16 @@ import com.jingna.workshopapp.bean.TeamManagementBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,49 +57,37 @@ public class TeamManagerActivity extends BaseActivity {
 
     private void initData() {
 
-        ViseHttp.GET(NetUrl.MemUserteamManagement)
-                .addParam("memberId", SpUtils.getUserId(context))
-                .request(new ACallback<String>() {
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("memberId", SpUtils.getUserId(context));
+        ViseUtil.Get(context, NetUrl.MemUserteamManagement, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                TeamManagementBean bean = gson.fromJson(s, TeamManagementBean.class);
+                mList = bean.getData();
+                LinearLayoutManager manager = new LinearLayoutManager(context);
+                manager.setOrientation(LinearLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(manager);
+                adapter = new TeamManagerAdapter(mList);
+                recyclerView.setAdapter(adapter);
+                etSearch.addTextChangedListener(new TextWatcher() {
                     @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                TeamManagementBean bean = gson.fromJson(data, TeamManagementBean.class);
-                                mList = bean.getData();
-                                LinearLayoutManager manager = new LinearLayoutManager(context);
-                                manager.setOrientation(LinearLayoutManager.VERTICAL);
-                                recyclerView.setLayoutManager(manager);
-                                adapter = new TeamManagerAdapter(mList);
-                                recyclerView.setAdapter(adapter);
-                                etSearch.addTextChangedListener(new TextWatcher() {
-                                    @Override
-                                    public void beforeTextChanged(CharSequence sequence, int i, int i1, int i2) {
+                    public void beforeTextChanged(CharSequence sequence, int i, int i1, int i2) {
 
-                                    }
-
-                                    @Override
-                                    public void onTextChanged(CharSequence sequence, int i, int i1, int i2) {
-                                        adapter.getFilter().filter(sequence.toString());
-                                    }
-
-                                    @Override
-                                    public void afterTextChanged(Editable editable) {
-
-                                    }
-                                });
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
                     }
 
                     @Override
-                    public void onFail(int errCode, String errMsg) {
+                    public void onTextChanged(CharSequence sequence, int i, int i1, int i2) {
+                        adapter.getFilter().filter(sequence.toString());
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
 
                     }
                 });
+            }
+        });
 
     }
 

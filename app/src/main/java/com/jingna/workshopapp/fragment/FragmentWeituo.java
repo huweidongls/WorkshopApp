@@ -16,6 +16,7 @@ import com.jingna.workshopapp.adapter.EntrustListAdapter;
 import com.jingna.workshopapp.base.BaseFragment;
 import com.jingna.workshopapp.bean.EntrustListBean;
 import com.jingna.workshopapp.net.NetUrl;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -28,7 +29,9 @@ import com.vise.xsnow.http.callback.ACallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -81,66 +84,40 @@ public class FragmentWeituo extends BaseFragment {
         smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
-                ViseHttp.GET(NetUrl.AppShopWtjgfindAllWtjgEquipment)
-                        .addParam("type", type)
-                        .addParam("pageSize", "1")
-                        .addParam("pageNum", "10")
-                        .request(new ACallback<String>() {
-                            @Override
-                            public void onSuccess(String data) {
-                                try {
-                                    JSONObject jsonObject = new JSONObject(data);
-                                    if(jsonObject.optString("status").equals("200")){
-                                        Gson gson = new Gson();
-                                        EntrustListBean bean = gson.fromJson(data, EntrustListBean.class);
-                                        mList.clear();
-                                        mList.addAll(bean.getData());
-                                        adapter.notifyDataSetChanged();
-                                        page = 2;
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                refreshLayout.finishRefresh(500);
-                            }
-
-                            @Override
-                            public void onFail(int errCode, String errMsg) {
-                                refreshLayout.finishRefresh(500);
-                            }
-                        });
+                Map<String, String> map = new LinkedHashMap<>();
+                map.put("type", type);
+                map.put("pageSize", "1");
+                map.put("pageNum", "10");
+                ViseUtil.Get(getContext(), NetUrl.AppShopWtjgfindAllWtjgEquipment, map, refreshLayout, 0, new ViseUtil.ViseListener() {
+                    @Override
+                    public void onReturn(String s) {
+                        Gson gson = new Gson();
+                        EntrustListBean bean = gson.fromJson(s, EntrustListBean.class);
+                        mList.clear();
+                        mList.addAll(bean.getData());
+                        adapter.notifyDataSetChanged();
+                        page = 2;
+                    }
+                });
             }
         });
         smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
-                ViseHttp.GET(NetUrl.AppShopWtjgfindAllWtjgEquipment)
-                        .addParam("type", type)
-                        .addParam("pageSize", page+"")
-                        .addParam("pageNum", "10")
-                        .request(new ACallback<String>() {
-                            @Override
-                            public void onSuccess(String data) {
-                                try {
-                                    JSONObject jsonObject = new JSONObject(data);
-                                    if(jsonObject.optString("status").equals("200")){
-                                        Gson gson = new Gson();
-                                        EntrustListBean bean = gson.fromJson(data, EntrustListBean.class);
-                                        mList.addAll(bean.getData());
-                                        adapter.notifyDataSetChanged();
-                                        page = page + 1;
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                refreshLayout.finishLoadMore(500);
-                            }
-
-                            @Override
-                            public void onFail(int errCode, String errMsg) {
-                                refreshLayout.finishLoadMore(500);
-                            }
-                        });
+                Map<String, String> map = new LinkedHashMap<>();
+                map.put("type", type);
+                map.put("pageSize", page+"");
+                map.put("pageNum", "10");
+                ViseUtil.Get(getContext(), NetUrl.AppShopWtjgfindAllWtjgEquipment, map, refreshLayout, 1, new ViseUtil.ViseListener() {
+                    @Override
+                    public void onReturn(String s) {
+                        Gson gson = new Gson();
+                        EntrustListBean bean = gson.fromJson(s, EntrustListBean.class);
+                        mList.addAll(bean.getData());
+                        adapter.notifyDataSetChanged();
+                        page = page + 1;
+                    }
+                });
             }
         });
 
@@ -148,35 +125,23 @@ public class FragmentWeituo extends BaseFragment {
             type = id;
         }
 
-        ViseHttp.GET(NetUrl.AppShopWtjgfindAllWtjgEquipment)
-                .addParam("type", type)
-                .addParam("pageSize", "1")
-                .addParam("pageNum", "10")
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                EntrustListBean bean = gson.fromJson(data, EntrustListBean.class);
-                                mList = bean.getData();
-                                adapter = new EntrustListAdapter(mList);
-                                GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
-                                recyclerView.setLayoutManager(manager);
-                                recyclerView.setAdapter(adapter);
-                                page = 2;
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
-                    }
-                });
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("type", type);
+        map.put("pageSize", "1");
+        map.put("pageNum", "10");
+        ViseUtil.Get(getContext(), NetUrl.AppShopWtjgfindAllWtjgEquipment, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                EntrustListBean bean = gson.fromJson(s, EntrustListBean.class);
+                mList = bean.getData();
+                adapter = new EntrustListAdapter(mList);
+                GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
+                recyclerView.setLayoutManager(manager);
+                recyclerView.setAdapter(adapter);
+                page = 2;
+            }
+        });
 
     }
 

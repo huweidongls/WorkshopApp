@@ -2,8 +2,8 @@ package com.jingna.workshopapp.page;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
-import com.jingna.workshopapp.bean.CrowdDetailsBean;
 import com.jingna.workshopapp.bean.OrderDetailsBean;
 import com.jingna.workshopapp.bean.WxPayBean;
 import com.jingna.workshopapp.dialog.DialogCustom;
@@ -22,6 +21,7 @@ import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.StringUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.jingna.workshopapp.wxapi.WXShare;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -31,6 +31,9 @@ import com.vise.xsnow.http.callback.ACallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -89,31 +92,32 @@ public class OrderDetailsActivity extends AppCompatActivity {
     LinearLayout fsc_time;
 
     @BindView(R.id.tv_to_pay)//去支付
-    Button tv_to_pay;
+            Button tv_to_pay;
 
     @BindView(R.id.qx_to)//取消订单
-    Button qx_to;
+            Button qx_to;
 
     @BindView(R.id.del_order_to)//删除订单
-    Button del_order_to;
+            Button del_order_to;
 
     @BindView(R.id.qpj_to)//去评价
-    Button qpj_to;
+            Button qpj_to;
 
     @BindView(R.id.tk_to)//退款
-    Button tk_to;
+            Button tk_to;
 
     @BindView(R.id.qrsh_to)//收货
-    Button qrsh_to;
+            Button qrsh_to;
 
-    private String id="";
-    private String getGoodsPictureApp="";
-    private String getGoodsTitle="";
-    private double payAll=0.00;
+    private String id = "";
+    private String getGoodsPictureApp = "";
+    private String getGoodsTitle = "";
+    private double payAll = 0.00;
     private WXShare wxShare;
     private IWXAPI api;
 
     private String orderSn = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,177 +128,167 @@ public class OrderDetailsActivity extends AppCompatActivity {
         ButterKnife.bind(OrderDetailsActivity.this);
         initdata();
     }
-    private void initdata(){
-        ViseHttp.GET(NetUrl.AppOrderorderDetails)
-                .addParam("goodsOrderId",id)
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if (jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                OrderDetailsBean bean = gson.fromJson(data, OrderDetailsBean.class);
-                                getGoodsPictureApp = bean.getData().getGoodsPictureApp();
-                                getGoodsTitle = bean.getData().getGoodsTitle();
-                                orderSn = bean.getData().getId();
-                                if (bean.getData().getGoodsId().isEmpty()){//等于空
-                                    r_address.setVisibility(View.VISIBLE);//显示
-                                    tv_goods_title.setText(bean.getData().getGoodsTitle());
-                                    Glide.with(context).load(NetUrl.BASE_URL+bean.getData().getGoodsPictureApp()).into(iv_goods_img);
-                                    sh_name.setText(bean.getData().getAddresUname());
-                                    sh_phone.setText(bean.getData().getAddresPhone());
-                                    sh_address.setText("地址:"+bean.getData().getAddresName());
-                                    order_sn.setText(bean.getData().getId());
-                                    add_time.setText(bean.getData().getCreateTime());
-                                    pay_type.setText(bean.getData().getPaymentMode());
-                                    fsc_time.setVisibility(View.GONE);
-                                    h_x.setVisibility(View.GONE);
-                                    count_money.setText("¥"+ StringUtils.roundByScale(bean.getData().getOrderPrice(), 2)+"");
-                                    yunfei.setText("¥"+StringUtils.roundByScale(bean.getData().getFreightMoney(), 2));
-                                    payAll = bean.getData().getOrderPrice()+bean.getData().getFreightMoney();
-                                    zong_money.setText("¥"+StringUtils.roundByScale(payAll, 2));
-                                    if (bean.getData().getInvoiceId().equals("0")){
-                                        fp_type.setText("不开发票");
-                                    }else{
-                                        fp_type.setText("开发票");
-                                    }
-                                    if(bean.getData().getOrderStatus().equals("0")){
-                                        tv_to_pay.setVisibility(View.VISIBLE);
-                                        tk_to.setVisibility(View.GONE);
-                                        qrsh_to.setVisibility(View.GONE);
-                                        qpj_to.setVisibility(View.GONE);
-                                        del_order_to.setVisibility(View.GONE);
-                                        qx_to.setVisibility(View.VISIBLE);
-                                    }else if(bean.getData().getOrderStatus().equals("1") || bean.getData().getOrderStatus().equals("2")){
-                                        tv_to_pay.setVisibility(View.GONE);
-                                        qx_to.setVisibility(View.GONE);
-                                        tk_to.setVisibility(View.VISIBLE);
-                                        qrsh_to.setVisibility(View.GONE);
-                                        qpj_to.setVisibility(View.GONE);
-                                        del_order_to.setVisibility(View.GONE);
-                                    }else if(bean.getData().getOrderStatus().equals("3")){
-                                        tv_to_pay.setVisibility(View.GONE);
-                                        qx_to.setVisibility(View.GONE);
-                                        tk_to.setVisibility(View.GONE);
-                                        qrsh_to.setVisibility(View.VISIBLE);
-                                        qpj_to.setVisibility(View.GONE);
-                                        del_order_to.setVisibility(View.GONE);
-                                    }else if(bean.getData().getOrderStatus().equals("4")){
-                                        tv_to_pay.setVisibility(View.GONE);
-                                        qx_to.setVisibility(View.GONE);
-                                        tk_to.setVisibility(View.GONE);
-                                        qrsh_to.setVisibility(View.GONE);
-                                        qpj_to.setVisibility(View.VISIBLE);
-                                        del_order_to.setVisibility(View.GONE);
-                                    }else if(bean.getData().getOrderStatus().equals("5")){
-                                        tv_to_pay.setVisibility(View.GONE);
-                                        qx_to.setVisibility(View.GONE);
-                                        qrsh_to.setVisibility(View.GONE);
-                                        qpj_to.setVisibility(View.GONE);
-                                        tk_to.setVisibility(View.GONE);
-                                        del_order_to.setVisibility(View.VISIBLE);
-                                    }else if(bean.getData().getOrderStatus().equals("6") ){
-                                        tv_to_pay.setVisibility(View.GONE);
-                                        qx_to.setVisibility(View.GONE);
-                                        qrsh_to.setVisibility(View.GONE);
-                                        qpj_to.setVisibility(View.GONE);
-                                        tk_to.setVisibility(View.GONE);
-                                        del_order_to.setVisibility(View.VISIBLE);
-                                    }else if(bean.getData().getOrderStatus().equals("7")){
-                                        tv_to_pay.setVisibility(View.GONE);
-                                        qx_to.setVisibility(View.GONE);
-                                        qrsh_to.setVisibility(View.GONE);
-                                        qpj_to.setVisibility(View.GONE);
-                                        tk_to.setVisibility(View.GONE);
-                                        del_order_to.setVisibility(View.VISIBLE);
-                                    }
-                                }else{//不等于空
-                                    r_address.setVisibility(View.GONE);//隐藏
-                                    tv_goods_title.setText(bean.getData().getGoodsTitle());
-                                    Glide.with(context).load(NetUrl.BASE_URL+bean.getData().getGoodsPictureApp()).into(iv_goods_img);
-                                    order_sn.setText(bean.getData().getId());
-                                    add_time.setText(bean.getData().getCreateTime());
-                                    pay_type.setText(bean.getData().getPaymentMode());
-                                    fsc_time.setVisibility(View.VISIBLE);
-                                    h_x.setVisibility(View.VISIBLE);
-                                    sc_time.setText(bean.getData().getStartTime()+"至"+bean.getData().getEndTime());
-                                    count_money.setText("¥"+StringUtils.roundByScale(bean.getData().getOrderPrice(), 2)+"");
-                                    yunfei.setText("¥"+StringUtils.roundByScale(bean.getData().getFreightMoney(), 2));
-                                    payAll = bean.getData().getOrderPrice()+bean.getData().getFreightMoney();
-                                    zong_money.setText("¥"+StringUtils.roundByScale(payAll, 2));
-                                    if (bean.getData().getInvoiceId().equals("0")){
-                                        fp_type.setText("不开发票");
-                                    }else{
-                                        fp_type.setText("开发票");
-                                    }
-                                    if(bean.getData().getOrderStatus().equals("0")){
-                                        tv_to_pay.setVisibility(View.VISIBLE);
-                                        tk_to.setVisibility(View.GONE);
-                                        qrsh_to.setVisibility(View.GONE);
-                                        qpj_to.setVisibility(View.GONE);
-                                        del_order_to.setVisibility(View.GONE);
-                                        qx_to.setVisibility(View.VISIBLE);
-                                    }else if(bean.getData().getOrderStatus().equals("1") || bean.getData().getOrderStatus().equals("2")){
-                                        tv_to_pay.setVisibility(View.GONE);
-                                        qx_to.setVisibility(View.GONE);
-                                        tk_to.setVisibility(View.VISIBLE);
-                                        qrsh_to.setVisibility(View.GONE);
-                                        qpj_to.setVisibility(View.GONE);
-                                        del_order_to.setVisibility(View.GONE);
-                                    }else if(bean.getData().getOrderStatus().equals("3")){
-                                        tv_to_pay.setVisibility(View.GONE);
-                                        qx_to.setVisibility(View.GONE);
-                                        tk_to.setVisibility(View.GONE);
-                                        qrsh_to.setVisibility(View.VISIBLE);
-                                        qpj_to.setVisibility(View.GONE);
-                                        del_order_to.setVisibility(View.GONE);
-                                    }else if(bean.getData().getOrderStatus().equals("4")){
-                                        tv_to_pay.setVisibility(View.GONE);
-                                        qx_to.setVisibility(View.GONE);
-                                        tk_to.setVisibility(View.GONE);
-                                        qrsh_to.setVisibility(View.GONE);
-                                        qpj_to.setVisibility(View.VISIBLE);
-                                        del_order_to.setVisibility(View.GONE);
-                                    }else if(bean.getData().getOrderStatus().equals("5")){
-                                        tv_to_pay.setVisibility(View.GONE);
-                                        qx_to.setVisibility(View.GONE);
-                                        qrsh_to.setVisibility(View.GONE);
-                                        qpj_to.setVisibility(View.GONE);
-                                        tk_to.setVisibility(View.GONE);
-                                        del_order_to.setVisibility(View.VISIBLE);
-                                    }else if(bean.getData().getOrderStatus().equals("6") ){
-                                        tv_to_pay.setVisibility(View.GONE);
-                                        qx_to.setVisibility(View.GONE);
-                                        qrsh_to.setVisibility(View.GONE);
-                                        qpj_to.setVisibility(View.GONE);
-                                        tk_to.setVisibility(View.GONE);
-                                        del_order_to.setVisibility(View.VISIBLE);
-                                    }else if(bean.getData().getOrderStatus().equals("7")){
-                                        tv_to_pay.setVisibility(View.GONE);
-                                        qx_to.setVisibility(View.GONE);
-                                        qrsh_to.setVisibility(View.GONE);
-                                        qpj_to.setVisibility(View.GONE);
-                                        tk_to.setVisibility(View.GONE);
-                                        del_order_to.setVisibility(View.VISIBLE);
-                                    }
-                                }
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
 
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
+    private void initdata() {
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("goodsOrderId", id);
+        ViseUtil.Get(context, NetUrl.AppOrderorderDetails, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                OrderDetailsBean bean = gson.fromJson(s, OrderDetailsBean.class);
+                getGoodsPictureApp = bean.getData().getGoodsPictureApp();
+                getGoodsTitle = bean.getData().getGoodsTitle();
+                orderSn = bean.getData().getId();
+                if (bean.getData().getGoodsId().isEmpty()) {//等于空
+                    r_address.setVisibility(View.VISIBLE);//显示
+                    tv_goods_title.setText(bean.getData().getGoodsTitle());
+                    Glide.with(context).load(NetUrl.BASE_URL + bean.getData().getGoodsPictureApp()).into(iv_goods_img);
+                    sh_name.setText(bean.getData().getAddresUname());
+                    sh_phone.setText(bean.getData().getAddresPhone());
+                    sh_address.setText("地址:" + bean.getData().getAddresName());
+                    order_sn.setText(bean.getData().getId());
+                    add_time.setText(bean.getData().getCreateTime());
+                    pay_type.setText(bean.getData().getPaymentMode());
+                    fsc_time.setVisibility(View.GONE);
+                    h_x.setVisibility(View.GONE);
+                    count_money.setText("¥" + StringUtils.roundByScale(bean.getData().getOrderPrice(), 2) + "");
+                    yunfei.setText("¥" + StringUtils.roundByScale(bean.getData().getFreightMoney(), 2));
+                    payAll = bean.getData().getOrderPrice() + bean.getData().getFreightMoney();
+                    zong_money.setText("¥" + StringUtils.roundByScale(payAll, 2));
+                    if (bean.getData().getInvoiceId().equals("0")) {
+                        fp_type.setText("不开发票");
+                    } else {
+                        fp_type.setText("开发票");
                     }
-                });
+                    if (bean.getData().getOrderStatus().equals("0")) {
+                        tv_to_pay.setVisibility(View.VISIBLE);
+                        tk_to.setVisibility(View.GONE);
+                        qrsh_to.setVisibility(View.GONE);
+                        qpj_to.setVisibility(View.GONE);
+                        del_order_to.setVisibility(View.GONE);
+                        qx_to.setVisibility(View.VISIBLE);
+                    } else if (bean.getData().getOrderStatus().equals("1") || bean.getData().getOrderStatus().equals("2")) {
+                        tv_to_pay.setVisibility(View.GONE);
+                        qx_to.setVisibility(View.GONE);
+                        tk_to.setVisibility(View.VISIBLE);
+                        qrsh_to.setVisibility(View.GONE);
+                        qpj_to.setVisibility(View.GONE);
+                        del_order_to.setVisibility(View.GONE);
+                    } else if (bean.getData().getOrderStatus().equals("3")) {
+                        tv_to_pay.setVisibility(View.GONE);
+                        qx_to.setVisibility(View.GONE);
+                        tk_to.setVisibility(View.GONE);
+                        qrsh_to.setVisibility(View.VISIBLE);
+                        qpj_to.setVisibility(View.GONE);
+                        del_order_to.setVisibility(View.GONE);
+                    } else if (bean.getData().getOrderStatus().equals("4")) {
+                        tv_to_pay.setVisibility(View.GONE);
+                        qx_to.setVisibility(View.GONE);
+                        tk_to.setVisibility(View.GONE);
+                        qrsh_to.setVisibility(View.GONE);
+                        qpj_to.setVisibility(View.VISIBLE);
+                        del_order_to.setVisibility(View.GONE);
+                    } else if (bean.getData().getOrderStatus().equals("5")) {
+                        tv_to_pay.setVisibility(View.GONE);
+                        qx_to.setVisibility(View.GONE);
+                        qrsh_to.setVisibility(View.GONE);
+                        qpj_to.setVisibility(View.GONE);
+                        tk_to.setVisibility(View.GONE);
+                        del_order_to.setVisibility(View.VISIBLE);
+                    } else if (bean.getData().getOrderStatus().equals("6")) {
+                        tv_to_pay.setVisibility(View.GONE);
+                        qx_to.setVisibility(View.GONE);
+                        qrsh_to.setVisibility(View.GONE);
+                        qpj_to.setVisibility(View.GONE);
+                        tk_to.setVisibility(View.GONE);
+                        del_order_to.setVisibility(View.VISIBLE);
+                    } else if (bean.getData().getOrderStatus().equals("7")) {
+                        tv_to_pay.setVisibility(View.GONE);
+                        qx_to.setVisibility(View.GONE);
+                        qrsh_to.setVisibility(View.GONE);
+                        qpj_to.setVisibility(View.GONE);
+                        tk_to.setVisibility(View.GONE);
+                        del_order_to.setVisibility(View.VISIBLE);
+                    }
+                } else {//不等于空
+                    r_address.setVisibility(View.GONE);//隐藏
+                    tv_goods_title.setText(bean.getData().getGoodsTitle());
+                    Glide.with(context).load(NetUrl.BASE_URL + bean.getData().getGoodsPictureApp()).into(iv_goods_img);
+                    order_sn.setText(bean.getData().getId());
+                    add_time.setText(bean.getData().getCreateTime());
+                    pay_type.setText(bean.getData().getPaymentMode());
+                    fsc_time.setVisibility(View.VISIBLE);
+                    h_x.setVisibility(View.VISIBLE);
+                    sc_time.setText(bean.getData().getStartTime() + "至" + bean.getData().getEndTime());
+                    count_money.setText("¥" + StringUtils.roundByScale(bean.getData().getOrderPrice(), 2) + "");
+                    yunfei.setText("¥" + StringUtils.roundByScale(bean.getData().getFreightMoney(), 2));
+                    payAll = bean.getData().getOrderPrice() + bean.getData().getFreightMoney();
+                    zong_money.setText("¥" + StringUtils.roundByScale(payAll, 2));
+                    if (bean.getData().getInvoiceId().equals("0")) {
+                        fp_type.setText("不开发票");
+                    } else {
+                        fp_type.setText("开发票");
+                    }
+                    if (bean.getData().getOrderStatus().equals("0")) {
+                        tv_to_pay.setVisibility(View.VISIBLE);
+                        tk_to.setVisibility(View.GONE);
+                        qrsh_to.setVisibility(View.GONE);
+                        qpj_to.setVisibility(View.GONE);
+                        del_order_to.setVisibility(View.GONE);
+                        qx_to.setVisibility(View.VISIBLE);
+                    } else if (bean.getData().getOrderStatus().equals("1") || bean.getData().getOrderStatus().equals("2")) {
+                        tv_to_pay.setVisibility(View.GONE);
+                        qx_to.setVisibility(View.GONE);
+                        tk_to.setVisibility(View.VISIBLE);
+                        qrsh_to.setVisibility(View.GONE);
+                        qpj_to.setVisibility(View.GONE);
+                        del_order_to.setVisibility(View.GONE);
+                    } else if (bean.getData().getOrderStatus().equals("3")) {
+                        tv_to_pay.setVisibility(View.GONE);
+                        qx_to.setVisibility(View.GONE);
+                        tk_to.setVisibility(View.GONE);
+                        qrsh_to.setVisibility(View.VISIBLE);
+                        qpj_to.setVisibility(View.GONE);
+                        del_order_to.setVisibility(View.GONE);
+                    } else if (bean.getData().getOrderStatus().equals("4")) {
+                        tv_to_pay.setVisibility(View.GONE);
+                        qx_to.setVisibility(View.GONE);
+                        tk_to.setVisibility(View.GONE);
+                        qrsh_to.setVisibility(View.GONE);
+                        qpj_to.setVisibility(View.VISIBLE);
+                        del_order_to.setVisibility(View.GONE);
+                    } else if (bean.getData().getOrderStatus().equals("5")) {
+                        tv_to_pay.setVisibility(View.GONE);
+                        qx_to.setVisibility(View.GONE);
+                        qrsh_to.setVisibility(View.GONE);
+                        qpj_to.setVisibility(View.GONE);
+                        tk_to.setVisibility(View.GONE);
+                        del_order_to.setVisibility(View.VISIBLE);
+                    } else if (bean.getData().getOrderStatus().equals("6")) {
+                        tv_to_pay.setVisibility(View.GONE);
+                        qx_to.setVisibility(View.GONE);
+                        qrsh_to.setVisibility(View.GONE);
+                        qpj_to.setVisibility(View.GONE);
+                        tk_to.setVisibility(View.GONE);
+                        del_order_to.setVisibility(View.VISIBLE);
+                    } else if (bean.getData().getOrderStatus().equals("7")) {
+                        tv_to_pay.setVisibility(View.GONE);
+                        qx_to.setVisibility(View.GONE);
+                        qrsh_to.setVisibility(View.GONE);
+                        qpj_to.setVisibility(View.GONE);
+                        tk_to.setVisibility(View.GONE);
+                        del_order_to.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
     }
-    @OnClick({R.id.rl_back, R.id.tv_to_pay,R.id.qx_to,R.id.del_order_to,R.id.qpj_to,R.id.tk_to,R.id.qrsh_to, R.id.btn_copy})
-    public void onClick(View view){
+
+    @OnClick({R.id.rl_back, R.id.tv_to_pay, R.id.qx_to, R.id.del_order_to, R.id.qpj_to, R.id.tk_to, R.id.qrsh_to, R.id.btn_copy})
+    public void onClick(View view) {
         Intent intent = new Intent();
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_copy:
                 StringUtils.copy(orderSn, context);
                 ToastUtil.showShort(context, "已复制到剪切板");
@@ -330,74 +324,56 @@ public class OrderDetailsActivity extends AppCompatActivity {
                 break;
         }
     }
-    public void refund_order(){
-        ViseHttp.GET(NetUrl.AppOrderorderRefund)
-                .addParam("id",id)
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject1 = new JSONObject(data);
-                            if (jsonObject1.optString("data").equals("已退款")){
-                                ToastUtil.showShort(context, "退款成功!");
-                                finish();
-                                /*mList.remove(pos);
-                                adapter.notifyDataSetChanged();*/
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
 
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
+    public void refund_order() {
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("id", id);
+        ViseUtil.Get(context, NetUrl.AppOrderorderRefund, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                try {
+                    JSONObject jsonObject1 = new JSONObject(s);
+                    if (jsonObject1.optString("data").equals("已退款")) {
+                        ToastUtil.showShort(context, "退款成功!");
+                        finish();
                     }
-                });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
-    public void del_order(){
+
+    public void del_order() {
         DialogCustom dialogCustom = new DialogCustom(context, "确定删除?", new DialogCustom.OnYesListener() {
             @Override
             public void onYes() {
-                ViseHttp.GET(NetUrl.AppOrdertoDelete)
-                        .addParam("goodsOrderId",id)
-                        .request(new ACallback<String>() {
-                            @Override
-                            public void onSuccess(String d) {
-                                try {
-                                    JSONObject jsonObject = new JSONObject(d);
-                                    if (jsonObject.optString("status").equals("200")){
-                                        ToastUtil.showShort(context, "删除订单成功!");
-                                        finish();
-                                        /*data.remove(position);
-                                        notifyDataSetChanged();*/
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onFail(int errCode, String errMsg) {
-
-                            }
-                        });
+                Map<String, String> map = new LinkedHashMap<>();
+                map.put("goodsOrderId", id);
+                ViseUtil.Get(context, NetUrl.AppOrdertoDelete, map, new ViseUtil.ViseListener() {
+                    @Override
+                    public void onReturn(String s) {
+                        ToastUtil.showShort(context, "删除订单成功!");
+                        finish();
+                    }
+                });
             }
         });
         dialogCustom.show();
     }
-    public void cancel_order(){
+
+    public void cancel_order() {
         DialogCustom dialogCustom = new DialogCustom(context, "确认取消订单?", new DialogCustom.OnYesListener() {
             @Override
             public void onYes() {
                 ViseHttp.POST(NetUrl.AppOrdercancellationOrder)
-                        .addParam("goodsOrderId",id)
+                        .addParam("goodsOrderId", id)
                         .request(new ACallback<String>() {
                             @Override
                             public void onSuccess(String d) {
                                 try {
                                     JSONObject jsonObject = new JSONObject(d);
-                                    if (jsonObject.optString("data").equals("Success")){
+                                    if (jsonObject.optString("data").equals("Success")) {
                                         ToastUtil.showShort(context, "取消订单成功!");
                                         finish();
                                     }
@@ -415,30 +391,20 @@ public class OrderDetailsActivity extends AppCompatActivity {
         });
         dialogCustom.show();
     }
-    public void to_pay(){//去支付
-        ViseHttp.GET(NetUrl.AppOrderlistOrdersSubmitted)
-                .addParam("id",id)
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if (jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                WxPayBean wxPayBean = gson.fromJson(data, WxPayBean.class);
-                                wxPay(wxPayBean);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
 
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
-                    }
-                });
+    public void to_pay() {//去支付
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("id", id);
+        ViseUtil.Get(context, NetUrl.AppOrderlistOrdersSubmitted, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                WxPayBean wxPayBean = gson.fromJson(s, WxPayBean.class);
+                wxPay(wxPayBean);
+            }
+        });
     }
+
     public void wxPay(WxPayBean model) {
         api.registerApp(WXShare.APP_ID);
         PayReq req = new PayReq();

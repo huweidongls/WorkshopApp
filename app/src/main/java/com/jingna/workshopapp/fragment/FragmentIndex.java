@@ -32,6 +32,7 @@ import com.jingna.workshopapp.page.ShareListActivity;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.jingna.workshopapp.widget.ObservableScrollView;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -47,7 +48,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -113,35 +116,22 @@ public class FragmentIndex extends BaseFragment {
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
                 initBanner();
                 initChejianShow();
-                ViseHttp.GET(NetUrl.AppCrowdFundingfindByPopular)
-                        .addParam("pageSize", "1")
-                        .addParam("pageNum", "2")
-                        .request(new ACallback<String>() {
-                            @Override
-                            public void onSuccess(String data) {
-                                try {
-                                    JSONObject jsonObject = new JSONObject(data);
-                                    if(jsonObject.optString("status").equals("200")){
-                                        Gson gson = new Gson();
-                                        CrowdPopularBean popularBean = gson.fromJson(data, CrowdPopularBean.class);
-                                        mList.clear();
-                                        mList.addAll(popularBean.getData());
-                                        adapter.notifyDataSetChanged();
-                                        page = 2;
-                                        tvMore.setVisibility(View.VISIBLE);
-                                        tvNo.setVisibility(View.GONE);
-                                    }
-                                    refreshLayout.finishRefresh(500);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onFail(int errCode, String errMsg) {
-                                refreshLayout.finishRefresh(500);
-                            }
-                        });
+                Map<String, String> map = new LinkedHashMap<>();
+                map.put("pageSize", "1");
+                map.put("pageNum", "2");
+                ViseUtil.Get(getContext(), NetUrl.AppCrowdFundingfindByPopular, map, refreshLayout, 0, new ViseUtil.ViseListener() {
+                    @Override
+                    public void onReturn(String s) {
+                        Gson gson = new Gson();
+                        CrowdPopularBean popularBean = gson.fromJson(s, CrowdPopularBean.class);
+                        mList.clear();
+                        mList.addAll(popularBean.getData());
+                        adapter.notifyDataSetChanged();
+                        page = 2;
+                        tvMore.setVisibility(View.VISIBLE);
+                        tvNo.setVisibility(View.GONE);
+                    }
+                });
             }
         });
 
@@ -152,67 +142,43 @@ public class FragmentIndex extends BaseFragment {
      */
     private void initChejianShow() {
 
-        ViseHttp.GET(NetUrl.AppShopCategoryqueryChildList)
-                .addParam("pid", "1")
-                .addParam("pageSize", "1")
-                .addParam("pageNum", "5")
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                CategoryQueryChildListBean childListBean = gson.fromJson(data, CategoryQueryChildListBean.class);
-                                List<CategoryQueryChildListBean.DataBean> list = childListBean.getData();
-                                if(list.size()>1){
-                                    Glide.with(getContext()).load(NetUrl.BASE_URL+list.get(0).getAppCategoryPic()).into(ivShow1);
-                                    Glide.with(getContext()).load(NetUrl.BASE_URL+list.get(1).getAppCategoryPic()).into(ivShow2);
-                                    id1 = list.get(0).getId()+"";
-                                    id2 = list.get(1).getId()+"";
-                                }
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
-                    }
-                });
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("pid", "1");
+        map.put("pageSize", "1");
+        map.put("pageNum", "5");
+        ViseUtil.Get(getContext(), NetUrl.AppShopCategoryqueryChildList, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                CategoryQueryChildListBean childListBean = gson.fromJson(s, CategoryQueryChildListBean.class);
+                List<CategoryQueryChildListBean.DataBean> list = childListBean.getData();
+                if(list.size()>1){
+                    Glide.with(getContext()).load(NetUrl.BASE_URL+list.get(0).getAppCategoryPic()).into(ivShow1);
+                    Glide.with(getContext()).load(NetUrl.BASE_URL+list.get(1).getAppCategoryPic()).into(ivShow2);
+                    id1 = list.get(0).getId()+"";
+                    id2 = list.get(1).getId()+"";
+                }
+            }
+        });
 
     }
 
     private void initBanner() {
 
-        ViseHttp.GET(NetUrl.IndexPageApifindBanner)
-                .addParam("type", "0")
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                BannerBean bannerBean = gson.fromJson(data, BannerBean.class);
-                                List<String> bannerList = new ArrayList<>();
-                                for (BannerBean.DataBean bean : bannerBean.getData()){
-                                    bannerList.add(NetUrl.BASE_URL+bean.getAppPic());
-                                }
-                                init(banner, bannerList);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
-                    }
-                });
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("type", "0");
+        ViseUtil.Get(getContext(), NetUrl.IndexPageApifindBanner, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                BannerBean bannerBean = gson.fromJson(s, BannerBean.class);
+                List<String> bannerList = new ArrayList<>();
+                for (BannerBean.DataBean bean : bannerBean.getData()){
+                    bannerList.add(NetUrl.BASE_URL+bean.getAppPic());
+                }
+                init(banner, bannerList);
+            }
+        });
 
     }
 
@@ -238,40 +204,28 @@ public class FragmentIndex extends BaseFragment {
             }
         });
 
-        ViseHttp.GET(NetUrl.AppCrowdFundingfindByPopular)
-                .addParam("pageSize", page + "")
-                .addParam("pageNum", "2")
-                .request(new ACallback<String>() {
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("pageSize", page + "");
+        map.put("pageNum", "2");
+        ViseUtil.Get(getContext(), NetUrl.AppCrowdFundingfindByPopular, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                CrowdPopularBean popularBean = gson.fromJson(s, CrowdPopularBean.class);
+                mList = popularBean.getData();
+                adapter = new IndexAdapter(mList);
+                LinearLayoutManager manager = new LinearLayoutManager(getContext()){
                     @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                CrowdPopularBean popularBean = gson.fromJson(data, CrowdPopularBean.class);
-                                mList = popularBean.getData();
-                                adapter = new IndexAdapter(mList);
-                                LinearLayoutManager manager = new LinearLayoutManager(getContext()){
-                                    @Override
-                                    public boolean canScrollVertically() {
-                                        return false;
-                                    }
-                                };
-                                manager.setOrientation(LinearLayoutManager.VERTICAL);
-                                recyclerView.setLayoutManager(manager);
-                                recyclerView.setAdapter(adapter);
-                                page = page + 1;
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                    public boolean canScrollVertically() {
+                        return false;
                     }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
-                    }
-                });
+                };
+                manager.setOrientation(LinearLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(manager);
+                recyclerView.setAdapter(adapter);
+                page = page + 1;
+            }
+        });
 
     }
 
@@ -369,29 +323,15 @@ public class FragmentIndex extends BaseFragment {
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
                     String result = bundle.getString(CodeUtils.RESULT_STRING);
 //                    Toast.makeText(getContext(), "解析结果:" + result, Toast.LENGTH_LONG).show();
-                    ViseHttp.POST(NetUrl.MemUsertoUpdate)
-                            .addParam("id", SpUtils.getUserId(getContext()))
-                            .addParam("superiorInvitationCode", result)
-                            .request(new ACallback<String>() {
-                                @Override
-                                public void onSuccess(String data) {
-                                    try {
-                                        JSONObject jsonObject = new JSONObject(data);
-                                        if(jsonObject.optString("status").equals("200")){
-                                            ToastUtil.showShort(getContext(), "添加成功");
-                                        }else {
-                                            ToastUtil.showShort(getContext(), "添加失败");
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                @Override
-                                public void onFail(int errCode, String errMsg) {
-
-                                }
-                            });
+                    Map<String, String> map = new LinkedHashMap<>();
+                    map.put("id", SpUtils.getUserId(getContext()));
+                    map.put("superiorInvitationCode", result);
+                    ViseUtil.Post(getContext(), NetUrl.MemUsertoUpdate, map, new ViseUtil.ViseListener() {
+                        @Override
+                        public void onReturn(String s) {
+                            ToastUtil.showShort(getContext(), "添加成功");
+                        }
+                    });
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                     Toast.makeText(getContext(), "解析二维码失败", Toast.LENGTH_LONG).show();
                 }
@@ -402,38 +342,26 @@ public class FragmentIndex extends BaseFragment {
     private void more() {
 
         tvMore.setVisibility(View.INVISIBLE);
-        ViseHttp.GET(NetUrl.AppCrowdFundingfindByPopular)
-                .addParam("pageSize", page + "")
-                .addParam("pageNum", "2")
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                CrowdPopularBean popularBean = gson.fromJson(data, CrowdPopularBean.class);
-                                if(popularBean.getData().size()>0){
-                                    mList.addAll(popularBean.getData());
-                                    adapter.notifyDataSetChanged();
-                                    page = page + 1;
-                                    tvMore.setVisibility(View.VISIBLE);
-                                }else {
-                                    ToastUtil.showShort(getContext(), "已经到底了");
-                                    tvMore.setVisibility(View.GONE);
-                                    tvNo.setVisibility(View.VISIBLE);
-                                }
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
-                    }
-                });
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("pageSize", page + "");
+        map.put("pageNum", "2");
+        ViseUtil.Get(getContext(), NetUrl.AppCrowdFundingfindByPopular, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                CrowdPopularBean popularBean = gson.fromJson(s, CrowdPopularBean.class);
+                if(popularBean.getData().size()>0){
+                    mList.addAll(popularBean.getData());
+                    adapter.notifyDataSetChanged();
+                    page = page + 1;
+                    tvMore.setVisibility(View.VISIBLE);
+                }else {
+                    ToastUtil.showShort(getContext(), "已经到底了");
+                    tvMore.setVisibility(View.GONE);
+                    tvNo.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
     }
 

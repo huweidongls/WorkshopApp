@@ -37,13 +37,16 @@ import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -116,37 +119,25 @@ public class ZhongchouDetailsActivity extends BaseActivity {
 
     private void initData() {
 
-        ViseHttp.GET(NetUrl.AppCrowdFundinggetByCfIdAndUserId)
-                .addParam("userId", SpUtils.getUserId(context))
-                .addParam("crowdFundingId", id)
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                GetByCfIdAndUserIdBean bean = gson.fromJson(data, GetByCfIdAndUserIdBean.class);
-                                collection = Integer.valueOf(bean.getData().getCrowdFundingNum());
-                                tvCollectionNum.setText("收藏 "+collection);
-                                tvCommentNum.setText("评论 "+bean.getData().getEvaluteNum());
-                                isCollection = bean.getData().getIsCollect();
-                                if(isCollection.equals("0")){
-                                    Glide.with(context).load(R.mipmap.star_null_b).into(ivCollection);
-                                }else if(isCollection.equals("1")){
-                                    Glide.with(context).load(R.mipmap.star_b).into(ivCollection);
-                                }
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
-                    }
-                });
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("userId", SpUtils.getUserId(context));
+        map.put("crowdFundingId", id);
+        ViseUtil.Get(context, NetUrl.AppCrowdFundinggetByCfIdAndUserId, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                GetByCfIdAndUserIdBean bean = gson.fromJson(s, GetByCfIdAndUserIdBean.class);
+                collection = Integer.valueOf(bean.getData().getCrowdFundingNum());
+                tvCollectionNum.setText("收藏 "+collection);
+                tvCommentNum.setText("评论 "+bean.getData().getEvaluteNum());
+                isCollection = bean.getData().getIsCollect();
+                if(isCollection.equals("0")){
+                    Glide.with(context).load(R.mipmap.star_null_b).into(ivCollection);
+                }else if(isCollection.equals("1")){
+                    Glide.with(context).load(R.mipmap.star_b).into(ivCollection);
+                }
+            }
+        });
 
     }
 
@@ -163,61 +154,49 @@ public class ZhongchouDetailsActivity extends BaseActivity {
         tvFahuo = view.findViewById(R.id.tv_fahuo);
         tvQuzhichi = view.findViewById(R.id.tv_quzhichi);
 
-        ViseHttp.GET(NetUrl.AppCrowdFundinggetGearPositionById)
-                .addParam("id", id)
-                .request(new ACallback<String>() {
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("id", id);
+        ViseUtil.Get(context, NetUrl.AppCrowdFundinggetGearPositionById, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                ZhongchouPopBean popBean = gson.fromJson(s, ZhongchouPopBean.class);
+                mList = popBean.getData();
+                popAdapter = new ZhongchouPopAdapter(mList, new ZhongchouPopAdapter.ClickListener() {
                     @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if (jsonObject.optString("status").equals("200")) {
-                                Gson gson = new Gson();
-                                ZhongchouPopBean popBean = gson.fromJson(data, ZhongchouPopBean.class);
-                                mList = popBean.getData();
-                                popAdapter = new ZhongchouPopAdapter(mList, new ZhongchouPopAdapter.ClickListener() {
-                                    @Override
-                                    public void onClick(int pos) {
-                                        Glide.with(context).load(NetUrl.BASE_URL + mList.get(pos).getGearPictureApp()).into(ivPop);
-                                        tvTitle.setText(mList.get(pos).getGearSubtitle());
-                                        dangweiId = mList.get(pos).getId()+"";
-                                        if(mList.get(pos).getFreight() == 0){
-                                            tvYunfei.setText("配送运费：免运费");
-                                        }else {
-                                            tvYunfei.setText("配送运费："+mList.get(pos).getFreight()+"元");
-                                        }
-                                        tvFahuo.setText("预计发货时间：众筹成功后"+mList.get(pos).getDeliveryTime()+"天");
-                                    }
-                                });
-                                GridLayoutManager manager = new GridLayoutManager(context, 4) {
-                                    @Override
-                                    public boolean canScrollVertically() {
-                                        return false;
-                                    }
-                                };
-                                rvPop.setLayoutManager(manager);
-                                rvPop.setAdapter(popAdapter);
-                                if (mList.size() > 0) {
-                                    Glide.with(context).load(NetUrl.BASE_URL + mList.get(0).getGearPictureApp()).into(ivPop);
-                                    tvTitle.setText(mList.get(0).getGearSubtitle());
-                                    dangweiId = mList.get(0).getId()+"";
-                                    if(mList.get(0).getFreight() == 0){
-                                        tvYunfei.setText("配送运费：免运费");
-                                    }else {
-                                        tvYunfei.setText("配送运费："+mList.get(0).getFreight()+"元");
-                                    }
-                                    tvFahuo.setText("预计发货时间：众筹成功后"+mList.get(0).getDeliveryTime()+"天");
-                                }
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                    public void onClick(int pos) {
+                        Glide.with(context).load(NetUrl.BASE_URL + mList.get(pos).getGearPictureApp()).into(ivPop);
+                        tvTitle.setText(mList.get(pos).getGearSubtitle());
+                        dangweiId = mList.get(pos).getId()+"";
+                        if(mList.get(pos).getFreight() == 0){
+                            tvYunfei.setText("配送运费：免运费");
+                        }else {
+                            tvYunfei.setText("配送运费："+mList.get(pos).getFreight()+"元");
                         }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
+                        tvFahuo.setText("预计发货时间：众筹成功后"+mList.get(pos).getDeliveryTime()+"天");
                     }
                 });
+                GridLayoutManager manager = new GridLayoutManager(context, 4) {
+                    @Override
+                    public boolean canScrollVertically() {
+                        return false;
+                    }
+                };
+                rvPop.setLayoutManager(manager);
+                rvPop.setAdapter(popAdapter);
+                if (mList.size() > 0) {
+                    Glide.with(context).load(NetUrl.BASE_URL + mList.get(0).getGearPictureApp()).into(ivPop);
+                    tvTitle.setText(mList.get(0).getGearSubtitle());
+                    dangweiId = mList.get(0).getId()+"";
+                    if(mList.get(0).getFreight() == 0){
+                        tvYunfei.setText("配送运费：免运费");
+                    }else {
+                        tvYunfei.setText("配送运费："+mList.get(0).getFreight()+"元");
+                    }
+                    tvFahuo.setText("预计发货时间：众筹成功后"+mList.get(0).getDeliveryTime()+"天");
+                }
+            }
+        });
 
         tvJian.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -351,61 +330,37 @@ public class ZhongchouDetailsActivity extends BaseActivity {
                     intent.setClass(context, SMSLoginActivity.class);
                     startActivity(intent);
                 }else if(isCollection.equals("0")){
-                    ViseHttp.POST(NetUrl.AppGoodsShopisFollow)
-                            .addParam("goodsId", id)
-                            .addParam("memberId", SpUtils.getUserId(context))
-                            .addParam("goodsType", "1")
-                            .addParam("type", "1")
-                            .request(new ACallback<String>() {
-                                @Override
-                                public void onSuccess(String data) {
-                                    try {
-                                        JSONObject jsonObject = new JSONObject(data);
-                                        if(jsonObject.optString("status").equals("200")){
-                                            isCollection = "1";
-                                            Glide.with(context).load(R.mipmap.star_b).into(ivCollection);
-                                            collection = collection + 1;
-                                            tvCollectionNum.setText("收藏 "+collection);
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                @Override
-                                public void onFail(int errCode, String errMsg) {
-
-                                }
-                            });
+                    Map<String, String> map = new LinkedHashMap<>();
+                    map.put("goodsId", id);
+                    map.put("memberId", SpUtils.getUserId(context));
+                    map.put("goodsType", "1");
+                    map.put("type", "1");
+                    ViseUtil.Post(context, NetUrl.AppGoodsShopisFollow, map, new ViseUtil.ViseListener() {
+                        @Override
+                        public void onReturn(String s) {
+                            isCollection = "1";
+                            Glide.with(context).load(R.mipmap.star_b).into(ivCollection);
+                            collection = collection + 1;
+                            tvCollectionNum.setText("收藏 "+collection);
+                        }
+                    });
                 }else if(isCollection.equals("1")){
-                    ViseHttp.POST(NetUrl.AppGoodsShopisFollow)
-                            .addParam("goodsId", id)
-                            .addParam("memberId", SpUtils.getUserId(context))
-                            .addParam("goodsType", "1")
-                            .addParam("type", "0")
-                            .request(new ACallback<String>() {
-                                @Override
-                                public void onSuccess(String data) {
-                                    try {
-                                        JSONObject jsonObject = new JSONObject(data);
-                                        if(jsonObject.optString("status").equals("200")){
-                                            isCollection = "0";
-                                            Glide.with(context).load(R.mipmap.star_null_b).into(ivCollection);
-                                            if(collection>0){
-                                                collection = collection - 1;
-                                                tvCollectionNum.setText("收藏 "+collection);
-                                            }
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                @Override
-                                public void onFail(int errCode, String errMsg) {
-
-                                }
-                            });
+                    Map<String, String> map = new LinkedHashMap<>();
+                    map.put("goodsId", id);
+                    map.put("memberId", SpUtils.getUserId(context));
+                    map.put("goodsType", "1");
+                    map.put("type", "0");
+                    ViseUtil.Post(context, NetUrl.AppGoodsShopisFollow, map, new ViseUtil.ViseListener() {
+                        @Override
+                        public void onReturn(String s) {
+                            isCollection = "0";
+                            Glide.with(context).load(R.mipmap.star_null_b).into(ivCollection);
+                            if(collection>0){
+                                collection = collection - 1;
+                                tvCollectionNum.setText("收藏 "+collection);
+                            }
+                        }
+                    });
                 }
                 break;
         }

@@ -21,6 +21,7 @@ import com.jingna.workshopapp.bean.RaiseGetTypeBean;
 import com.jingna.workshopapp.customview.ScaleTransitionPagerTitleView;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.youth.banner.Banner;
@@ -38,7 +39,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,32 +76,20 @@ public class FragmentRaise extends BaseFragment {
 
     private void initBanner() {
 
-        ViseHttp.GET(NetUrl.IndexPageApifindBanner)
-                .addParam("type", "2")
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                BannerBean bannerBean = gson.fromJson(data, BannerBean.class);
-                                List<String> bannerList = new ArrayList<>();
-                                for (BannerBean.DataBean bean : bannerBean.getData()){
-                                    bannerList.add(NetUrl.BASE_URL+bean.getAppPic());
-                                }
-                                init(banner, bannerList);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
-                    }
-                });
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("type", "2");
+        ViseUtil.Get(getContext(), NetUrl.IndexPageApifindBanner, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                BannerBean bannerBean = gson.fromJson(s, BannerBean.class);
+                List<String> bannerList = new ArrayList<>();
+                for (BannerBean.DataBean bean : bannerBean.getData()){
+                    bannerList.add(NetUrl.BASE_URL+bean.getAppPic());
+                }
+                init(banner, bannerList);
+            }
+        });
 
     }
 
@@ -114,67 +105,54 @@ public class FragmentRaise extends BaseFragment {
 
         fragmentList = new ArrayList<>();
         mTitleDataList = new ArrayList<>();
-        ViseHttp.GET(NetUrl.AppCrowdFundinggetType)
-                .request(new ACallback<String>() {
+        ViseUtil.Get(getContext(), NetUrl.AppCrowdFundinggetType, null, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                RaiseGetTypeBean bean = gson.fromJson(s, RaiseGetTypeBean.class);
+                List<RaiseGetTypeBean.DataBean> list = bean.getData();
+                for (RaiseGetTypeBean.DataBean bean1 : list) {
+                    mTitleDataList.add(bean1.getName());
+                    fragmentList.add(FragmentTuijian.newInstance(bean1.getId() + ""));
+                }
+                GoodsDetailsViewpagerAdapter mViewPagerFragmentAdapter = new GoodsDetailsViewpagerAdapter(mFragmentManager, fragmentList);
+                mViewPager.setAdapter(mViewPagerFragmentAdapter);
+                CommonNavigator commonNavigator = new CommonNavigator(getContext());
+                commonNavigator.setAdapter(new CommonNavigatorAdapter() {
                     @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if (jsonObject.optString("status").equals("200")) {
-                                Gson gson = new Gson();
-                                RaiseGetTypeBean bean = gson.fromJson(data, RaiseGetTypeBean.class);
-                                List<RaiseGetTypeBean.DataBean> list = bean.getData();
-                                for (RaiseGetTypeBean.DataBean bean1 : list) {
-                                    mTitleDataList.add(bean1.getName());
-                                    fragmentList.add(FragmentTuijian.newInstance(bean1.getId() + ""));
-                                }
-                                GoodsDetailsViewpagerAdapter mViewPagerFragmentAdapter = new GoodsDetailsViewpagerAdapter(mFragmentManager, fragmentList);
-                                mViewPager.setAdapter(mViewPagerFragmentAdapter);
-                                CommonNavigator commonNavigator = new CommonNavigator(getContext());
-                                commonNavigator.setAdapter(new CommonNavigatorAdapter() {
-                                    @Override
-                                    public int getCount() {
-                                        return mTitleDataList == null ? 0 : mTitleDataList.size();
-                                    }
-
-                                    @Override
-                                    public IPagerTitleView getTitleView(Context context, final int index) {
-                                        SimplePagerTitleView simplePagerTitleView = new ScaleTransitionPagerTitleView(context);
-                                        simplePagerTitleView.setText(mTitleDataList.get(index));
-                                        //设置字体
-                                        simplePagerTitleView.setPadding(70, 0, 70, 0);
-                                        simplePagerTitleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
-                                        simplePagerTitleView.setNormalColor(Color.parseColor("#B2B2B2"));
-                                        simplePagerTitleView.setSelectedColor(Color.parseColor("#ffffff"));
-                                        simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                mViewPager.setCurrentItem(index);
-                                            }
-                                        });
-                                        return simplePagerTitleView;
-                                    }
-
-                                    @Override
-                                    public IPagerIndicator getIndicator(Context context) {
-                                        LinePagerIndicator indicator = new LinePagerIndicator(context);
-                                        indicator.setColors(Color.parseColor("#ffffff"));
-                                        return indicator;
-                                    }
-                                });
-                                magicIndicator.setNavigator(commonNavigator);
-                                ViewPagerHelper.bind(magicIndicator, mViewPager);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                    public int getCount() {
+                        return mTitleDataList == null ? 0 : mTitleDataList.size();
                     }
 
                     @Override
-                    public void onFail(int errCode, String errMsg) {
+                    public IPagerTitleView getTitleView(Context context, final int index) {
+                        SimplePagerTitleView simplePagerTitleView = new ScaleTransitionPagerTitleView(context);
+                        simplePagerTitleView.setText(mTitleDataList.get(index));
+                        //设置字体
+                        simplePagerTitleView.setPadding(70, 0, 70, 0);
+                        simplePagerTitleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+                        simplePagerTitleView.setNormalColor(Color.parseColor("#B2B2B2"));
+                        simplePagerTitleView.setSelectedColor(Color.parseColor("#ffffff"));
+                        simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mViewPager.setCurrentItem(index);
+                            }
+                        });
+                        return simplePagerTitleView;
+                    }
 
+                    @Override
+                    public IPagerIndicator getIndicator(Context context) {
+                        LinePagerIndicator indicator = new LinePagerIndicator(context);
+                        indicator.setColors(Color.parseColor("#ffffff"));
+                        return indicator;
                     }
                 });
+                magicIndicator.setNavigator(commonNavigator);
+                ViewPagerHelper.bind(magicIndicator, mViewPager);
+            }
+        });
 
     }
 }

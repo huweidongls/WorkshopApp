@@ -20,6 +20,7 @@ import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.jingna.workshopapp.util.WeiboDialogUtils;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
@@ -27,6 +28,7 @@ import com.vise.xsnow.http.callback.ACallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -97,37 +99,22 @@ public class RegisterSetPwdActivity extends BaseActivity {
             ToastUtil.showShort(context, "密码长度为6-20位，请重新设置密码");
         }else {
             dialog = WeiboDialogUtils.createLoadingDialog(context, "请等待...");
-            ViseHttp.GET(NetUrl.MemUseraddMember)
-                    .addParam("phone", phoneNumber)
-                    .addParam("password", pwd)
-                    .addParam("yq", yq)
-                    .request(new ACallback<String>() {
-                        @Override
-                        public void onSuccess(String data) {
-                            try {
-                                Logger.e("123123", data);
-                                JSONObject jsonObject = new JSONObject(data);
-                                if(jsonObject.optString("status").equals("200")){
-                                    ToastUtil.showShort(context, "注册成功");
-                                    Gson gson = new Gson();
-                                    LoginBean loginBean = gson.fromJson(data, LoginBean.class);
-                                    SpUtils.setUserId(context, loginBean.getData().getUserId()+"");
-                                    SpUtils.setToken(context, loginBean.getData().getToken());
-                                    SpUtils.setPhoneNum(context, phoneNumber);
-                                    finish();
-                                }
-                                WeiboDialogUtils.closeDialog(dialog);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onFail(int errCode, String errMsg) {
-                            Logger.e("123123", errMsg);
-                            WeiboDialogUtils.closeDialog(dialog);
-                        }
-                    });
+            Map<String, String> map = new LinkedHashMap<>();
+            map.put("phone", phoneNumber);
+            map.put("password", pwd);
+            map.put("yq", yq);
+            ViseUtil.Get(context, NetUrl.MemUseraddMember, map, dialog, new ViseUtil.ViseListener() {
+                @Override
+                public void onReturn(String s) {
+                    ToastUtil.showShort(context, "注册成功");
+                    Gson gson = new Gson();
+                    LoginBean loginBean = gson.fromJson(s, LoginBean.class);
+                    SpUtils.setUserId(context, loginBean.getData().getUserId()+"");
+                    SpUtils.setToken(context, loginBean.getData().getToken());
+                    SpUtils.setPhoneNum(context, phoneNumber);
+                    finish();
+                }
+            });
         }
 
     }

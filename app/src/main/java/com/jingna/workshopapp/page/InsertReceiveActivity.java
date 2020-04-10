@@ -22,6 +22,7 @@ import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.StringUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
@@ -30,6 +31,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -134,33 +137,21 @@ public class InsertReceiveActivity extends BaseActivity {
         }else if(!StringUtils.isPhoneNumberValid(phoneNum)){
             ToastUtil.showShort(context, "请输入正确的手机号码");
         }else  {
-            ViseHttp.POST("/MemAdress/toUpdate")
-                    .addParam("memberId", userId)
-                    .addParam("consignee", name)
-                    .addParam("consigneeTel", phoneNum)
-                    .addParam("location", city)
-                    .addParam("adress", address)
-                    .addParam("acquiescentAdress", acquiescentAdress)
-                    .addParam("zipCode", zipCode)
-                    .request(new ACallback<String>() {
-                        @Override
-                        public void onSuccess(String data) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(data);
-                                if(jsonObject.optString("status").equals("200")){
-                                    ToastUtil.showShort(context, "保存成功");
-                                    finish();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onFail(int errCode, String errMsg) {
-
-                        }
-                    });
+            Map<String, String> map = new LinkedHashMap<>();
+            map.put("memberId", userId);
+            map.put("consignee", name);
+            map.put("consigneeTel", phoneNum);
+            map.put("location", city);
+            map.put("adress", address);
+            map.put("acquiescentAdress", acquiescentAdress);
+            map.put("zipCode", zipCode);
+            ViseUtil.Post(context, "/MemAdress/toUpdate", map, new ViseUtil.ViseListener() {
+                @Override
+                public void onReturn(String s) {
+                    ToastUtil.showShort(context, "保存成功");
+                    finish();
+                }
+            });
         }
 
     }

@@ -15,12 +15,16 @@ import com.jingna.workshopapp.bean.GetOneBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,32 +52,20 @@ public class YqActivity extends BaseActivity {
 
     private void initData() {
 
-        ViseHttp.GET(NetUrl.MemUsergetOne)
-                .addParam("id", SpUtils.getUserId(context))
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                GetOneBean bean = gson.fromJson(data, GetOneBean.class);
-                                tvYq.setText(bean.getData().getMemberUserInfo().getPersonalInvitationCode());
-                                Bitmap bitmap;
-                                bitmap = CodeUtils.createImage(bean.getData().getMemberUserInfo().getPersonalInvitationCode(), 400, 400, null);
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("id", SpUtils.getUserId(context));
+        ViseUtil.Get(context, NetUrl.MemUsergetOne, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                GetOneBean bean = gson.fromJson(s, GetOneBean.class);
+                tvYq.setText(bean.getData().getMemberUserInfo().getPersonalInvitationCode());
+                Bitmap bitmap;
+                bitmap = CodeUtils.createImage(bean.getData().getMemberUserInfo().getPersonalInvitationCode(), 400, 400, null);
 //                                Glide.with(context).load(bitmap).into(ivYq);
-                                ivYq.setImageBitmap(bitmap);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
-                    }
-                });
+                ivYq.setImageBitmap(bitmap);
+            }
+        });
 
     }
 

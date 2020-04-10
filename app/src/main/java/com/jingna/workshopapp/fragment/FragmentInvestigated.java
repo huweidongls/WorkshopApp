@@ -7,7 +7,6 @@ import android.view.View;
 
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.adapter.FragmentInvestigatedAdapter;
-import com.jingna.workshopapp.adapter.FragmentShouHouAdapter;
 import com.jingna.workshopapp.base.OrderBaseFragment;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -21,13 +20,14 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2019/8/13.
  */
 
-public class FragmentInvestigated extends OrderBaseFragment{
+public class FragmentInvestigated extends OrderBaseFragment {
     @BindView(R.id.rv)
     RecyclerView recyclerView;
     @BindView(R.id.refresh)
     SmartRefreshLayout smartRefreshLayout;
     private FragmentInvestigatedAdapter adapter;
     private List<String> mList;
+
     @Override
     public View initView() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_investigated, null);

@@ -17,6 +17,7 @@ import com.jingna.workshopapp.bean.OrderListBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -30,7 +31,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,58 +51,49 @@ public class FragmentDaiShouHuoOrder extends OrderBaseFragment {
     RelativeLayout empty_order_bloack;
     private FragmentDaiShouHuoOrderAdapter adapter;
     private List<OrderListBean.DataBean> mList;
-    private int page=1;
+    private int page = 1;
     private boolean isFirst = true;
+
     @Override
     public View initView() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_daishouhuo_order, null);
         ButterKnife.bind(this, view);
         return view;
     }
+
     @Override
     public void onStart() {
         super.onStart();
-        if(isFirst){
+        if (isFirst) {
             isFirst = false;
-        }else {
-            ViseHttp.GET(NetUrl.AppOrderActivityList)
-                    .addParam("pageNum", "1")
-                    .addParam("pageSize", "10")
-                    .addParam("type","2")
-                    .addParam("userId", SpUtils.getUserId(getContext()))
-                    .request(new ACallback<String>() {
-                        @Override
-                        public void onSuccess(String data) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(data);
-                                if (jsonObject.optString("status").equals("200")) {
-                                    Gson gson = new Gson();
-                                    OrderListBean bean = gson.fromJson(data, OrderListBean.class);
-                                    mList = bean.getData();
-                                    if (mList.size()>0){
-                                        empty_order_bloack.setVisibility(View.GONE);
-                                    }else{
-                                        empty_order_bloack.setVisibility(View.VISIBLE);
-                                    }
-                                    adapter = new FragmentDaiShouHuoOrderAdapter(mList);
-                                    LinearLayoutManager manager = new LinearLayoutManager(getContext());
-                                    manager.setOrientation(LinearLayoutManager.VERTICAL);
-                                    recyclerView.setLayoutManager(manager);
-                                    recyclerView.setAdapter(adapter);
-                                    page=2;
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onFail(int errCode, String errMsg) {
-
-                        }
-                    });
+        } else {
+            Map<String, String> map = new LinkedHashMap<>();
+            map.put("pageNum", "1");
+            map.put("pageSize", "10");
+            map.put("type", "2");
+            map.put("userId", SpUtils.getUserId(getContext()));
+            ViseUtil.Get(getContext(), NetUrl.AppOrderActivityList, map, new ViseUtil.ViseListener() {
+                @Override
+                public void onReturn(String s) {
+                    Gson gson = new Gson();
+                    OrderListBean bean = gson.fromJson(s, OrderListBean.class);
+                    mList = bean.getData();
+                    if (mList.size() > 0) {
+                        empty_order_bloack.setVisibility(View.GONE);
+                    } else {
+                        empty_order_bloack.setVisibility(View.VISIBLE);
+                    }
+                    adapter = new FragmentDaiShouHuoOrderAdapter(mList);
+                    LinearLayoutManager manager = new LinearLayoutManager(getContext());
+                    manager.setOrientation(LinearLayoutManager.VERTICAL);
+                    recyclerView.setLayoutManager(manager);
+                    recyclerView.setAdapter(adapter);
+                    page = 2;
+                }
+            });
         }
     }
+
     @Override
     public void initData() {
         smartRefreshLayout.setRefreshHeader(new MaterialHeader(getContext()));
@@ -107,105 +101,69 @@ public class FragmentDaiShouHuoOrder extends OrderBaseFragment {
         smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
-                ViseHttp.GET(NetUrl.AppOrderActivityList)
-                        .addParam("pageNum", "1")
-                        .addParam("pageSize", "10")
-                        .addParam("type","2")
-                        .addParam("userId", SpUtils.getUserId(getContext()))
-                        .request(new ACallback<String>() {
-                            @Override
-                            public void onSuccess(String data) {
-                                try {
-                                    JSONObject jsonObject = new JSONObject(data);
-                                    if (jsonObject.optString("status").equals("200")) {
-                                        Gson gson = new Gson();
-                                        OrderListBean bean = gson.fromJson(data, OrderListBean.class);
-                                        mList.clear();
-                                        mList.addAll(bean.getData());
-                                        adapter.notifyDataSetChanged();
-                                        page = 2;
-                                    }
-                                    refreshLayout.finishRefresh(500);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onFail(int errCode, String errMsg) {
-                                refreshLayout.finishRefresh(500);
-                            }
-                        });
+                Map<String, String> map = new LinkedHashMap<>();
+                map.put("pageNum", "1");
+                map.put("pageSize", "10");
+                map.put("type", "2");
+                map.put("userId", SpUtils.getUserId(getContext()));
+                ViseUtil.Get(getContext(), NetUrl.AppOrderActivityList, map, refreshLayout, 0, new ViseUtil.ViseListener() {
+                    @Override
+                    public void onReturn(String s) {
+                        Gson gson = new Gson();
+                        OrderListBean bean = gson.fromJson(s, OrderListBean.class);
+                        mList.clear();
+                        mList.addAll(bean.getData());
+                        adapter.notifyDataSetChanged();
+                        page = 2;
+                    }
+                });
             }
         });
         smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
-                ViseHttp.GET(NetUrl.AppOrderActivityList)
-                        .addParam("pageNum", page+"")
-                        .addParam("pageSize", "10")
-                        .addParam("type","2")
-                        .addParam("userId", SpUtils.getUserId(getContext()))
-                        .request(new ACallback<String>() {
-                            @Override
-                            public void onSuccess(String data) {
-                                try {
-                                    JSONObject jsonObject = new JSONObject(data);
-                                    if (jsonObject.optString("status").equals("200")) {
-                                        Gson gson = new Gson();
-                                        OrderListBean bean = gson.fromJson(data, OrderListBean.class);
-                                        mList.addAll(bean.getData());
-                                        adapter.notifyDataSetChanged();
-                                        page = page+1;
-                                    }
-                                    refreshLayout.finishLoadMore(500);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onFail(int errCode, String errMsg) {
-                                refreshLayout.finishLoadMore(500);
-                            }
-                        });
+                Map<String, String> map = new LinkedHashMap<>();
+                map.put("pageNum", page + "");
+                map.put("pageSize", "10");
+                map.put("type", "2");
+                map.put("userId", SpUtils.getUserId(getContext()));
+                ViseUtil.Get(getContext(), NetUrl.AppOrderActivityList, map, refreshLayout, 1, new ViseUtil.ViseListener() {
+                    @Override
+                    public void onReturn(String s) {
+                        Gson gson = new Gson();
+                        OrderListBean bean = gson.fromJson(s, OrderListBean.class);
+                        mList.addAll(bean.getData());
+                        adapter.notifyDataSetChanged();
+                        page = page + 1;
+                    }
+                });
             }
         });
 
-        ViseHttp.GET(NetUrl.AppOrderActivityList)
-                .addParam("pageNum", "1")
-                .addParam("pageSize", "10")
-                .addParam("type","2")
-                .addParam("userId", SpUtils.getUserId(getContext()))
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if (jsonObject.optString("status").equals("200")) {
-                                Gson gson = new Gson();
-                                OrderListBean bean = gson.fromJson(data, OrderListBean.class);
-                                mList = bean.getData();
-                                if (mList.size()>0){
-                                    empty_order_bloack.setVisibility(View.GONE);
-                                }else{
-                                    empty_order_bloack.setVisibility(View.VISIBLE);
-                                }
-                                adapter = new FragmentDaiShouHuoOrderAdapter(mList);
-                                LinearLayoutManager manager = new LinearLayoutManager(getContext());
-                                manager.setOrientation(LinearLayoutManager.VERTICAL);
-                                recyclerView.setLayoutManager(manager);
-                                recyclerView.setAdapter(adapter);
-                                page=2;
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-                    }
-                });
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("pageNum", "1");
+        map.put("pageSize", "10");
+        map.put("type", "2");
+        map.put("userId", SpUtils.getUserId(getContext()));
+        ViseUtil.Get(getContext(), NetUrl.AppOrderActivityList, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                OrderListBean bean = gson.fromJson(s, OrderListBean.class);
+                mList = bean.getData();
+                if (mList.size() > 0) {
+                    empty_order_bloack.setVisibility(View.GONE);
+                } else {
+                    empty_order_bloack.setVisibility(View.VISIBLE);
+                }
+                adapter = new FragmentDaiShouHuoOrderAdapter(mList);
+                LinearLayoutManager manager = new LinearLayoutManager(getContext());
+                manager.setOrientation(LinearLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(manager);
+                recyclerView.setAdapter(adapter);
+                page = 2;
+            }
+        });
     }
 
     @Override
