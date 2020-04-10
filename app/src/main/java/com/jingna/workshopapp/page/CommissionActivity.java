@@ -27,6 +27,7 @@ import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
@@ -34,7 +35,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -75,27 +78,22 @@ public class CommissionActivity extends BaseActivity {
 
     private void initData() {
 
-        ViseHttp.GET(NetUrl.MemUsergetByUserMoney)
-                .addParam("memberId", SpUtils.getUserId(context))
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if (jsonObject.optString("status").equals("200")) {
-                                allMoney = jsonObject.optDouble("data");
-                                tvMoney.setText("佣金余额¥" + allMoney + "，");
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("memberId", SpUtils.getUserId(context));
+        ViseUtil.Get(context, NetUrl.MemUsergetByUserMoney, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (jsonObject.optString("status").equals("200")) {
+                        allMoney = jsonObject.optDouble("data");
+                        tvMoney.setText("佣金余额¥" + allMoney + "，");
                     }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
-                    }
-                });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         money.addTextChangedListener(new TextWatcher() {
             @Override
@@ -148,29 +146,24 @@ public class CommissionActivity extends BaseActivity {
                 } else if(TextUtils.isEmpty(bankId)){
                     ToastUtil.showShort(CommissionActivity.this, "请选择提现银行卡");
                 }else {
-                    ViseHttp.POST(NetUrl.AppMemberCommissionAudittoUpdate)
-                            .addParam("memberId", SpUtils.getUserId(context))
-                            .addParam("auditMoney", msg)
-                            .addParam("bankCardId", bankId)
-                            .request(new ACallback<String>() {
-                                @Override
-                                public void onSuccess(String data) {
-                                    try {
-                                        JSONObject jsonObject = new JSONObject(data);
-                                        if(jsonObject.optString("status").equals("200")){
-                                            ToastUtil.showShort(context, "提现成功");
-                                            finish();
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                @Override
-                                public void onFail(int errCode, String errMsg) {
-
-                                }
-                            });
+                    int m = Integer.valueOf(msg);
+                    if(m == 0){
+                        ToastUtil.showShort(context, "提现金额不能为0");
+                    }else if(m>allMoney){
+                        ToastUtil.showShort(context, "提现金额不能大于佣金余额");
+                    }else  {
+                        Map<String, String> map = new LinkedHashMap<>();
+                        map.put("memberId", SpUtils.getUserId(context));
+                        map.put("auditMoney", msg);
+                        map.put("bankCardId", bankId);
+                        ViseUtil.Post(context, NetUrl.AppMemberCommissionAudittoUpdate, map, new ViseUtil.ViseListener() {
+                            @Override
+                            public void onReturn(String s) {
+                                ToastUtil.showShort(context, "提现成功");
+                                finish();
+                            }
+                        });
+                    }
                 }
                 break;
             case R.id.all:

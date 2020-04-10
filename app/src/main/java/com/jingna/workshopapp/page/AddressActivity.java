@@ -16,6 +16,7 @@ import com.jingna.workshopapp.bean.AddressBean;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
@@ -28,7 +29,9 @@ import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,72 +68,48 @@ public class AddressActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         if(mList != null){
-            String url = "/MemAdress/queryList?memberId="+ userId;
-            ViseHttp.GET(url)
-                    .request(new ACallback<String>() {
-                        @Override
-                        public void onSuccess(String data) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(data);
-                                if(jsonObject.optString("status").equals("200")){
-                                    Gson gson = new Gson();
-                                    AddressBean bean = gson.fromJson(data, AddressBean.class);
-                                    mList.clear();
-                                    mList.addAll(bean.getData());
-                                    adapter.notifyDataSetChanged();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onFail(int errCode, String errMsg) {
-
-                        }
-                    });
+            Map<String, String> map = new LinkedHashMap<>();
+            map.put("memberId", userId);
+            ViseUtil.Get(context, "/MemAdress/queryList", map, new ViseUtil.ViseListener() {
+                @Override
+                public void onReturn(String s) {
+                    Gson gson = new Gson();
+                    AddressBean bean = gson.fromJson(s, AddressBean.class);
+                    mList.clear();
+                    mList.addAll(bean.getData());
+                    adapter.notifyDataSetChanged();
+                }
+            });
         }
     }
 
     private void initData() {
 
-        String url = "/MemAdress/queryList?memberId="+ userId;
-        ViseHttp.GET(url)
-                .request(new ACallback<String>() {
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("memberId", userId);
+        ViseUtil.Get(context, "/MemAdress/queryList", map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                AddressBean bean = gson.fromJson(s, AddressBean.class);
+                mList = bean.getData();
+                adapter = new MyAddressAdapter(mList, type, new MyAddressAdapter.ItemClickListener() {
                     @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                AddressBean bean = gson.fromJson(data, AddressBean.class);
-                                mList = bean.getData();
-                                adapter = new MyAddressAdapter(mList, type, new MyAddressAdapter.ItemClickListener() {
-                                    @Override
-                                    public void onClick(AddressBean.DataBean bean) {
-                                        Intent intent = new Intent();
-                                        intent.putExtra("address", bean);
-                                        setResult(100, intent);
-                                        finish();
-                                    }
-                                });
-                                LinearLayoutManager manager = new LinearLayoutManager(context);
-                                manager.setOrientation(LinearLayoutManager.VERTICAL);
-                                recyclerView.setLayoutManager(manager);
-                                recyclerView.setSwipeMenuCreator(mSwipeMenuCreator);
-                                recyclerView.setSwipeMenuItemClickListener(mMenuItemClickListener);
-                                recyclerView.setAdapter(adapter);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
+                    public void onClick(AddressBean.DataBean bean) {
+                        Intent intent = new Intent();
+                        intent.putExtra("address", bean);
+                        setResult(100, intent);
+                        finish();
                     }
                 });
+                LinearLayoutManager manager = new LinearLayoutManager(context);
+                manager.setOrientation(LinearLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(manager);
+                recyclerView.setSwipeMenuCreator(mSwipeMenuCreator);
+                recyclerView.setSwipeMenuItemClickListener(mMenuItemClickListener);
+                recyclerView.setAdapter(adapter);
+            }
+        });
 
     }
 
@@ -193,61 +172,37 @@ public class AddressActivity extends BaseActivity {
                     case 0:
                         //设为默认
                         String url = "/MemAdress/setDefault";
-                        ViseHttp.POST(url)
-                                .addParam("id", mList.get(adapterPosition).getId()+"")
-                                .addParam("memberId", userId)
-                                .request(new ACallback<String>() {
-                                    @Override
-                                    public void onSuccess(String data) {
-                                        try {
-                                            JSONObject jsonObject = new JSONObject(data);
-                                            if(jsonObject.optString("status").equals("200")){
-                                                ToastUtil.showShort(context, "设置成功");
-                                                for (int i = 0; i<mList.size(); i++){
-                                                    if(i == adapterPosition){
-                                                        mList.get(i).setAcquiescentAdress("1");
-                                                    }else {
-                                                        mList.get(i).setAcquiescentAdress("0");
-                                                    }
-                                                }
-                                                adapter.notifyDataSetChanged();
-                                            }
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
+                        Map<String, String> map = new LinkedHashMap<>();
+                        map.put("id", mList.get(adapterPosition).getId()+"");
+                        map.put("memberId", userId);
+                        ViseUtil.Post(context, url, map, new ViseUtil.ViseListener() {
+                            @Override
+                            public void onReturn(String s) {
+                                ToastUtil.showShort(context, "设置成功");
+                                for (int i = 0; i<mList.size(); i++){
+                                    if(i == adapterPosition){
+                                        mList.get(i).setAcquiescentAdress("1");
+                                    }else {
+                                        mList.get(i).setAcquiescentAdress("0");
                                     }
-
-                                    @Override
-                                    public void onFail(int errCode, String errMsg) {
-
-                                    }
-                                });
+                                }
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
                         break;
                     case 1:
                         //删除
                         String url1 = "/MemAdress/toDelete";
-                        ViseHttp.POST(url1)
-                                .addParam("id", mList.get(adapterPosition).getId()+"")
-                                .request(new ACallback<String>() {
-                                    @Override
-                                    public void onSuccess(String data) {
-                                        try {
-                                            JSONObject jsonObject = new JSONObject(data);
-                                            if(jsonObject.optString("status").equals("200")){
-                                                ToastUtil.showShort(context, "删除成功");
-                                                mList.remove(adapterPosition);
-                                                adapter.notifyDataSetChanged();
-                                            }
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFail(int errCode, String errMsg) {
-
-                                    }
-                                });
+                        Map<String, String> map1 = new LinkedHashMap<>();
+                        map1.put("id", mList.get(adapterPosition).getId()+"");
+                        ViseUtil.Post(context, url1, map1, new ViseUtil.ViseListener() {
+                            @Override
+                            public void onReturn(String s) {
+                                ToastUtil.showShort(context, "删除成功");
+                                mList.remove(adapterPosition);
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
                         break;
                 }
             } else if (direction == SwipeMenuRecyclerView.LEFT_DIRECTION) {

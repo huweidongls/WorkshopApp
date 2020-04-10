@@ -24,6 +24,7 @@ import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
@@ -32,6 +33,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,11 +53,12 @@ public class AfterSale_Commit_orderActivity extends AppCompatActivity {
     TextView tv_phonenum;
     @BindView(R.id.tv_address)
     TextView tv_address;
-    private String addressid="";
+    private String addressid = "";
     private AfterSaleEquipmentAdapter adapter;
     private List<MaintenancEequipmentBean.DataBean> mList;
     private List<MaintenancEequipmentBean.DataBean> beanList;
-    private String goodsId="";
+    private String goodsId = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,23 +66,24 @@ public class AfterSale_Commit_orderActivity extends AppCompatActivity {
         StatusBarUtils.setStatusBar(AfterSale_Commit_orderActivity.this, getResources().getColor(R.color.statusbar_color));
         ButterKnife.bind(AfterSale_Commit_orderActivity.this);
         Intent intent = getIntent();
-        if(intent != null){
-            beanList= (List<MaintenancEequipmentBean.DataBean>) intent.getSerializableExtra("bean");
+        if (intent != null) {
+            beanList = (List<MaintenancEequipmentBean.DataBean>) intent.getSerializableExtra("bean");
         }
         initData();
         LoadAddredd();
     }
-    private void initData(){
+
+    private void initData() {
         mList = new ArrayList<>();
-            for (MaintenancEequipmentBean.DataBean bean : beanList){
-                if(bean.getIsSelect() == 1){
-                    mList.add(bean);
-                    goodsId = goodsId+bean.getId()+",";
-                }
+        for (MaintenancEequipmentBean.DataBean bean : beanList) {
+            if (bean.getIsSelect() == 1) {
+                mList.add(bean);
+                goodsId = goodsId + bean.getId() + ",";
             }
-        tv_bottom_price.setText("共"+mList.size()+"件维修");
+        }
+        tv_bottom_price.setText("共" + mList.size() + "件维修");
         adapter = new AfterSaleEquipmentAdapter(mList);
-        LinearLayoutManager manager = new LinearLayoutManager(context){
+        LinearLayoutManager manager = new LinearLayoutManager(context) {
             @Override
             public boolean canScrollVertically() {
                 return false;
@@ -89,42 +93,32 @@ public class AfterSale_Commit_orderActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
     }
-    private void LoadAddredd(){
-        ViseHttp.GET("/MemAdress/queryList")
-                .addParam("memberId", SpUtils.getUserId(context))
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                AddressBean bean = gson.fromJson(data, AddressBean.class);
-                                List<AddressBean.DataBean> list = bean.getData();
-                                for (AddressBean.DataBean bean1 : list){
-                                    if(bean1.getAcquiescentAdress().equals("1")){
-                                        addressid = bean1.getId()+"";
-                                        tv_name.setText(bean1.getConsignee());
-                                        tv_phonenum.setText(bean1.getConsigneeTel());
-                                        tv_address.setText(bean1.getLocation()+bean1.getAdress());
-                                    }
-                                }
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
 
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
+    private void LoadAddredd() {
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("memberId", SpUtils.getUserId(context));
+        ViseUtil.Get(context, "/MemAdress/queryList", map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                AddressBean bean = gson.fromJson(s, AddressBean.class);
+                List<AddressBean.DataBean> list = bean.getData();
+                for (AddressBean.DataBean bean1 : list) {
+                    if (bean1.getAcquiescentAdress().equals("1")) {
+                        addressid = bean1.getId() + "";
+                        tv_name.setText(bean1.getConsignee());
+                        tv_phonenum.setText(bean1.getConsigneeTel());
+                        tv_address.setText(bean1.getLocation() + bean1.getAdress());
                     }
-                });
+                }
+            }
+        });
     }
-    @OnClick({R.id.rl_back,R.id.rl_address,R.id.tv_commit})
-    public void onClick(View view){
+
+    @OnClick({R.id.rl_back, R.id.rl_address, R.id.tv_commit})
+    public void onClick(View view) {
         Intent intent = new Intent();
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.rl_back:
                 finish();
                 break;
@@ -139,43 +133,32 @@ public class AfterSale_Commit_orderActivity extends AppCompatActivity {
                 break;
         }
     }
-    private void Commint_Order(){
-        ViseHttp.GET(NetUrl.AfterSaleOrderafterSaleOrder)
-                .addParam("userId",SpUtils.getUserId(context))
-                .addParam("deviceId",goodsId.substring(0,goodsId.length()-1))
-                .addParam("addresId",addressid)
-                .addParam("orderStatus","1")
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            Logger.e("123123", data);
-                            if (jsonObject.optString("status").equals("200")){
-                                ToastUtil.showShort(context, "订单提交成功!");
-                                startActivity(new Intent(AfterSale_Commit_orderActivity.this,MaintenanceAfterSaleActivity.class)
-                                );
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
 
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
-                    }
-                });
+    private void Commint_Order() {
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("userId", SpUtils.getUserId(context));
+        map.put("deviceId", goodsId.substring(0, goodsId.length() - 1));
+        map.put("addresId", addressid);
+        map.put("orderStatus", "1");
+        ViseUtil.Get(context, NetUrl.AfterSaleOrderafterSaleOrder, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                ToastUtil.showShort(context, "订单提交成功!");
+                startActivity(new Intent(AfterSale_Commit_orderActivity.this, MaintenanceAfterSaleActivity.class)
+                );
+            }
+        });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == 100&&data != null){
+        if (resultCode == 100 && data != null) {
             AddressBean.DataBean bean = (AddressBean.DataBean) data.getSerializableExtra("address");
-            addressid=bean.getId()+"";
+            addressid = bean.getId() + "";
             tv_name.setText(bean.getConsignee());
             tv_phonenum.setText(bean.getConsigneeTel());
-            tv_address.setText(bean.getLocation()+bean.getAdress());
+            tv_address.setText(bean.getLocation() + bean.getAdress());
         }
     }
 }

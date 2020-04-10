@@ -11,12 +11,16 @@ import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.base.BaseActivity;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.jingna.workshopapp.util.WeiboDialogUtils;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,34 +61,20 @@ public class ForgotPwd1Activity extends BaseActivity {
 
         dialog = WeiboDialogUtils.createLoadingDialog(context, "请等待...");
         final String phoneNum = etPhoneNum.getText().toString();
-        String url = "/MemUser/sendMessage?phone="+phoneNum;
-        ViseHttp.GET(url)
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                ToastUtil.showShort(context, "验证码发送成功");
-                                Intent intent = new Intent();
-                                intent.setClass(context, ForgotPwd2Activity.class);
-                                intent.putExtra("phone", phoneNum);
-                                startActivity(intent);
-                                finish();
-                            }else {
-                                ToastUtil.showShort(context, "验证码发送失败");
-                            }
-                            WeiboDialogUtils.closeDialog(dialog);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-                        WeiboDialogUtils.closeDialog(dialog);
-                    }
-                });
+        String url = "/MemUser/sendMessage";
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("phone", phoneNum);
+        ViseUtil.Get(context, url, map, dialog, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                ToastUtil.showShort(context, "验证码发送成功");
+                Intent intent = new Intent();
+                intent.setClass(context, ForgotPwd2Activity.class);
+                intent.putExtra("phone", phoneNum);
+                startActivity(intent);
+                finish();
+            }
+        });
 
     }
 

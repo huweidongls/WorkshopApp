@@ -16,6 +16,7 @@ import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
@@ -29,7 +30,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,35 +61,23 @@ public class CollectionActivity extends BaseActivity {
 
     private void initData() {
 
-        ViseHttp.GET(NetUrl.AppMemberCollectqueryList)
-                .addParam("memberId", SpUtils.getUserId(context))
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                CollectionListBean bean = gson.fromJson(data, CollectionListBean.class);
-                                mList = bean.getData();
-                                adapter = new CollectionAdapter(mList);
-                                LinearLayoutManager manager = new LinearLayoutManager(context);
-                                manager.setOrientation(LinearLayoutManager.VERTICAL);
-                                recyclerView.setLayoutManager(manager);
-                                recyclerView.setSwipeMenuCreator(mSwipeMenuCreator);
-                                recyclerView.setSwipeMenuItemClickListener(mMenuItemClickListener);
-                                recyclerView.setAdapter(adapter);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
-                    }
-                });
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("memberId", SpUtils.getUserId(context));
+        ViseUtil.Get(context, NetUrl.AppMemberCollectqueryList, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                CollectionListBean bean = gson.fromJson(s, CollectionListBean.class);
+                mList = bean.getData();
+                adapter = new CollectionAdapter(mList);
+                LinearLayoutManager manager = new LinearLayoutManager(context);
+                manager.setOrientation(LinearLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(manager);
+                recyclerView.setSwipeMenuCreator(mSwipeMenuCreator);
+                recyclerView.setSwipeMenuItemClickListener(mMenuItemClickListener);
+                recyclerView.setAdapter(adapter);
+            }
+        });
 
     }
 
@@ -135,29 +126,17 @@ public class CollectionActivity extends BaseActivity {
                 switch (menuPosition){
                     case 0:
                         //删除
-                        ViseHttp.POST(NetUrl.AppMemberCollecttoDelete)
-                                .addParam("goodsId", mList.get(adapterPosition).getId()+"")
-                                .addParam("memberId", SpUtils.getUserId(context))
-                                .request(new ACallback<String>() {
-                                    @Override
-                                    public void onSuccess(String data) {
-                                        try {
-                                            JSONObject jsonObject = new JSONObject(data);
-                                            if(jsonObject.optString("status").equals("200")){
-                                                mList.remove(adapterPosition);
-                                                adapter.notifyDataSetChanged();
-                                                ToastUtil.showShort(context, "删除成功");
-                                            }
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFail(int errCode, String errMsg) {
-
-                                    }
-                                });
+                        Map<String, String> map = new LinkedHashMap<>();
+                        map.put("goodsId", mList.get(adapterPosition).getId()+"");
+                        map.put("memberId", SpUtils.getUserId(context));
+                        ViseUtil.Post(context, NetUrl.AppMemberCollecttoDelete, map, new ViseUtil.ViseListener() {
+                            @Override
+                            public void onReturn(String s) {
+                                mList.remove(adapterPosition);
+                                adapter.notifyDataSetChanged();
+                                ToastUtil.showShort(context, "删除成功");
+                            }
+                        });
                         break;
                 }
             } else if (direction == SwipeMenuRecyclerView.LEFT_DIRECTION) {

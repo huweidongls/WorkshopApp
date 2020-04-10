@@ -44,6 +44,7 @@ public class AfterServiceActivity extends AppCompatActivity {
     private ArrayList<String> mTitleDataList;
     private FragmentManager mFragmentManager;
     private int index = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +80,7 @@ public class AfterServiceActivity extends AppCompatActivity {
                 simplePagerTitleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
                 simplePagerTitleView.setNormalColor(Color.parseColor("#FFFFFF"));
                 simplePagerTitleView.setSelectedColor(Color.parseColor("#FFFFFF"));
-                simplePagerTitleView.setPadding(50,0,50,0);
+                simplePagerTitleView.setPadding(50, 0, 50, 0);
                 simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -88,6 +89,7 @@ public class AfterServiceActivity extends AppCompatActivity {
                 });
                 return simplePagerTitleView;
             }
+
             @Override
             public IPagerIndicator getIndicator(Context context) {
                 LinePagerIndicator indicator = new LinePagerIndicator(context);

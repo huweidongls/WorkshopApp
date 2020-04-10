@@ -13,11 +13,15 @@ import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.StringUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,29 +62,16 @@ public class FeedbackActivity extends BaseActivity {
         if(StringUtils.isEmpty(s)){
             ToastUtil.showShort(context, "反馈内容不能为空");
         }else {
-            ViseHttp.POST(NetUrl.FunctionalFeedbacktoAdd)
-                    .addParam("functionalFeedback", s)
-                    .addParam("memberId", SpUtils.getUserId(context))
-                    .request(new ACallback<String>() {
-                        @Override
-                        public void onSuccess(String data) {
-                            Logger.e("123123", data);
-                            try {
-                                JSONObject jsonObject = new JSONObject(data);
-                                if(jsonObject.optString("status").equals("200")){
-                                    ToastUtil.showShort(context, "提交成功");
-                                    finish();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onFail(int errCode, String errMsg) {
-
-                        }
-                    });
+            Map<String, String> map = new LinkedHashMap<>();
+            map.put("functionalFeedback", s);
+            map.put("memberId", SpUtils.getUserId(context));
+            ViseUtil.Post(context, NetUrl.FunctionalFeedbacktoAdd, map, new ViseUtil.ViseListener() {
+                @Override
+                public void onReturn(String s) {
+                    ToastUtil.showShort(context, "提交成功");
+                    finish();
+                }
+            });
         }
 
     }

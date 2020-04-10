@@ -44,7 +44,7 @@
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp"
-                android:text="总收益"
+                android:text="待结算"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -67,26 +67,11 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/rl3"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/tv3"
-                android:layout_centerInParent="true"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:text="待结算"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </RelativeLayout>
-
     </LinearLayout>
 
     <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/rl_top"
         android:background="#33C4CDE1"
         android:layout_width="match_parent"
         android:layout_height="55dp">

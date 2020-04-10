@@ -10,7 +10,7 @@ public class CommissionIncomeBean {
 
     /**
      * status : 200
-     * data : {"zhuanchu":20,"zhuanru":0,"commissionRevenues":[{"id":2,"type":"转出","userId":46,"money":10,"isDelete":0,"createTime":"2019-08-21 11:49:54"}]}
+     * data : {"zhuanchu":2,"zhuanru":2041020,"commissionRevenues":[{"id":18,"type":"转出","userId":47,"money":0,"isDelete":0,"createTime":"2020-04-09 10:41:20"},{"id":9,"type":"转出","userId":47,"money":2,"isDelete":0,"createTime":"2020-04-07 16:34:06"},{"id":5,"type":"转出","userId":47,"money":0,"isDelete":0,"createTime":"2020-04-03 13:40:14"},{"id":6,"type":"转入","userId":47,"money":2040000,"orderId":"20200407142619927","isDelete":0,"createTime":"2020-04-03 13:40:14"},{"id":8,"type":"转入","userId":47,"money":0,"orderId":"20200407154534559","isDelete":0,"createTime":"2020-04-03 13:40:14"},{"id":11,"type":"转入","userId":47,"money":0,"orderId":"20200409093654576","isDelete":0,"createTime":"2020-04-03 13:40:14"},{"id":17,"type":"转入","userId":47,"money":1020,"orderId":"20200409093654576","isDelete":0,"createTime":"2020-04-03 13:40:14"},{"id":4,"type":"转出","userId":47,"money":0,"isDelete":0,"createTime":"2020-04-03 13:36:19"},{"id":3,"type":"转出","userId":47,"money":0,"isDelete":0,"createTime":"2020-04-02 11:52:32"},{"id":2,"type":"转出","userId":47,"money":0,"isDelete":0,"createTime":"2020-04-02 11:52:29"},{"id":1,"type":"转出","userId":47,"money":0,"isDelete":0,"createTime":"2020-04-02 11:52:26"}]}
      */
 
     private String status;
@@ -34,28 +34,28 @@ public class CommissionIncomeBean {
 
     public static class DataBean {
         /**
-         * zhuanchu : 20
-         * zhuanru : 0
-         * commissionRevenues : [{"id":2,"type":"转出","userId":46,"money":10,"isDelete":0,"createTime":"2019-08-21 11:49:54"}]
+         * zhuanchu : 2
+         * zhuanru : 2041020
+         * commissionRevenues : [{"id":18,"type":"转出","userId":47,"money":0,"isDelete":0,"createTime":"2020-04-09 10:41:20"},{"id":9,"type":"转出","userId":47,"money":2,"isDelete":0,"createTime":"2020-04-07 16:34:06"},{"id":5,"type":"转出","userId":47,"money":0,"isDelete":0,"createTime":"2020-04-03 13:40:14"},{"id":6,"type":"转入","userId":47,"money":2040000,"orderId":"20200407142619927","isDelete":0,"createTime":"2020-04-03 13:40:14"},{"id":8,"type":"转入","userId":47,"money":0,"orderId":"20200407154534559","isDelete":0,"createTime":"2020-04-03 13:40:14"},{"id":11,"type":"转入","userId":47,"money":0,"orderId":"20200409093654576","isDelete":0,"createTime":"2020-04-03 13:40:14"},{"id":17,"type":"转入","userId":47,"money":1020,"orderId":"20200409093654576","isDelete":0,"createTime":"2020-04-03 13:40:14"},{"id":4,"type":"转出","userId":47,"money":0,"isDelete":0,"createTime":"2020-04-03 13:36:19"},{"id":3,"type":"转出","userId":47,"money":0,"isDelete":0,"createTime":"2020-04-02 11:52:32"},{"id":2,"type":"转出","userId":47,"money":0,"isDelete":0,"createTime":"2020-04-02 11:52:29"},{"id":1,"type":"转出","userId":47,"money":0,"isDelete":0,"createTime":"2020-04-02 11:52:26"}]
          */
 
-        private double zhuanchu;
-        private double zhuanru;
+        private int zhuanchu;
+        private int zhuanru;
         private List<CommissionRevenuesBean> commissionRevenues;
 
-        public double getZhuanchu() {
+        public int getZhuanchu() {
             return zhuanchu;
         }
 
-        public void setZhuanchu(double zhuanchu) {
+        public void setZhuanchu(int zhuanchu) {
             this.zhuanchu = zhuanchu;
         }
 
-        public double getZhuanru() {
+        public int getZhuanru() {
             return zhuanru;
         }
 
-        public void setZhuanru(double zhuanru) {
+        public void setZhuanru(int zhuanru) {
             this.zhuanru = zhuanru;
         }
 
@@ -69,20 +69,22 @@ public class CommissionIncomeBean {
 
         public static class CommissionRevenuesBean {
             /**
-             * id : 2
+             * id : 18
              * type : 转出
-             * userId : 46
-             * money : 10
+             * userId : 47
+             * money : 0
              * isDelete : 0
-             * createTime : 2019-08-21 11:49:54
+             * createTime : 2020-04-09 10:41:20
+             * orderId : 20200407142619927
              */
 
             private int id;
             private String type;
             private int userId;
-            private double money;
+            private int money;
             private int isDelete;
             private String createTime;
+            private String orderId;
 
             public int getId() {
                 return id;
@@ -108,11 +110,11 @@ public class CommissionIncomeBean {
                 this.userId = userId;
             }
 
-            public double getMoney() {
+            public int getMoney() {
                 return money;
             }
 
-            public void setMoney(double money) {
+            public void setMoney(int money) {
                 this.money = money;
             }
 
@@ -130,6 +132,14 @@ public class CommissionIncomeBean {
 
             public void setCreateTime(String createTime) {
                 this.createTime = createTime;
+            }
+
+            public String getOrderId() {
+                return orderId;
+            }
+
+            public void setOrderId(String orderId) {
+                this.orderId = orderId;
             }
         }
     }

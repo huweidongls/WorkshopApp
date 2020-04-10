@@ -22,6 +22,7 @@ import com.jingna.workshopapp.bean.CrowdTuijianBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.StringUtils;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
@@ -29,7 +30,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -86,95 +89,70 @@ public class CrowdDetailsActivity extends BaseActivity {
 
     private void initTuijian() {
 
-        ViseHttp.GET(NetUrl.AppCrowdFundingfindAllRecommend)
-                .request(new ACallback<String>() {
+        ViseUtil.Get(context, NetUrl.AppCrowdFundingfindAllRecommend, null, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                CrowdTuijianBean tuijianBean = gson.fromJson(s, CrowdTuijianBean.class);
+                mTuijianList = tuijianBean.getData();
+                tuijianAdapter = new CrowdTuijianAdapter(mTuijianList);
+                GridLayoutManager manager = new GridLayoutManager(context, 2){
                     @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                CrowdTuijianBean tuijianBean = gson.fromJson(data, CrowdTuijianBean.class);
-                                mTuijianList = tuijianBean.getData();
-                                tuijianAdapter = new CrowdTuijianAdapter(mTuijianList);
-                                GridLayoutManager manager = new GridLayoutManager(context, 2){
-                                    @Override
-                                    public boolean canScrollVertically() {
-                                        return false;
-                                    }
-                                };
-                                rvTuijian.setLayoutManager(manager);
-                                rvTuijian.setAdapter(tuijianAdapter);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                    public boolean canScrollVertically() {
+                        return false;
                     }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-
-                    }
-                });
+                };
+                rvTuijian.setLayoutManager(manager);
+                rvTuijian.setAdapter(tuijianAdapter);
+            }
+        });
 
     }
 
     private void initData() {
 
-        ViseHttp.GET(NetUrl.AppCrowdFundinggetById)
-                .addParam("id", id)
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.optString("status").equals("200")){
-                                Gson gson = new Gson();
-                                CrowdDetailsBean detailsBean = gson.fromJson(data, CrowdDetailsBean.class);
-                                tv_title.setText(detailsBean.getData().getTitle());//众筹标题
-                                tv_ftitle.setText(detailsBean.getData().getSubtitle());//副标题
-                                tvAllPeople.setText(detailsBean.getData().getAllPeople()+"");//总人数
-                                tv_allmoney.setText(StringUtils.roundByScale(detailsBean.getData().getAllMoney(), 2)+"");//总金额
-                                tv_percentage.setText(detailsBean.getData().getPercentage());//达成率
-                                Glide.with(context).load(NetUrl.BASE_URL+detailsBean.getData().getBackgroundPictureApp()).into(iv_backgroundPictureApp);//背景图片
-                                tv_endTime.setText("众筹中("+detailsBean.getData().getEndTime()+"天结束)");//还有多少天结束
-                                tv_gearMoney.setText(StringUtils.roundByScale(detailsBean.getData().getGearMoney(), 2)+"起");//档位金额多少元起
-                                String xinxi = detailsBean.getData().getStoryApp();
-                                String[] xinxiList = xinxi.split(",");
-                                if(xinxiList.length>0){
-                                    for (int i = 0; i<xinxiList.length; i++){
-                                        imageView = new ImageView(context);
-                                        Glide.with(context).load(NetUrl.BASE_URL+xinxiList[i]).into(imageView);
-                                        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        imageView.setAdjustViewBounds(true);
-                                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                                        iv_forimg.addView(imageView, layoutParams);
-                                    }
-                                }else {
-                                    iv_forimg.setVisibility(View.GONE);
-                                }
-                                mList = detailsBean.getData().getShopGoodsEvaluates();
-                                commentAdapter = new CrowdCommentAdapter(mList);
-                                LinearLayoutManager manager = new LinearLayoutManager(context){
-                                    @Override
-                                    public boolean canScrollVertically() {
-                                        return false;
-                                    }
-                                };
-                                manager.setOrientation(LinearLayoutManager.VERTICAL);
-                                rvComment.setLayoutManager(manager);
-                                rvComment.setAdapter(commentAdapter);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("id", id);
+        ViseUtil.Get(context, NetUrl.AppCrowdFundinggetById, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                CrowdDetailsBean detailsBean = gson.fromJson(s, CrowdDetailsBean.class);
+                tv_title.setText(detailsBean.getData().getTitle());//众筹标题
+                tv_ftitle.setText(detailsBean.getData().getSubtitle());//副标题
+                tvAllPeople.setText(detailsBean.getData().getAllPeople()+"");//总人数
+                tv_allmoney.setText(StringUtils.roundByScale(detailsBean.getData().getAllMoney(), 2)+"");//总金额
+                tv_percentage.setText(detailsBean.getData().getPercentage());//达成率
+                Glide.with(context).load(NetUrl.BASE_URL+detailsBean.getData().getBackgroundPictureApp()).into(iv_backgroundPictureApp);//背景图片
+                tv_endTime.setText("众筹中("+detailsBean.getData().getEndTime()+"天结束)");//还有多少天结束
+                tv_gearMoney.setText(StringUtils.roundByScale(detailsBean.getData().getGearMoney(), 2)+"起");//档位金额多少元起
+                String xinxi = detailsBean.getData().getStoryApp();
+                String[] xinxiList = xinxi.split(",");
+                if(xinxiList.length>0){
+                    for (int i = 0; i<xinxiList.length; i++){
+                        imageView = new ImageView(context);
+                        Glide.with(context).load(NetUrl.BASE_URL+xinxiList[i]).into(imageView);
+                        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                        imageView.setAdjustViewBounds(true);
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        iv_forimg.addView(imageView, layoutParams);
                     }
-
+                }else {
+                    iv_forimg.setVisibility(View.GONE);
+                }
+                mList = detailsBean.getData().getShopGoodsEvaluates();
+                commentAdapter = new CrowdCommentAdapter(mList);
+                LinearLayoutManager manager = new LinearLayoutManager(context){
                     @Override
-                    public void onFail(int errCode, String errMsg) {
-
+                    public boolean canScrollVertically() {
+                        return false;
                     }
-                });
+                };
+                manager.setOrientation(LinearLayoutManager.VERTICAL);
+                rvComment.setLayoutManager(manager);
+                rvComment.setAdapter(commentAdapter);
+            }
+        });
 
     }
     @OnClick({R.id.rl_back})

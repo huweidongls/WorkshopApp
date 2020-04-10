@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.bean.CommissionIncomeBean;
+import com.jingna.workshopapp.bean.MemberCommissionAuditsBean;
 import com.jingna.workshopapp.util.StringUtils;
 
 import java.util.List;
@@ -21,9 +22,16 @@ public class CommissionIncomeItemAdapter extends RecyclerView.Adapter<Commission
 
     private Context context;
     private List<CommissionIncomeBean.DataBean.CommissionRevenuesBean> data;
+    private List<MemberCommissionAuditsBean.DataBean.MemberCommissionAudits> data1;
+    private int type = 0;
 
     public CommissionIncomeItemAdapter(List<CommissionIncomeBean.DataBean.CommissionRevenuesBean> data) {
         this.data = data;
+    }
+
+    public CommissionIncomeItemAdapter(List<MemberCommissionAuditsBean.DataBean.MemberCommissionAudits> data1, int type) {
+        this.data1 = data1;
+        this.type = type;
     }
 
     @Override
@@ -36,14 +44,24 @@ public class CommissionIncomeItemAdapter extends RecyclerView.Adapter<Commission
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.tv.setText(data.get(position).getType());
-        holder.tvTime.setText(data.get(position).getCreateTime());
-        holder.tvMoney.setText(StringUtils.roundByScale(data.get(position).getMoney(), 2)+"");
+        if(type == 1){
+            holder.tv.setText("转出");
+            holder.tvTime.setText(data1.get(position).getCreateTime());
+            holder.tvMoney.setText(StringUtils.roundByScale(data1.get(position).getAuditMoney(), 2)+"");
+        }else {
+            holder.tv.setText(data.get(position).getType());
+            holder.tvTime.setText(data.get(position).getCreateTime());
+            holder.tvMoney.setText(StringUtils.roundByScale(data.get(position).getMoney(), 2)+"");
+        }
     }
 
     @Override
     public int getItemCount() {
-        return data == null ? 0 : data.size();
+        if(type == 1){
+            return data1 == null ? 0 : data1.size();
+        }else {
+            return data == null ? 0 : data.size();
+        }
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{

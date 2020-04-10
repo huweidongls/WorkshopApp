@@ -16,12 +16,16 @@ import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.base.BaseActivity;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.jingna.workshopapp.util.WeiboDialogUtils;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -90,31 +94,16 @@ public class ForgotPwd3Activity extends BaseActivity {
         }else {
             dialog = WeiboDialogUtils.createLoadingDialog(context, "请等待...");
             String url = "/MemUser/retrievePassword";
-            ViseHttp.POST(url)
-                    .addParam("phone", phoneNumber)
-                    .addParam("newPassword", pwd)
-                    .request(new ACallback<String>() {
-                        @Override
-                        public void onSuccess(String data) {
-                            try {
-                                Log.e("123123", data);
-                                JSONObject jsonObject = new JSONObject(data);
-                                if(jsonObject.optString("status").equals("200")){
-                                    ToastUtil.showShort(context, "密码修改成功");
-                                    finish();
-                                }
-                                WeiboDialogUtils.closeDialog(dialog);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onFail(int errCode, String errMsg) {
-                            Log.e("123123", errMsg);
-                            WeiboDialogUtils.closeDialog(dialog);
-                        }
-                    });
+            Map<String, String> map = new LinkedHashMap<>();
+            map.put("phone", phoneNumber);
+            map.put("newPassword", pwd);
+            ViseUtil.Post(context, url, map, dialog, new ViseUtil.ViseListener() {
+                @Override
+                public void onReturn(String s) {
+                    ToastUtil.showShort(context, "密码修改成功");
+                    finish();
+                }
+            });
         }
 
     }

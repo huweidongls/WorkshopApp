@@ -3,11 +3,10 @@ package com.jingna.workshopapp.page;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,7 +16,6 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.adapter.AfterSaleOrderDetailsTopayAdapter;
-import com.jingna.workshopapp.bean.AddressBean;
 import com.jingna.workshopapp.bean.AfterSaleOrderDetailsToPayBean;
 import com.jingna.workshopapp.bean.WxPayBean;
 import com.jingna.workshopapp.net.NetUrl;
@@ -25,6 +23,7 @@ import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.StatusBarUtils;
 import com.jingna.workshopapp.util.StringUtils;
 import com.jingna.workshopapp.util.ToastUtil;
+import com.jingna.workshopapp.util.ViseUtil;
 import com.jingna.workshopapp.util.WeiboDialogUtils;
 import com.jingna.workshopapp.wxapi.WXShare;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -37,7 +36,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,9 +79,10 @@ public class AfterSaleOrderDetailsTopayActivity extends AppCompatActivity {
     private List<AfterSaleOrderDetailsToPayBean.DataBean.AfterSaleOrderItemsBean> mList;
     private WXShare wxShare;
     private IWXAPI api;
-    private int qm=0;
-    private String qm_img="";
+    private int qm = 0;
+    private String qm_img = "";
     private Dialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,49 +95,39 @@ public class AfterSaleOrderDetailsTopayActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        ViseHttp.GET(NetUrl.AfterSaleOrdergetByWxPayDetails)
-                .addParam("orderId", id)
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if (jsonObject.optString("status").equals("200")) {
-                                Gson gson = new Gson();
-                                AfterSaleOrderDetailsToPayBean bean = gson.fromJson(data, AfterSaleOrderDetailsToPayBean.class);
-                                mList = bean.getData().getAfterSaleOrderItems();
-                                tv_name.setText(bean.getData().getAddresUname());
-                                tv_tel.setText(bean.getData().getAddresPhone());
-                                tv_address.setText(bean.getData().getAddresName());
-                                goods_all_price.setText("¥" + StringUtils.roundByScale(bean.getData().getRepairMoney(), 2) + "元");
-                                goods_yunfei.setText("¥" + StringUtils.roundByScale(bean.getData().getRepairTimeMoney(), 2) + "元");
-                                pay_price.setText("¥" + StringUtils.roundByScale(bean.getData().getCarMoney(), 2) + "元");
-                                moeny_all = bean.getData().getCarMoney() + bean.getData().getRepairTimeMoney() + bean.getData().getRepairMoney();
-                                conmit_all_price.setText("¥" + StringUtils.roundByScale(moeny_all, 2) + "元");
-                                adapter = new AfterSaleOrderDetailsTopayAdapter(mList);
-                                LinearLayoutManager manager = new LinearLayoutManager(AfterSaleOrderDetailsTopayActivity.this){
-                                    @Override
-                                    public boolean canScrollVertically() {
-                                        return false;
-                                    }
-                                };
-                                manager.setOrientation(LinearLayoutManager.VERTICAL);
-                                recyclerView.setLayoutManager(manager);
-                                recyclerView.setAdapter(adapter);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
 
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("orderId", id);
+        ViseUtil.Get(context, NetUrl.AfterSaleOrdergetByWxPayDetails, map, new ViseUtil.ViseListener() {
+            @Override
+            public void onReturn(String s) {
+                Gson gson = new Gson();
+                AfterSaleOrderDetailsToPayBean bean = gson.fromJson(s, AfterSaleOrderDetailsToPayBean.class);
+                mList = bean.getData().getAfterSaleOrderItems();
+                tv_name.setText(bean.getData().getAddresUname());
+                tv_tel.setText(bean.getData().getAddresPhone());
+                tv_address.setText(bean.getData().getAddresName());
+                goods_all_price.setText("¥" + StringUtils.roundByScale(bean.getData().getRepairMoney(), 2) + "元");
+                goods_yunfei.setText("¥" + StringUtils.roundByScale(bean.getData().getRepairTimeMoney(), 2) + "元");
+                pay_price.setText("¥" + StringUtils.roundByScale(bean.getData().getCarMoney(), 2) + "元");
+                moeny_all = bean.getData().getCarMoney() + bean.getData().getRepairTimeMoney() + bean.getData().getRepairMoney();
+                conmit_all_price.setText("¥" + StringUtils.roundByScale(moeny_all, 2) + "元");
+                adapter = new AfterSaleOrderDetailsTopayAdapter(mList);
+                LinearLayoutManager manager = new LinearLayoutManager(AfterSaleOrderDetailsTopayActivity.this) {
                     @Override
-                    public void onFail(int errCode, String errMsg) {
-
+                    public boolean canScrollVertically() {
+                        return false;
                     }
-                });
+                };
+                manager.setOrientation(LinearLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(manager);
+                recyclerView.setAdapter(adapter);
+            }
+        });
+
     }
 
-    @OnClick({R.id.rl_back, R.id.iv_wx, R.id.iv_zfb, R.id.submit_order,R.id.ll_qianming})
+    @OnClick({R.id.rl_back, R.id.iv_wx, R.id.iv_zfb, R.id.submit_order, R.id.ll_qianming})
     public void onClick(View view) {
         //Intent intent = new Intent();
         switch (view.getId()) {
@@ -154,14 +146,14 @@ public class AfterSaleOrderDetailsTopayActivity extends AppCompatActivity {
                 break;
             case R.id.ll_qianming:
                 Intent intent = new Intent();
-                intent.setClass(context,SignatureActivity.class);
+                intent.setClass(context, SignatureActivity.class);
                 startActivityForResult(intent, 1001);
                 break;
             case R.id.submit_order:
-                if (qm==0){
+                if (qm == 0) {
                     ToastUtil.showShort(context, "请先完成签名!");
-                }else{
-                    dialog = WeiboDialogUtils.createLoadingDialog(context,"请等待");
+                } else {
+                    dialog = WeiboDialogUtils.createLoadingDialog(context, "请等待");
                     order_submit();
                 }
                 break;
@@ -172,7 +164,7 @@ public class AfterSaleOrderDetailsTopayActivity extends AppCompatActivity {
         File file = new File(qm_img);
         ViseHttp.UPLOAD(NetUrl.AfterSaleOrdergetByWxPay)
                 .addParam("orderId", id)
-                .addFile("file0",file)
+                .addFile("file0", file)
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {
@@ -210,12 +202,13 @@ public class AfterSaleOrderDetailsTopayActivity extends AppCompatActivity {
         req.extData = "app data";
         api.sendReq(req);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1001&&data != null){
+        if (requestCode == 1001 && data != null) {
             qm_img = data.getStringExtra("pash");
-            qm=1;
+            qm = 1;
             ll_qianmingimg.setVisibility(View.VISIBLE);
             tv_qianmingtext.setText("已签名");
             Glide.with(context).load(qm_img).into(img_qinming);
