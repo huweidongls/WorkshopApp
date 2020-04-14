@@ -93,6 +93,8 @@ public class ZhongchouDetailsActivity extends BaseActivity {
     private String isCollection = "";
     private int collection = 0;
 
+    private int shengyuNum = 0;
+
     private Handler mhandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what){
@@ -170,6 +172,7 @@ public class ZhongchouDetailsActivity extends BaseActivity {
                         Glide.with(context).load(NetUrl.BASE_URL + mList.get(pos).getGearPictureApp()).into(ivPop);
                         tvTitle.setText(mList.get(pos).getGearSubtitle());
                         dangweiId = mList.get(pos).getId()+"";
+                        shengyuNum = mList.get(pos).getGoodsNum();
                         tvGoodsNum.setText("剩余数量"+mList.get(pos).getGoodsNum());
                         if(mList.get(pos).getFreight() == 0){
                             tvYunfei.setText("配送运费：免运费");
@@ -214,8 +217,12 @@ public class ZhongchouDetailsActivity extends BaseActivity {
         tvJia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popNum = popNum + 1;
-                tvNum.setText(popNum + "");
+                if(popNum<shengyuNum){
+                    popNum = popNum + 1;
+                    tvNum.setText(popNum + "");
+                }else {
+                    ToastUtil.showShort(context, "库存不足");
+                }
             }
         });
         tvQuzhichi.setOnClickListener(new View.OnClickListener() {

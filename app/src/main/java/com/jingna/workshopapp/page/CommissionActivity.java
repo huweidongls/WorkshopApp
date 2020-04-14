@@ -26,6 +26,7 @@ import com.jingna.workshopapp.bean.BankCardListBean;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.StringUtils;
 import com.jingna.workshopapp.util.ToastUtil;
 import com.jingna.workshopapp.util.ViseUtil;
 import com.vise.xsnow.http.ViseHttp;
@@ -87,7 +88,7 @@ public class CommissionActivity extends BaseActivity {
                     JSONObject jsonObject = new JSONObject(s);
                     if (jsonObject.optString("status").equals("200")) {
                         allMoney = jsonObject.optDouble("data");
-                        tvMoney.setText("佣金余额¥" + allMoney + "，");
+                        tvMoney.setText("佣金余额¥" + StringUtils.roundByScale(allMoney, 2) + "，");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -146,8 +147,8 @@ public class CommissionActivity extends BaseActivity {
                 } else if(TextUtils.isEmpty(bankId)){
                     ToastUtil.showShort(CommissionActivity.this, "请选择提现银行卡");
                 }else {
-                    int m = Integer.valueOf(msg);
-                    if(m == 0){
+                    double m = Double.valueOf(msg);
+                    if(m == 0.00){
                         ToastUtil.showShort(context, "提现金额不能为0");
                     }else if(m>allMoney){
                         ToastUtil.showShort(context, "提现金额不能大于佣金余额");

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
@@ -47,8 +48,8 @@ public class FragmentDaiShouHuoOrder extends OrderBaseFragment {
     RecyclerView recyclerView;
     @BindView(R.id.refresh)
     SmartRefreshLayout smartRefreshLayout;
-    @BindView(R.id.empty_order_bloack)
-    RelativeLayout empty_order_bloack;
+    @BindView(R.id.tv)
+    TextView empty_order_bloack;
     private FragmentDaiShouHuoOrderAdapter adapter;
     private List<OrderListBean.DataBean> mList;
     private int page = 1;
@@ -80,8 +81,10 @@ public class FragmentDaiShouHuoOrder extends OrderBaseFragment {
                     mList = bean.getData();
                     if (mList.size() > 0) {
                         empty_order_bloack.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     } else {
                         empty_order_bloack.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
                     }
                     adapter = new FragmentDaiShouHuoOrderAdapter(mList);
                     LinearLayoutManager manager = new LinearLayoutManager(getContext());
@@ -153,8 +156,10 @@ public class FragmentDaiShouHuoOrder extends OrderBaseFragment {
                 mList = bean.getData();
                 if (mList.size() > 0) {
                     empty_order_bloack.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
                 } else {
                     empty_order_bloack.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
                 }
                 adapter = new FragmentDaiShouHuoOrderAdapter(mList);
                 LinearLayoutManager manager = new LinearLayoutManager(getContext());

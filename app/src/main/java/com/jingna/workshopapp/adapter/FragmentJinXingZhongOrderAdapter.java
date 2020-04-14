@@ -48,7 +48,7 @@ public class FragmentJinXingZhongOrderAdapter extends RecyclerView.Adapter<Fragm
             holder.tv_to_tuikuan.setVisibility(View.VISIBLE);
             holder.tv_to_shouhuo.setVisibility(View.GONE);
         }else if(data.get(position).getOrderStatus().equals("3")){
-            holder.tv_order_status.setText("已发货");
+            holder.tv_order_status.setText("待收货");
             holder.tv_to_tuikuan.setVisibility(View.GONE);
             holder.tv_to_shouhuo.setVisibility(View.VISIBLE);
         }
