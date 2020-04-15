@@ -61,8 +61,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-            android:configChanges="orientation|screenSize"></activity>
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|screenSize" />
         <activity android:name=".page.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -328,7 +329,8 @@
             android:value="fqxProkeDNh2UDQnuUNVyKguGpRT2Qny" />
 
         <activity android:name=".page.StoreDetailsActivity" />
-        <activity android:name=".page.YqActivity"></activity>
+        <activity android:name=".page.YqActivity" />
+        <activity android:name=".page.CommissionDetailsActivity"></activity>
     </application>
 
 </manifest>

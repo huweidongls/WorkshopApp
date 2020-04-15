@@ -216,11 +216,13 @@ public class InvoiceActivity extends BaseActivity {
             case R.id.ll_danwei:
                 Glide.with(context).load(R.mipmap.apply_true).into(ivDanwei);
                 Glide.with(context).load(R.mipmap.apply_false).into(ivGeren);
+                etInvoiceTitle.setHint("请输入单位名称");
                 personalCompanies = "公司发票";
                 break;
             case R.id.ll_geren:
                 Glide.with(context).load(R.mipmap.apply_false).into(ivDanwei);
                 Glide.with(context).load(R.mipmap.apply_true).into(ivGeren);
+                etInvoiceTitle.setHint("请输入个人姓名");
                 personalCompanies = "个人发票";
                 break;
             case R.id.ll_mingxi:

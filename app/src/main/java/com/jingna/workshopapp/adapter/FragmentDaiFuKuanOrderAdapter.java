@@ -15,8 +15,6 @@ import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.bean.OrderListBean;
 import com.jingna.workshopapp.dialog.DialogCustom;
 import com.jingna.workshopapp.net.NetUrl;
-import com.jingna.workshopapp.page.AfterServiceActivity;
-import com.jingna.workshopapp.page.CrowdDetailsSupportActivity;
 import com.jingna.workshopapp.page.OrderDetailsActivity;
 import com.jingna.workshopapp.util.StringUtils;
 

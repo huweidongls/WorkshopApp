@@ -4,6 +4,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -14,9 +17,16 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.adapter.CommissionIncomeItemAdapter;
+import com.jingna.workshopapp.adapter.GoodsDetailsViewpagerAdapter;
 import com.jingna.workshopapp.base.BaseActivity;
 import com.jingna.workshopapp.bean.CommissionIncomeBean;
 import com.jingna.workshopapp.bean.MemberCommissionAuditsBean;
+import com.jingna.workshopapp.fragment.FragmentAllOrder;
+import com.jingna.workshopapp.fragment.FragmentCommissionIncome;
+import com.jingna.workshopapp.fragment.FragmentDaiFuKuanOrder;
+import com.jingna.workshopapp.fragment.FragmentDaiShouHuoOrder;
+import com.jingna.workshopapp.fragment.FragmentJinXingZhongOrder;
+import com.jingna.workshopapp.fragment.FragmentYiQuXiaoOrder;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.SpUtils;
@@ -43,24 +53,16 @@ public class CommissionIncomeActivity extends BaseActivity {
 
     private Context context = CommissionIncomeActivity.this;
 
-    @BindView(R.id.rv)
-    RecyclerView recyclerView;
-    @BindView(R.id.tv_zhichu)
-    TextView tvZhichu;
-    @BindView(R.id.tv_shouru)
-    TextView tvShouru;
     @BindView(R.id.tv1)
     TextView tv1;
     @BindView(R.id.tv2)
     TextView tv2;
-    @BindView(R.id.rl_top)
-    RelativeLayout rlTop;
+    @BindView(R.id.vp)
+    ViewPager viewPager;
 
-    private CommissionIncomeItemAdapter adapter;
-    private List<CommissionIncomeBean.DataBean.CommissionRevenuesBean> mList;
-    private List<MemberCommissionAuditsBean.DataBean.MemberCommissionAudits> mList1;
-
-    private Dialog dialog;
+    private FragmentManager mFragmentManager;
+    private GoodsDetailsViewpagerAdapter mViewPagerFragmentAdapter;
+    private List<Fragment> fragmentList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,26 +71,42 @@ public class CommissionIncomeActivity extends BaseActivity {
 
         StatusBarUtils.setStatusBar(CommissionIncomeActivity.this, getResources().getColor(R.color.statusbar_color));
         ButterKnife.bind(CommissionIncomeActivity.this);
+        mFragmentManager = getSupportFragmentManager();
         initData();
 
     }
 
     private void initData() {
 
-        Map<String, String> map = new LinkedHashMap<>();
-        map.put("memberId", SpUtils.getUserId(context));
-        map.put("type", "1");
-        ViseUtil.Get(context, NetUrl.MemUserCommissionRevenuesSum, map, new ViseUtil.ViseListener() {
+        fragmentList = new ArrayList<>();
+        fragmentList.add(FragmentCommissionIncome.newInstance("1"));
+        fragmentList.add(FragmentCommissionIncome.newInstance("0"));
+        mViewPagerFragmentAdapter = new GoodsDetailsViewpagerAdapter(mFragmentManager, fragmentList);
+        viewPager.setAdapter(mViewPagerFragmentAdapter);
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onReturn(String s) {
-                Gson gson = new Gson();
-                MemberCommissionAuditsBean bean = gson.fromJson(s, MemberCommissionAuditsBean.class);
-                mList1 = bean.getData().getMemberCommissionAudits();
-                adapter = new CommissionIncomeItemAdapter(mList1, 1);
-                LinearLayoutManager manager = new LinearLayoutManager(context);
-                manager.setOrientation(LinearLayoutManager.VERTICAL);
-                recyclerView.setLayoutManager(manager);
-                recyclerView.setAdapter(adapter);
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position == 0){
+                    tv1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+                    tv1 .setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                    tv2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+                    tv2 .setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                }else {
+                    tv1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+                    tv1 .setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                    tv2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+                    tv2 .setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
 
@@ -101,54 +119,18 @@ public class CommissionIncomeActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.rl1:
-                dialog = WeiboDialogUtils.createLoadingDialog(context, "请等待...");
-                rlTop.setVisibility(View.GONE);
                 tv1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
                 tv1 .setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                 tv2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
                 tv2 .setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-                Map<String, String> map = new LinkedHashMap<>();
-                map.put("memberId", SpUtils.getUserId(context));
-                map.put("type", "1");
-                ViseUtil.Get(context, NetUrl.MemUserCommissionRevenuesSum, map, dialog, new ViseUtil.ViseListener() {
-                    @Override
-                    public void onReturn(String s) {
-                        Gson gson = new Gson();
-                        MemberCommissionAuditsBean bean = gson.fromJson(s, MemberCommissionAuditsBean.class);
-                        mList1 = bean.getData().getMemberCommissionAudits();
-                        adapter = new CommissionIncomeItemAdapter(mList1, 1);
-                        LinearLayoutManager manager = new LinearLayoutManager(context);
-                        manager.setOrientation(LinearLayoutManager.VERTICAL);
-                        recyclerView.setLayoutManager(manager);
-                        recyclerView.setAdapter(adapter);
-                    }
-                });
+                viewPager.setCurrentItem(0);
                 break;
             case R.id.rl2:
-                dialog = WeiboDialogUtils.createLoadingDialog(context, "请等待...");
-                rlTop.setVisibility(View.VISIBLE);
                 tv1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
                 tv1 .setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
                 tv2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
                 tv2 .setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                Map<String, String> map1 = new LinkedHashMap<>();
-                map1.put("memberId", SpUtils.getUserId(context));
-                map1.put("type", "0");
-                ViseUtil.Get(context, NetUrl.MemUserCommissionRevenuesSum, map1, dialog, new ViseUtil.ViseListener() {
-                    @Override
-                    public void onReturn(String s) {
-                        Gson gson = new Gson();
-                        CommissionIncomeBean bean = gson.fromJson(s, CommissionIncomeBean.class);
-                        mList = bean.getData().getCommissionRevenues();
-                        adapter = new CommissionIncomeItemAdapter(mList);
-                        LinearLayoutManager manager = new LinearLayoutManager(context);
-                        manager.setOrientation(LinearLayoutManager.VERTICAL);
-                        recyclerView.setLayoutManager(manager);
-                        recyclerView.setAdapter(adapter);
-                        tvZhichu.setText("支出 ¥"+ StringUtils.roundByScale(bean.getData().getZhuanchu(), 2));
-                        tvShouru.setText("收入 ¥"+ StringUtils.roundByScale(bean.getData().getZhuanru(), 2));
-                    }
-                });
+                viewPager.setCurrentItem(1);
                 break;
         }
     }

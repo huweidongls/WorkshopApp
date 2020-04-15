@@ -73,9 +73,15 @@ public class FragmentTuijian extends BaseFragment {
         }
 
         ButterKnife.bind(this, view);
-        initData();
         return view;
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        initData();
+    }
+
     private void initData() {
 
         smartRefreshLayout.setRefreshHeader(new MaterialHeader(getContext()));

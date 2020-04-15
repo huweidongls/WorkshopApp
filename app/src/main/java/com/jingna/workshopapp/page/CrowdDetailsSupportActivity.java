@@ -35,7 +35,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class CrowdDetailsSupportActivity extends BaseActivity {
+
     private Context context = CrowdDetailsSupportActivity.this;
+
     @BindView(R.id.iv_pay_wx)
     ImageView iv_pay_wx;
     @BindView(R.id.iv_pay_zfb)
@@ -72,6 +74,9 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
     EditText remarks;
     @BindView(R.id.tv_title_name)
     TextView tvTitleName;
+    @BindView(R.id.tv_num)
+    TextView tvNum;
+
     private int pay = 1;
     private int paycheck = 0;
     private int addressid = 0;
@@ -99,6 +104,7 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
 
     private void initdata() {
 
+        tvNum.setText("x"+num);
         Map<String, String> map1 = new LinkedHashMap<>();
         map1.put("goodsNum", num);
         map1.put("gearPositionId", id);
@@ -111,7 +117,7 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
                 gid = bean.getData().getSellerId();
                 tvTitleName.setText(bean.getData().getGearPositionName());
                 tv_title_goods.setText(bean.getData().getGearPositionTitle());
-                goods_price.setText("¥" + StringUtils.roundByScale(bean.getData().getGearPositionMoney(), 2));
+                goods_price.setText("¥" + StringUtils.roundByScale((bean.getData().getGearPositionMoney()/Double.valueOf(num)), 2));
                 goods_desc.setText(bean.getData().getGearPositionSubTitle());
                 time_fahuo.setText("预计" + bean.getData().getDeliveryTime() + "天后发货");
                 goods_all_price.setText("¥" + StringUtils.roundByScale(bean.getData().getGearPositionMoney(), 2));

@@ -2,33 +2,22 @@ package com.jingna.workshopapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.annotations.Until;
 import com.jingna.workshopapp.R;
 import com.jingna.workshopapp.bean.OrderListBean;
 import com.jingna.workshopapp.dialog.DialogCustom;
 import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.page.AcceptanceActivity;
-import com.jingna.workshopapp.page.CrowdDetailsActivity;
-import com.jingna.workshopapp.page.CrowdDetailsSupportActivity;
 import com.jingna.workshopapp.page.OrderDetailsActivity;
 import com.jingna.workshopapp.page.SubmissionEvaluateActivity;
-import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.StringUtils;
 import com.jingna.workshopapp.util.ToastUtil;
 import com.vise.xsnow.http.ViseHttp;
@@ -38,8 +27,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
-
-import static android.view.View.VISIBLE;
 
 /**
  * Created by Administrator on 2019/4/16.

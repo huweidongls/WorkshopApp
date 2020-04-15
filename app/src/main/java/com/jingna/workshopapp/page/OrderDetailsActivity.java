@@ -40,74 +40,55 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class OrderDetailsActivity extends AppCompatActivity {
+
     private Context context = OrderDetailsActivity.this;
+
     @BindView(R.id.h_x)
     View h_x;
     @BindView(R.id.tv_goods_title)
     TextView tv_goods_title;
-
     @BindView(R.id.iv_goods_img)
     ImageView iv_goods_img;
-
     @BindView(R.id.r_address)
     RelativeLayout r_address;
-
     @BindView(R.id.sh_name)
     TextView sh_name;
-
     @BindView(R.id.sh_phone)
     TextView sh_phone;
-
     @BindView(R.id.sh_address)
     TextView sh_address;
-
     @BindView(R.id.order_sn)
     TextView order_sn;
-
     @BindView(R.id.add_time)
     TextView add_time;
-
     @BindView(R.id.pay_type)
     TextView pay_type;
-
     @BindView(R.id.sc_time)
     TextView sc_time;
-
     @BindView(R.id.type_time)
     TextView type_time;
-
     @BindView(R.id.fp_type)
     TextView fp_type;
-
     @BindView(R.id.count_money)
     TextView count_money;
-
     @BindView(R.id.yunfei)
     TextView yunfei;
-
     @BindView(R.id.zong_money)
     TextView zong_money;
-
     @BindView(R.id.fsc_time)
     LinearLayout fsc_time;
-
     @BindView(R.id.tv_to_pay)//去支付
-            Button tv_to_pay;
-
+    Button tv_to_pay;
     @BindView(R.id.qx_to)//取消订单
-            Button qx_to;
-
+    Button qx_to;
     @BindView(R.id.del_order_to)//删除订单
-            Button del_order_to;
-
+    Button del_order_to;
     @BindView(R.id.qpj_to)//去评价
-            Button qpj_to;
-
+    Button qpj_to;
     @BindView(R.id.tk_to)//退款
-            Button tk_to;
-
+    Button tk_to;
     @BindView(R.id.qrsh_to)//收货
-            Button qrsh_to;
+    Button qrsh_to;
 
     private String id = "";
     private String getGoodsPictureApp = "";

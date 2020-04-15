@@ -75,7 +75,7 @@ public class ZhongchouDetailsActivity extends BaseActivity {
     private PopupWindow popupWindow;
     private View view;
 
-    private int popNum = 1;
+    private int popNum = 0;
     private TextView tvJian;
     private TextView tvNum;
     private TextView tvJia;
@@ -169,10 +169,11 @@ public class ZhongchouDetailsActivity extends BaseActivity {
                 popAdapter = new ZhongchouPopAdapter(mList, new ZhongchouPopAdapter.ClickListener() {
                     @Override
                     public void onClick(int pos) {
+                        tvNum.setText("0");
+                        popNum = 0;
                         Glide.with(context).load(NetUrl.BASE_URL + mList.get(pos).getGearPictureApp()).into(ivPop);
                         tvTitle.setText(mList.get(pos).getGearSubtitle());
-                        dangweiId = mList.get(pos).getId()+"";
-                        shengyuNum = mList.get(pos).getGoodsNum();
+                        dangweiId = mList.get(pos).getId()+"";                        shengyuNum = mList.get(pos).getGoodsNum();
                         tvGoodsNum.setText("剩余数量"+mList.get(pos).getGoodsNum());
                         if(mList.get(pos).getFreight() == 0){
                             tvYunfei.setText("配送运费：免运费");
@@ -194,6 +195,7 @@ public class ZhongchouDetailsActivity extends BaseActivity {
                     Glide.with(context).load(NetUrl.BASE_URL + mList.get(0).getGearPictureApp()).into(ivPop);
                     tvTitle.setText(mList.get(0).getGearSubtitle());
                     dangweiId = mList.get(0).getId()+"";
+                    shengyuNum = mList.get(0).getGoodsNum();
                     tvGoodsNum.setText("剩余数量"+mList.get(0).getGoodsNum());
                     if(mList.get(0).getFreight() == 0){
                         tvYunfei.setText("配送运费：免运费");
@@ -233,10 +235,14 @@ public class ZhongchouDetailsActivity extends BaseActivity {
                     intent.setClass(context, LoginActivity.class);
                     startActivity(intent);
                 }else {
-                    intent.setClass(context, CrowdDetailsSupportActivity.class);
-                    intent.putExtra("id", dangweiId);
-                    intent.putExtra("num", popNum+"");
-                    startActivity(intent);
+                    if(popNum == 0){
+                        ToastUtil.showShort(context, "请选择购买数量");
+                    }else {
+                        intent.setClass(context, CrowdDetailsSupportActivity.class);
+                        intent.putExtra("id", dangweiId);
+                        intent.putExtra("num", popNum+"");
+                        startActivity(intent);
+                    }
                 }
             }
         });

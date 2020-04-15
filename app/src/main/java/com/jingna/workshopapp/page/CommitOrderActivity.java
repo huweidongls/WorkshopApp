@@ -221,15 +221,15 @@ public class CommitOrderActivity extends BaseActivity {
                 if(num > 1){
                     num = num - 1;
                     tvNum.setText(num+"");
-                    tvAllPrice.setText("¥"+(price*num));
-                    tvBottomPrice.setText("¥"+(price*num));
+                    tvAllPrice.setText("¥"+StringUtils.roundByScale((price*num), 2));
+                    tvBottomPrice.setText("¥"+StringUtils.roundByScale((price*num), 2));
                 }
                 break;
             case R.id.rl_jia:
                 num = num + 1;
                 tvNum.setText(num+"");
-                tvAllPrice.setText("¥"+(price*num));
-                tvBottomPrice.setText("¥"+(price*num));
+                tvAllPrice.setText("¥"+StringUtils.roundByScale((price*num), 2));
+                tvBottomPrice.setText("¥"+StringUtils.roundByScale((price*num), 2));
                 break;
         }
     }
