@@ -60,6 +60,15 @@ public class CommitOrderWeituoBean {
         private List<?> shopGoodsEvaluates;
         private List<?> additionalCosts;
         private List<?> supportingEquipments;
+        private double freightMoney;
+
+        public double getFreightMoney() {
+            return freightMoney;
+        }
+
+        public void setFreightMoney(double freightMoney) {
+            this.freightMoney = freightMoney;
+        }
 
         public int getId() {
             return id;

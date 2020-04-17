@@ -81,7 +81,11 @@ public class MaintenancEequipmentActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.tv_save:
-                On_Self();
+                for (MaintenancEequipmentBean.DataBean bean : mList) {
+                    if (bean.getIsSelect() == 1) {
+                        Commint_On = 1;
+                    }
+                }
                 if (Commint_On == 0) {
                     ToastUtil.showShort(context, "请完善信息后提交");
                 } else {

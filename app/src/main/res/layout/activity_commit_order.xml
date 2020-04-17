@@ -348,7 +348,7 @@
                             android:layout_centerVertical="true"
                             android:textColor="@color/black_333333"
                             android:textSize="14sp"
-                            android:text="快递 免邮"
+                            android:text="快递"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
@@ -451,6 +451,7 @@
                         android:textSize="15sp" />
 
                     <TextView
+                        android:id="@+id/tv_yunfei"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"

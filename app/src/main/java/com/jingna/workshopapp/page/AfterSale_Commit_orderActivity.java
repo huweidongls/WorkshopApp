@@ -23,6 +23,7 @@ import com.jingna.workshopapp.net.NetUrl;
 import com.jingna.workshopapp.util.Logger;
 import com.jingna.workshopapp.util.SpUtils;
 import com.jingna.workshopapp.util.StatusBarUtils;
+import com.jingna.workshopapp.util.StringUtils;
 import com.jingna.workshopapp.util.ToastUtil;
 import com.jingna.workshopapp.util.ViseUtil;
 import com.vise.xsnow.http.ViseHttp;
@@ -42,7 +43,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class AfterSale_Commit_orderActivity extends AppCompatActivity {
+
     private Context context = AfterSale_Commit_orderActivity.this;
+
     @BindView(R.id.rv)
     RecyclerView recyclerView;
     @BindView(R.id.tv_bottom_price)
@@ -53,6 +56,7 @@ public class AfterSale_Commit_orderActivity extends AppCompatActivity {
     TextView tv_phonenum;
     @BindView(R.id.tv_address)
     TextView tv_address;
+
     private String addressid = "";
     private AfterSaleEquipmentAdapter adapter;
     private List<MaintenancEequipmentBean.DataBean> mList;
@@ -129,25 +133,27 @@ public class AfterSale_Commit_orderActivity extends AppCompatActivity {
                 break;
             case R.id.tv_commit:
                 Commint_Order();
-                finish();
                 break;
         }
     }
 
     private void Commint_Order() {
-        Map<String, String> map = new LinkedHashMap<>();
-        map.put("userId", SpUtils.getUserId(context));
-        map.put("deviceId", goodsId.substring(0, goodsId.length() - 1));
-        map.put("addresId", addressid);
-        map.put("orderStatus", "1");
-        ViseUtil.Get(context, NetUrl.AfterSaleOrderafterSaleOrder, map, new ViseUtil.ViseListener() {
-            @Override
-            public void onReturn(String s) {
-                ToastUtil.showShort(context, "订单提交成功!");
-                startActivity(new Intent(AfterSale_Commit_orderActivity.this, MaintenanceAfterSaleActivity.class)
-                );
-            }
-        });
+        if(StringUtils.isEmpty(addressid)){
+            ToastUtil.showShort(context, "地址不能为空");
+        }else {
+            Map<String, String> map = new LinkedHashMap<>();
+            map.put("userId", SpUtils.getUserId(context));
+            map.put("deviceId", goodsId.substring(0, goodsId.length() - 1));
+            map.put("addresId", addressid);
+            map.put("orderStatus", "1");
+            ViseUtil.Get(context, NetUrl.AfterSaleOrderafterSaleOrder, map, new ViseUtil.ViseListener() {
+                @Override
+                public void onReturn(String s) {
+                    ToastUtil.showShort(context, "订单提交成功!");
+                    finish();
+                }
+            });
+        }
     }
 
     @Override

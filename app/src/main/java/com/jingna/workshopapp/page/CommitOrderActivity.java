@@ -81,6 +81,8 @@ public class CommitOrderActivity extends BaseActivity {
     TextView tvStartTime;
     @BindView(R.id.tv_end_time)
     TextView tvEndTime;
+    @BindView(R.id.tv_yunfei)
+    TextView tvYunfei;
 
     private String addressId = "";
 
@@ -102,6 +104,8 @@ public class CommitOrderActivity extends BaseActivity {
     private double price;//商品价格
 
     private double payPriceAll=0.00;
+
+    private double yunfei = 0.00;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,14 +176,20 @@ public class CommitOrderActivity extends BaseActivity {
                     Gson gson = new Gson();
                     CommitOrderWeituoBean orderWeituoBean = gson.fromJson(s, CommitOrderWeituoBean.class);
                     Glide.with(context).load(NetUrl.BASE_URL+orderWeituoBean.getData().getAppCategoryPic()).into(ivImg);
+                    yunfei = orderWeituoBean.getData().getFreightMoney();
                     tvTitle.setText(orderWeituoBean.getData().getCategoryName());
                     price = orderWeituoBean.getData().getMoney();
                     tvPrice.setText("¥"+StringUtils.roundByScale(orderWeituoBean.getData().getMoney(), 2));
                     tvAllPrice.setText("¥"+StringUtils.roundByScale((orderWeituoBean.getData().getMoney()*num), 2));
-                    tvBottomPrice.setText("¥"+StringUtils.roundByScale((orderWeituoBean.getData().getMoney()*num), 2));
+                    tvBottomPrice.setText("¥"+StringUtils.roundByScale((orderWeituoBean.getData().getMoney()*num+yunfei), 2));
                     tvStartTime.setText(orderWeituoBean.getData().getStartTime());
                     tvEndTime.setText(orderWeituoBean.getData().getEndTime());
                     payPriceAll = orderWeituoBean.getData().getMoney()*num;
+                    if(orderWeituoBean.getData().getFreightMoney()==0){
+                        tvYunfei.setText("免运费");
+                    }else {
+                        tvYunfei.setText("¥"+StringUtils.roundByScale(orderWeituoBean.getData().getFreightMoney(), 2));
+                    }
                 }
             });
         }
@@ -222,14 +232,14 @@ public class CommitOrderActivity extends BaseActivity {
                     num = num - 1;
                     tvNum.setText(num+"");
                     tvAllPrice.setText("¥"+StringUtils.roundByScale((price*num), 2));
-                    tvBottomPrice.setText("¥"+StringUtils.roundByScale((price*num), 2));
+                    tvBottomPrice.setText("¥"+StringUtils.roundByScale((price*num+yunfei), 2));
                 }
                 break;
             case R.id.rl_jia:
                 num = num + 1;
                 tvNum.setText(num+"");
                 tvAllPrice.setText("¥"+StringUtils.roundByScale((price*num), 2));
-                tvBottomPrice.setText("¥"+StringUtils.roundByScale((price*num), 2));
+                tvBottomPrice.setText("¥"+StringUtils.roundByScale((price*num+yunfei), 2));
                 break;
         }
     }

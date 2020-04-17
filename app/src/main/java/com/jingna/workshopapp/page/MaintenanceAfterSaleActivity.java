@@ -61,6 +61,11 @@ public class MaintenanceAfterSaleActivity extends AppCompatActivity {
         StatusBarUtils.setStatusBar(MaintenanceAfterSaleActivity.this, getResources().getColor(R.color.statusbar_color));
         ButterKnife.bind(MaintenanceAfterSaleActivity.this);
         api = WXAPIFactory.createWXAPI(MaintenanceAfterSaleActivity.this, null);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         initData();
     }
 
@@ -74,7 +79,6 @@ public class MaintenanceAfterSaleActivity extends AppCompatActivity {
             case R.id.add_order:
                 intent.setClass(MaintenanceAfterSaleActivity.this, MaintenancEequipmentActivity.class);
                 startActivity(intent);
-                finish();
                 break;
         }
     }

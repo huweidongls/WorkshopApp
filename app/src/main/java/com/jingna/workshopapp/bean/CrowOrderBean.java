@@ -51,10 +51,19 @@ public class CrowOrderBean {
         private String gearPositionTitle;
         private double gearPositionMoney;
         private String gearPositionSubTitle;
-        private int freight;
+        private double freight;
         private String deliveryTime;
         private int gearPositionNum;
         private List<?> list;
+        private double orderRealPrice;
+
+        public double getOrderRealPrice() {
+            return orderRealPrice;
+        }
+
+        public void setOrderRealPrice(double orderRealPrice) {
+            this.orderRealPrice = orderRealPrice;
+        }
 
         public String getSellerId() {
             return sellerId;
@@ -104,11 +113,11 @@ public class CrowOrderBean {
             this.gearPositionSubTitle = gearPositionSubTitle;
         }
 
-        public int getFreight() {
+        public double getFreight() {
             return freight;
         }
 
-        public void setFreight(int freight) {
+        public void setFreight(double freight) {
             this.freight = freight;
         }
 

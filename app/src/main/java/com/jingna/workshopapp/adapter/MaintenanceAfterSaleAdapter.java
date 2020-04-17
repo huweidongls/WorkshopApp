@@ -54,7 +54,11 @@ public class MaintenanceAfterSaleAdapter extends RecyclerView.Adapter<Maintenanc
     @Override
     public void onBindViewHolder(MaintenanceAfterSaleAdapter.ViewHolder holder, final int position) {
         holder.tv_order_sn.setText(data.get(position).getId());
-        holder.tv_goods_name.setText(data.get(position).getDeviceName());
+        if(data.get(position).getDeviceName()!=null){
+            String name = data.get(position).getDeviceName();
+            String name1 = name.substring(0, name.length()-1);
+            holder.tv_goods_name.setText(name1);
+        }
         holder.tv_address.setText(data.get(position).getAddresName());
         holder.tv_tel.setText(data.get(position).getAddresPhone());
         holder.tv_count_size.setText("共"+data.size()+"件维修");

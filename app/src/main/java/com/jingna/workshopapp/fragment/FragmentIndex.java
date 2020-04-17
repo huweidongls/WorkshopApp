@@ -190,12 +190,12 @@ public class FragmentIndex extends BaseFragment {
                 if (y <= 0) {
 //                    rlTop.setBackgroundColor(Color.argb((int) 0, 255, 255, 255));//AGB由相关工具获得，或者美工提供
                     rlTop.setAlpha(0.0f);
-                } else if (y > 0 && y <= 888) {
+                } else if (y > 0 && y <= 333) {
 //                    float scale = (float) y / 888;
 //                    float alpha = (255 * scale);
                     // 只是layout背景透明
 //                    rlTop.setBackgroundColor(Color.argb((int) alpha, 255, 255, 255));
-                    float al = y/888f;
+                    float al = y/333f;
                     rlTop.setAlpha(al);
                 } else {
 //                    rlTop.setBackgroundColor(Color.argb((int) 255, 255, 255, 255));

@@ -152,8 +152,7 @@
                         android:layout_width="80dp"
                         android:layout_height="85dp"
                         android:layout_marginLeft="18dp"
-                        android:layout_marginTop="15dp"
-                        android:src="@mipmap/weituojiagong" />
+                        android:layout_marginTop="15dp" />
 
                     <TextView
                         android:ellipsize="end"
@@ -560,7 +559,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="¥599.00"
                     android:textColor="#C99974"
                     android:textSize="15sp" />
 

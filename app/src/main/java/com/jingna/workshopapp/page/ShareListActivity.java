@@ -50,6 +50,9 @@ public class ShareListActivity extends BaseActivity {
     SmartRefreshLayout smartRefreshLayout;
     @BindView(R.id.empty_order_bloacks)
     RelativeLayout empty_order_bloacks;
+    @BindView(R.id.tv_empty)
+    TextView tvEmpty;
+
     private ShareListAdapter adapter;
     private List<CategoryQueryChildListBean.DataBean> mList;
 
@@ -73,6 +76,7 @@ public class ShareListActivity extends BaseActivity {
     private void initData() {
 
         tvTitle.setText(name);
+        tvEmpty.setText("暂无"+name);
 
         smartRefreshLayout.setRefreshHeader(new MaterialHeader(context));
         smartRefreshLayout.setRefreshFooter(new ClassicsFooter(context));

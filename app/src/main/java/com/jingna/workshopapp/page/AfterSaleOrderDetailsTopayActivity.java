@@ -111,7 +111,7 @@ public class AfterSaleOrderDetailsTopayActivity extends AppCompatActivity {
                 goods_yunfei.setText("¥" + StringUtils.roundByScale(bean.getData().getRepairTimeMoney(), 2) + "元");
                 pay_price.setText("¥" + StringUtils.roundByScale(bean.getData().getCarMoney(), 2) + "元");
                 moeny_all = bean.getData().getCarMoney() + bean.getData().getRepairTimeMoney() + bean.getData().getRepairMoney();
-                conmit_all_price.setText("¥" + StringUtils.roundByScale(moeny_all, 2) + "元");
+                conmit_all_price.setText("¥" + StringUtils.roundByScale(bean.getData().getOrderRealPrice(), 2) + "元");
                 adapter = new AfterSaleOrderDetailsTopayAdapter(mList);
                 LinearLayoutManager manager = new LinearLayoutManager(AfterSaleOrderDetailsTopayActivity.this) {
                     @Override

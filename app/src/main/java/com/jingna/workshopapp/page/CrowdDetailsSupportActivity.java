@@ -117,17 +117,17 @@ public class CrowdDetailsSupportActivity extends BaseActivity {
                 gid = bean.getData().getSellerId();
                 tvTitleName.setText(bean.getData().getGearPositionName());
                 tv_title_goods.setText(bean.getData().getGearPositionTitle());
-                goods_price.setText("¥" + StringUtils.roundByScale((bean.getData().getGearPositionMoney()/Double.valueOf(num)), 2));
+                goods_price.setText("¥" + StringUtils.roundByScale(bean.getData().getGearPositionMoney(), 2));
                 goods_desc.setText(bean.getData().getGearPositionSubTitle());
                 time_fahuo.setText("预计" + bean.getData().getDeliveryTime() + "天后发货");
-                goods_all_price.setText("¥" + StringUtils.roundByScale(bean.getData().getGearPositionMoney(), 2));
+                goods_all_price.setText("¥" + StringUtils.roundByScale((bean.getData().getOrderRealPrice()-bean.getData().getFreight()), 2));
                 if (bean.getData().getFreight() <= 0) {
                     goods_yunfei.setText("免运费");
                 } else {
-                    goods_yunfei.setText(bean.getData().getFreight() + "元");
+                    goods_yunfei.setText("¥" + StringUtils.roundByScale(bean.getData().getFreight(), 2));
                 }
-                pay_price.setText("¥" + StringUtils.roundByScale(bean.getData().getGearPositionMoney(), 2));
-                payAll = bean.getData().getFreight() + bean.getData().getGearPositionMoney();
+                pay_price.setText("¥" + StringUtils.roundByScale(bean.getData().getOrderRealPrice(), 2));
+                payAll = bean.getData().getOrderRealPrice();
                 conmit_all_price.setText("¥" + StringUtils.roundByScale(payAll, 2) + "");
             }
         });
