@@ -131,10 +131,10 @@ public class CommitOrderActivity extends BaseActivity {
             llWeituo.setVisibility(View.GONE);
             Map<String, String> map1 = new LinkedHashMap<>();
             map1.put("workshopId", id);
-            map1.put("appGoodsOrders", Base64Utils.setEncryption(json));
+            map1.put("appGoodsOrders", json);
             map1.put("startTime", start);
             map1.put("endTime", end);
-            ViseUtil.Get(context, NetUrl.AppOrderorderConfiguration, map1, new ViseUtil.ViseListener() {
+            ViseUtil.Post(context, NetUrl.AppOrderorderConfiguration, map1, new ViseUtil.ViseListener() {
                 @Override
                 public void onReturn(String s) {
                     Gson gson = new Gson();

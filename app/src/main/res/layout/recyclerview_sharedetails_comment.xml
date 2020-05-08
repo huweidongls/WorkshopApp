@@ -36,6 +36,7 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_time"
                     android:layout_marginTop="2dp"
                     android:textSize="14sp"

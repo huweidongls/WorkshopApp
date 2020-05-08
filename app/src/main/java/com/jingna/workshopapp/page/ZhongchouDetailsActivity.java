@@ -173,7 +173,8 @@ public class ZhongchouDetailsActivity extends BaseActivity {
                         popNum = 0;
                         Glide.with(context).load(NetUrl.BASE_URL + mList.get(pos).getGearPictureApp()).into(ivPop);
                         tvTitle.setText(mList.get(pos).getGearSubtitle());
-                        dangweiId = mList.get(pos).getId()+"";                        shengyuNum = mList.get(pos).getGoodsNum();
+                        dangweiId = mList.get(pos).getId()+"";
+                        shengyuNum = mList.get(pos).getGoodsNum();
                         tvGoodsNum.setText("剩余数量"+mList.get(pos).getGoodsNum());
                         if(mList.get(pos).getFreight() == 0){
                             tvYunfei.setText("配送运费：免运费");
