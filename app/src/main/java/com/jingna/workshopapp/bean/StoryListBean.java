@@ -64,6 +64,15 @@ public class StoryListBean {
         private int storyType;
         private String storyTitlePictureApp;
         private String storyTitle;
+        private String appPic;
+
+        public String getAppPic() {
+            return appPic;
+        }
+
+        public void setAppPic(String appPic) {
+            this.appPic = appPic;
+        }
 
         public int getId() {
             return id;

@@ -127,6 +127,7 @@ public class CommitOrderActivity extends BaseActivity {
     private void initData() {
 
         if(type.equals("1")){
+            Logger.e("123123", "id--"+id+"--json--"+json+"--start--"+start+"--end--"+end);
             rlAddress.setVisibility(View.GONE);
             llWeituo.setVisibility(View.GONE);
             Map<String, String> map1 = new LinkedHashMap<>();

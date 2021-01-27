@@ -307,7 +307,7 @@ public class ZhongchouDetailsActivity extends BaseActivity {
 
         webview.addJavascriptInterface(new JsInterface(), "android");
 
-        webview.loadUrl("http://39.98.188.171:82/detail.html?id=" + id);
+        webview.loadUrl("http://122.9.40.181:82/detail.html?id=" + id);
 
     }
 
